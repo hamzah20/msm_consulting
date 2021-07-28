@@ -38,6 +38,26 @@
               <p>Dashboard</p>
             </a>
           </li>
+
+          <!-- COBA -->
+          <li class="nav-item">
+              <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseKnowledge"
+                  aria-expanded="true" aria-controls="collapseKnowledge">
+                  <i class="material-icons">person</i>
+                  <span>Knowledge</span>
+              </a>
+              <div id="collapseKnowledge" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                  <div class="bg-white collapse-inner rounded">
+                      <h6 class="ml-4">Knowledge:</h6>
+                      <a class="collapse-item" href="<?= base_url('CMS/Dashboard_cms/add_knowledge'); ?>">Add Knowledge</a> <br>
+                      <a class="collapse-item" href="<?= base_url('CMS/Dashboard_cms/sharing_knowledge'); ?>">Add Sharing Knowledge</a> <br>
+                      <a class="collapse-item" href="<?= base_url('CMS/Dashboard_cms/knowledge'); ?>">Data Knowledge</a> <br>
+                      <a class="collapse-item" href="<?= base_url('CMS/Dashboard_cms/validation_knowledge'); ?>">Validation Knowledge</a> <br>
+                  </div>
+              </div>
+          </li> 
+          <!-- COBA -->
+
           <li class="nav-item ">
             <a class="nav-link" href="./user.html">
               <i class="material-icons">person</i>
@@ -79,13 +99,7 @@
               <i class="material-icons">language</i>
               <p>RTL Support</p>
             </a>
-          </li>
-          <li class="nav-item active-pro ">
-            <a class="nav-link" href="./upgrade.html">
-              <i class="material-icons">unarchive</i>
-              <p>Upgrade to PRO</p>
-            </a>
-          </li>
+          </li> 
         </ul>
       </div>
     </div>
