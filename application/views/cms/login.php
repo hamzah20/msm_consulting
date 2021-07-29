@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en"> 
   <head> 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -18,7 +18,7 @@
   <body class="bg-login">
     <div class="container">
       <div class="row">
-        <div class="col-md-4 mx-auto pt-5">
+        <div class="col-md-4 col-sm-6 mx-auto pt-5">
           <div class="card mt-5">
             <h5 class="card-header"><img src="<?php echo base_url('assets/images/pictures/enduser_logo.png'); ?>" class="img-fluid"></h5>
             <div class="card-body">

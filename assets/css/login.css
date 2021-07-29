@@ -1,7 +1,5 @@
-.bg-login{
-	/*background: #3c5474;*/
-	/*background: #ddd;*/
-	background: url('../img/pictures/bg_login.png');  
+.bg-login{ 
+	background-image: url('../images/pictures/bg_login.png');  
 }
 
 .btn-login{
