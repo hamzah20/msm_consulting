@@ -9,11 +9,5 @@ class Dashboard extends CI_Controller {
 	public function index()
 	{
 		$this->load->view('cms/dashboard');
-	}
-
-	// Controller Data
-	public function profil_perusahaan()
-	{
-		
-	}
+	} 
 }
