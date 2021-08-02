@@ -1,0 +1,39 @@
+(*) Model
+    - domSCRGTE > model Secure Gate
+
+
+
+Model
+=====
+* modCONSRC     : model > Connect to Source Database
+* mfcLSTREC     : model > List/Read Record
+* mfcADDREC     : model > List/Read Record
+* mfcADDREC     : model > Edit Record
+* mfcUPDREC     : model > Update Record
+
+View
+====
+* seeUSRPGE     : see/view > User's Page
+* seeADMPGE     : see/view > Administrator's Page
+* seeLSTREC     : see/view > List/Read Record
+* seeADDREC     : see/view > Add Record
+* seeEDTREC     : see/view > Edit/Update Record
+
+
+Controller
+==========
+* cfcLSTREC     : controller > function > List/Read Record
+* cfcADDREC     : controller > function > Add Record
+* cfcEDTREC     : controller > function > Edit Record
+* cfcUPDREC     : controller > function > Update Record
+* cfcDELREC     : controller > function > Delete Record
+
+
+* $_actGETCMD   : action > Get Command
+* $_ipsGETPOS   : input post > Get Post
+* $_arrGETPOS   : array > Get Post
+  > _aroXXXXXX  : array object > XXXXXX
+* $_vrbLIMITX   : variable > Limit
+* $_vrbOFFSET   : variable > Offset
+* $_vrbCONFIG   : variable > Configuration
+* 

@@ -1,0 +1,87 @@
+
+/* --- notes : bla... bla... bla... --- */
+
+/* --- notes : bla... bla... bla... --- */
+.navbarCST {
+    text-transform: capitalize;
+    margin-bottom: 0px;
+}
+
+.navbarCST-inverse {
+    background-color: #00AEEF;
+    border-color: #16a085;
+}
+
+.navbarCST-inverse .navbar-nav > li > a {
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.navbarCST-nav {
+    margin: 7.5px -15px;
+}
+.navbarCST-nav > li > a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 20px;
+}
+
+.navbarCST-inverse .navbar-nav > li > a:hover {
+    color: blue;
+}
+
+.navbarCST-brand {
+    float: left;
+    height: 50px;
+    padding: 15px 15px;
+    font-size: 18px;
+    line-height: 20px;
+}
+
+.navbarCST-inverse .navbarCST-brand {
+    color: #ffffff;
+}
+
+.navbarCST-inverse .navbarCST-toggle {
+    border-color: transparent;
+}
+
+/* --- notes : bla... bla... bla... --- */
+
+
+/* --- notes : bla... bla... bla... --- */
+
+#footer {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    height: 3px;
+    width: 100%;
+    background: #999;
+}
+
+#footer p {
+    color: white;
+}
+
+#footer h4 {
+    color: white;
+    text-transform: uppercase;
+    padding-bottom: 20px;
+}
+
+/* --- notes : bla... bla... bla... --- */
+p {
+    line-height: 28px;
+    margin-bottom: 25px;
+    font-size: 16px;
+}
+pCST {
+    line-height: 28px;
+    margin-bottom: 25px;
+    font-size: 16px;
+}
+fmb{
+    color: maroon;
+    font-weight: bold;
+}

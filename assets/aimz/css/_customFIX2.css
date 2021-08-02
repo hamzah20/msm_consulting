@@ -1,0 +1,273 @@
+body {
+    background-color: transparent;
+    font-family: calibri;
+    -webkit-font-smoothing: antialiased;
+    -webkit-overflow-scrolling: touch;
+}
+
+.content {
+    min-height: 0px;
+    padding: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#chart-container {
+    position: relative;
+    display: inline-block;
+    top: 10px;
+    left: 10px;
+    height: 700px;
+    width: calc(100% - 24px);
+    border: 1px dashed #aaa;
+    border-radius: 5px;
+    overflow: auto;
+    text-align: center;
+}
+
+.sidebar-menu li.header {
+    padding: 10px 15px 0px;
+    text-transform: uppercase;
+    font-size: 13px;
+    line-height: 17px;
+}
+
+.sk_table_modification .table-bordered{
+    border:1px solid #9acffe;    
+    margin-top: 20px;
+}
+.sk_table_modification .table-bordered > thead > tr > th{
+    border: 1px solid #9acffe;
+    background-color: #0275d8;
+    color: #ffffff;
+    font-size: 14px;
+}
+.sk_table_modification .table-bordered > tbody > tr > td{
+    border: 1px solid #9acffe;
+    font-size: 14px;
+}
+.sk_table_modification .table-bordered > tfoot > tr > td{
+    border: 1px solid #9acffe;
+    font-size: 14px;
+}
+
+.sk_table_modification2 .table-bordered{
+    border-left: 0px solid #9acffe;
+    border-top:  0px solid #9acffe;
+    margin-top: 20px;
+    border-right:  0px solid #9acffe;
+}
+.sk_table_modification2 .table-bordered > thead > tr > th{
+    border-left:  0px solid #9acffe;
+    border-right:  0px solid #9acffe;
+    border-bottom: 0px solid #9acffe;
+    background-color: #000080;
+    color: #ffffff;
+    font-size: 14px;
+    border-collapse: collapse;
+}
+.sk_table_modification2 .table-bordered > tbody > tr > td{
+    border-left:  0px solid #9acffe;
+    border-right:  0px solid #9acffe;
+    border-bottom: 0px solid #9acffe;
+    font-size: 14px;
+    border-collapse: collapse;
+}
+
+.sk_table_modification2 .table-bordered > tbody > tr:hover{
+    background-color: #80ffbf
+}
+
+.sk_table_modification2 .table-bordered > tfoot > tr > td{
+    border-left:  0px solid #9acffe;
+    border-right:  0px solid #9acffe;
+    border-bottom: 0px solid #9acffe;
+    font-size: 14px;
+    border-collapse: collapse;
+}
+
+.sk_image_modification {
+    max-width: 100%;
+    height: auto;
+}
+
+.sk_well_modification0 {
+    background-color: #ffffff;
+    border: 0px;
+}
+
+.sk_well_modification1 {
+    height: 558px;
+    color: black;
+    background-color: #C8F4F9;
+    overflow-y: scroll;
+}
+.sk_well_modification2 {
+    height: 230px;
+    color: black;
+    background-color: #D2E5D0;
+}
+.sk_well_modification3 {
+    height: 230px;
+    color: black;
+    background-color: #F8EA8C;
+}
+
+.sk_well_modification4 {
+    height: 400px;
+    color: black;
+    background-color: #ffffe6;
+    overflow-y: scroll;
+}
+
+.sk_well_modification5 {
+    height: auto;
+    color: black;
+    background-color: #eeeeee;
+    overflow-y: scroll;
+    border: 1px solid #dcdcdc;
+}
+
+.sk_well_modification6 {
+    height: auto;
+    color: black;
+    background-color: transparent;
+    overflow-y: hidden;
+    border: 1px solid #dcdcdc;
+}
+
+.sk_label_modification {
+    padding-top: 7px;
+    margin-bottom: 0;
+    text-align: left;
+    padding-left: 0px;
+    color: #000000;
+}
+
+.sk_button_modification{
+    width: 50px;
+}
+
+hr.sk_hr_modification0 {
+    border-top: 1px solid #d3d3d3;
+    padding: 0 !important;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    margin-left: 13px;
+    margin-right: 15px;
+}
+
+hr.sk_hr_modification1 {
+    border-top: 1px solid #d3d3d3;
+    padding: 0 !important;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+hr.sk_hr_modification2 {
+    border-top: 2px dashed #808080;
+    padding: 0 !important;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.sk_center_modification0{
+    margin: 0;
+    background: transparent;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
+
+.sk_panel_modification0{
+    border-radius: 10px;
+}
+
+.sk_footer_modification0 {
+    bottom: 0;
+    width: 100%;
+    height: 32px;
+    position: fixed;
+    z-index: 1000;
+    background-color: #b8edcf;
+    border-color: #b8edcf;
+    /*color: #6b7d87;*/
+    padding-top: 6px;
+    font-size: 16px;
+}
+
+.sk_nomor_bulet0{
+    background: #cccccc;
+    border-radius: 0.8em;
+    -moz-border-radius: 0.8em;
+    -webkit-border-radius: 0.8em;
+    color: #ffffff;
+    display: inline-block;
+    font-weight: bold;
+    line-height: 1.6em;
+    margin-right: 5px;
+    text-align: center;
+    width: 1.6em; 
+}
+
+/* --- catatan : dipakai aimz --- */
+.content-wrapperx {
+    min-height: 100%;
+    background-color: #d8d8d8;
+    z-index: 800;
+}
+.content-wrapper {
+    min-height: 100%;
+    background-color: #ecf0f5;
+    z-index: 800;
+}
+.main-footer {
+    background: #000000;
+    padding: 15px;
+    color: #444;
+    border-top: 1px solid #d2d6de;
+}
+/* --- ====================== --- */
+
+/* Split the screen in half */
+.split {
+    height: 50%;
+    width: 50%;
+    position: fixed;
+    z-index: 1;
+    top: 50%;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+/* Control the left side */
+.left {
+    left: 0;
+    background-color: #111;
+}
+
+/* Control the right side */
+.right {
+    right: 0;
+    background-color: red;
+}
+
+/* If you want the content centered horizontally and vertically */
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+/* Style the image inside the centered container, if needed */
+.centered img {
+    width: 150px;
+    border-radius: 50%;
+}
+
