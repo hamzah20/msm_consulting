@@ -28,7 +28,7 @@
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                            <li class="active">Company Profile</li>
+                            <li class="active">Employee</li>
                         </ol>
                     </div>
                 </div>
@@ -38,8 +38,7 @@
         <!-- Content -->
         <div class="content mt-3">      
            <div class="card">
-              <div class="card-body">
-                <a class="btn btn-md btn-primary" href="#" role="button">Tambah Data</a> <hr> 
+              <div class="card-body"> 
                 <div class="form-inline float-left row mb-3 ml-2">
                     <label class="col-form-label mr-1">Show</label>
                     <div>
