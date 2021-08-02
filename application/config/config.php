@@ -33,7 +33,7 @@ $config['base_url'] .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER
 
 
 
-$config['base_url'] = 'http://localhost/etaxmsm-master';
+$config['base_url'] = 'http://localhost/msm_consulting';
 
 /*
 |--------------------------------------------------------------------------
