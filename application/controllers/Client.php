@@ -20,4 +20,8 @@ class Client extends CI_Controller {
 	{
 		$this->load->view('cms/karyawan');
 	}
+	public function karyawan_perusahaan()
+	{
+		$this->load->view('cms/karyawan_perusahaan');
+	}
 }

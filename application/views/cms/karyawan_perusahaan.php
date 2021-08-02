@@ -28,7 +28,7 @@
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                            <li class="active">Employee</li>
+                            <li class="active">Company Profile</li>
                         </ol>
                     </div>
                 </div>
@@ -38,7 +38,9 @@
         <!-- Content -->
         <div class="content mt-3">      
            <div class="card">
-              <div class="card-body"> 
+              <div class="card-body">
+                <a class="btn btn-md btn-primary" href="#" role="button" data-toggle="modal" data-target="#addKaryawanPerusahaan">Tambah Data</a> 
+                <a class="btn btn-md btn-info" href="#" role="button" data-toggle="modal" data-target="#ImportExport">Import / Export</a> <hr> 
                 <div class="form-inline float-left row mb-3 ml-2">
                     <label class="col-form-label mr-1">Show</label>
                     <div>
@@ -60,33 +62,37 @@
                   <thead class="thead-dark">
                     <tr>
                       <th scope="col-1" class="text-center">No</th>
-                      <th scope="col-5">Nama Perusahaan (Client)</th>
+                      <th scope="col-4">Nama Karyawan (Client)</th>
                       <th scope="col-3" class="text-center">NPWP</th>
-                      <th scope="col-2" class="text-center">KLU</th>
+                      <th scope="col-2" class="text-center">S-Kwn*/Tng</th>
+                      <th scope="col-1" class="text-center">Tipe*</th>
                       <th scope="col-1" class="text-center">Aksi</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <th scope="row" class="text-center">1</th>
-                      <td>PT. WIJAYA KARYA</td>
-                      <td class="text-center">90.529.958.2-039.000</td>
-                      <td class="text-center">74100</td>
-                      <td class="text-center"><a class="btn btn-sm btn-primary" href="<?php echo base_url('Client/karyawan_perusahaan'); ?>" role="button">Detail</a></td>
+                      <td>Hamzah Aji Pratama</td>
+                      <td class="text-center">66.060.320.2-402.000</td>
+                      <td>TK/0</td>
+                      <td>Lokal</td>
+                      <td class="text-center"><a class="btn btn-sm btn-primary" href="#" role="button">Detail</a></td>
                     </tr>
                     <tr>
                       <th scope="row" class="text-center">2</th>
-                      <td>PT. WIJAYA KARYA</td>
-                      <td class="text-center">90.529.958.2-039.000</td>
-                      <td class="text-center">74100</td>
-                      <td class="text-center"><a class="btn btn-sm btn-primary" href="<?php echo base_url('Client/karyawan_perusahaan'); ?>" role="button">Detail</a></td>
+                      <td>Hamzah Aji Pratama</td>
+                      <td class="text-center">66.060.320.2-402.000</td>
+                      <td>TK/0</td>
+                      <td>Lokal</td>
+                      <td class="text-center"><a class="btn btn-sm btn-primary" href="#" role="button">Detail</a></td>
                     </tr>
                     <tr>
                       <th scope="row" class="text-center">3</th>
-                      <td>PT. WIJAYA KARYA</td>
-                      <td class="text-center">90.529.958.2-039.000</td>
-                      <td class="text-center">74100</td>
-                      <td class="text-center"><a class="btn btn-sm btn-primary" href="<?php echo base_url('Client/karyawan_perusahaan'); ?>" role="button">Detail</a></td>
+                      <td>Hamzah Aji Pratama</td>
+                      <td class="text-center">66.060.320.2-402.000</td>
+                      <td>TK/0</td>
+                      <td>Lokal</td>
+                      <td class="text-center"><a class="btn btn-sm btn-primary" href="#" role="button">Detail</a></td>
                     </tr>
                   </tbody>
                 </table> <hr> 
@@ -107,6 +113,13 @@
               </div>
             </div>
 
+            <!-- Add Modal -->
+          	<?php $this->load->view('modal/add_karyawan_perusahaan'); ?>
+            <!-- End of Add Modal -->
+
+            <!-- Import Export -->
+          	<?php $this->load->view('modal/import_export'); ?>
+            <!-- End of Import Export -->
 
         </div> 
         <!-- End of Content -->
