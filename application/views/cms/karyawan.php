@@ -28,7 +28,7 @@
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                            <li class="active">Employee</li>
+                            <li class="active">Company Employee</li>
                         </ol>
                     </div>
                 </div>

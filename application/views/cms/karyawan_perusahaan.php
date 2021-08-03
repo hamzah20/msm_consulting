@@ -28,7 +28,7 @@
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                            <li class="active">Company Profile</li>
+                            <li class="active">Employee</li>
                         </ol>
                     </div>
                 </div>
@@ -62,11 +62,11 @@
                   <thead class="thead-dark">
                     <tr>
                       <th scope="col-1" class="text-center">No</th>
-                      <th scope="col-4">Nama Karyawan (Client)</th>
-                      <th scope="col-3" class="text-center">NPWP</th>
-                      <th scope="col-2" class="text-center">S-Kwn*/Tng</th>
+                      <th scope="col-5">Nama Karyawan (Client)</th>
+                      <th scope="col-2" class="text-center">NPWP</th>
+                      <th scope="col-1" class="text-center">S-Kwn*/Tng</th>
                       <th scope="col-1" class="text-center">Tipe*</th>
-                      <th scope="col-1" class="text-center">Aksi</th>
+                      <th scope="col-2" class="text-center">Aksi</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -76,7 +76,11 @@
                       <td class="text-center">66.060.320.2-402.000</td>
                       <td>TK/0</td>
                       <td>Lokal</td>
-                      <td class="text-center"><a class="btn btn-sm btn-primary" href="#" role="button">Detail</a></td>
+                      <td class="text-center"> 
+                        <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#detailKaryawanPerusahaan"><i class="fa fa-info-circle"></i></a>
+                        <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('Client/edit_karyawan_perusahaan'); ?>" role="button"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-sm btn-danger" href="<?php echo base_url('Client/edit_karyawan_perusahaan'); ?>" role="button"><i class="fa fa-trash"></i></a>
+                      </td>
                     </tr>
                     <tr>
                       <th scope="row" class="text-center">2</th>
@@ -84,7 +88,11 @@
                       <td class="text-center">66.060.320.2-402.000</td>
                       <td>TK/0</td>
                       <td>Lokal</td>
-                      <td class="text-center"><a class="btn btn-sm btn-primary" href="#" role="button">Detail</a></td>
+                      <td class="text-center"> 
+                        <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#detailKaryawanPerusahaan"><i class="fa fa-info-circle"></i></a>
+                        <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('Client/edit_karyawan_perusahaan'); ?>" role="button"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-sm btn-danger" href="<?php echo base_url('Client/edit_karyawan_perusahaan'); ?>" role="button"><i class="fa fa-trash"></i></a>
+                      </td>
                     </tr>
                     <tr>
                       <th scope="row" class="text-center">3</th>
@@ -92,7 +100,11 @@
                       <td class="text-center">66.060.320.2-402.000</td>
                       <td>TK/0</td>
                       <td>Lokal</td>
-                      <td class="text-center"><a class="btn btn-sm btn-primary" href="#" role="button">Detail</a></td>
+                      <td class="text-center"> 
+                        <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#detailKaryawanPerusahaan"><i class="fa fa-info-circle"></i></a>
+                        <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('Client/edit_karyawan_perusahaan'); ?>" role="button"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-sm btn-danger" href="<?php echo base_url('Client/edit_karyawan_perusahaan'); ?>" role="button"><i class="fa fa-trash"></i></a>
+                      </td>
                     </tr>
                   </tbody>
                 </table> <hr> 
@@ -120,6 +132,10 @@
             <!-- Import Export -->
           	<?php $this->load->view('modal/import_export'); ?>
             <!-- End of Import Export -->
+
+            <!-- Detail Karyawan Perusahan -->
+            <?php $this->load->view('modal/detail_karyawan_perusahaan'); ?>
+            <!-- End of Detail Karyawan Perusahaan -->
 
         </div> 
         <!-- End of Content -->

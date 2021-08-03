@@ -11,7 +11,7 @@
     <div id="right-panel" class="right-panel">
 
         <!-- Topbar-->
-        <?php $this->load->view('templates_cms/topbar'); ?> 
+        <?php $this->load->view('templates_cms/topbar'); ?>   
         <!-- End of Topbar -->
        
         <!-- Header-->
@@ -39,7 +39,8 @@
         <div class="content mt-3">      
            <div class="card">
               <div class="card-body">
-                <a class="btn btn-md btn-primary" href="#" role="button">Tambah Data</a> <hr> 
+                <a class="btn btn-md btn-primary" href="#" role="button" data-toggle="modal" data-target="#addPerusahaan">Tambah Data</a> 
+                <hr> 
                 <div class="form-inline float-left row mb-3 ml-2">
                     <label class="col-form-label mr-1">Show</label>
                     <div>
@@ -73,21 +74,33 @@
                       <td>PT. WIJAYA KARYA</td>
                       <td class="text-center">90.529.958.2-039.000</td>
                       <td class="text-center">74100</td>
-                      <td class="text-center"><a class="btn btn-sm btn-primary" href="#" role="button">Detail</a></td>
+                      <td class="text-center"> 
+                        <a class="btn btn-sm btn-primary" href="#"><i class="fa fa-info-circle"></i></a>
+                        <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('Client/edit_profil_perusahaan'); ?>" role="button" role="button"><i class="fa fa-edit"></i></a> 
+                        <a class="btn btn-sm btn-danger" href="<?php echo base_url('Client/edit_karyawan_perusahaan'); ?>" role="button"><i class="fa fa-trash"></i></a>
+                      </td>
                     </tr>
                     <tr>
                       <th scope="row" class="text-center">2</th>
                       <td>PT. WIJAYA KARYA</td>
                       <td class="text-center">90.529.958.2-039.000</td>
                       <td class="text-center">74100</td>
-                      <td class="text-center"><a class="btn btn-sm btn-primary" href="#" role="button">Detail</a></td>
+                      <td class="text-center"> 
+                        <a class="btn btn-sm btn-primary" href="#"><i class="fa fa-info-circle"></i></a>
+                        <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('Client/edit_profil_perusahaan'); ?>" role="button" role="button" data-toggle="modal" data-target="#detailKaryawanPerusahaan"><i class="fa fa-edit"></i></a> 
+                        <a class="btn btn-sm btn-danger" href="<?php echo base_url('Client/edit_karyawan_perusahaan'); ?>" role="button"><i class="fa fa-trash"></i></a>
+                      </td>
                     </tr>
                     <tr>
                       <th scope="row" class="text-center">3</th>
                       <td>PT. WIJAYA KARYA</td>
                       <td class="text-center">90.529.958.2-039.000</td>
                       <td class="text-center">74100</td>
-                      <td class="text-center"><a class="btn btn-sm btn-primary" href="#" role="button">Detail</a></td>
+                      <td class="text-center"> 
+                        <a class="btn btn-sm btn-primary" href="#"><i class="fa fa-info-circle"></i></a>
+                        <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('Client/edit_profil_perusahaan'); ?>" role="button" role="button" data-toggle="modal" data-target="#detailKaryawanPerusahaan"><i class="fa fa-edit"></i></a> 
+                        <a class="btn btn-sm btn-danger" href="<?php echo base_url('Client/edit_karyawan_perusahaan'); ?>" role="button"><i class="fa fa-trash"></i></a>
+                      </td>
                     </tr>
                   </tbody>
                 </table> <hr> 
@@ -108,6 +121,9 @@
               </div>
             </div>
 
+            <!-- Add Modal Perusahaan -->
+            <?php $this->load->view('modal/add_perusahaan'); ?>
+            <!-- End of Add Modal Perusahaan -->
 
         </div> 
         <!-- End of Content -->
