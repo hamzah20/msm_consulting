@@ -40,156 +40,191 @@
            <div class="card px-2"> 
        			<ul class="nav nav-tabs nav-edit-perusahaan m-2 mt-3">
 					<li class="nav-item">
-				    	<a class="nav-link active" href="#"><i class="fa fa-id-card mr-1"></i>Utama</a>
+				    	<a class="nav-link active" href="<?php echo base_url('Client/edit_profil_perusahaan'); ?>"><i class="fa fa-id-card mr-1"></i>Utama</a>
 				  	</li>
 				  	<li class="nav-item">
-				    	<a class="nav-link" href="#"><i class="fa fa-calculator mr-1"></i>Hitung Pajak</a>
+				    	<a class="nav-link" href="<?php echo base_url('Client/edit_hitung_pajak'); ?>"><i class="fa fa-calculator mr-1"></i>Hitung Pajak</a>
 				  	</li>
 				  	<li class="nav-item">
-				    	<a class="nav-link" href="#"><i class="fa fa-user mr-1"></i>Identitas WP</a>
+				    	<a class="nav-link" href="<?php echo base_url('Client/edit_identitas_wp') ?>"><i class="fa fa-user mr-1"></i>Identitas WP</a>
 				  	</li>
 				  	<li class="nav-item">
-				    	<a class="nav-link" href="#"><i class="fa fa-info-circle mr-1"></i>Info Perpajakan</a>
-				  	</li>
+                        <a class="nav-link" href="<?php echo base_url('Client/edit_info_perpajakan') ?>"><i class="fa fa-info-circle mr-1"></i>Info Perpajakan</a>
+                    </li>
 				  	<li class="nav-item">
-				    	<a class="nav-link" href="#"><i class="fa fa-id-badge mr-1"></i>Identitas Penanggung Jawab</a>
-				  	</li>
+                        <a class="nav-link" href="<?php echo base_url('Client/edit_identitas_pj'); ?>"><i class="fa fa-id-badge mr-1"></i>Identitas Penanggung Jawab</a>
+                    </li>
 				  	<li class="nav-item">
-				    	<a class="nav-link" href="#"><i class="fa fa-file mr-1"></i>Dokumen Elektronik</a>
-				  	</li>
+                        <a class="nav-link" href="<?php echo base_url('Client/edit_dokumen_elektronik'); ?>"><i class="fa fa-file mr-1"></i>Dokumen Elektronik</a>
+                    </li>
 				</ul> <hr class="mx-2">
 				<form method="POST" action="#" class="px-3"> 
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
-                                <label for="">No. Urut Karyawan</label>
+                                <label for="" class="label-utama">No. Urut Perusahaan</label>
                                 <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="A00000-01" readonly> 
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="" class="label-utama">NPWP</label>
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="NPWP" > 
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label for="">No. KTP / No. Passport</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="A00000-01" readonly> 
+                                <label for="" class="label-utama">Nama Perusahaan</label>
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Nama Perusahaan" > 
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label for="">Status PTKP - Tanggungan</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby=""placeholder="Tidak Kawin - 0" readonly> 
+                                <label for="" class="label-utama">Pimpinan Perusahaan</label>
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby=""placeholder="Pimpinan Perusahaan" > 
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
-                                <label for="">No. Induk Karyawan</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="A00000-01" readonly> 
+                                <label for="" class="label-utama">No. Telepon</label>
+                                <input type="number" class="form-control form-control-sm" id="" aria-describedby="" placeholder="No. Telepon" > 
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label for="">Nama Karyawan</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Hamzah Aji Pratama" readonly>
+                                <label for="" class="label-utama">No. Faksimile</label>
+                                <input type="number" class="form-control form-control-sm" id="" aria-describedby="" placeholder="No. Faksimile" >
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label for="">Status NPWP</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="NPWP" readonly> 
+                                <label for="" class="label-utama">Email</label>
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Email" > 
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label for="">Jenis Kelamin</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Laki-Laki" readonly> 
-                                <!-- <select class="form-control option-pegawai" id="">
-                                  <option>Laki-Laki</option>
-                                  <option>Perempuan</option> 
-                                </select>  -->
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label for="">Kewarganegaraan</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Indonesia" readonly> 
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label for="">Kode NPWP</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="A00000-01" readonly> 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label for="">Jabatan</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Admin" readonly> 
-                               <!--  <select class="form-control option-pegawai" id="">
-                                  <option>Admin</option>
-                                  <option>Manager</option>
-                                  <option>Client</option> 
-                                </select> -->
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label for="">Tanggal Masuk</label>
-                                        <input type="date" class="form-control form-control-sm option-pegawai" id="" aria-describedby=""> 
-                                    </div>  
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label for="">Tanggal Keluar</label>
-                                        <input type="date" class="form-control form-control-sm option-pegawai" id="" aria-describedby=""> 
-                                    </div>  
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label for="">Kode EFIN</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="A00000-01" readonly> 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label for="">No. Telepon</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="+62 882-9337-XXXX"> 
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label for="">Email</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="hamzah@gmail.com"> 
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label for="">Tipe Pekerja</label>
-                                <select class="form-control option-pegawai" id="">
-                                  <option>Lokal</option>
-                                  <option>Nasional</option>
-                                  <option>Internasional</option> 
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
+                     <div class="row">
                         <div class="col-8">
                             <div class="form-group">
-                                <label for="">Alamat</label>
+                                <label for="" class="label-utama">Alamat</label>
                                 <textarea type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Villa Pamulang, Jl. Bukit II block DF7/16"></textarea> 
                             </div>
                         </div> 
                     </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="" class="label-utama">User E-Faktur</label>
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="User E-Faktur" > 
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="" class="label-utama">Password E-Faktur</label>
+                                <input type="password" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Password E-Faktur" > 
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="" class="label-utama">Kode Aktifasi</label>
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Kode Aktifasi" > 
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="" class="label-utama">Password Aktifasi</label>
+                                <input type="password" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Password Aktifasi" > 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="" class="label-utama">Email E-Faktur</label>
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Email E-Faktur" > 
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="" class="label-utama">Password Email E-Faktur</label>
+                                <input type="password" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Password Email E-Faktur" > 
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="" class="label-utama">Password E-Nofa</label>
+                                <input type="password" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Password E-Nofa" > 
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="" class="label-utama">Password E-Phrase</label>
+                                <input type="password" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Password E-Phrase" > 
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="" class="label-utama">Email SSE/DJP</label>
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Email SSE/DJP" > 
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="" class="label-utama">Password Email SSE/DJP</label>
+                                <input type="password" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Password Email SSW/DJP" >
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="" class="label-utama">Email to Client</label>
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Email to Client" > 
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="" class="label-utama">Password Email to Client</label>
+                                <input type="password" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Password Email to Client" > 
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="" class="label-utama">Person in Charge (PIC)</label>
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="PIC" > 
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="" class="label-utama">Ditangani Oleh</label>
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Ditangani Oleh" > 
+                            </div>
+                        </div>
+                    </div>
+                     <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="" class="label-utama">Metode Perhitungan PPH Pasal 21</label>
+                                <select class="form-control option-pegawai" id="">
+                                  <option>Gross-Up</option>
+                                  <option>Non Gross-Up</option> 
+                                </select>
+                            </div>
+                        </div> 
+                    </div>
+                   
                 </form>
             </div>
 
