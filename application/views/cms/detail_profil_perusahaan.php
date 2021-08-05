@@ -40,31 +40,32 @@
            <div class="card px-2"> 
        			<ul class="nav nav-tabs nav-edit-perusahaan m-2 mt-3">
 					<li class="nav-item">
-				    	<a class="nav-link active" href="<?php echo base_url('Client/edit_profil_perusahaan'); ?>"><i class="fa fa-id-card mr-1"></i>Utama</a>
-				  	</li>
-				  	<li class="nav-item">
-				    	<a class="nav-link" href="<?php echo base_url('Client/edit_hitung_pajak'); ?>"><i class="fa fa-calculator mr-1"></i>Hitung Pajak</a>
-				  	</li>
-				  	<li class="nav-item">
-				    	<a class="nav-link" href="<?php echo base_url('Client/edit_identitas_wp') ?>"><i class="fa fa-user mr-1"></i>Identitas WP</a>
-				  	</li>
-				  	<li class="nav-item">
-                        <a class="nav-link" href="<?php echo base_url('Client/edit_info_perpajakan') ?>"><i class="fa fa-info-circle mr-1"></i>Info Perpajakan</a>
-                    </li>
-				  	<li class="nav-item">
-                        <a class="nav-link" href="<?php echo base_url('Client/edit_identitas_pj'); ?>"><i class="fa fa-id-badge mr-1"></i>Identitas Penanggung Jawab</a>
-                    </li>
-				  	<li class="nav-item">
-                        <a class="nav-link" href="<?php echo base_url('Client/edit_dokumen_elektronik'); ?>"><i class="fa fa-file mr-1"></i>Dokumen Elektronik</a>
-                    </li>
+                      <a class="nav-link active" href="<?php echo base_url('Client/detail_profil_perusahaan'); ?>"><i class="fa fa-id-card mr-1"></i>Utama</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="<?php echo base_url('Client/detail_hitung_pajak'); ?>"><i class="fa fa-calculator mr-1"></i>Hitung Pajak</a>
+                  </li>
+                          <li class="nav-item">
+                      <a class="nav-link" href="<?php echo base_url('Client/detail_identitas_wp') ?>"><i class="fa fa-user mr-1"></i>Identitas WP</a>
+                  </li>
+                          <li class="nav-item">
+                      <a class="nav-link" href="<?php echo base_url('Client/detail_info_perpajakan') ?>"><i class="fa fa-info-circle mr-1"></i>Info Perpajakan</a>
+                  </li>
+                          <li class="nav-item">
+                      <a class="nav-link" href="<?php echo base_url('Client/detail_identitas_pj'); ?>"><i class="fa fa-id-badge mr-1"></i>Identitas Penanggung Jawab</a>
+                  </li>
+                          <li class="nav-item">
+                      <a class="nav-link" href="<?php echo base_url('Client/detail_dokumen_elektronik'); ?>"><i class="fa fa-file mr-1"></i>Dokumen Elektronik</a>
+                  </li>
 				</ul> 
-                <hr class="mx-2">
+                <a class="btn btn-sm btn-warning col-2 ml-2 mb-3 mt-1 text-white" type="submit" href="<?php echo base_url('Client/edit_profil_perusahaan'); ?>">Edit Data</a>
+                <hr class="mx-2 mt-0">
 				<form method="POST" action="#" class="px-3"> 
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="" class="label-utama">No. Urut Perusahaan</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="A00000-01" readonly> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="A00000-01" readonly> 
                             </div>
                         </div> 
                     </div>
@@ -72,19 +73,19 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="" class="label-utama">NPWP</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="NPWP" > 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="NPWP" > 
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="" class="label-utama">Nama Perusahaan</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Nama Perusahaan" > 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Nama Perusahaan" > 
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="" class="label-utama">Pimpinan Perusahaan</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby=""placeholder="Pimpinan Perusahaan" > 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Pimpinan Perusahaan" > 
                             </div>
                         </div>
                     </div>
@@ -92,19 +93,19 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="" class="label-utama">No. Telepon</label>
-                                <input type="number" class="form-control form-control-sm" id="" aria-describedby="" placeholder="No. Telepon" > 
+                                <input type="number" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="No. Telepon" > 
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="" class="label-utama">No. Faksimile</label>
-                                <input type="number" class="form-control form-control-sm" id="" aria-describedby="" placeholder="No. Faksimile" >
+                                <input type="number" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="No. Faksimile" >
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="" class="label-utama">Email</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Email" > 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Email" > 
                             </div>
                         </div>
                     </div>
@@ -112,7 +113,7 @@
                         <div class="col-8">
                             <div class="form-group">
                                 <label for="" class="label-utama">Alamat</label>
-                                <textarea type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Villa Pamulang, Jl. Bukit II block DF7/16"></textarea> 
+                                <textarea type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Villa Pamulang, Jl. Bukit II block DF7/16"></textarea> 
                             </div>
                         </div> 
                     </div>
@@ -120,7 +121,7 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="" class="label-utama">User E-Faktur</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="User E-Faktur" > 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="User E-Faktur" > 
                             </div>
                         </div> 
                     </div>
@@ -128,19 +129,19 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="" class="label-utama">Password E-Faktur</label>
-                                <input type="password" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Password E-Faktur" > 
+                                <input type="password" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Password E-Faktur" > 
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="" class="label-utama">Kode Aktifasi</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Kode Aktifasi" > 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Kode Aktifasi" > 
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="" class="label-utama">Password Aktifasi</label>
-                                <input type="password" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Password Aktifasi" > 
+                                <input type="password" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Password Aktifasi" > 
                             </div>
                         </div>
                     </div>
@@ -148,13 +149,13 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="" class="label-utama">Email E-Faktur</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Email E-Faktur" > 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Email E-Faktur" > 
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="" class="label-utama">Password Email E-Faktur</label>
-                                <input type="password" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Password Email E-Faktur" > 
+                                <input type="password" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Password Email E-Faktur" > 
                             </div>
                         </div> 
                     </div>
@@ -162,13 +163,13 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="" class="label-utama">Password E-Nofa</label>
-                                <input type="password" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Password E-Nofa" > 
+                                <input type="password" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Password E-Nofa" > 
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="" class="label-utama">Password E-Phrase</label>
-                                <input type="password" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Password E-Phrase" > 
+                                <input type="password" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Password E-Phrase" > 
                             </div>
                         </div> 
                     </div>
@@ -176,13 +177,13 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="" class="label-utama">Email SSE/DJP</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Email SSE/DJP" > 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Email SSE/DJP" > 
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="" class="label-utama">Password Email SSE/DJP</label>
-                                <input type="password" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Password Email SSW/DJP" >
+                                <input type="password" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Password Email SSW/DJP" >
                             </div>
                         </div> 
                     </div>
@@ -190,7 +191,7 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="" class="label-utama">Email to Client</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Email to Client" > 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Email to Client" > 
                             </div>
                         </div> 
                     </div>
@@ -198,19 +199,19 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="" class="label-utama">Password Email to Client</label>
-                                <input type="password" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Password Email to Client" > 
+                                <input type="password" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Password Email to Client" > 
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="" class="label-utama">Person in Charge (PIC)</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="PIC" > 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="PIC" > 
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="" class="label-utama">Ditangani Oleh</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Ditangani Oleh" > 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Ditangani Oleh" > 
                             </div>
                         </div>
                     </div>
@@ -218,17 +219,12 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="" class="label-utama">Metode Perhitungan PPH Pasal 21</label>
-                                <select class="form-control option-pegawai" id="">
-                                  <option>Gross-Up</option>
-                                  <option>Non Gross-Up</option> 
-                                </select>
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Gross-Up" > 
                             </div>
                         </div> 
                     </div>
                    
-                </form>
-                <hr class="mx-2">
-                <button class="btn btn-sm btn-success col-2 ml-2 mb-3" type="submit">Simpan Perubahan</button>
+                </form>  
             </div>
 
             <!-- Add Modal Perusahaan -->

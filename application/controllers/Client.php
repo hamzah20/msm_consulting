@@ -17,6 +17,35 @@ class Client extends CI_Controller
 	{
 		$this->load->view('cms/profil_perusahaan');
 	}
+
+	// DETAIL PROFIL PERUSAHAAN
+	public function detail_profil_perusahaan()
+	{
+		$this->load->view('cms/detail_profil_perusahaan');
+	}
+	public function detail_hitung_pajak()
+	{
+		$this->load->view('cms/detail_hitung_pajak');
+	} 
+	public function detail_identitas_wp()
+	{
+		$this->load->view('cms/detail_identitas_wp');
+	}
+	public function detail_info_perpajakan()
+	{
+		$this->load->view('cms/detail_info_perpajakan');
+	}
+	public function detail_identitas_pj()
+	{
+		$this->load->view('cms/detail_identitas_pj');
+	}
+	public function detail_dokumen_elektronik()
+	{
+		$this->load->view('cms/detail_dokumen_elektronik');
+	}
+
+
+	// EDIT PROFIL PERUSAHAAN
 	public function edit_profil_perusahaan()
 	{
 		$this->load->view('cms/edit_profil_perusahaan');

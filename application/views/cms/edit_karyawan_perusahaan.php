@@ -174,9 +174,9 @@
                 </form>
 
                 <hr>
-                <a class="btn btn-warning text-white float-right mx-1" href="<?php echo base_url('Client/karyawan_perusahaan_detail'); ?>" role="button"> Simpan
+                <a class="btn btn-sm btn-danger hapus float-right" href="#" role="button"> Hapus Data Karyawan
+                <a class="btn btn-sm btn-success text-white float-right mx-1" href="<?php echo base_url('Client/karyawan_perusahaan_detail'); ?>" role="button"> Simpan Perubahan
                 </a>
-                <a class="btn btn-secondary float-right" href="<?php echo base_url('Client/delete_karyawan_perusahaan'); ?>" role="button" data-toggle="modal" data-target="#deleteKaryawanPerusahaan"> Batal
                 </a>
               </div>
             </div>

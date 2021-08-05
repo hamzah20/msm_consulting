@@ -39,8 +39,8 @@
         <div class="content mt-3">      
            <div class="card">
               <div class="card-body">
-                <a class="btn btn-md btn-primary" href="#" role="button" data-toggle="modal" data-target="#addKaryawanPerusahaan">Tambah Data</a> 
-                <a class="btn btn-md btn-info" href="#" role="button" data-toggle="modal" data-target="#ImportExport">Import / Export</a> <hr> 
+                <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addKaryawanPerusahaan">Tambah Data</a> 
+                <a class="btn btn-sm btn-info" href="#" role="button" data-toggle="modal" data-target="#ImportExport">Import / Export</a> <hr> 
                 <div class="form-inline float-left row mb-3 ml-2">
                     <label class="col-form-label mr-1">Show</label>
                     <div>
@@ -79,7 +79,7 @@
                       <td class="text-center"> 
                         <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#detailKaryawanPerusahaan"><i class="fa fa-info-circle"></i></a>
                         <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('Client/edit_karyawan_perusahaan'); ?>" role="button"><i class="fa fa-edit"></i></a>
-                        <a class="btn btn-sm btn-danger" href="<?php echo base_url('Client/edit_karyawan_perusahaan'); ?>" role="button"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-sm btn-danger hapus" href="#" role="button"><i class="fa fa-trash"></i></a>
                       </td>
                     </tr>
                     <tr>
@@ -91,7 +91,7 @@
                       <td class="text-center"> 
                         <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#detailKaryawanPerusahaan"><i class="fa fa-info-circle"></i></a>
                         <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('Client/edit_karyawan_perusahaan'); ?>" role="button"><i class="fa fa-edit"></i></a>
-                        <a class="btn btn-sm btn-danger" href="<?php echo base_url('Client/edit_karyawan_perusahaan'); ?>" role="button"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-sm btn-danger hapus" href="#" role="button"><i class="fa fa-trash"></i></a>
                       </td>
                     </tr>
                     <tr>
@@ -103,7 +103,7 @@
                       <td class="text-center"> 
                         <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#detailKaryawanPerusahaan"><i class="fa fa-info-circle"></i></a>
                         <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('Client/edit_karyawan_perusahaan'); ?>" role="button"><i class="fa fa-edit"></i></a>
-                        <a class="btn btn-sm btn-danger" href="<?php echo base_url('Client/edit_karyawan_perusahaan'); ?>" role="button"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-sm btn-danger hapus" href="#" role="button"><i class="fa fa-trash"></i></a>
                       </td>
                     </tr>
                   </tbody>

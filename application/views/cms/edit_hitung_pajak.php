@@ -326,7 +326,7 @@
                    
                 </form>
                 <hr class="mx-2">
-                <button class="btn btn-success col-2 ml-2 mb-3" type="submit">Simpan Perubahan</button>
+                <button class="btn btn-sm btn-success col-2 ml-2 mb-3" type="submit">Simpan Perubahan</button>
             </div>
 
             <!-- Add Modal Perusahaan -->
