@@ -77,7 +77,7 @@
                       <td class="text-center"> 
                         <a class="btn btn-sm btn-primary" href="#"><i class="fa fa-info-circle"></i></a>
                         <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('Client/edit_profil_perusahaan'); ?>" role="button" role="button"><i class="fa fa-edit"></i></a> 
-                        <a class="btn btn-sm btn-danger" href="<?php echo base_url('Client/edit_karyawan_perusahaan'); ?>" role="button"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-sm btn-danger" href="#" role="button" id="hapus"><i class="fa fa-trash"></i></a>
                       </td>
                     </tr>
                     <tr>
@@ -88,7 +88,7 @@
                       <td class="text-center"> 
                         <a class="btn btn-sm btn-primary" href="#"><i class="fa fa-info-circle"></i></a>
                         <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('Client/edit_profil_perusahaan'); ?>" role="button" role="button" data-toggle="modal" data-target="#detailKaryawanPerusahaan"><i class="fa fa-edit"></i></a> 
-                        <a class="btn btn-sm btn-danger" href="<?php echo base_url('Client/edit_karyawan_perusahaan'); ?>" role="button"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-sm btn-danger" href="#" role="button" id="hapus"><i class="fa fa-trash"></i></a>
                       </td>
                     </tr>
                     <tr>
@@ -99,7 +99,7 @@
                       <td class="text-center"> 
                         <a class="btn btn-sm btn-primary" href="#"><i class="fa fa-info-circle"></i></a>
                         <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('Client/edit_profil_perusahaan'); ?>" role="button" role="button" data-toggle="modal" data-target="#detailKaryawanPerusahaan"><i class="fa fa-edit"></i></a> 
-                        <a class="btn btn-sm btn-danger" href="<?php echo base_url('Client/edit_karyawan_perusahaan'); ?>" role="button"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-sm btn-danger" href="#" role="button" id="hapus"><i class="fa fa-trash"></i></a>
                       </td>
                     </tr>
                   </tbody>

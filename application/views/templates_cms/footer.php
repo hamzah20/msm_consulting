@@ -11,6 +11,8 @@
 	    <script src="<?php echo base_url('assets/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js'); ?>"></script>
 	    <script src="<?php echo base_url('assets/vendors/jqvmap/dist/maps/jquery.vmap.world.js'); ?>"></script>
 
+	    <script src="<?php echo base_url('assets/sweetalert2/sweetalert2.all.min.js'); ?>"></script>
+
 	    <script>
 	        (function($) {
 	            "use strict";
@@ -78,6 +80,23 @@
 			  modal.find('.modal-title').text('New message to ' + recipient)
 			  modal.find('.modal-body input').val(recipient)
 			})
+
+
+			// SWEEET ALERT 2
+
+			const hapus = document.querySelector('#hapus');
+			hapus.addEventListener('click', function(){
+				Swal({
+					title: 'HAPUS DATA';
+					text: 'APAKAH ANDA YAKIN MENGHAPUS DATA INI?';
+					type: 'warning';
+				});
+			});
+
+
+
+
+
 	    </script>
 
 	</body>
