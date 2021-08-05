@@ -108,10 +108,10 @@
                                 <textarea type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Alamat"></textarea>  
                             </div>
                         </div>
-                    </div>      
-                          
-                   
+                    </div>     
                 </form>
+                <hr class="mx-2">
+                <button class="btn btn-success col-2 ml-2 mb-3" type="submit">Simpan Perubahan</button>
             </div>
 
             <!-- Add Modal Perusahaan -->

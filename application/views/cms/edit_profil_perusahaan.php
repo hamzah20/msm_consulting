@@ -57,7 +57,8 @@
 				  	<li class="nav-item">
                         <a class="nav-link" href="<?php echo base_url('Client/edit_dokumen_elektronik'); ?>"><i class="fa fa-file mr-1"></i>Dokumen Elektronik</a>
                     </li>
-				</ul> <hr class="mx-2">
+				</ul> 
+                <hr class="mx-2">
 				<form method="POST" action="#" class="px-3"> 
                     <div class="row">
                         <div class="col-4">
@@ -226,6 +227,8 @@
                     </div>
                    
                 </form>
+                <hr class="mx-2">
+                <button class="btn btn-success col-2 ml-2 mb-3" type="submit">Simpan Perubahan</button>
             </div>
 
             <!-- Add Modal Perusahaan -->
