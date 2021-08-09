@@ -11,17 +11,17 @@
 	        <form>
 	          <div class="form-group">
 	            <label for="recipient-name" class="col-form-label">Nomor Urut Perusahaan :</label>
-	            <input type="text" class="form-control" id="no_urut_perusahaan" name="no_urut_perusahaan" placeholder="HGROUP2008-00001" readonly>
+	            <input type="text" class="form-control form-control-sm" id="no_urut_perusahaan" name="no_urut_perusahaan" placeholder="HGROUP2008-00001" readonly>
 	          </div> 
 	          <div class="form-group">
 	            <label for="recipient-name" class="col-form-label">Nama Perusahaan :</label>
-	            <input type="text" class="form-control" id="nama_perusahaan" name="nama_perusahaan">
+	            <input type="text" class="form-control form-control-sm" id="nama_perusahaan" name="nama_perusahaan">
 	          </div> 
 	        </form>
 	      </div>
 	      <div class="modal-footer">
-	      	<button type="button" class="btn btn-primary">Simpan</button>
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+	      	<button type="button" class="btn btn-primary btn-sm">Simpan</button>
+	        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
 	      </div>
 	    </div>
 	  </div>

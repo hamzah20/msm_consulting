@@ -55,7 +55,7 @@
         <div class="form-inline float-right">
           <label class="col-form-label mr-1">Search :</label>
           <div>
-            <input type="text" name="search">
+          <input type="text" name="search">
           </div>
         </div>
         <table class="table">
@@ -75,8 +75,8 @@
               <td class="text-center">90.529.958.2-039.000</td>
               <td class="text-center">74100</td>
               <td class="text-center">
-                <a class="btn btn-sm btn-primary" href="<?php echo base_url('Client/detail_profil_perusahaan'); ?>"><i class="fa fa-info-circle"></i></a>
-                <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('Client/edit_profil_perusahaan'); ?>" role="button" role="button"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-sm btn-primary" href="<?php echo base_url('company_profile/detail/utama'); ?>"><i class="fa fa-info-circle"></i></a>
+                <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('company_profile/edit/utama'); ?>" role="button" role="button"><i class="fa fa-edit"></i></a>
                 <a class="btn btn-sm btn-danger hapus" href="#" role="button"><i class="fa fa-trash"></i></a>
               </td>
             </tr>
@@ -86,8 +86,8 @@
               <td class="text-center">90.529.958.2-039.000</td>
               <td class="text-center">74100</td>
               <td class="text-center">
-                <a class="btn btn-sm btn-primary" href="<?php echo base_url('Client/detail_profil_perusahaan'); ?>"><i class="fa fa-info-circle"></i></a>
-                <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('Client/edit_profil_perusahaan'); ?>" role="button" role="button" data-toggle="modal" data-target="#detailKaryawanPerusahaan"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-sm btn-primary" href="<?php echo base_url('company_profile/detail'); ?>"><i class="fa fa-info-circle"></i></a>
+                <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('company_profile/edit/utama'); ?>"><i class="fa fa-edit"></i></a>
                 <a class="btn btn-sm btn-danger hapus" href="#" role="button"><i class="fa fa-trash"></i></a>
               </td>
             </tr>
@@ -97,8 +97,8 @@
               <td class="text-center">90.529.958.2-039.000</td>
               <td class="text-center">74100</td>
               <td class="text-center">
-                <a class="btn btn-sm btn-primary" href="<?php echo base_url('Client/detail_profil_perusahaan'); ?>"><i class="fa fa-info-circle"></i></a>
-                <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('Client/edit_profil_perusahaan'); ?>" role="button" role="button" data-toggle="modal" data-target="#detailKaryawanPerusahaan"><i class="fa fa-edit"></i></a>
+                <a class="btn btn-sm btn-primary" href="<?php echo base_url('company_profile/detail'); ?>"><i class="fa fa-info-circle"></i></a>
+                <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('company_profile/edit/utama'); ?>"><i class="fa fa-edit"></i></a>
                 <a class="btn btn-sm btn-danger hapus" href="#" role="button"><i class="fa fa-trash"></i></a>
               </td>
             </tr>

@@ -97,8 +97,8 @@
 	        	</tr> 
 	        </table>
 	      <div class="modal-footer">
-	      	<button type="button" class="btn btn-warning text-white">Edit</button>
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+	      	<button type="button" class="btn btn-warning text-white btn-sm">Edit</button>
+	        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Tutup</button>
 	      </div>
 	    </div>
 	  </div>

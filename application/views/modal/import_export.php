@@ -8,7 +8,7 @@
 	        </button>
 	      </div>
 	      <div class="modal-body">
-	      	<button class="btn btn-success col-12">Download File (.xlsx)</button>
+	      	<button class="btn btn-success btn-sm col-12">Download File (.xlsx)</button>
 	      	<small class="bg bg-warning font-weight-bold"><i>*Download terlebih dahulu file excel</i></small>
 	        <form> 
 	        	<div class="input-group mt-3 mb-3"> 
@@ -20,8 +20,8 @@
 	        </form>
 	      </div>
 	      <div class="modal-footer">
-	      	<button type="button" class="btn btn-primary">Simpan</button>
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+	      	<button type="button" class="btn btn-primary btn-sm">Simpan</button>
+	        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
 	      </div>
 	    </div>
 	  </div>

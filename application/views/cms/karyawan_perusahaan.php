@@ -28,7 +28,7 @@
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                            <li class="active">Employee</li>
+                            <li class="active"><a href="<?php echo base_url('employee'); ?>">Company Employee</a> / Employee</li>
                         </ol>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
                       <td>Lokal</td>
                       <td class="text-center"> 
                         <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#detailKaryawanPerusahaan"><i class="fa fa-info-circle"></i></a>
-                        <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('Client/edit_karyawan_perusahaan'); ?>" role="button"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('employee/edit'); ?>" role="button"><i class="fa fa-edit"></i></a>
                         <a class="btn btn-sm btn-danger hapus" href="#" role="button"><i class="fa fa-trash"></i></a>
                       </td>
                     </tr>
@@ -90,7 +90,7 @@
                       <td>Lokal</td>
                       <td class="text-center"> 
                         <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#detailKaryawanPerusahaan"><i class="fa fa-info-circle"></i></a>
-                        <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('Client/edit_karyawan_perusahaan'); ?>" role="button"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('employee/edit'); ?>" role="button"><i class="fa fa-edit"></i></a>
                         <a class="btn btn-sm btn-danger hapus" href="#" role="button"><i class="fa fa-trash"></i></a>
                       </td>
                     </tr>
@@ -102,7 +102,7 @@
                       <td>Lokal</td>
                       <td class="text-center"> 
                         <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#detailKaryawanPerusahaan"><i class="fa fa-info-circle"></i></a>
-                        <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('Client/edit_karyawan_perusahaan'); ?>" role="button"><i class="fa fa-edit"></i></a>
+                        <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('employee/edit'); ?>" role="button"><i class="fa fa-edit"></i></a>
                         <a class="btn btn-sm btn-danger hapus" href="#" role="button"><i class="fa fa-trash"></i></a>
                       </td>
                     </tr>
