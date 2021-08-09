@@ -6,7 +6,9 @@ class Client extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		// $this->output->enable_profiler(TRUE);
 	}
+
 	public function index()
 	{
 		$this->load->view('cms/dashboard');
@@ -26,7 +28,7 @@ class Client extends CI_Controller
 	public function detail_hitung_pajak()
 	{
 		$this->load->view('cms/detail_hitung_pajak');
-	} 
+	}
 	public function detail_identitas_wp()
 	{
 		$this->load->view('cms/detail_identitas_wp');
