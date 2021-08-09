@@ -11,17 +11,17 @@
 	        <form>
 	          <div class="form-group">
 	            <label for="recipient-name" class="col-form-label">Nomor Urut Karyawan :</label>
-	            <input type="text" class="form-control" id="recipient-name" name="no_urut_karyawan" placeholder="HAP2008-00001" readonly>
+	            <input type="text" class="form-control form-control-sm" id="recipient-name" name="no_urut_karyawan" placeholder="HAP2008-00001" readonly>
 	          </div> 
 	          <div class="form-group">
 	            <label for="recipient-name" class="col-form-label">Nama Karyawan :</label>
-	            <input type="text" class="form-control" id="recipient-name" name="nama_karyawan">
+	            <input type="text" class="form-control form-control-sm" id="recipient-name" name="nama_karyawan">
 	          </div> 
 	        </form>
 	      </div>
 	      <div class="modal-footer">
-	      	<button type="button" class="btn btn-primary">Simpan</button>
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+	      	<button type="button" class="btn btn-primary btn-sm">Simpan</button>
+	        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
 	      </div>
 	    </div>
 	  </div>

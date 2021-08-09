@@ -72,21 +72,21 @@
                       <td>PT. WIJAYA KARYA</td>
                       <td class="text-center">90.529.958.2-039.000</td>
                       <td class="text-center">74100</td>
-                      <td class="text-center"><a class="btn btn-sm btn-primary" href="<?php echo base_url('Client/karyawan_perusahaan'); ?>" role="button">Detail</a></td>
+                      <td class="text-center"><a class="btn btn-sm btn-primary" href="<?php echo base_url('employee/detail'); ?>" role="button">Detail</a></td>
                     </tr>
                     <tr>
                       <th scope="row" class="text-center">2</th>
                       <td>PT. WIJAYA KARYA</td>
                       <td class="text-center">90.529.958.2-039.000</td>
                       <td class="text-center">74100</td>
-                      <td class="text-center"><a class="btn btn-sm btn-primary" href="<?php echo base_url('Client/karyawan_perusahaan'); ?>" role="button">Detail</a></td>
+                      <td class="text-center"><a class="btn btn-sm btn-primary" href="<?php echo base_url('employee/detail'); ?>" role="button">Detail</a></td>
                     </tr>
                     <tr>
                       <th scope="row" class="text-center">3</th>
                       <td>PT. WIJAYA KARYA</td>
                       <td class="text-center">90.529.958.2-039.000</td>
                       <td class="text-center">74100</td>
-                      <td class="text-center"><a class="btn btn-sm btn-primary" href="<?php echo base_url('Client/karyawan_perusahaan'); ?>" role="button">Detail</a></td>
+                      <td class="text-center"><a class="btn btn-sm btn-primary" href="<?php echo base_url('employee/detail'); ?>" role="button">Detail</a></td>
                     </tr>
                   </tbody>
                 </table> <hr> 

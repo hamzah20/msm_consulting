@@ -52,3 +52,47 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'Login/index';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+// DATA - Company Profile
+$route['company_profile']							= 'Client/profil_perusahaan';
+// DATA - Company Profile - Detail
+$route['company_profile/detail/utama']				= 'Client/detail_profil_perusahaan';
+$route['company_profile/detail/hitung_pajak']		= 'Client/detail_hitung_pajak';
+$route['company_profile/detail/identitas_wp']		= 'Client/detail_identitas_wp';
+$route['company_profile/detail/info_perpajakan']	= 'Client/detail_info_perpajakan';
+$route['company_profile/detail/identitas_pj']		= 'Client/detail_identitas_pj';
+$route['company_profile/detail/dokumen_elektronik']	= 'Client/detail_dokumen_elektronik';
+// DATA - Company Profile - Edit
+$route['company_profile/edit/utama']				= 'Client/edit_profil_perusahaan';
+$route['company_profile/edit/hitung_pajak']			= 'Client/edit_hitung_pajak';
+$route['company_profile/edit/identitas_wp']			= 'Client/edit_identitas_wp';
+$route['company_profile/edit/info_perpajakan']		= 'Client/edit_info_perpajakan';
+$route['company_profile/edit/identitas_pj']			= 'Client/edit_identitas_pj';
+$route['company_profile/edit/dokumen_elektronik']	= 'Client/edit_dokumen_elektronik';
+
+// DATA - Employee
+$route['employee']									= 'Client/karyawan';
+$route['employee/detail']							= 'Client/karyawan_perusahaan';
+$route['employee/edit']								= 'Client/edit_karyawan_perusahaan';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
