@@ -20,7 +20,7 @@
             <div class="col-sm-4">
                 <div class="page-header float-left">
                     <div class="page-title">
-                        <h1>Clients</h1>
+                        <h1>Klien</h1>
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                            <li class="active">Edit Employee</li>
+                            <li class="active">Edit Karyawan</li>
                         </ol>
                     </div>
                 </div>
