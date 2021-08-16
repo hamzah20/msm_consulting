@@ -28,7 +28,7 @@
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                            <li class="active">Vendor</li>
+                            <li class="active">MSM Group</li>
                         </ol>
                     </div>
                 </div>
