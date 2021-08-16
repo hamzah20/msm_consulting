@@ -90,6 +90,7 @@
 				modal.find('.modal-title').text('New message to ' + recipient)
 				modal.find('.modal-body input').val(recipient)
 			}) 
+ 
 
 
 			// SWEEET ALERT 2

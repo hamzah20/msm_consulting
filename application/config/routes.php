@@ -69,12 +69,26 @@ $route['company_profile/edit/identitas_wp']			= 'Client/edit_identitas_wp';
 $route['company_profile/edit/info_perpajakan']		= 'Client/edit_info_perpajakan';
 $route['company_profile/edit/identitas_pj']			= 'Client/edit_identitas_pj';
 $route['company_profile/edit/dokumen_elektronik']	= 'Client/edit_dokumen_elektronik';
-
 // DATA - Employee
 $route['employee']									= 'Client/karyawan';
 $route['employee/detail']							= 'Client/karyawan_perusahaan';
 $route['employee/edit']								= 'Client/edit_karyawan_perusahaan';
 
+// UTILITAS - Kantor Pelayanan Pajak
+$route['kantor_pelayanan_pajak']					= 'Utility/kantor_pelayanan_pajak';
+$route['kantor_pelayanan_pajak/add']				= 'Utility/add_kantor_pelayanan_pajak';
+$route['kantor_pelayanan_pajak/detail']				= 'Utility/detail_kantor_pelayanan_pajak';
+$route['kantor_pelayanan_pajak/edit']				= 'Utility/edit_kantor_pelayanan_pajak';
+// UTILITAS - Vendor
+$route['vendors']									= 'Utility/vendors';
+$route['vendors/add']								= 'Utility/add_vendors';
+$route['vendors/detail']							= 'Utility/detail_vendors';
+$route['vendors/edit']								= 'Utility/edit_vendors';
+// UTILITAS - MSM Group
+$route['msm_group']									= 'Utility/msm_group';
+$route['msm_group/add']								= 'Utility/add_msm_group';
+$route['msm_group/detail']							= 'Utility/detail_msm_group';
+$route['msm_group/edit']							= 'Utility/edit_msm_group';
 
 
 
