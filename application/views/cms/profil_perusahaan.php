@@ -41,84 +41,35 @@
       <div class="card-body">
         <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addPerusahaan">Tambah Data</a>
         <hr>
-        <div class="form-inline float-left row mb-3 ml-2">
-          <label class="col-form-label mr-1">Show</label>
-          <div>
-            <select class="form-control form-control-sm">
-              <option>5</option>
-              <option>10</option>
-              <option>20</option>
-            </select>
-          </div>
-          <label class="col-form-label ml-1">Entries</label>
-        </div>
-        <div class="form-inline float-right">
-          <label class="col-form-label mr-1">Search :</label>
-          <div>
-          <input type="text" name="search">
-          </div>
-        </div>
-        <table class="table">
+        <table class="table" id="companyTable">
           <thead class="thead-dark">
             <tr>
               <th scope="col-1" class="text-center">No</th>
               <th scope="col-5">Nama Perusahaan (Client)</th>
               <th scope="col-3" class="text-center">NPWP</th>
-              <th scope="col-2" class="text-center">KLU</th>
+              <!-- <th scope="col-2" class="text-center">KLU</th> -->
               <th scope="col-1" class="text-center">Aksi</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row" class="text-center">1</th>
-              <td>PT. WIJAYA KARYA</td>
-              <td class="text-center">90.529.958.2-039.000</td>
-              <td class="text-center">74100</td>
-              <td class="text-center">
-                <a class="btn btn-sm btn-primary" href="<?php echo base_url('company_profile/detail/utama'); ?>"><i class="fa fa-info-circle"></i></a>
-                <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('company_profile/edit/utama'); ?>" role="button" role="button"><i class="fa fa-edit"></i></a>
-                <a class="btn btn-sm btn-danger hapus" href="#" role="button"><i class="fa fa-trash"></i></a>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row" class="text-center">2</th>
-              <td>PT. WIJAYA KARYA</td>
-              <td class="text-center">90.529.958.2-039.000</td>
-              <td class="text-center">74100</td>
-              <td class="text-center">
-                <a class="btn btn-sm btn-primary" href="<?php echo base_url('company_profile/detail'); ?>"><i class="fa fa-info-circle"></i></a>
-                <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('company_profile/edit/utama'); ?>"><i class="fa fa-edit"></i></a>
-                <a class="btn btn-sm btn-danger hapus" href="#" role="button"><i class="fa fa-trash"></i></a>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row" class="text-center">3</th>
-              <td>PT. WIJAYA KARYA</td>
-              <td class="text-center">90.529.958.2-039.000</td>
-              <td class="text-center">74100</td>
-              <td class="text-center">
-                <a class="btn btn-sm btn-primary" href="<?php echo base_url('company_profile/detail'); ?>"><i class="fa fa-info-circle"></i></a>
-                <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('company_profile/edit/utama'); ?>"><i class="fa fa-edit"></i></a>
-                <a class="btn btn-sm btn-danger hapus" href="#" role="button"><i class="fa fa-trash"></i></a>
-              </td>
-            </tr>
+
+            <?php if ($companies->num_rows() != 0) { ?>
+              <?php foreach ($companies->result() as $company) { ?>
+                <tr>
+                  <th scope="row" class="text-center"><?= $counter++; ?></th>
+                  <td><?= $company->COMPANY_NAME; ?></td>
+                  <td class="text-center"><?= ($company->COMPANY_NPWP == null ? '...' : $company->COMPANY_NPWP); ?></td>
+                  <!-- <td class="text-center">74100</td> -->
+                  <td class="text-center">
+                    <a class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Lihat detail perusahaan" href="<?= base_url('company_profile/detail/utama?cid=' . $company->COMPANY_ID); ?>"><i class="fa fa-info-circle"></i></a>
+                    <a class="btn btn-sm btn-warning text-white" data-toggle="tooltip" data-placement="top" title="Edit detail perusahaan" href="<?= base_url('company_profile/edit/utama?cid=' . $company->COMPANY_ID); ?>" role="button" role="button"><i class="fa fa-edit"></i></a>
+                    <a class="btn btn-sm btn-danger hapus" data-toggle="tooltip" data-placement="top" title="Hapus data perusahaan" href="#" role="button"><i class="fa fa-trash"></i></a>
+                  </td>
+                </tr>
+              <?php } ?>
+            <?php } ?>
           </tbody>
         </table>
-        <hr>
-        <div class="float-left">
-          Showing 1 to 10 of 57 entries
-        </div>
-        <div class="float-right">
-          <nav aria-label="Page navigation example">
-            <ul class="pagination">
-              <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item"><a class="page-link" href="#">Next</a></li>
-            </ul>
-          </nav>
-        </div>
       </div>
     </div>
 
@@ -132,6 +83,87 @@
 <!-- /#right-panel -->
 
 <!-- Right Panel -->
+
+<script>
+  jQuery(document).ready(function($) {
+
+    "use strict";
+
+    $(function() {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+
+    $('#formAddCompany').on('submit', function(evt) {
+      evt.preventDefault();
+
+      let form = $('#formAddCompany');
+      let companyName = $('#nama_perusahaan').val();
+
+      if (companyName == null || companyName.length == 0) {
+        form.addClass('was-validated');
+      } else {
+        form[0].submit();
+      }
+
+    });
+
+    $('#companyTable').DataTable();
+
+  });
+</script>
+
+<?php if ($this->session->userdata('query') == 'error') { ?>
+  <script>
+    jQuery(document).ready(function($) {
+
+      "use strict";
+
+      Swal.fire({
+        title: 'Proses Gagal',
+        text: 'Proses tidak dapat dilakukan, silahkan coba lagi',
+        icon: 'error',
+        showCancelButton: false,
+        confirmButtonText: 'Tutup'
+      });
+
+    });
+  </script>
+<?php } ?>
+
+<?php if ($this->session->userdata('query') == 'invalid') { ?>
+  <script>
+    jQuery(document).ready(function($) {
+
+      "use strict";
+
+      Swal.fire({
+        title: 'Proses Gagal',
+        text: 'ID Perusahaan tidak ditemukan, silahkan coba lagi',
+        icon: 'error',
+        showCancelButton: false,
+        confirmButtonText: 'Tutup'
+      });
+
+    });
+  </script>
+<?php } ?>
+
+<?php if ($this->session->userdata('query') == 'success') { ?>
+  <script>
+    jQuery(document).ready(function($) {
+
+      "use strict";
+
+      Swal.fire({
+        title: 'Proses Berhasil',
+        text: 'Data perusahaan berhasil ditambahkan',
+        icon: 'success',
+        showCancelButton: false,
+        confirmButtonText: 'Tutup'
+      });
+    });
+  </script>
+<?php } ?>
 
 <!-- Footer -->
 <?php $this->load->view('templates_cms/footer'); ?>

@@ -2,8 +2,19 @@
 {
     public function getGeneralList($table)
     {
-        $this->db->select('*');
-        $this->db->from($table);
+        $this->db->select('*')
+            ->from($table);
+
+        $query = $this->db->get();
+
+        return $query;
+    }
+
+    public function getSingularData($table, $column, $data)
+    {
+        $this->db->select('*')
+            ->from($table)
+            ->where($column, $data);
 
         $query = $this->db->get();
 
@@ -12,11 +23,18 @@
 
     public function getGeneralData($table, $field, $query)
     {
-        $this->db->select('*');
-        $this->db->from($table);
-        $this->db->where($field, $query);
+        $this->db->select('*')
+            ->from($table)
+            ->where($field, $query);
 
         $query = $this->db->get();
+
+        return $query;
+    }
+
+    public function insertGeneralData($table, $data)
+    {
+        $query = $this->db->insert($table, $data);
 
         return $query;
     }
@@ -56,15 +74,14 @@
 
     public function getChildSidebar($groupID, $parentID)
     {
-        $this->db->distinct();
-        $this->db->select('*');
-        $this->db->from('s_group_appl a');
-        $this->db->join('s_appl b', 'a.APPL_ID = b.ID');
-        $this->db->where('a.GROUP_ID', $groupID);
-        $this->db->where('APPL_PARENT_ID', $parentID);
-        $this->db->where('b.LINK !=', 'null');
-
-        $this->db->order_by('ORDER_NO', 'ASC');
+        $this->db->distinct()
+            ->select('*')
+            ->from('s_group_appl a')
+            ->join('s_appl b', 'a.APPL_ID = b.ID')
+            ->where('a.GROUP_ID', $groupID)
+            ->where('APPL_PARENT_ID', $parentID)
+            ->where('b.LINK !=', 'null')
+            ->order_by('ORDER_NO', 'ASC');
 
         $query = $this->db->get();
 

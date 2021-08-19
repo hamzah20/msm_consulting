@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/style.css'); ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/cms.css'); ?>">
 
+    <link rel="stylesheet" href="<?= base_url('assets/datatable/datatables.min.css'); ?>">
+
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -29,7 +31,7 @@
     <script src="<?= base_url('assets/js/main.js'); ?>"></script>
 
     <script src="<?= base_url('assets/sweetalert2/sweetalert2.all.min.js'); ?>"></script>
-
+    <script src="<?= base_url('assets/datatable/datatables.min.js'); ?>"></script>
 </head>
 
 <body>
