@@ -45,7 +45,7 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="" class="label-utama">No. Urut Kantor Pelayanan Pajak</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="PRF2020-00001"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
                             </div>
                         </div>
                     </div> 
@@ -53,29 +53,29 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">Kategori</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="KPP"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Kode KPP</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="001"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Nama Kantor Pelayanan Pajak</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="KPP Pratama Jakarta Matraman"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
                             </div> 
                         </div> 
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">No. Telpon</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="(021) 8566928, 088293372688 "> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly pplaceholder="....." value=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">No. Faksimile</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="(021) 8566928"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Email</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="kpp.jakarta@mataram.com"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
                             </div>  
                         </div> 
                     </div>   
@@ -83,7 +83,7 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="" class="label-utama">Alamat</label>
-                                <textarea type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Alamat"> </textarea>
+                                <textarea type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> </textarea>
                             </div>
                         </div>
                     </div>  

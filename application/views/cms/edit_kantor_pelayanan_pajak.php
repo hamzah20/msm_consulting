@@ -43,7 +43,7 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="" class="label-utama">No. Urut Kantor Pelayanan Pajak</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="PRF2020-00001"> 
+                                <input type="text" class="form-control form-control-sm" id="editNoKantorPelayanan" aria-describedby="" placeholder="....." name="editNoKantorPelayanan" value=""> 
                             </div>
                         </div>
                     </div> 
@@ -51,29 +51,29 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">Kategori</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="KPP"> 
+                                <input type="text" class="form-control form-control-sm" id="editKategori" aria-describedby="" placeholder="....." name="editKategori" value=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Kode KPP</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="001"> 
+                                <input type="text" class="form-control form-control-sm" id="editKodeKPP" aria-describedby="" placeholder="....." name="editKodeKPP" value=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Nama Kantor Pelayanan Pajak</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="KPP Pratama Jakarta Matraman"> 
+                                <input type="text" class="form-control form-control-sm" id="editNamaKantor" aria-describedby="" placeholder="....." name="editNamaKantor" value=""> 
                             </div> 
                         </div> 
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">No. Telpon</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="(021) 8566928, 088293372688 "> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="editNoTelpon" placeholder="....." name="editNoTelpon" value=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">No. Faksimile</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="(021) 8566928"> 
+                                <input type="text" class="form-control form-control-sm" id="editNoFaksimile" aria-describedby="" placeholder="....." name="editNoFaksimile" value=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Email</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="kpp.jakarta@mataram.com"> 
+                                <input type="text" class="form-control form-control-sm" id="editEmail" aria-describedby="" placeholder="....." name="editEmail" value=""> 
                             </div>  
                         </div> 
                     </div>   
@@ -81,7 +81,7 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="" class="label-utama">Alamat</label>
-                                <textarea type="text" class="form-control form-control-sm" id="" aria-describedby="" value="Alamat"> </textarea>
+                                <textarea type="text" class="form-control form-control-sm" id="editAlamat" aria-describedby="" placeholder="....." name="editAlamat" value=""> </textarea>
                             </div>
                         </div>
                     </div>  

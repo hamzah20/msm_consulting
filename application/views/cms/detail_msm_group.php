@@ -45,7 +45,7 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="" class="label-utama">No. Urut Personil MSM Group</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="PRF2020-00001"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
                             </div>
                         </div>
                     </div> 
@@ -53,25 +53,25 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">Nama Personil</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Master Account"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">No. Telpon</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="(021) 85669284, 088293372684"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">No. Faksimile</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="(021) 85669284"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
                             </div>  
                         </div> 
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">Email</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="telkom.palmerah@gmail.com"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
                             </div> 
                             <div class="form-group">
                                 <label for="" class="label-utama">Alamat</label>
-                                <textarea type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Alamat"> </textarea>
+                                <textarea type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> </textarea>
                             </div>
                         </div> 
                     </div>     

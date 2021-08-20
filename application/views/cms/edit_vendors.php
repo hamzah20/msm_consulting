@@ -43,7 +43,7 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="" class="label-utama">No. Urut Vendor (Lain-Lain)</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly value="PRF2020-00001"> 
+                                <input type="text" class="form-control form-control-sm" id="editNoUrutVendor" aria-describedby="" readonly placeholder="....." name="editNoUrutVendor" value=""> 
                             </div>
                         </div>
                     </div> 
@@ -51,25 +51,25 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">Nama Vendor (Lain-Lain)</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="Telkom STO, Palmerah"> 
+                                <input type="text" class="form-control form-control-sm" id="editNamaVendor" aria-describedby="" placeholder="....." name="editNamaVendor" value=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">No. Telpon</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="(021) 85669284, 088293372684"> 
+                                <input type="text" class="form-control form-control-sm" id="editNoTelpon" aria-describedby="" placeholder="....." name="editNoTelpon" value=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">No. Faksimile</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="(021) 85669284"> 
+                                <input type="text" class="form-control form-control-sm" id="editNoFaksimile" aria-describedby="" placeholder="....." name="editNoFaksimile" value=""> 
                             </div>  
                         </div> 
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">Email</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="telkom.palmerah@gmail.com"> 
+                                <input type="text" class="form-control form-control-sm" id="editEmail" aria-describedby="" placeholder="....." name="editEmail" value=""> 
                             </div> 
                             <div class="form-group">
                                 <label for="" class="label-utama">Alamat</label>
-                                <textarea type="text" class="form-control form-control-sm" id="" aria-describedby="" value="Alamat"> </textarea>
+                                <textarea type="text" class="form-control form-control-sm" id="editAlamat" aria-describedby="" placeholder="....." name="editAlamat" value=""> </textarea>
                             </div>
                         </div> 
                     </div>     
