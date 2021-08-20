@@ -65,25 +65,25 @@
                   <div class="col-3">
                       <div class="form-group">
                           <label for="" class="label-hitung-pajak">Untuk PPh 21</label>
-                          <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Iya" readonly>
+                          <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" readonly>
                       </div>
                   </div>
                   <div class="col-3">
                       <div class="form-group">
                           <label for="" class="label-hitung-pajak">PPh 21 - Ditangani Oleh (1)</label>
-                          <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Master Account" readonly>
+                          <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" readonly>
                       </div>
                   </div>
                   <div class="col-3">
                       <div class="form-group">
                           <label for="" class="label-hitung-pajak">PPh 21 - Ditangani Oleh (3)</label>
-                          <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Master Account" readonly>
+                          <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" readonly>
                       </div>
                   </div>
                   <div class="col-3">
                       <div class="form-group">
                           <label for="" class="label-hitung-pajak">PPh 21 - Ditangani Oleh (3)</label>
-                          <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Master Account" readonly>
+                          <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" readonly>
                       </div>
                   </div>
               </div>      
@@ -91,25 +91,25 @@
                     <div class="col-3">
                         <div class="form-group">
                             <label for="" class="label-hitung-pajak">Untuk PPh 22</label>
-                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Iya" readonly>
+                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" readonly>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <label for="" class="label-hitung-pajak">PPh 22 - Ditangani Oleh (1)</label>
-                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Master Account" readonly>
+                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" readonly>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <label for="" class="label-hitung-pajak">PPh 22 - Ditangani Oleh (3)</label>
-                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Master Account" readonly>
+                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" readonly>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <label for="" class="label-hitung-pajak">PPh 22 - Ditangani Oleh (3)</label>
-                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Master Account" readonly>
+                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" readonly>
                         </div>
                     </div>
                 </div> 
@@ -117,25 +117,25 @@
                     <div class="col-3">
                         <div class="form-group">
                             <label for="" class="label-hitung-pajak">Untuk PPh 23</label>
-                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Iya" readonly>
+                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" readonly>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <label for="" class="label-hitung-pajak">PPh 23 - Ditangani Oleh (1)</label>
-                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Master Account" readonly>
+                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" readonly>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <label for="" class="label-hitung-pajak">PPh 23 - Ditangani Oleh (3)</label>
-                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Master Account" readonly>
+                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" readonly>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <label for="" class="label-hitung-pajak">PPh 23 - Ditangani Oleh (3)</label>
-                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Master Account" readonly>
+                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" readonly>
                         </div>
                     </div>
                 </div> 
@@ -143,25 +143,25 @@
                     <div class="col-3">
                         <div class="form-group">
                             <label for="" class="label-hitung-pajak">Untuk PPh 4(2)</label>
-                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Iya" readonly>
+                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" readonly>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <label for="" class="label-hitung-pajak">PPh 4(2) - Ditangani Oleh (1)</label>
-                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Master Account" readonly>
+                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" readonly>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <label for="" class="label-hitung-pajak">PPh 4(2) - Ditangani Oleh (3)</label>
-                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Master Account" readonly>
+                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" readonly>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <label for="" class="label-hitung-pajak">PPh 4(2) - Ditangani Oleh (3)</label>
-                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Master Account" readonly>
+                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" readonly>
                         </div>
                     </div>
                 </div>    
@@ -169,25 +169,25 @@
                     <div class="col-3">
                         <div class="form-group">
                             <label for="" class="label-hitung-pajak">Untuk PPh 25</label>
-                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Iya" readonly>
+                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" readonly>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <label for="" class="label-hitung-pajak">PPh 25 - Ditangani Oleh (1)</label>
-                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Master Account" readonly>
+                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" readonly>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <label for="" class="label-hitung-pajak">PPh 25 - Ditangani Oleh (3)</label>
-                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Master Account" readonly>
+                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" readonly>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <label for="" class="label-hitung-pajak">PPh 25 - Ditangani Oleh (3)</label>
-                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Master Account" readonly>
+                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" readonly>
                         </div>
                     </div>
                 </div>    
@@ -195,25 +195,25 @@
                     <div class="col-3">
                         <div class="form-group">
                             <label for="" class="label-hitung-pajak">Untuk PPN</label>
-                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Iya" readonly>
+                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" readonly>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <label for="" class="label-hitung-pajak">PPN - Ditangani Oleh (1)</label>
-                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Master Account" readonly>
+                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" readonly>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <label for="" class="label-hitung-pajak">PPN - Ditangani Oleh (3)</label>
-                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Master Account" readonly>
+                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" readonly>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
                             <label for="" class="label-hitung-pajak">PPN - Ditangani Oleh (3)</label>
-                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Master Account" readonly>
+                            <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" readonly>
                         </div>
                     </div>
                 </div>                    

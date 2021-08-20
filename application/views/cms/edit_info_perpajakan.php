@@ -64,23 +64,23 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">KPP Administrasi</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="KPP Administrasi"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="....." name="editKPP" value=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Nomor Telepon KPP</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Nomor Telepon KPP"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="....." name="editNoTelpon" value=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Account Representative</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Account Representative"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="....." name="editAccRep" value=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Status WP</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Status WP"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="....." name="editStatusWP" value=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Status PKP</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Status PKP"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="....." name="editStatusPKP" value=""> 
                             </div>
                         </div>
                         <div class="col-6">
@@ -88,43 +88,43 @@
                                 <label for="" class="label-utama">Kewajiban Perpajakan</label>
                                 <div class="form-group form-check">
                                     <input type="checkbox" class="form-check-input" id="KewajibanPerpajakan">
-                                    <label class="form-check-label label-utama" for="exampleCheck1">PPh Pasal 15</label>
+                                    <label class="form-check-label label-utama" for="exampleCheck1" name="editKewajibanPerpajakan" value="PPh Pasal 15">PPh Pasal 15</label>
                                 </div>
                                 <div class="form-group form-check">
                                     <input type="checkbox" class="form-check-input" id="KewajibanPerpajakan">
-                                    <label class="form-check-label label-utama" for="exampleCheck1">PPh Pasal 21</label>
+                                    <label class="form-check-label label-utama" for="exampleCheck1" name="editKewajibanPerpajakan" value="PPh Pasal 21">PPh Pasal 21</label>
                                 </div>
                                 <div class="form-group form-check">
                                     <input type="checkbox" class="form-check-input" id="KewajibanPerpajakan">
-                                    <label class="form-check-label label-utama" for="exampleCheck1">PPh Pasal 22</label>
+                                    <label class="form-check-label label-utama" for="exampleCheck1" name="editKewajibanPerpajakan" value="PPh Pasal 22">PPh Pasal 22</label>
                                 </div>
                                 <div class="form-group form-check">
                                     <input type="checkbox" class="form-check-input" id="KewajibanPerpajakan">
-                                    <label class="form-check-label label-utama" for="exampleCheck1">PPh Pasal 23</label>
+                                    <label class="form-check-label label-utama" for="exampleCheck1" name="editKewajibanPerpajakan" value="PPh Pasal 23">PPh Pasal 23</label>
                                 </div>
                                 <div class="form-group form-check">
                                     <input type="checkbox" class="form-check-input" id="KewajibanPerpajakan">
-                                    <label class="form-check-label label-utama" for="exampleCheck1">PPh Pasal 25</label>
+                                    <label class="form-check-label label-utama" for="exampleCheck1" name="editKewajibanPerpajakan" value="PPh Pasal 25">PPh Pasal 25</label>
                                 </div>
                                 <div class="form-group form-check">
                                     <input type="checkbox" class="form-check-input" id="KewajibanPerpajakan">
-                                    <label class="form-check-label label-utama" for="exampleCheck1">PPh Pasal 26</label>
+                                    <label class="form-check-label label-utama" for="exampleCheck1" name="editKewajibanPerpajakan" value="PPh Pasal 26">PPh Pasal 26</label>
                                 </div>
                                 <div class="form-group form-check">
                                     <input type="checkbox" class="form-check-input" id="KewajibanPerpajakan">
-                                    <label class="form-check-label label-utama" for="exampleCheck1">PPh Pasal 29</label>
+                                    <label class="form-check-label label-utama" for="exampleCheck1" name="editKewajibanPerpajakan" value="PPh Pasal 29">PPh Pasal 29</label>
                                 </div>
                                 <div class="form-group form-check">
                                     <input type="checkbox" class="form-check-input" id="KewajibanPerpajakan">
-                                    <label class="form-check-label label-utama" for="exampleCheck1">PPh Final Pasal 4 ayat (2)</label>
+                                    <label class="form-check-label label-utama" for="exampleCheck1" name="editKewajibanPerpajakan" value="PPh Final Pasal 4 ayat (2)">PPh Final Pasal 4 ayat (2)</label>
                                 </div>
                                 <div class="form-group form-check">
                                     <input type="checkbox" class="form-check-input" id="KewajibanPerpajakan">
-                                    <label class="form-check-label label-utama" for="exampleCheck1">PPh Final UMKM</label>
+                                    <label class="form-check-label label-utama" for="exampleCheck1" name="editKewajibanPerpajakan" value="PPh Final UMKM">PPh Final UMKM</label>
                                 </div>
                                 <div class="form-group form-check">
                                     <input type="checkbox" class="form-check-input" id="KewajibanPerpajakan">
-                                    <label class="form-check-label label-utama" for="exampleCheck1">PPN</label>
+                                    <label class="form-check-label label-utama" for="exampleCheck1" name="editKewajibanPerpajakan" value="PPN">PPN</label>
                                 </div>
                             </div>
                         </div>

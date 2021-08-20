@@ -64,7 +64,7 @@
                 <div class="col-4">
                     <div class="form-group">
                         <label class="label-utama">No. Urut Perusahaan</label>
-                        <input type="text" class="form-control form-control-sm" readonly placeholder="A00000-01" value="<?= $company->row()->COMPANY_NO; ?>">
+                        <input type="text" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->COMPANY_NO; ?>">
                     </div>
                 </div>
             </div>
@@ -72,19 +72,19 @@
                 <div class="col-4">
                     <div class="form-group">
                         <label class="label-utama">NPWP</label>
-                        <input type="text" class="form-control form-control-sm" readonly placeholder="NPWP" value="<?= $company->row()->COMPANY_NPWP; ?>">
+                        <input type="text" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->COMPANY_NPWP; ?>">
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
                         <label class="label-utama">Nama Perusahaan</label>
-                        <input type="text" class="form-control form-control-sm" readonly placeholder="Nama Perusahaan" value="<?= $company->row()->COMPANY_NAME; ?>">
+                        <input type="text" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->COMPANY_NAME; ?>">
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
                         <label class="label-utama">Pimpinan Perusahaan</label>
-                        <input type="text" class="form-control form-control-sm" readonly placeholder="Pimpinan Perusahaan" value="<?= $company->row()->LEADER_NAME; ?>">
+                        <input type="text" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->LEADER_NAME; ?>">
                     </div>
                 </div>
             </div>
@@ -92,19 +92,19 @@
                 <div class="col-4">
                     <div class="form-group">
                         <label class="label-utama">No. Telepon</label>
-                        <input type="number" class="form-control form-control-sm" readonly placeholder="No. Telepon" value="<?= $company->row()->COMPANY_PHONE; ?>">
+                        <input type="number" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->COMPANY_PHONE; ?>">
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
                         <label class="label-utama">No. Faksimile</label>
-                        <input type="number" class="form-control form-control-sm" readonly placeholder="No. Faksimile" value="<?= $company->row()->COMPANY_FAX; ?>">
+                        <input type="number" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->COMPANY_FAX; ?>">
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
                         <label class="label-utama">Email</label>
-                        <input type="text" class="form-control form-control-sm" readonly placeholder="Email" value="<?= $company->row()->COMPANY_EMAIL; ?>">
+                        <input type="text" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->COMPANY_EMAIL; ?>">
                     </div>
                 </div>
             </div>
@@ -112,7 +112,7 @@
                 <div class="col-8">
                     <div class="form-group">
                         <label class="label-utama">Alamat</label>
-                        <textarea type="text" class="form-control form-control-sm" readonly placeholder="Villa Pamulang, Jl. Bukit II block DF7/16"><?= $company->row()->COMPANY_ADDRESS; ?></textarea>
+                        <textarea type="text" class="form-control form-control-sm" readonly placeholder="....."><?= $company->row()->COMPANY_ADDRESS; ?></textarea>
                     </div>
                 </div>
             </div>
@@ -120,7 +120,7 @@
                 <div class="col-4">
                     <div class="form-group">
                         <label class="label-utama">User E-Faktur</label>
-                        <input type="text" class="form-control form-control-sm" readonly placeholder="User E-Faktur" value="<?= $company->row()->EFACTURE_USER; ?>">
+                        <input type="text" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->EFACTURE_USER; ?>">
                     </div>
                 </div>
             </div>
@@ -128,19 +128,19 @@
                 <div class="col-4">
                     <div class="form-group">
                         <label class="label-utama">Password E-Faktur</label>
-                        <input type="password" class="form-control form-control-sm" readonly placeholder="Password E-Faktur" value="<?= $company->row()->EFACTURE_PASS; ?>">
+                        <input type="password" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->EFACTURE_PASS; ?>">
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
                         <label class="label-utama">Kode Aktifasi</label>
-                        <input type="text" class="form-control form-control-sm" readonly placeholder="Kode Aktifasi" value="<?= $company->row()->EFACTURE_ACTIVATION_CODE; ?>">
+                        <input type="text" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->EFACTURE_ACTIVATION_CODE; ?>">
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
                         <label class="label-utama">Password Aktifasi</label>
-                        <input type="password" class="form-control form-control-sm" readonly placeholder="Password Aktifasi" value="<?= $company->row()->EFACTURE_ACTIVATION_PASS; ?>">
+                        <input type="password" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->EFACTURE_ACTIVATION_PASS; ?>">
                     </div>
                 </div>
             </div>
@@ -148,13 +148,13 @@
                 <div class="col-4">
                     <div class="form-group">
                         <label class="label-utama">Email E-Faktur</label>
-                        <input type="text" class="form-control form-control-sm" readonly placeholder="Email E-Faktur" value="<?= $company->row()->EFACTURE_EMAIL; ?>">
+                        <input type="text" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->EFACTURE_EMAIL; ?>">
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
                         <label class="label-utama">Password Email E-Faktur</label>
-                        <input type="password" class="form-control form-control-sm" readonly placeholder="Password Email E-Faktur" value="<?= $company->row()->EFACTURE_EMAIL_PASS; ?>">
+                        <input type="password" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->EFACTURE_EMAIL_PASS; ?>">
                     </div>
                 </div>
             </div>
@@ -162,13 +162,13 @@
                 <div class="col-4">
                     <div class="form-group">
                         <label class="label-utama">Password E-Nofa</label>
-                        <input type="password" class="form-control form-control-sm" readonly placeholder="Password E-Nofa" value="<?= $company->row()->ENOFA_PASS; ?>">
+                        <input type="password" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->ENOFA_PASS; ?>">
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
                         <label class="label-utama">Password E-Phrase</label>
-                        <input type="password" class="form-control form-control-sm" readonly placeholder="Password E-Phrase" value="<?= $company->row()->EPHRASE_PASS; ?>">
+                        <input type="password" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->EPHRASE_PASS; ?>">
                     </div>
                 </div>
             </div>
@@ -176,13 +176,13 @@
                 <div class="col-4">
                     <div class="form-group">
                         <label class="label-utama">Email SSE/DJP</label>
-                        <input type="text" class="form-control form-control-sm" readonly placeholder="Email SSE/DJP" value="<?= $company->row()->SSE_EMAIL; ?>">
+                        <input type="text" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->SSE_EMAIL; ?>">
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
                         <label class="label-utama">Password Email SSE/DJP</label>
-                        <input type="password" class="form-control form-control-sm" readonly placeholder="Password Email SSW/DJP" value="<?= $company->row()->SSE_PASS; ?>">
+                        <input type="password" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->SSE_PASS; ?>">
                     </div>
                 </div>
             </div>
@@ -190,7 +190,7 @@
                 <div class="col-4">
                     <div class="form-group">
                         <label class="label-utama">Email to Client</label>
-                        <input type="text" class="form-control form-control-sm" readonly placeholder="Email to Client" value="<?= $company->row()->CLIENT_EMAIL; ?>">
+                        <input type="text" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->CLIENT_EMAIL; ?>">
                     </div>
                 </div>
             </div>
@@ -198,19 +198,19 @@
                 <div class="col-4">
                     <div class="form-group">
                         <label class="label-utama">Password Email to Client</label>
-                        <input type="password" class="form-control form-control-sm" readonly placeholder="Password Email to Client" value="<?= $company->row()->CLIENT_EMAIL_PASS; ?>">
+                        <input type="password" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->CLIENT_EMAIL_PASS; ?>">
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
                         <label class="label-utama">Person in Charge (PIC)</label>
-                        <input type="text" class="form-control form-control-sm" readonly placeholder="PIC" value="<?= $company->row()->CLIENT_PIC; ?>">
+                        <input type="text" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->CLIENT_PIC; ?>">
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
                         <label class="label-utama">Ditangani Oleh</label>
-                        <input type="text" class="form-control form-control-sm" readonly placeholder="Ditangani Oleh" value="<?= $company->row()->CLIENT_PIC; ?>">
+                        <input type="text" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->CLIENT_PIC; ?>">
                     </div>
                 </div>
             </div>
@@ -218,7 +218,7 @@
                 <div class="col-4">
                     <div class="form-group">
                         <label class="label-utama">Metode Perhitungan PPH Pasal 21</label>
-                        <input type="text" class="form-control form-control-sm" readonly placeholder="Gross-Up" value="<?= $company->row()->PPHCOUNT_METHOD; ?>">
+                        <input type="text" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->PPHCOUNT_METHOD; ?>">
                     </div>
                 </div>
             </div>

@@ -10,6 +10,8 @@
 
     <link rel="apple-touch-icon" href="apple-icon.png">
     <link rel="shortcut icon" href="favicon.ico">
+    <link rel="icon" href="<?php echo base_url('assets/images/pictures/enduser_icon.png'); ?>">
+    <link rel="apple-touch-icon" href="<?php echo base_url('assets/images/pictures/enduser_icon.png'); ?>">
 
     <link rel="stylesheet" href="<?= base_url('assets/vendors/bootstrap/dist/css/bootstrap.min.css'); ?>">
     <link rel="stylesheet" href="<?= base_url('assets/vendors/font-awesome/css/font-awesome.min.css'); ?>">

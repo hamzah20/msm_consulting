@@ -64,7 +64,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">No. Urut Perusahaan</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="A00000-01" readonly>
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editNoUrutPerusahaan" value="" readonly>
                         </div>
                     </div>
                 </div>
@@ -72,19 +72,19 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">NPWP</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="NPWP">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editNPWP" value="">
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Nama Perusahaan</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Nama Perusahaan">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editNamaPerusahaan" value="">
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Pimpinan Perusahaan</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Pimpinan Perusahaan">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPimpinanPerusahaan" value="">
                         </div>
                     </div>
                 </div>
@@ -92,19 +92,19 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">No. Telepon</label>
-                            <input type="number" class="form-control form-control-sm" placeholder="No. Telepon">
+                            <input type="number" class="form-control form-control-sm" placeholder="....." name="editNoTelpon" value="" >
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">No. Faksimile</label>
-                            <input type="number" class="form-control form-control-sm" placeholder="No. Faksimile">
+                            <input type="number" class="form-control form-control-sm" placeholder="....." name="editNoFaksimile" value="">
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Email</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Email">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editEmail" value="">
                         </div>
                     </div>
                 </div>
@@ -112,7 +112,7 @@
                     <div class="col-8">
                         <div class="form-group">
                             <label for="" class="label-utama">Alamat</label>
-                            <textarea type="text" class="form-control form-control-sm" placeholder="Villa Pamulang, Jl. Bukit II block DF7/16"></textarea>
+                            <textarea type="text" class="form-control form-control-sm" placeholder="....." name="editAlamat" value=""></textarea>
                         </div>
                     </div>
                 </div>
@@ -120,7 +120,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">User E-Faktur</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="User E-Faktur">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editUserEFaktur" value="">
                         </div>
                     </div>
                 </div>
@@ -128,19 +128,19 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Password E-Faktur</label>
-                            <input type="password" class="form-control form-control-sm" placeholder="Password E-Faktur">
+                            <input type="password" class="form-control form-control-sm" placeholder="....." name="editPassEFaktur" value="">
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Kode Aktifasi</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Kode Aktifasi">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editKodeAktifasi" value="">
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Password Aktifasi</label>
-                            <input type="password" class="form-control form-control-sm" placeholder="Password Aktifasi">
+                            <input type="password" class="form-control form-control-sm" placeholder="....." name="editPassAktifasi" value="">
                         </div>
                     </div>
                 </div>
@@ -148,13 +148,13 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Email E-Faktur</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Email E-Faktur">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editEmailEFaktur" value="">
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Password Email E-Faktur</label>
-                            <input type="password" class="form-control form-control-sm" placeholder="Password Email E-Faktur">
+                            <input type="password" class="form-control form-control-sm" placeholder="....." name="editPassEmailEFaktur" value="">
                         </div>
                     </div>
                 </div>
@@ -162,13 +162,13 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Password E-Nofa</label>
-                            <input type="password" class="form-control form-control-sm" placeholder="Password E-Nofa">
+                            <input type="password" class="form-control form-control-sm" placeholder="....." name="editPassENofa" value="">
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Password E-Phrase</label>
-                            <input type="password" class="form-control form-control-sm" placeholder="Password E-Phrase">
+                            <input type="password" class="form-control form-control-sm" placeholder="....." name="editPassEPhrase" value="">
                         </div>
                     </div>
                 </div>
@@ -176,13 +176,13 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Email SSE/DJP</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Email SSE/DJP">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editEmailSSEDJP" value="">
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Password Email SSE/DJP</label>
-                            <input type="password" class="form-control form-control-sm" placeholder="Password Email SSW/DJP">
+                            <input type="password" class="form-control form-control-sm" placeholder="....." name="editPassEmailSSEDJP" value="">
                         </div>
                     </div>
                 </div>
@@ -190,7 +190,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Email to Client</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Email to Client">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editEmailClient" value="">
                         </div>
                     </div>
                 </div>
@@ -198,19 +198,19 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Password Email to Client</label>
-                            <input type="password" class="form-control form-control-sm" placeholder="Password Email to Client">
+                            <input type="password" class="form-control form-control-sm" placeholder="....." name="editPassClient" value="">
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Person in Charge (PIC)</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="PIC">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPIC" value="">
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Ditangani Oleh</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="Ditangani Oleh">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editDitangani" value="">
                         </div>
                     </div>
                 </div>
@@ -218,9 +218,9 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Metode Perhitungan PPH Pasal 21</label>
-                            <select class="form-control option-pegawai">
-                                <option>Gross-Up</option>
-                                <option>Non Gross-Up</option>
+                            <select class="form-control option-pegawai" name="editMetodePerhitungan">
+                                <option value="Gross-Up">Gross-Up</option>
+                                <option value="Non Gross-Up">Non Gross-Up</option>
                             </select>
                         </div>
                     </div>

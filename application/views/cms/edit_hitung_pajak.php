@@ -64,42 +64,42 @@
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="" class="label-hitung-pajak">Untuk PPh 21</label>
-                                <select class="form-control form-control-sm option-pegawai" id="">
-                                  <option>Iya</option>
-                                  <option>Tidak</option> 
+                                <select class="form-control form-control-sm option-pegawai" placeholder="....." name="editPPh21" value="">
+                                  <option value="Iya">Iya</option>
+                                  <option value="Tidak">Tidak</option> 
                                 </select>
                             </div>
                         </div>
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="" class="label-hitung-pajak">PPh 21 - Ditangani Oleh (1)</label>
-                                <select class="form-control form-control-sm option-pegawai" id="">
-                                  <option>Master Account</option>
-                                  <option>User 1</option> 
-                                  <option>User 2</option> 
-                                  <option>User 3</option> 
+                                <select class="form-control form-control-sm option-pegawai" placeholder="....." name="editPPh211" value="">
+                                  <option value="Master Account">Master Account</option>
+                                  <option value="User 1">User 1</option> 
+                                  <option value="User 2">User 2</option> 
+                                  <option value="User 3">User 3</option> 
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="" class="label-hitung-pajak">PPh 21 - Ditangani Oleh (2)</label>
+                                <select class="form-control form-control-sm option-pegawai" placeholder="....." name="editPPh212" value="">
+                                  <option value="Master Account">Master Account</option>
+                                  <option value="User 1">User 1</option> 
+                                  <option value="User 2">User 2</option> 
+                                  <option value="User 3">User 3</option> 
                                 </select>
                             </div>
                         </div>
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="" class="label-hitung-pajak">PPh 21 - Ditangani Oleh (3)</label>
-                                <select class="form-control form-control-sm option-pegawai" id="">
-                                  <option>Master Account</option>
-                                  <option>User 1</option> 
-                                  <option>User 2</option> 
-                                  <option>User 3</option> 
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label for="" class="label-hitung-pajak">PPh 21 - Ditangani Oleh (3)</label>
-                                <select class="form-control form-control-sm option-pegawai" id="">
-                                  <option>Master Account</option>
-                                  <option>User 1</option> 
-                                  <option>User 2</option> 
-                                  <option>User 3</option> 
+                                <select class="form-control form-control-sm option-pegawai" placeholder="....." name="editPPh213" value="">
+                                  <option value="Master Account">Master Account</option>
+                                  <option value="User 1">User 1</option> 
+                                  <option value="User 2">User 2</option> 
+                                  <option value="User 3">User 3</option> 
                                 </select>
                             </div>
                         </div>
@@ -108,42 +108,42 @@
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="" class="label-hitung-pajak">Untuk PPh 22</label>
-                                <select class="form-control form-control-sm option-pegawai" id="">
-                                  <option>Iya</option>
-                                  <option>Tidak</option> 
+                                <select class="form-control form-control-sm option-pegawai" placeholder="....." name="editPPh22" value="">
+                                  <option value="Iya">Iya</option>
+                                  <option value="Tidak">Tidak</option> 
                                 </select>
                             </div>
                         </div>
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="" class="label-hitung-pajak">PPh 22 - Ditangani Oleh (1)</label>
-                                <select class="form-control form-control-sm option-pegawai" id="">
-                                  <option>Master Account</option>
-                                  <option>User 1</option> 
-                                  <option>User 2</option> 
-                                  <option>User 3</option> 
+                                <select class="form-control form-control-sm option-pegawai" placeholder="....." name="editPPh221" value="">
+                                  <option value="Master Account">Master Account</option>
+                                  <option value="User 1">User 1</option> 
+                                  <option value="User 2">User 2</option> 
+                                  <option value="User 3">User 3</option> 
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="" class="label-hitung-pajak">PPh 22 - Ditangani Oleh (2)</label>
+                                <select class="form-control form-control-sm option-pegawai" placeholder="....." name="editPPh222" value="">
+                                  <option value="Master Account">Master Account</option>
+                                  <option value="User 1">User 1</option> 
+                                  <option value="User 2">User 2</option> 
+                                  <option value="User 3">User 3</option> 
                                 </select>
                             </div>
                         </div>
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="" class="label-hitung-pajak">PPh 22 - Ditangani Oleh (3)</label>
-                                <select class="form-control form-control-sm option-pegawai" id="">
-                                  <option>Master Account</option>
-                                  <option>User 1</option> 
-                                  <option>User 2</option> 
-                                  <option>User 3</option> 
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label for="" class="label-hitung-pajak">PPh 22 - Ditangani Oleh (3)</label>
-                                <select class="form-control form-control-sm option-pegawai" id="">
-                                  <option>Master Account</option>
-                                  <option>User 1</option> 
-                                  <option>User 2</option> 
-                                  <option>User 3</option> 
+                                <select class="form-control form-control-sm option-pegawai" placeholder="....." name="editPPh223" value="">
+                                  <option value="Master Account">Master Account</option>
+                                  <option value="User 1">User 1</option> 
+                                  <option value="User 2">User 2</option> 
+                                  <option value="User 3">User 3</option> 
                                 </select>
                             </div>
                         </div>
@@ -152,42 +152,42 @@
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="" class="label-hitung-pajak">Untuk PPh 23</label>
-                                <select class="form-control form-control-sm option-pegawai" id="">
-                                  <option>Iya</option>
-                                  <option>Tidak</option> 
+                                <select class="form-control form-control-sm option-pegawai" placeholder="....." name="editPPh23" value="">
+                                  <option value="Iya">Iya</option>
+                                  <option value="Tidak">Tidak</option> 
                                 </select>
                             </div>
                         </div>
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="" class="label-hitung-pajak">PPh 23 - Ditangani Oleh (1)</label>
-                                <select class="form-control form-control-sm option-pegawai" id="">
-                                  <option>Master Account</option>
-                                  <option>User 1</option> 
-                                  <option>User 2</option> 
-                                  <option>User 3</option> 
+                                <select class="form-control form-control-sm option-pegawai" placeholder="....." name="editPPh231" value="">
+                                  <option value="Master Account">Master Account</option>
+                                  <option value="User 1">User 1</option> 
+                                  <option value="User 2">User 2</option> 
+                                  <option value="User 3">User 3</option> 
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="" class="label-hitung-pajak">PPh 23 - Ditangani Oleh (2)</label>
+                                <select class="form-control form-control-sm option-pegawai" placeholder="....." name="editPPh232" value="">
+                                  <option value="Master Account">Master Account</option>
+                                  <option value="User 1">User 1</option> 
+                                  <option value="User 2">User 2</option> 
+                                  <option value="User 3">User 3</option> 
                                 </select>
                             </div>
                         </div>
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="" class="label-hitung-pajak">PPh 23 - Ditangani Oleh (3)</label>
-                                <select class="form-control form-control-sm option-pegawai" id="">
-                                  <option>Master Account</option>
-                                  <option>User 1</option> 
-                                  <option>User 2</option> 
-                                  <option>User 3</option> 
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label for="" class="label-hitung-pajak">PPh 23 - Ditangani Oleh (3)</label>
-                                <select class="form-control form-control-sm option-pegawai" id="">
-                                  <option>Master Account</option>
-                                  <option>User 1</option> 
-                                  <option>User 2</option> 
-                                  <option>User 3</option> 
+                                <select class="form-control form-control-sm option-pegawai" placeholder="....." name="editPPh233" value="">
+                                  <option value="Master Account">Master Account</option>
+                                  <option value="User 1">User 1</option> 
+                                  <option value="User 2">User 2</option> 
+                                  <option value="User 3">User 3</option> 
                                 </select>
                             </div>
                         </div>
@@ -196,42 +196,42 @@
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="" class="label-hitung-pajak">Untuk PPh 4(2)</label>
-                                <select class="form-control form-control-sm option-pegawai" id="">
-                                  <option>Iya</option>
-                                  <option>Tidak</option> 
+                                <select class="form-control form-control-sm option-pegawai" placeholder="....." name="editPPh42" value="">
+                                  <option value="Iya">Iya</option>
+                                  <option value="Tidak">Tidak</option> 
                                 </select>
                             </div>
                         </div>
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="" class="label-hitung-pajak">PPh 4(2) - Ditangani Oleh (1)</label>
-                                <select class="form-control form-control-sm option-pegawai" id="">
-                                  <option>Master Account</option>
-                                  <option>User 1</option> 
-                                  <option>User 2</option> 
-                                  <option>User 3</option> 
+                                <select class="form-control form-control-sm option-pegawai" placeholder="....." name="editPPh421" value="">
+                                  <option value="Master Account">Master Account</option>
+                                  <option value="User 1">User 1</option> 
+                                  <option value="User 2">User 2</option> 
+                                  <option value="User 3">User 3</option> 
                                 </select>
                             </div>
                         </div>
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="" class="label-hitung-pajak">PPh 4(2) - Ditangani Oleh (3)</label>
-                                <select class="form-control form-control-sm option-pegawai" id="">
-                                  <option>Master Account</option>
-                                  <option>User 1</option> 
-                                  <option>User 2</option> 
-                                  <option>User 3</option> 
+                                <select class="form-control form-control-sm option-pegawai" placeholder="....." name="editPPh422" value="">
+                                  <option value="Master Account">Master Account</option>
+                                  <option value="User 1">User 1</option> 
+                                  <option value="User 2">User 2</option> 
+                                  <option value="User 3">User 3</option> 
                                 </select>
                             </div>
                         </div>
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="" class="label-hitung-pajak">PPh 4(2) - Ditangani Oleh (3)</label>
-                                <select class="form-control form-control-sm option-pegawai" id="">
-                                  <option>Master Account</option>
-                                  <option>User 1</option> 
-                                  <option>User 2</option> 
-                                  <option>User 3</option> 
+                                <select class="form-control form-control-sm option-pegawai" placeholder="....." name="editPPh423" value="">
+                                  <option value="Master Account">Master Account</option>
+                                  <option value="User 1">User 1</option> 
+                                  <option value="User 2">User 2</option> 
+                                  <option value="User 3">User 3</option> 
                                 </select>
                             </div>
                         </div>
@@ -240,42 +240,42 @@
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="" class="label-hitung-pajak">Untuk PPh 25</label>
-                                <select class="form-control form-control-sm option-pegawai" id="">
-                                  <option>Iya</option>
-                                  <option>Tidak</option> 
+                                <select class="form-control form-control-sm option-pegawai" placeholder="....." name="editPPh25" value="">
+                                  <option value="Iya">Iya</option>
+                                  <option value="Tidak">Tidak</option> 
                                 </select>
                             </div>
                         </div>
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="" class="label-hitung-pajak">PPh 25 - Ditangani Oleh (1)</label>
-                                <select class="form-control form-control-sm option-pegawai" id="">
-                                  <option>Master Account</option>
-                                  <option>User 1</option> 
-                                  <option>User 2</option> 
-                                  <option>User 3</option> 
+                                <select class="form-control form-control-sm option-pegawai" placeholder="....." name="editPPh251" value="">
+                                  <option value="Master Account">Master Account</option>
+                                  <option value="User 1">User 1</option> 
+                                  <option value="User 2">User 2</option> 
+                                  <option value="User 3">User 3</option> 
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="" class="label-hitung-pajak">PPh 25 - Ditangani Oleh (2)</label>
+                                <select class="form-control form-control-sm option-pegawai" placeholder="....." name="editPPh252" value="">
+                                  <option value="Master Account">Master Account</option>
+                                  <option value="User 1">User 1</option> 
+                                  <option value="User 2">User 2</option> 
+                                  <option value="User 3">User 3</option> 
                                 </select>
                             </div>
                         </div>
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="" class="label-hitung-pajak">PPh 25 - Ditangani Oleh (3)</label>
-                                <select class="form-control form-control-sm option-pegawai" id="">
-                                  <option>Master Account</option>
-                                  <option>User 1</option> 
-                                  <option>User 2</option> 
-                                  <option>User 3</option> 
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label for="" class="label-hitung-pajak">PPh 25 - Ditangani Oleh (3)</label>
-                                <select class="form-control form-control-sm option-pegawai" id="">
-                                  <option>Master Account</option>
-                                  <option>User 1</option> 
-                                  <option>User 2</option> 
-                                  <option>User 3</option> 
+                                <select class="form-control form-control-sm option-pegawai" placeholder="....." name="editPPh253" value="">
+                                  <option value="Master Account">Master Account</option>
+                                  <option value="User 1">User 1</option> 
+                                  <option value="User 2">User 2</option> 
+                                  <option value="User 3">User 3</option> 
                                 </select>
                             </div>
                         </div>
@@ -284,42 +284,42 @@
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="" class="label-hitung-pajak">Untuk PPN</label>
-                                <select class="form-control form-control-sm option-pegawai" id="">
-                                  <option>Iya</option>
-                                  <option>Tidak</option> 
+                                <select class="form-control form-control-sm option-pegawai" placeholder="....." name="editPPN" value="">
+                                  <option value="Iya">Iya</option>
+                                  <option value="Tidak">Tidak</option> 
                                 </select>
                             </div>
                         </div>
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="" class="label-hitung-pajak">PPN - Ditangani Oleh (1)</label>
-                                <select class="form-control form-control-sm option-pegawai" id="">
-                                  <option>Master Account</option>
-                                  <option>User 1</option> 
-                                  <option>User 2</option> 
-                                  <option>User 3</option> 
+                                <select class="form-control form-control-sm option-pegawai" placeholder="....." name="editPPN1" value="">
+                                  <option value="Master Account">Master Account</option>
+                                  <option value="User 1">User 1</option> 
+                                  <option value="User 2">User 2</option> 
+                                  <option value="User 3">User 3</option> 
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <label for="" class="label-hitung-pajak">PPN - Ditangani Oleh (2)</label>
+                                <select class="form-control form-control-sm option-pegawai" placeholder="....." name="editPPN2" value="">
+                                  <option value="Master Account">Master Account</option>
+                                  <option value="User 1">User 1</option> 
+                                  <option value="User 2">User 2</option> 
+                                  <option value="User 3">User 3</option> 
                                 </select>
                             </div>
                         </div>
                         <div class="col-3">
                             <div class="form-group">
                                 <label for="" class="label-hitung-pajak">PPN - Ditangani Oleh (3)</label>
-                                <select class="form-control form-control-sm option-pegawai" id="">
-                                  <option>Master Account</option>
-                                  <option>User 1</option> 
-                                  <option>User 2</option> 
-                                  <option>User 3</option> 
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="form-group">
-                                <label for="" class="label-hitung-pajak">PPN - Ditangani Oleh (3)</label>
-                                <select class="form-control form-control-sm option-pegawai" id="">
-                                  <option>Master Account</option>
-                                  <option>User 1</option> 
-                                  <option>User 2</option> 
-                                  <option>User 3</option> 
+                                <select class="form-control form-control-sm option-pegawai" placeholder="....." name="editPPN3" value="">
+                                  <option value="Master Account">Master Account</option>
+                                  <option value="User 1">User 1</option> 
+                                  <option value="User 2">User 2</option> 
+                                  <option value="User 3">User 3</option> 
                                 </select>
                             </div>
                         </div>

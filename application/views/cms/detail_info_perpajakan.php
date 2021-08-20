@@ -65,23 +65,23 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">KPP Administrasi</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="KPP Administrasi"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Nomor Telepon KPP</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Nomor Telepon KPP"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Account Representative</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Account Representative"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Status WP</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Status WP"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Status PKP</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Status PKP"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
                             </div>
                         </div> 
                     </div>    

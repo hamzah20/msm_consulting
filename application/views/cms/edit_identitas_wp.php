@@ -64,13 +64,13 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">Nama</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Nama"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="....." name="editNama" value=""> 
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">Bentuk Badan</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Bentuk Badan"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="....." name="editBentukBadan" value=""> 
                             </div>
                         </div>
                     </div>      
@@ -78,13 +78,13 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">NPWP</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="NPWP" > 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="....." name="editNPWP" value="" > 
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">Nomor Telepon</label>
-                                <input type="number" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Nomor Telepon" > 
+                                <input type="number" class="form-control form-control-sm" id="" aria-describedby="" placeholder="....." name="editNoTelpon" value="" > 
                             </div>
                         </div>
                     </div>      
@@ -92,13 +92,13 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">Jenis Usaha</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="NPWP" > 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="....." name="editJenisUsaha" value="" > 
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">Email DJP Online</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Email DJP Online" > 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="....." name="editEmailDJPOnline" value="" > 
                             </div>
                         </div>
                     </div>      
@@ -106,7 +106,7 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">Alamat Tempat Kedudukan</label>
-                                <textarea type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="Alamat"></textarea>  
+                                <textarea type="text" class="form-control form-control-sm" id="" aria-describedby="" placeholder="....." name="editAlamat" value=""></textarea>  
                             </div>
                         </div>
                     </div>     

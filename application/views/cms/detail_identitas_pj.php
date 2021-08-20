@@ -65,29 +65,29 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">Nama</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Nama"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Nomor Induk Kependudukan (NIK)</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="NIK"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Nomor Pokok Wajib Pajak (NPWP)</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="NPWP"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Jabatan</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Jabatan"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
                             </div> 
                         </div> 
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">Kebangsaan</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Kebangsaan"> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Alamat</label>
-                                <textarea type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="Alamat"> </textarea>
+                                <textarea type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> </textarea>
                             </div>
                         </div> 
                     </div>    
