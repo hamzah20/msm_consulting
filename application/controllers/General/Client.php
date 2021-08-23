@@ -20,14 +20,14 @@ class Client extends CI_Controller
 		$data['companies'] = $this->cms->getGeneralList('v_g_companies');
 		$data['counter']   = 1;
 
-		$this->load->view('cms/profil_perusahaan', $data);
+		$this->load->view('cms/company/profil_perusahaan', $data);
 	}
 
 	public function addCompany()
 	{
 		$this->output->enable_profiler(TRUE);
 
-		$companyOrder = $this->general->generateID();
+		$companyOrder = $this->general->generateID('COMPANY');
 		$companyID    = $this->incube->generateID(10);
 
 		$companyArr = array(

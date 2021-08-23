@@ -34,6 +34,12 @@
 
     <script src="<?= base_url('assets/sweetalert2/sweetalert2.all.min.js'); ?>"></script>
     <script src="<?= base_url('assets/datatable/datatables.min.js'); ?>"></script>
+
+    <script>
+        //1. BaseURL BUAT Javascript
+        let getUrl = window.location;
+        let baseUrl = getUrl.protocol + '//' + getUrl.host + '/' + getUrl.pathname.split('/')[1] + '/';
+    </script>
 </head>
 
 <body>
