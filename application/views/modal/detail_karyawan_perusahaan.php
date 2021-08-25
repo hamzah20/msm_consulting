@@ -97,7 +97,7 @@
   						</tr>
   					</table>
   					<div class="modal-footer">
-  						<button type="button" class="btn btn-warning text-white btn-sm">Edit</button>
+  						<a id="editModalButton" class="btn btn-warning text-white btn-sm">Edit</a>
   						<button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Tutup</button>
   					</div>
   				</div>

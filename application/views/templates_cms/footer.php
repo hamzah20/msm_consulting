@@ -26,28 +26,6 @@
 					normalizeFunction: 'polynomial'
 				});
 
-				jQuery(document).on('click', '.hapus', function() {
-					Swal.fire({
-						title: 'HAPUS DATA',
-						text: 'APAKAH ANDA YAKIN MENGHAPUS DATA INI?',
-						icon: 'warning',
-						showCancelButton: true,
-						cancelButtonText: 'Batal',
-						confirmButtonText: 'Hapus'
-					}).then((result) => {
-						if (result.value) {
-							Swal.fire({
-								title: 'PROSES BERHASIL',
-								text: 'DATA TELAH DIHAPUS',
-								icon: 'success',
-								confirmButtonText: 'Ok'
-							}).then((result) => {
-								location.reload();
-							});
-						}
-					});
-				});
-
 			})(jQuery);
 
 			// SWEEET ALERT 2

@@ -26,7 +26,7 @@
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
-            $ads_id = $query->first_row()->COMPANY_NO;
+            $ads_id = $query->first_row()->EMPLOYEE_ORDER_NO;
             return $ads_id;
         } else {
             $ads_id = '0';

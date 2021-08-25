@@ -120,9 +120,71 @@ class Employee extends CI_Controller
         //EoL 2.
     }
 
+    public function editEmployee()
+    {
+        $dataUpdate = array(
+            'EMPLOYEE_WORK_START'           => $this->input->post('employeeDateBegin'),
+            'EMPLOYEE_WORK_END'             => $this->input->post('employeeDateEnd'),
+            'EMPLOYEE_EFIN'                 => $this->input->post('employeeEFIN'),
+            'EMPLOYEE_NATIONALITY_STATUS'   => $this->input->post('employeeType'),
+            'EMPLOYEE_PHONE'                => $this->input->post('employeePhone'),
+            'EMPLOYEE_EMAIL'                => $this->input->post('employeeEmail'),
+            'EMPLOYEE_ADDRESS'              => $this->input->post('employeeAddress'),
+            'UPDATED'                       => date('Y-m-d h:i:s'),
+        );
+
+        $queryUpdate = $this->cms->updateGeneralData('g_employee', $dataUpdate, 'EMPLOYEE_ID', $this->input->post('employeeID'));
+
+        if ($queryUpdate) {
+            $this->session->set_flashdata('employee_update', 'success');
+            redirect(base_url('employee/edit?eid=' . $this->input->post('employeeID')));
+        } else {
+            $this->session->set_flashdata('employee_update', 'error');
+            redirect(base_url('employee/edit?eid=' . $this->input->post('employeeID')));
+        }
+
+        // public function updateGeneralData($table, $data, $filter, $query)
+
+    }
+
+    public function deleteEmployee()
+    {
+        // $this->output->enable_profiler(TRUE);
+        header('Content-Type: application/json');
+
+        $queryDelete = $this->cms->deleteGeneralData('g_employee', 'EMPLOYEE_ID', $this->input->post('employeeID'));
+
+        if ($queryDelete) {
+            echo json_encode(array(
+                'code'      => 200,
+                'status'    => 'success',
+            ));
+        } else {
+            echo json_encode(array(
+                'code'      => 204,
+                'status'    => 'error',
+            ));
+        }
+    }
+
     public function importXLSLFile()
     {
-        $this->output->enable_profiler(TRUE);
+
+        //Ambil kode negara & kode PTKP
+        $queryPTKP      = $this->cms->getGeneralList('m_ptkp');
+        $queryCountry   = $this->cms->getGeneralList('m_country');
+
+        $ptkppArr   = [];
+        $countryArr = [];
+        $errArr     = [];
+
+        foreach ($queryPTKP->result() as $ptkp) {
+            array_push($ptkppArr, $ptkp->TK_ID);
+        }
+
+        foreach ($queryCountry->result() as $country) {
+            array_push($countryArr, $country->COUNTRY_DESC);
+        }
 
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
 
@@ -145,60 +207,150 @@ class Employee extends CI_Controller
         $loadExcel = $reader->load('assets/upload/docs/' .  $data['file_name']);
         $sheet = $loadExcel->getActiveSheet()->toArray(null, true, true, true);
 
-        $npwpRegex = '/^[0-9]{2}.[0-9]{3}.[0-9]{3}.[0-9]{1}-[0-9]{3}.[0-9]{3}$/';
-        $ktpRegex = '/^[0-9]{16}$/';
+        //Hapus data array yang buat header
+        unset($sheet[1]);
+        unset($sheet[2]);
 
-        $npwpTest = [
-            '99.456.456.8-456.789',
-            '99.456.456.8-456789',
-            '99.456.48-4789'
-        ];
+        if (sizeof($sheet) == 0) {
+            echo 'ini file kosong';
+            return;
+        }
 
-        $ktpTest = [
-            '12345678945',
-            '987654321544784',
-            '12345678912134567',
-            '1234567891234567',
-            '12345678912134567441234',
-            '1d2d2456789121dwadajilj41234',
-        ];
 
-        //Temporary store the match
-        $npwpMatch = [];
-        $ktpMatch = [];
+        //Tampung data ke array buat diproses
+        $npwpTest       = [];
+        $ktpTest        = [];
+        $ptkpTest       = [];
+        $countryTest    = [];
+        $genderTest     = [];
+        $ekspatTest     = [];
 
-        foreach ($ktpTest as $ktp) {
-            $formatCheck = preg_match($ktpRegex, $ktp);
+        foreach ($sheet as $sheetData) {
 
-            if ($formatCheck != 1) {
-                // $match[] = $id;
-                array_push($ktpMatch, $ktp);
+            array_push($npwpTest, $sheetData['D']);
+            array_push($ktpTest, $sheetData['E']);
+            array_push($ptkpTest, $sheetData['I']);
+            array_push($countryTest, $sheetData['K']);
+            array_push($genderTest, $sheetData['G']);
+            array_push($ekspatTest, $sheetData['J']);
+        }
+
+        if (sizeof($npwpTest) != 0) {
+            $npwpRes        = $this->incube->checkNPWPFormat($npwpTest);
+
+            foreach ($npwpRes as $value) {
+                $errMsg = 'Kolom ' . $value['counter'] . ' masih belum sesuai format NPWP. Nomor harus berjumlah 16 digit.';
+                array_push($errArr, $errMsg);
             }
         }
 
-        foreach ($npwpTest as $id) {
+        if (sizeof($ktpTest) != 0) {
+            $ktpRes         = $this->incube->checkKTPFormat($ktpTest);
 
-            $formatCheck = preg_match($npwpRegex, $id);
-
-            if ($formatCheck != 1) {
-                // $match[] = $id;
-                array_push($npwpMatch, $id);
+            foreach ($ktpRes as $value) {
+                $errMsg = 'Kolom ' . $value['counter'] . ' masih belum sesuai format KTP. Nomor harus berjumlah 16 digit.';
+                array_push($errArr, $errMsg);
             }
         }
 
-        var_dump($npwpMatch);
-        var_dump($ktpMatch);
+        if (sizeof($ptkpTest) != 0) {
+            $ptkpRes        = $this->incube->checkPTKPFormat($ptkppArr, $ptkpTest);
+
+            foreach ($ptkpRes as $value) {
+                $errMsg = 'Kolom ' . $value['counter'] . ' masih belum sesuai format PTKP. Contoh (TK-0, TK-1, K-1)';
+                array_push($errArr, $errMsg);
+            }
+        }
+
+        if (sizeof($countryTest) != 0) {
+            $countryRes     = $this->incube->checkCountryFormat($countryArr, $countryTest);
+
+            foreach ($countryRes as $value) {
+                $errMsg = 'Kolom ' . $value['counter'] . ' masih belum sesuai format Negara Asal. Contoh: (Indonesia, Amerika Serikat, Brazil)';
+                array_push($errArr, $errMsg);
+            }
+        }
+
+        if (sizeof($genderTest) != 0) {
+            $genderRes      = $this->incube->checkGenderFormat($genderTest);
+
+            foreach ($genderRes as $value) {
+                $errMsg = 'Kolom ' . $value['counter'] . ' masih belum sesuai format Jenis Kelamin. Contoh: (Pria, Wanita)';
+                array_push($errArr, $errMsg);
+            }
+        }
 
 
-        // var_dump($sheet);
+        if (sizeof($ekspatTest) != 0) {
+            $expatRes       = $this->incube->checkExpatFormat($ekspatTest);
+
+            foreach ($expatRes as $value) {
+                $errMsg = 'Kolom ' . $value['counter'] . ' masih belum sesuai format. Contoh: (Lokal, Ekspatriat)';
+                array_push($errArr, $errMsg);
+            }
+        }
+
+        // header('Content-Type: application/json');
+        // echo json_encode($errArr);
+
+        if (sizeof($errArr) != 0) {
+            $this->session->set_flashdata('import_err', $errArr);
+            redirect(base_url('employee/detail?cid=' . $this->input->post('companyID')));
+
+            return;
+        }
+
+        //Kalau datanya aman, tambahin ke database
+        $employeeCounter = 0;
+
+        foreach ($sheet as $sheetData) {
+
+            $employeeOrder  = $this->general->generateID('EMPLOYEE');
+            $employeeID     = $this->incube->generateID(10);
+
+            $employeeData = array(
+                'EMPLOYEE_COMPANY_ID'           => $this->input->post('companyID'),
+                'EMPLOYEE_ID'                   => $employeeID,
+                'EMPLOYEE_ORDER_NO'             => $employeeOrder,
+                'EMPLOYEE_NAME'                 => $sheetData['C'],
+                'EMPLOYEE_KTP'                  => $sheetData['E'],
+                'EMPLOYEE_PTKP_STATUS'          => $sheetData['I'],
+                'EMPLOYEE_NPWP_STATUS'          => ($sheetData['D'] != null ? 'true' : 'false'),
+                'EMPLOYEE_NPWP'                 => ($sheetData['D'] != null ? $sheetData['D'] : '-'),
+                'EMPLOYEE_INTERNAL_ID'          => $sheetData['B'],
+                'EMPLOYEE_POSITION'             => $sheetData['H'],
+                'EMPLOYEE_WORK_START'           => $sheetData['L'],
+                'EMPLOYEE_WORK_END'             => $sheetData['M'],
+                'EMPLOYEE_NATIONALITY'          => $sheetData['K'],
+                'EMPLOYEE_NATIONALITY_STATUS'   => $sheetData['J'],
+                'EMPLOYEE_GENDER'               => $sheetData['G'],
+                'EMPLOYEE_ADDRESS'              => $sheetData['F'],
+                'CREATED'                       => date('Y-m-d h:i:s'),
+                'STATUS'                        => 'ACTIVE',
+            );
+
+            $queryEmployee = $this->cms->insertGeneralData('g_employee', $employeeData);
+
+            if ($queryEmployee) {
+                $employeeCounter++;
+            }
+        }
+
+
+        $this->session->set_flashdata('import_success', $employeeCounter);
+        redirect(base_url('employee/detail?cid=' . $this->input->post('companyID')));
+
+        return;
     }
 
     public function generateXLSFile()
     {
         $phpExcel = new Spreadsheet();
 
-        $companyData = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', 'f2fcaf2c41');
-        $employeeData = $this->cms->getSingularData('g_employee', 'EMPLOYEE_COMPANY_ID', '3241234123');
+        $companyID      = $this->input->get('companyID');
+
+        $companyData    = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $companyID);
+        $employeeData   = $this->cms->getSingularData('g_employee', 'EMPLOYEE_COMPANY_ID', $companyID);
 
         $fileName = 'FORMAT_PEGAWAI_' . $companyData->row()->COMPANY_NAME . '_' . date('ymd') . '.xlsx';
 
@@ -349,6 +501,8 @@ class Employee extends CI_Controller
         }
 
         //EoL 1
+
+        echo $employeeData->num_rows();
 
         //2. Isi Excel pake data
         if ($employeeData->num_rows() != 0) {

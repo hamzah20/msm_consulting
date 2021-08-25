@@ -25,7 +25,7 @@ class Client extends CI_Controller
 
 	public function addCompany()
 	{
-		$this->output->enable_profiler(TRUE);
+		// $this->output->enable_profiler(TRUE);
 
 		$companyOrder = $this->general->generateID('COMPANY');
 		$companyID    = $this->incube->generateID(10);

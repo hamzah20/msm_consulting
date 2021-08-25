@@ -39,6 +39,23 @@
         return $query;
     }
 
+    public function deleteGeneralData($table, $filter, $query)
+    {
+        $query = $this->db->where($filter, $query)
+            ->delete($table);
+
+        return $query;
+    }
+
+    public function updateGeneralData($table, $data, $filter, $query)
+    {
+        $this->db->where($filter, $query);
+
+        $query = $this->db->update($table, $data);
+
+        return $query;
+    }
+
     public function getHeadingSidebar($groupID)
     {
         $this->db->distinct()

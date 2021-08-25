@@ -72,7 +72,7 @@
                       <i class="fa fa-edit"></i>
                     </a>
 
-                    <a class="btn btn-sm btn-danger hapus" data-toggle="tooltip" data-placement="top" title="Hapus data pegawai" href="#" role="button">
+                    <a class="btn btn-sm btn-danger hapus" data-toggle="tooltip" data-placement="top" data-employee="<?= $data->EMPLOYEE_ID; ?>" data-company="<?= $data->EMPLOYEE_COMPANY_ID; ?>" title="Hapus data pegawai" href="#" role="button">
                       <i class="fa fa-trash"></i>
                     </a>
 
@@ -132,6 +132,53 @@
       $('[data-toggle="tooltip"]').tooltip()
     })
 
+    $(document).on('click', '.hapus', function(event) {
+
+      let btnID = $(this).data('employee');
+      let btnCompany = $(this).data('company');
+
+      Swal.fire({
+        title: 'Hapus Data',
+        text: 'Apakah Anda yakin ingin menghapus data ini?',
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Batal',
+        confirmButtonText: 'Hapus'
+      }).then((result) => {
+        if (result.value) {
+
+          $.post(baseUrl + 'General/Employee/deleteEmployee', {
+            employeeID: btnID,
+            companyID: btnCompany
+          }, function(resp) {
+            if (resp.code == 200) {
+              Swal.fire({
+                title: 'Proses Berashil',
+                text: 'Data telah dihapus',
+                icon: 'success',
+                confirmButtonText: 'Ok'
+              }).then((result) => {
+                location.reload();
+              });
+            } else {
+
+              Swal.fire({
+                title: 'Proses Gagal',
+                text: 'Proses tidak dapat dilakukan, silahkan coba lagi',
+                icon: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Tutup'
+              });
+            }
+          });
+
+
+
+        }
+      });
+    });
+
+
     $('#employeeTable').DataTable();
 
     $('#detailKaryawanPerusahaan').on('show.bs.modal', function(event) {
@@ -145,20 +192,23 @@
 
           $('#employeeWorkDate').text(resp.message[0].EMPLOYEE_WORK_START + ' ' + resp.message[0].EMPLOYEE_WORK_END);
           $('#employeeNationality').text(resp.message[0].EMPLOYEE_NATIONALITY_STATUS);
-          $('#StatusemployeePosition').text(resp.message[0].EMPLOYEE_POSITION);
+          $('#employeePosition').text(resp.message[0].EMPLOYEE_POSITION);
+          $('#employeeNationalityStatus').text(resp.message[0].EMPLOYEE_NATIONALITY_STATUS);
           $('#employeeEFIN').text(resp.message[0].EMPLOYEE_EFIN);
           $('#employeePTKPStatus').text(resp.message[0].EMPLOYEE_PTKP_STATUS);
-          $('#employeeNPWPStatus').text(resp.message[0].EMPLOYEE_NPWP_STATUS);
+          $('#employeeNPWPStatus').text((resp.message[0].EMPLOYEE_NPWP_STATUS == 'true' ? 'Aktif' : 'Tidak Ada'));
           $('#employeeNPWP').text(resp.message[0].EMPLOYEE_NPWP);
           $('#employeeOrder').text(resp.message[0].EMPLOYEE_ORDER_NO);
           $('#employeeNIK').text(resp.message[0].EMPLOYEE_INTERNAL_ID);
-          $('#employeeID').text(resp.message[0].EMPLOYEE_COMPANY_ID);
+          $('#employeeID').text(resp.message[0].EMPLOYEE_KTP);
           $('#employeeName').text(resp.message[0].EMPLOYEE_NAME);
           $('#employeeGender').text(resp.message[0].EMPLOYEE_GENDER);
           $('#employeePhone').text(resp.message[0].EMPLOYEE_PHONE);
           $('#employeeEmail').text(resp.message[0].EMPLOYEE_EMAIL);
           $('#employeeNationality').text(resp.message[0].EMPLOYEE_NATIONALITY);
           $('#employeeAddress').text(resp.message[0].EMPLOYEE_ADDRESS);
+
+          $('#editModalButton').attr('href', baseUrl + 'employee/edit?eid=' + resp.message[0].EMPLOYEE_ID);
 
         } else {
           Swal.fire({
@@ -176,6 +226,27 @@
 
   });
 </script>
+
+<?php if ($this->session->has_userdata('import_err')) { ?>
+  <script>
+    jQuery(document).ready(function($) {
+
+      "use strict";
+
+      Swal.fire({
+        title: 'Proses Gagal',
+        icon: 'error',
+        html: `<ul style="max-height: 250px; overflow-y: auto; ">` +
+          <?php foreach ($this->session->userdata('import_err') as $errMsg) { ?> `<li>
+        <?= $errMsg; ?> </li>` + `</br>` +
+          <?php } ?> `</ul>`,
+        showCancelButton: false,
+        confirmButtonText: 'Tutup'
+      });
+
+    });
+  </script>
+<?php } ?>
 
 <?php if ($this->session->userdata('query') == 'error') { ?>
   <script>
