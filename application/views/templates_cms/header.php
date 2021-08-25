@@ -33,7 +33,7 @@
     <script src="<?= base_url('assets/js/main.js'); ?>"></script>
 
     <script src="<?= base_url('assets/sweetalert2/sweetalert2.all.min.js'); ?>"></script>
-    <script src="<?= base_url('assets/datatable/datatables.min.js'); ?>"></script>
+    <script src="<?= base_url('assets/datatable/datatables.min.js'); ?>"></script> 
 
     <script>
         //1. BaseURL BUAT Javascript
