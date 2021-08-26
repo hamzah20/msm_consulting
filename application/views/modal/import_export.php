@@ -15,7 +15,7 @@
   						<div class="input-group mt-3 mb-3">
   							<div class="custom-file">
   								<input type="file" class="custom-file-input" id="fileImport" name="fileImport" aria-describedby="Import File Pegawai" required>
-  								<input type="hidden" name="companyID" value="<?= $employee->row()->EMPLOYEE_COMPANY_ID; ?>" readonly>
+  								<input type="text" name="companyID" value="<?= $employee->row()->EMPLOYEE_COMPANY_ID; ?>" readonly>
   								<label class="custom-file-label" for="fileImport">Import file</label>
   							</div>
 
