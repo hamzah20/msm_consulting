@@ -40,8 +40,16 @@
     <div class="card">
       <div class="card-body">
         <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addPPH21Perusahaan">Tambah Data</a>
-        <hr>
-        <table class="table" id="companyTable">
+        <hr>   
+
+        <div class="row"> 
+          <div class="col-2"> 
+            <input type="text" id="FilterTahun" name="FilterTahun" class="form-control form-control-sm" placeholder="Periode" value="<?php echo date('Y'); ?>">            
+          </div>
+        </div>
+        <table class="table" id="example" class="display"> 
+              
+          <br>
           <thead class="thead-dark">
             <tr>
               <th scope="col-1" class="text-center">No</th>
@@ -70,7 +78,7 @@
                   <th scope="row" class="text-center">1</th>
                   <td>PT. Maju Bersama</td>
                   <td class="text-center">90.519.XXX.X-XXX.XXX</td> 
-                  <td class="text-center text-danger">2021</td> 
+                  <td class="text-center text-danger">2020</td> 
                   <td class="text-center">33,645,358</td> 
                   <td class="text-center">1,133,233</td> 
                   <td class="text-center">
@@ -90,7 +98,7 @@
                     <a class="btn btn-sm btn-primary text-white" data-toggle="tooltip" data-placement="top" title="Summary Tahunan" href="<?php echo base_url('pph_21/tahun'); ?>" role="button" role="button"><i class="fa fa-eye"></i></a> 
                   </td>
                 </tr> 
-          </tbody>
+          </tbody> 
         </table>
       </div>
     </div>
@@ -104,7 +112,8 @@
 </div>
 <!-- /#right-panel -->
 
-<!-- Right Panel -->
+<!-- Right Panel --> 
+
 
 <script>
   jQuery(document).ready(function($) {
@@ -129,7 +138,32 @@
 
     });
 
-    $('#companyTable').DataTable();
+    //$('#example').DataTable();
+
+    /* Custom filtering function which will search data in column four between two values */
+    $.fn.dataTable.ext.search.push(
+        function( settings, data, dataIndex ) {
+            var FilterTahun = parseInt( $('#FilterTahun').val(), 10 );
+            //var max = parseInt( $('#max').val(), 10 );
+            var age = parseFloat( data[3] ) || 0; // use data for the age column
+     
+            if ( ( isNaN( FilterTahun ) ) || 
+                 ( FilterTahun == age)    )
+            {
+                return true;
+            }
+            return false;
+        }
+    );
+     
+    $(document).ready(function() {
+        var table = $('#example').DataTable();
+         
+        // Event listener to the two range filtering inputs to redraw on input
+        $('#FilterTahun').keyup( function() {
+            table.draw();
+        } );
+    } );
 
   });
 </script>

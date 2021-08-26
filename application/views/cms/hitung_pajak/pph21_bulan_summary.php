@@ -38,8 +38,7 @@
   <!-- Content -->
   <div class="content mt-3">
     <div class="card">
-      <div class="card-body">
-        <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addPPH21PerusahaanBulan">Tambah Data</a>
+      <div class="card-body"> 
         <a class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Download" href="#"><i class="fa fa-download"></i></a> 
         <a class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Ringkasan" href="<?php echo base_url('pph_21/bulan/summary/aktifitas_pajak') ?>"><i class="fa fa-paperclip"></i></a> 
         <a class="btn btn-sm btn-warning text-white" data-toggle="tooltip" data-placement="top" title="Email" href="#"><i class="fa fa-envelope"></i></a> 
@@ -49,20 +48,20 @@
         <div class="row mb-3">
         	<div class="col-4">
         		<div class="form-group">
-                    <label for="" class="label-utama font-weight-bold">(1) Periode / Masa</label>
-                    <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtPeriode" value="JAN-2021" readonly> 
+                    <label for="txtPeriode" class="label-utama font-weight-bold">(1) Periode / Masa</label>
+                    <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtPeriode" value="" placeholder="....." readonly> 
                 </div>
         	</div>
         	<div class="col-4">
         		<div class="form-group">
-                    <label for="" class="label-utama font-weight-bold">(2) Pembetulan / Koreksi</label>
-                    <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtPembetulan" value="1" readonly> 
+                    <label for="txtPembetulan" class="label-utama font-weight-bold">(2) Pembetulan / Koreksi</label>
+                    <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtPembetulan" value="" placeholder="....." readonly> 
                 </div>
         	</div>
         	<div class="col-4">
         		<div class="form-group">
-                    <label for="" class="label-utama font-weight-bold">(3) Approval / Persetujuan Klien</label>
-                    <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtApproval" value="BELUM" readonly> 
+                    <label for="txtApproval" class="label-utama font-weight-bold">(3) Approval / Persetujuan Klien</label>
+                    <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtApproval" value="" placeholder="....." readonly> 
                 </div>
         	</div>
         </div>

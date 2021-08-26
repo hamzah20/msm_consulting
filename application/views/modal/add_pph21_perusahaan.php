@@ -12,43 +12,43 @@
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">No Urut Perusahaan :</label>
-                    <input type="text" class="form-control form-control-sm" id="nama_karyawan" name="nama_karyawan" value="MSM-2108-0001" readonly> 
+                    <label for="txtNoUrutPerusahaan" class="col-form-label">No Urut Perusahaan :</label>
+                    <input type="text" class="form-control form-control-sm" id="txtNoUrutPerusahaan" name="txtNoUrutPerusahaan" value="" placeholder="....." readonly> 
                   </div> 
                   <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Periode / Masa (Bulan) :</label>
-                    <select class="form-control option-pegawai" name="addPeriodeBulan">
-                        <option value="Januari">Januari</option> 
-                        <option value="Februari">Februari</option> 
-                        <option value="Maret">Maret</option> 
-                        <option value="April">April</option> 
-                        <option value="Mei">Mei</option> 
-                        <option value="Juni">Juni</option> 
-                        <option value="Juli">Juli</option> 
-                        <option value="Agustus">Agustus</option> 
-                        <option value="September">September</option> 
-                        <option value="Oktober">Oktober</option> 
-                        <option value="November">November</option> 
-                        <option value="Desember">Desember</option> 
+                    <label for="txtPeriodeBulan" class="col-form-label">Periode / Masa (Bulan) :</label>
+                    <select class="form-control option-pegawai" id="txtPeriodeBulan" name="txtPeriodeBulan" value="" placeholder=".....">
+                        <option value="">Januari</option> 
+                        <option value="">Februari</option> 
+                        <option value="">Maret</option> 
+                        <option value="">April</option> 
+                        <option value="">Mei</option> 
+                        <option value="">Juni</option> 
+                        <option value="">Juli</option> 
+                        <option value="">Agustus</option> 
+                        <option value="">September</option> 
+                        <option value="">Oktober</option> 
+                        <option value="">November</option> 
+                        <option value="">Desember</option> 
                     </select> 
                   </div> 
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Nama Perusahaan (Client) :</label>
-                    <input type="text" class="form-control form-control-sm" id="nama_karyawan" name="nama_karyawan" required>
+                    <label for="txtNamaPerusahaan" class="col-form-label">Nama Perusahaan (Client) :</label>
+                    <input type="text" class="form-control form-control-sm" id="txtNamaPerusahaan" name="txtNamaPerusahaan" value="" placeholder="....." required>
                     <div class="invalid-feedback">
                       Nama Perusahaan Tidak Boleh Kosong
                     </div> 
                   </div> 
                   <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Periode / Masa (Tahun) :</label>
-                    <select class="form-control option-pegawai" name="addPeriodeTahun">
-                        <option value="2021">2021</option> 
-                        <option value="2021">2020</option> 
-                        <option value="2021">2019</option> 
-                        <option value="2021">2018</option> 
-                        <option value="2021">2017</option> 
+                    <label for="txtPeriodeTahun" class="col-form-label">Periode / Masa (Tahun) :</label>
+                    <select class="form-control option-pegawai" id="txtPeriodeTahun" name="txtPeriodeTahun" value="" placeholder=".....">
+                        <option value="">2021</option> 
+                        <option value="">2020</option> 
+                        <option value="">2019</option> 
+                        <option value="">2018</option> 
+                        <option value="">2017</option> 
                     </select> 
                   </div> 
                 </div>
