@@ -1,0 +1,27 @@
+body{
+	font-size: 12px;
+}
+
+.btn{
+	border-radius: 4px !important;
+}
+.notif{
+	color: #fff;
+} 
+
+.option-pegawai{
+	height: 32px;
+}
+
+.nav-edit-perusahaan{
+	font-size: 14px;
+}
+
+.label-hitung-pajak{
+	font-size: 12px;
+}
+
+.label-utama{
+	font-size: 13px;
+}
+ 

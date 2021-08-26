@@ -1,0 +1,8 @@
+.bg-login{ 
+	background-image: url('../images/pictures/bg_login.png');  
+}
+
+.btn-login{
+	background-color: #f59521; 
+	color: #12151c;
+}
