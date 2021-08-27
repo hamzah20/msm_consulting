@@ -2,14 +2,7 @@
 <?php $this->load->view('templates_cms/header'); ?>
 <!-- End of Header -->
 
-<!-- CSS Internal for PPH 21 Tahun -->
-<style type="text/css">
-  div.dataTables_wrapper {
-        width: 1000px;
-        margin: 0 auto;
-    }
-</style>
-<!-- CSS Internal for PPH 21 Tahun -->
+
 
 <!-- Sidebar -->
 <?php $this->load->view('templates_cms/sidebar'); ?>
@@ -24,6 +17,15 @@
   <!-- End of Topbar -->
 
   <!-- Header-->
+
+  <!-- CSS Internal for PPH 21 Tahun -->
+  <style type="text/css">
+    div.dataTables_wrapper {
+          width: 900px;
+          margin: 0 auto;
+      }
+  </style>
+  <!-- CSS Internal for PPH 21 Tahun -->
 
   <div class="breadcrumbs">
     <div class="col-sm-4">
