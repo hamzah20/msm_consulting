@@ -28,7 +28,7 @@
             <div class="page-header float-right">
                 <div class="page-title">
                     <ol class="breadcrumb text-right">
-                        <li class="active">Edit Karyawan</li>
+                        <li class="active"><a href="<?php echo base_url('employee'); ?>">Karyawan Perusahaan</a> / <a href="<?php echo base_url('employee/detail'); ?>">Employee</a> / Edit </li>
                     </ol>
                 </div>
             </div>
