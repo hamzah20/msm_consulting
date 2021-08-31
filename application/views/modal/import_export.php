@@ -19,16 +19,6 @@
   								<label class="custom-file-label" for="fileImport">Import file</label>
   							</div>
 
-  							<!-- JS for Show The Name File in Input File -->
-  							<script type="application/javascript">
-  								$('#custom-file-label').on('change', function() {
-  									// Ambil nama file 
-  									let fileName = $(this).val().split('\\').pop();
-  									// Ubah "Choose a file" label sesuai dengan nama file yag akan diupload
-  									$(this).next('.custom-file-label').addClass("selected").html(fileName);
-  								});
-  							</script>
-
   						</div>
   					</div>
   					<div class="modal-footer">

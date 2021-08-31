@@ -43,45 +43,45 @@
        		<div class="row">
 	        	<div class="col-3">
 	        		<div class="form-group">
-	              <label for="" class="label-utama font-weight-bold">Nama Perusahaan (Klien)</label>
-	              <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtNamaPerusahaan" value="PT. Wijaya Karya" readonly> 
+	              <label for="txtNamaPerusahaan" class="label-utama font-weight-bold">Nama Perusahaan (Klien)</label>
+	              <input type="text" class="form-control form-control-sm" id="txtNamaPerusahaan" aria-describedby="" name="txtNamaPerusahaan" value="" placeholder="....." readonly> 
 	            </div>
 	        	</div>
 	        	<div class="col-3">
 	        		<div class="form-group">
-	              <label for="" class="label-utama font-weight-bold">Jenis Pajak</label>
-	              <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtJenisPajak" value="Pasal 21" readonly> 
+	              <label for="txtJenisPajak" class="label-utama font-weight-bold">Jenis Pajak</label>
+	              <input type="text" class="form-control form-control-sm" id="txtJenisPajak" aria-describedby="" name="txtJenisPajak" value="" placeholder="....." readonly> 
 	            </div>
 	        	</div>
 	        	<div class="col-3">
 	        		<div class="form-group">
-	              <label for="" class="label-utama font-weight-bold">Masa (Periode)</label>
-	              <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtPeriode" value="JAN-2021" readonly> 
+	              <label for="txtPeriode" class="label-utama font-weight-bold">Masa (Periode)</label>
+	              <input type="text" class="form-control form-control-sm" id="txtPeriode" aria-describedby="" name="txtPeriode" value="" placeholder="....." readonly> 
 	            </div>
 	        	</div>
 	        	<div class="col-3">
 	        		<div class="form-group">
-	              <label for="" class="label-utama font-weight-bold">Jumlah KB (Kurang Bayar)</label>
-	              <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtKurangBayar" value="454,320" readonly> 
+	              <label for="txtKurangBayar" class="label-utama font-weight-bold">Jumlah KB (Kurang Bayar)</label>
+	              <input type="text" class="form-control form-control-sm" id="txtKurangBayar" aria-describedby="" name="txtKurangBayar" value="" placeholder="....." readonly> 
 	            </div>
 	        	</div>
 	        </div>
 	        <div class="row">
 	        	<div class="col-12">
 	        		<div class="form-group">
-	              <label for="" class="label-utama font-weight-bold">Status Aktifitas Pajak</label>
+	              <label for="txtStatusPajak" class="label-utama font-weight-bold">Status Aktifitas Pajak</label>
 	              <div class="input-group">
 	                <a class="btn btn-sm btn-danger mr-2" data-placement="top" title="Detail Status" href="#" data-toggle="modal" data-target="#detailAktifitasPajak"><i class="fa fa-eye"></i></a>
-	                <select class="form-control option-pegawai" name="txtStatusPajak">
-	                    <option value="1">[1] Buat template Laporan Pajak</option>  
-	                    <option value="2">[2] Minta atau Konfirmasi data PPh, sesuai dengan Jenis Pajak ke klien</option>  
-	                    <option value="3">[3] Persiapan data yang diperlukan, untuk dikirimkan ke MSM</option>  
-	                    <option value="4">[4] Verifikasi data Klien(konfirmasi/diskusi kelengkapan)</option>  
-	                    <option value="5">[5] Proses data pajak, kirim hasil proses, konfirmasi persetujuan Klien</option>  
-	                    <option value="6">[6] Pembuatan/penerbitan Kode Billing (SSE : Surat Setoran Elektronik)</option>  
-	                    <option value="7">[7] Lakukan pembayaran, info bukti pembayaran ke MSM (Upload)</option>  
-	                    <option value="8">[8] Lapor Pajak ke DJP, info bukti lapor ke klien (Upload)</option>  
-	                    <option value="9">[9] Selesai</option>  
+	                <select class="form-control option-pegawai" name="txtStatusPajak" id="txtStatusPajak">
+	                    <option value="">[1] Buat template Laporan Pajak</option>  
+	                    <option value="">[2] Minta atau Konfirmasi data PPh, sesuai dengan Jenis Pajak ke klien</option>  
+	                    <option value="">[3] Persiapan data yang diperlukan, untuk dikirimkan ke MSM</option>  
+	                    <option value="">[4] Verifikasi data Klien(konfirmasi/diskusi kelengkapan)</option>  
+	                    <option value="">[5] Proses data pajak, kirim hasil proses, konfirmasi persetujuan Klien</option>  
+	                    <option value="">[6] Pembuatan/penerbitan Kode Billing (SSE : Surat Setoran Elektronik)</option>  
+	                    <option value="">[7] Lakukan pembayaran, info bukti pembayaran ke MSM (Upload)</option>  
+	                    <option value="">[8] Lapor Pajak ke DJP, info bukti lapor ke klien (Upload)</option>  
+	                    <option value="">[9] Selesai</option>  
 	                </select> 
 	              </div>  
 	            </div>

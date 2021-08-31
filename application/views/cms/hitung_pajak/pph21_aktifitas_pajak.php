@@ -44,36 +44,36 @@
         <div class="row">
         	<div class="col-3">
         		<div class="form-group">
-              <label for="" class="label-utama font-weight-bold">Nama Perusahaan (Klien)</label>
-              <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtPeriode" value="PT. Wijaya Karya" readonly> 
+              <label for="txtNamaPerusahaan" class="label-utama font-weight-bold">Nama Perusahaan (Klien)</label>
+              <input type="text" class="form-control form-control-sm" id="txtNamaPerusahaan" aria-describedby="" name="txtNamaPerusahaan" value="" placeholder="....." readonly> 
             </div>
         	</div>
         	<div class="col-3">
         		<div class="form-group">
-              <label for="" class="label-utama font-weight-bold">Jenis Pajak</label>
-              <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtPembetulan" value="Pasal 21" readonly> 
+              <label for="txtJenisPajak" class="label-utama font-weight-bold">Jenis Pajak</label>
+              <input type="text" class="form-control form-control-sm" id="txtJenisPajak" aria-describedby="" name="txtJenisPajak" value="" placeholder="....." readonly> 
             </div>
         	</div>
         	<div class="col-3">
         		<div class="form-group">
-              <label for="" class="label-utama font-weight-bold">Masa (Periode)</label>
-              <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtPeriode" value="JAN-2021" readonly> 
+              <label for="txtPeriode" class="label-utama font-weight-bold">Masa (Periode)</label>
+              <input type="text" class="form-control form-control-sm" id="txtPeriode" aria-describedby="" name="txtPeriode" value="" placeholder="....." readonly> 
             </div>
         	</div>
         	<div class="col-3">
         		<div class="form-group">
-              <label for="" class="label-utama font-weight-bold">Jumlah KB (Kurang Bayar)</label>
-              <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtKurangBayar" value="454,320" readonly> 
+              <label for="txtKurangBayar" class="label-utama font-weight-bold">Jumlah KB (Kurang Bayar)</label>
+              <input type="text" class="form-control form-control-sm" id="txtKurangBayar" aria-describedby="" name="txtKurangBayar" value="" placeholder="....." readonly> 
             </div>
         	</div>
         </div>
         <div class="row">
         	<div class="col-12">
         		<div class="form-group">
-              <label for="" class="label-utama font-weight-bold">Status Aktifitas Pajak</label>
+              <label for="txtAktifitasPajak" class="label-utama font-weight-bold">Status Aktifitas Pajak</label>
               <div class="input-group">
                 <a class="btn btn-sm btn-danger mr-2" data-placement="top" title="Detail Status" href="#" data-toggle="modal" data-target="#detailAktifitasPajak"><i class="fa fa-eye"></i></a>
-                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtAktifitasPajak" value="[9] Selesai" readonly>
+                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtAktifitasPajak" value="" placeholder="....." readonly>
               </div>  
             </div>
         	</div>
