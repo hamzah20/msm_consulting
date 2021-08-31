@@ -32,4 +32,33 @@ class API extends CI_Controller
         }
         //EoL 1
     }
+
+    public function getAllCompany()
+    {
+        header('Content-Type: application/json');
+
+        //1. Ambil semua data dari table g_company buat ditampilin
+        $this->db->select('COMPANY_NAME, COMPANY_ID')
+            ->from('v_g_companies');
+
+        $queryGet = $this->db->get();
+
+        if ($queryGet->num_rows() == 0) {
+            echo json_encode(array(
+                'code'      => 204,
+                'status'    => 'empty array',
+            ));
+
+            return;
+        }
+
+        $jsonEncode = json_encode($queryGet->result());
+
+        echo json_encode(array(
+            'code'      => 200,
+            'status'    => 'success',
+            'data'      => json_decode($jsonEncode)
+        ));
+        //EoL 1
+    }
 }

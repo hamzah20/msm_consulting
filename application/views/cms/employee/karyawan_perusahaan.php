@@ -59,7 +59,7 @@
                 <tr>
                   <th scope="row" class="text-center"><?= $counter++; ?></th>
                   <td><?= $data->EMPLOYEE_NAME; ?></td>
-                  <td class="text-center"><?= ($data->EMPLOYEE_NPWP_STATUS == 'EXIST' ? $data->EMPLOYEE_NPWP : '...'); ?></td>
+                  <td class="text-center"><?= ($data->EMPLOYEE_NPWP_STATUS == 'true' ? $data->EMPLOYEE_NPWP : '...'); ?></td>
                   <td class="text-center"><?= ($data->EMPLOYEE_PTKP_STATUS == null ? '...' : $data->EMPLOYEE_PTKP_STATUS); ?></td>
                   <td class="text-center"><?= ($data->EMPLOYEE_NATIONALITY_STATUS == null ? '...' : $data->EMPLOYEE_NATIONALITY_STATUS); ?></td>
                   <td class="text-center">

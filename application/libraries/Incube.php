@@ -156,4 +156,100 @@ class Incube
 
         return $npwpMatch;
     }
+
+    public function convertMonthName($month)
+    {
+        switch ($month) {
+
+            case 'Januari':
+                $monthDate = '01';
+                break;
+            case 'Februari':
+                $monthDate = '02';
+                break;
+            case 'Maret':
+                $monthDate = '03';
+                break;
+            case 'April':
+                $monthDate = '04';
+                break;
+            case 'Mei':
+                $monthDate = '05';
+                break;
+            case 'Juni':
+                $monthDate = '06';
+                break;
+            case 'Juli':
+                $monthDate = '07';
+                break;
+            case 'Agustus':
+                $monthDate = '08';
+                break;
+            case 'September':
+                $monthDate = '09';
+                break;
+            case 'Oktober':
+                $monthDate = '10';
+                break;
+            case 'November':
+                $monthDate = '11';
+                break;
+            case 'Desember':
+                $monthDate = '12';
+                break;
+            default:
+                $monthDate = null;
+                break;
+        }
+
+        return $monthDate;
+    }
+
+    public function convertMonthNumber($month)
+    {
+        switch ($month) {
+
+            case '01':
+                $monthDate = 'Januari';
+                break;
+            case '02':
+                $monthDate = 'Februari';
+                break;
+            case '03':
+                $monthDate = 'Maret';
+                break;
+            case '04':
+                $monthDate = 'April';
+                break;
+            case '05':
+                $monthDate = 'Mei';
+                break;
+            case '06':
+                $monthDate = 'Juni';
+                break;
+            case '07':
+                $monthDate = 'Juli';
+                break;
+            case '08':
+                $monthDate = 'Agustus';
+                break;
+            case '09':
+                $monthDate = 'September';
+                break;
+            case '10':
+                $monthDate = 'Oktober';
+                break;
+            case '11':
+                $monthDate = 'November';
+                break;
+            case '12':
+                $monthDate = 'Desember';
+                break;
+            default:
+                $monthDate = null;
+                break;
+        }
+
+        return $monthDate;
+    }
 }

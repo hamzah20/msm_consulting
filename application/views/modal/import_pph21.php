@@ -7,8 +7,8 @@
   						<span aria-hidden="true">&times;</span>
   					</button>
   				</div>
-  				<form id="formImport" method="POST" enctype="multipart/form-data" action="<?= base_url('General/Employee/importXLSLFile'); ?>">
-  					<div class="modal-body">   
+  				<form id="formImport" method="POST" enctype="multipart/form-data" action="<?= base_url('PPH/Pph21/importXLSLFile'); ?>">
+  					<div class="modal-body">
   						<div class="input-group mt-3 mb-3">
   							<div class="custom-file">
   								<input type="file" class="custom-file-input" id="fileImport" name="fileImport" aria-describedby="ImportDataPPH21" required>
@@ -16,17 +16,19 @@
   							</div>
 
   							<!-- JS for Show The Name File in Input File -->
-					  		<script type="application/javascript">
-							    $('#custom-file-label').on('change', function() {
-							        // Ambil nama file 
-							        let fileName = $(this).val().split('\\').pop();
-							        // Ubah "Choose a file" label sesuai dengan nama file yag akan diupload
-							        $(this).next('.custom-file-label').addClass("selected").html(fileName);
-							    });
-							</script>
+  							<script type="application/javascript">
+  								$('#custom-file-label').on('change', function() {
+  									// Ambil nama file 
+  									let fileName = $(this).val().split('\\').pop();
+  									// Ubah "Choose a file" label sesuai dengan nama file yag akan diupload
+  									$(this).next('.custom-file-label').addClass("selected").html(fileName);
+  								});
+  							</script>
 
   						</div>
-              <small class="bg bg-warning font-weight-bold"><i>*Max Size 1MB</i></small>
+  						<small class="bg bg-warning font-weight-bold"><i>*Max Size 1MB</i></small>
+  						<input type="hidden" name="companyID" value="<?= $this->input->get('cid'); ?>" readonly>
+  						<input type="hidden" name="pphID" value="<?= $this->input->get('pid'); ?>" readonly>
   					</div>
 
   					<div class="modal-footer">
@@ -35,5 +37,5 @@
   					</div>
   				</form>
   			</div>
-  		</div> 
+  		</div>
   	</div>
