@@ -38,143 +38,150 @@
   <!-- Content -->
   <div class="content mt-3">
     <div class="card">
-      <div class="card-body"> 
-        <h5><span class="badge badge-success mb-4">PERIODE : JAN-2021</span></h5>  
+      <div class="card-body">
+        <h5><span class="badge badge-success mb-4">PERIODE : <?= $employee->row()->PERIOD_MONTH . ' - ' . $employee->row()->PERIOD_YEAR; ?></span></h5>
         <table class="table" id="companyTable">
           <thead class="thead-dark">
-            <tr> 
-              <th scope="col-">Kode karyawan</th> 
-              <th scope="col-">Nama Karyawan</th> 
-              <th scope="col-">Tipe Karyawan</th> 
-              <th scope="col-">Status Tanggungan</th> 
-              <th scope="col-">NPWP</th> 
-              <th scope="col-">Mulai Kerja</th> 
-              <th scope="col-">Berhenti Kerja</th> 
+            <tr>
+              <th scope="col-" class="text-center">Kode karyawan</th>
+              <th scope="col-" class="text-center">Nama Karyawan</th>
+              <th scope="col-" class="text-center">Tipe Karyawan</th>
+              <th scope="col-" class="text-center">Status Tanggungan</th>
+              <th scope="col-" class="text-center">NPWP</th>
+              <th scope="col-" class="text-center">Mulai Kerja</th>
+              <th scope="col-" class="text-center">Berhenti Kerja</th>
             </tr>
           </thead>
-          <tbody>  
-                <tr> 
-                  <td>PRF2102-00005</td>   
-                  <td>Maniarti</td>   
-                  <td>Lokal</td>   
-                  <td>TK/0</td>
-                  <td>00.000.000.0-000.000</td>
-                  <td>01-JAN-2021</td>
-                  <td>31-MAR-2021</td>
-                </tr>  
-               
+          <tbody>
+            <?php if ($employee->num_rows() != 0) { ?>
+
+              <?php foreach ($employee->result() as $empData) { ?>
+                <tr>
+                  <td class="text-center"><?= $empData->EMPLOYEE_INTERNAL_ID; ?></td>
+                  <td class="text-center"><?= $empData->EMPLOYEE_NAME; ?></td>
+                  <td class="text-center"><?= $empData->EMPLOYEE_NATIONALITY_STATUS; ?></td>
+                  <td class="text-center"><?= $empData->TK_NAME; ?></td>
+                  <td class="text-center"><?= $empData->EMPLOYEE_NPWP; ?></td>
+                  <td class="text-center"><?= $empData->EMPLOYEE_WORK_START; ?></td>
+                  <td class="text-center"><?= $empData->EMPLOYEE_WORK_END; ?></td>
+                </tr>
+              <?php } ?>
+
+            <?php } ?>
+
+
           </tbody>
         </table>
 
         <div class="card mt-3 p-2">
-        	<div class="row">
-        		<div class="col-4">
-        			<h6><span class="badge badge-success mb-4">Penghasilan</span></h6>  
-        			<div class="form-group">
-                        <label for="" class="label-utama">01. Gaji/Pensiun/THT/JHT :</label>
-                        <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="5.000.000" readonly> 
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="label-utama">02. Tunjangan PPh :</label>
-                        <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="27.995" readonly> 
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="label-utama">03. Tunjangan Lain, Uang Lembur, dan sebagainya :</label>
-                        <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="200.000" readonly> 
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="label-utama">04. Honorarium dan Imbalan Lain Sejenisnya :</label>
-                        <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="0" readonly> 
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="label-utama">05. Premi Asuransi yang dibayar Pemberi Kerja :</label>
-                        <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="0" readonly> 
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="label-utama">06. Natura dan Kenikmatan Lainnya :</label>
-                        <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="0" readonly> 
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="label-utama">07. Tantiem, Bonus dan THR :</label>
-                        <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="0" readonly> 
-                    </div>
-                    <hr>
-                     <div class="form-group">
-                        <label for="" class="label-utama">08. Penghasilan Bruto :</label>
-                        <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="5.227.995" readonly> 
-                    </div>
-        		</div>
-        		<div class="col-4">
-        			<h6><span class="badge badge-success mb-4">Pengurang</span></h6> 
-        			<div class="form-group">
-                        <label for="" class="label-utama">09. Biaya Jabatan :</label>
-                        <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="261.400" readonly> 
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="label-utama">10. Iuran Pensiun atau Iuran JHT/THT :</label>
-                        <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="0" readonly> 
-                    </div> 
-        		</div>
-        		<div class="col-4">
-        			<h6><span class="badge badge-success mb-4">Perhitungan PPh 21</span></h6>  
-        			<div class="form-group">
-                        <label for="" class="label-utama">11. Penghasilan Bruto Setahun :</label>
-                        <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="62.735.940" readonly> 
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="label-utama">12. Biaya Jabatan Setahun :</label>
-                        <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="3,136,797" readonly> 
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="label-utama">13. Iuran Pensiun atau Iuran JHT/THT Setahun :</label>
-                        <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="0" readonly> 
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="label-utama">14. Jumlah Pengurang Setahun :</label>
-                        <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="3.136.797" readonly> 
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="label-utama">15. Penghasilan Neto Setahun/Disetahunkan :</label>
-                        <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="59.599.143" readonly> 
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="label-utama">16. Penghasilan Tidak Kena Pajak (PTKP) :</label>
-                        <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="54.000.000" readonly> 
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="label-utama">17. PKP Setahun/Disetahunkan :</label>
-                        <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="5.599.000" readonly> 
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="label-utama">18. PPh 21 atas PKP :</label>
-                        <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="335.940" readonly> 
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="label-utama">19. PPh 21 Terutang Setahun/Disetahunkan :</label>
-                        <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="335.940" readonly> 
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="label-utama">20. PPh 21 Terutang Bulan <span class="text-danger font-weight-bold">JAN-2021</span> :</label>
-                        <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="27.995" readonly> 
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="label-utama">21. PKP atas Penghasilan Teratur Setahun :</label>
-                        <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="5,599,000" readonly> 
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="label-utama">22. PPh 21 atas Penghasilan Teratur Setahun :</label>
-                        <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="335,940" readonly> 
-                    </div>
-                    <div class="form-group">
-                        <label for="" class="label-utama">23. PPh 21 atas Penghasilan Tidak Teratur :</label>
-                        <input type="text" class="form-control form-control-sm" id="" aria-describedby="" value="0" readonly> 
-                    </div>
-        		</div>
-        	</div>
+          <div class="row">
+            <div class="col-4">
+              <h6><span class="badge badge-success mb-4">Penghasilan</span></h6>
+              <div class="form-group">
+                <label class="label-utama">01. Gaji/Pensiun/THT/JHT :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_GAJI_POKOK); ?>" readonly>
+              </div>
+              <div class="form-group">
+                <label class="label-utama">02. Tunjangan PPh :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_TUNJANGAN_PPH); ?>" readonly>
+              </div>
+              <div class="form-group">
+                <label class="label-utama">03. Tunjangan Lain, Uang Lembur, dan sebagainya :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_TUNJANGAN_LAINNYA); ?>" readonly>
+              </div>
+              <div class="form-group">
+                <label class="label-utama">04. Honorarium dan Imbalan Lain Sejenisnya :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_HONORARIUM); ?>" readonly>
+              </div>
+              <div class="form-group">
+                <label class="label-utama">05. Premi Asuransi yang dibayar Pemberi Kerja :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_PREMI); ?>" readonly>
+              </div>
+              <div class="form-group">
+                <label class="label-utama">06. Natura dan Kenikmatan Lainnya :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_NATURA); ?>" readonly>
+              </div>
+              <div class="form-group">
+                <label class="label-utama">07. Tantiem, Bonus dan THR :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_TANTIEMBONUS); ?>" readonly>
+              </div>
+              <hr>
+              <div class="form-group">
+                <label class="label-utama">08. Penghasilan Bruto :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_BRUTO); ?>" readonly>
+              </div>
+            </div>
+            <div class="col-4">
+              <h6><span class="badge badge-success mb-4">Pengurang</span></h6>
+              <div class="form-group">
+                <label class="label-utama">09. Biaya Jabatan :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_BIAYA_JABATAN); ?>" readonly>
+              </div>
+              <div class="form-group">
+                <label class="label-utama">10. Iuran Pensiun atau Iuran JHT/THT :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_IURAN_PENSIUN); ?>" readonly>
+              </div>
+            </div>
+            <div class="col-4">
+              <h6><span class="badge badge-success mb-4">Perhitungan PPh 21</span></h6>
+              <div class="form-group">
+                <label class="label-utama">11. Penghasilan Bruto Setahun :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_BRUTO * 12); ?>" readonly>
+              </div>
+              <div class="form-group">
+                <label class="label-utama">12. Biaya Jabatan Setahun :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_BIAYA_JABATAN * 12); ?>" readonly>
+              </div>
+              <div class="form-group">
+                <label class="label-utama">13. Iuran Pensiun atau Iuran JHT/THT Setahun :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_IURAN_PENSIUN * 12); ?>" readonly>
+              </div>
+              <div class="form-group">
+                <label class="label-utama">14. Jumlah Pengurang Setahun :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format(($employee->row()->EMPLOYEE_BIAYA_JABATAN + $employee->row()->EMPLOYEE_IURAN_PENSIUN) * 12); ?>" readonly>
+              </div>
+              <div class="form-group">
+                <label class="label-utama">15. Penghasilan Neto Setahun/Disetahunkan :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_NETTO * 12); ?>" readonly>
+              </div>
+              <div class="form-group">
+                <label class="label-utama">16. Penghasilan Tidak Kena Pajak (PTKP) :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->TK_TARIF); ?>" readonly>
+              </div>
+              <div class="form-group">
+                <label class="label-utama">17. PKP Setahun/Disetahunkan :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format(($employee->row()->EMPLOYEE_NETTO * 12) - $employee->row()->TK_TARIF); ?>" readonly>
+              </div>
+              <div class="form-group">
+                <label class="label-utama">18. PPh 21 atas PKP :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_PPHVAL); ?>" readonly>
+              </div>
+              <div class="form-group">
+                <label class="label-utama">19. PPh 21 Terutang Setahun/Disetahunkan :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_PPHVAL * 12); ?>" readonly>
+              </div>
+              <div class="form-group">
+                <label class="label-utama">20. PPh 21 Terutang Bulan <span class="text-danger font-weight-bold"><?= $employee->row()->PERIOD_MONTH . ' - ' . $employee->row()->PERIOD_YEAR; ?></span> :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_PPHVAL); ?>" readonly>
+              </div>
+              <div class="form-group">
+                <label class="label-utama">21. PKP atas Penghasilan Teratur Setahun :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->PENGHASILAN_TERATUR * 0.05); ?>" readonly>
+              </div>
+              <div class="form-group">
+                <label class="label-utama">22. PPh 21 atas Penghasilan Teratur Setahun :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format(($employee->row()->PENGHASILAN_TERATUR * 0.05) * 12); ?>" readonly>
+              </div>
+              <div class="form-group">
+                <label class="label-utama">23. PPh 21 atas Penghasilan Tidak Teratur :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->PENGHASILAN_TIDAK_TERATUR * 0.05); ?>" readonly>
+              </div>
+            </div>
+          </div>
         </div>
 
       </div>
-    </div> 
+    </div>
 
     <!-- Add Modal Perusahaan -->
     <?php $this->load->view('modal/add_pph21_perusahaan_bulan'); ?>

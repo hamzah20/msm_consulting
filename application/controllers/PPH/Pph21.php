@@ -57,7 +57,15 @@ class Pph21 extends CI_Controller
 	public function pph_21_bulan_summary()
 	{
 		$data['summary'] 	= $this->cms->getGeneralData('v_g_companies_pph21', 'PPH_ID', $this->input->get('pid'));
-		$data['employees'] 	= $this->cms->getGeneralData('v_g_employee_pph21', 'COMPANY_ID', trim($this->input->get('cid')));
+
+		$this->db->select('*')
+			->from('v_g_employee_pph21')
+			->where('COMPANY_ID', trim($this->input->get('cid')))
+			->where('PPH_ID', trim($this->input->get('pid')));
+
+
+		// $data['employees'] 	= $this->cms->getGeneralData('v_g_employee_pph21', 'COMPANY_ID', trim($this->input->get('cid')));
+		$data['employees'] 	= $this->db->get();
 		$data['counter']	= 1;
 
 		// if ($data['summary']->num_rows() == 0) {
@@ -811,11 +819,22 @@ class Pph21 extends CI_Controller
 		$this->load->view('cms/hitung_pajak/pph21_tahun');
 	}
 
-
-
 	public function pph_21_bulan_summary_karyawan()
 	{
-		$this->load->view('cms/hitung_pajak/pph21_bulan_summary_karyawan');
+		$this->db->select('*')
+			->from('v_g_employee_pph21')
+			->where('EMPLOYEE_ID', trim($this->input->get('eid')))
+			->where('PPH_ID', trim($this->input->get('pid')));
+
+
+		$data['employee'] 	= $this->db->get();
+
+		if ($data['employee']->num_rows() == 0) {
+			$this->session->set_flashdata('query', 'invalid');
+			redirect(base_url('pph_21/bulan/summary?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')));
+		}
+
+		$this->load->view('cms/hitung_pajak/pph21_bulan_summary_karyawan', $data);
 	}
 
 	public function aktifitas_pajak()

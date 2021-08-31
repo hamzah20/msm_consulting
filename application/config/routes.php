@@ -100,6 +100,6 @@ $route['pph_21']                                        = 'PPH/Pph21/index';
 $route['pph_21/bulan']                                  = 'PPH/Pph21/pph_21_bulan';
 $route['pph_21/tahun']                                  = 'Kebutuhan_Pajak/pph_21_tahun';
 $route['pph_21/bulan/summary']                          = 'PPH/Pph21/pph_21_bulan_summary';
-$route['pph_21/bulan/summary/karyawan/detail']          = 'Kebutuhan_Pajak/pph_21_bulan_summary_karyawan';
+$route['pph_21/bulan/summary/karyawan/detail']          = 'PPH/Pph21/pph_21_bulan_summary_karyawan';
 $route['pph_21/bulan/summary/aktifitas_pajak']          = 'Kebutuhan_Pajak/aktifitas_pajak';
 $route['pph_21/bulan/summary/aktifitas_pajak/edit']     = 'Kebutuhan_Pajak/edit_aktifitas_pajak';

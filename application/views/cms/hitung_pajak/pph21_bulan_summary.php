@@ -155,7 +155,7 @@
                   <td class="text-center"><?= number_format($employee->EMPLOYEE_IURAN_PENSIUN); ?></td>
                   <td class="text-center font-weight-bold"><?= number_format($employee->EMPLOYEE_PPHVAL); ?></td>
                   <td>
-                    <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?php echo base_url('pph_21/bulan/summary/karyawan/detail'); ?>"><i class="fa fa-eye"></i></a>
+                    <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_21/bulan/summary/karyawan/detail?eid=' . $employee->EMPLOYEE_ID . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID); ?>"><i class="fa fa-eye"></i></a>
                   </td>
                 </tr>
               <?php

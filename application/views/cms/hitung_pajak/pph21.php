@@ -75,41 +75,11 @@
                     <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Summary Bulanan" href="<?= base_url('pph_21/bulan?cid=' . $company->COMPANY_ID); ?>"><i class="fa fa-eye"></i></a>
                     <a class="btn btn-sm btn-primary text-white" data-toggle="tooltip" data-placement="top" title="Summary Tahunan" href="<?= base_url('pph_21/tahun'); ?>" role="button" role="button"><i class="fa fa-eye"></i></a>
                   </td>
-                  <<<<<<< HEAD </tr>
+                </tr>
 
-                  <?php } ?>
-                <?php } ?>
-
-
+              <?php } ?>
+            <?php } ?>
           </tbody>
-          =======
-          </tr>
-          <tr>
-            <th scope="row" class="text-center">1</th>
-            <td>PT. Maju Bersama</td>
-            <td class="text-center">90.519.XXX.X-XXX.XXX</td>
-            <td class="text-center text-danger">2020</td>
-            <td class="text-center">33,645,358</td>
-            <td class="text-center">1,133,233</td>
-            <td class="text-center">
-              <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Summary Bulanan" href="<?php echo base_url('pph_21/bulan'); ?>"><i class="fa fa-eye"></i></a>
-              <a class="btn btn-sm btn-primary text-white" data-toggle="tooltip" data-placement="top" title="Summary Tahunan" href="<?php echo base_url('pph_21/tahun'); ?>" role="button" role="button"><i class="fa fa-eye"></i></a>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row" class="text-center">1</th>
-            <td>PT. Incube Solutions</td>
-            <td class="text-center">71.229.XXX.X-XXX.XXX</td>
-            <td class="text-center text-danger">2021</td>
-            <td class="text-center">53,784,211</td>
-            <td class="text-center">4,333,923</td>
-            <td class="text-center">
-              <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Summary Bulanan" href="<?php echo base_url('pph_21/bulan'); ?>"><i class="fa fa-eye"></i></a>
-              <a class="btn btn-sm btn-primary text-white" data-toggle="tooltip" data-placement="top" title="Summary Tahunan" href="<?php echo base_url('pph_21/tahun'); ?>" role="button" role="button"><i class="fa fa-eye"></i></a>
-            </td>
-          </tr>
-          </tbody>
-          >>>>>>> b5beaaf3b06d7241b6aa7de5edc068936ed2f7f2
         </table>
       </div>
     </div>
