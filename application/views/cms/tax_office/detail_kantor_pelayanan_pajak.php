@@ -28,7 +28,7 @@
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                            <li class="active"> <a href="<?php echo base_url('kantor_pelayanan_pajak'); ?>">Kantor Pelayanan Pajak</a> / Edit </li>
+                            <li class="active"> <a href="<?php echo base_url('kantor_pelayanan_pajak'); ?>">Kantor Pelayanan Pajak</a> / Detail </li>
                         </ol>
                     </div>
                 </div>
@@ -37,13 +37,15 @@
 
         <!-- Content -->
         <div class="content mt-3">      
-           <div class="card px-2 pt-3">    
+           <div class="card px-2">  
+                <a class="btn btn-sm btn-warning col-2 ml-2 mb-3 mt-3 text-white" type="submit" href="<?php echo base_url('kantor_pelayanan_pajak/edit'); ?>">Edit Data</a>
+                <hr class="mx-2 mt-0">
 				<form method="POST" action="#" class="px-3"> 
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="" class="label-utama">No. Urut Kantor Pelayanan Pajak</label>
-                                <input type="text" class="form-control form-control-sm" id="editNoKantorPelayanan" aria-describedby="" placeholder="....." name="editNoKantorPelayanan" value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $tax->row()->OFFICE_NO; ?>"> 
                             </div>
                         </div>
                     </div> 
@@ -51,29 +53,29 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">Kategori</label>
-                                <input type="text" class="form-control form-control-sm" id="editKategori" aria-describedby="" placeholder="....." name="editKategori" value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $tax->row()->CATEGORY; ?>"> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Kode KPP</label>
-                                <input type="text" class="form-control form-control-sm" id="editKodeKPP" aria-describedby="" placeholder="....." name="editKodeKPP" value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $tax->row()->OFFICE_KPP ?>"> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Nama Kantor Pelayanan Pajak</label>
-                                <input type="text" class="form-control form-control-sm" id="editNamaKantor" aria-describedby="" placeholder="....." name="editNamaKantor" value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $tax->row()->OFFICE_NAME; ?>"> 
                             </div> 
                         </div> 
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">No. Telpon</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="editNoTelpon" placeholder="....." name="editNoTelpon" value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly pplaceholder="....." value="<?= $tax->row()->OFFICE_PHONE; ?>"> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">No. Faksimile</label>
-                                <input type="text" class="form-control form-control-sm" id="editNoFaksimile" aria-describedby="" placeholder="....." name="editNoFaksimile" value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $tax->row()->OFFICE_FAX; ?>"> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Email</label>
-                                <input type="text" class="form-control form-control-sm" id="editEmail" aria-describedby="" placeholder="....." name="editEmail" value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $tax->row()->OFFICE_EMAIL; ?>"> 
                             </div>  
                         </div> 
                     </div>   
@@ -81,17 +83,12 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="" class="label-utama">Alamat</label>
-                                <textarea type="text" class="form-control form-control-sm" id="editAlamat" aria-describedby="" placeholder="....." name="editAlamat" value=""> </textarea>
+                                <textarea type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....."><?= $tax->row()->OFFICE_ADDRESS; ?> </textarea>
                             </div>
                         </div>
                     </div>  
                    
                 </form> 
-                <hr class="mx-2">
-                <div class="row ml-2">
-                    <button class="btn btn-sm btn-success col-2 ml-2 mb-3" type="submit">Simpan Perubahan</button>
-                    <a class="btn btn-sm btn-secondary col-2 ml-2 mb-3" type="submit" href="<?php echo base_url('kantor_pelayanan_pajak'); ?>">Batalkan Perubahan</a>
-                </div>
             </div>
 
             <!-- Add Modal Perusahaan -->

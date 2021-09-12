@@ -65,29 +65,29 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">Nama</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $company->row()->PIC_NAME; ?>"> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Nomor Induk Kependudukan (NIK)</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $company->row()->PIC_NIK; ?>"> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Nomor Pokok Wajib Pajak (NPWP)</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $company->row()->PIC_NPWP; ?>"> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Jabatan</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $company->row()->PIC_POSITION; ?>"> 
                             </div> 
                         </div> 
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">Kebangsaan</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $company->row()->PIC_NATIONALITY; ?>"> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Alamat</label>
-                                <textarea type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> </textarea>
+                                <textarea type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....."><?= $company->row()->PIC_ADDRESS; ?> </textarea>
                             </div>
                         </div> 
                     </div>    

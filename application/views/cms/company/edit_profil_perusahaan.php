@@ -109,7 +109,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-8">
+                    <div class="col-12">
                         <div class="form-group">
                             <label for="" class="label-utama">Alamat</label>
                             <textarea type="text" class="form-control form-control-sm" placeholder="....." name="editAlamat" value=""></textarea>
@@ -128,7 +128,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Password E-Faktur</label>
-                            <input type="password" class="form-control form-control-sm" placeholder="....." name="editPassEFaktur" value="">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPassEFaktur" value="">
                         </div>
                     </div>
                     <div class="col-4">
@@ -140,7 +140,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Password Aktifasi</label>
-                            <input type="password" class="form-control form-control-sm" placeholder="....." name="editPassAktifasi" value="">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPassAktifasi" value="">
                         </div>
                     </div>
                 </div>
@@ -154,7 +154,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Password Email E-Faktur</label>
-                            <input type="password" class="form-control form-control-sm" placeholder="....." name="editPassEmailEFaktur" value="">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPassEmailEFaktur" value="">
                         </div>
                     </div>
                 </div>
@@ -162,13 +162,13 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Password E-Nofa</label>
-                            <input type="password" class="form-control form-control-sm" placeholder="....." name="editPassENofa" value="">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPassENofa" value="">
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Password E-Phrase</label>
-                            <input type="password" class="form-control form-control-sm" placeholder="....." name="editPassEPhrase" value="">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPassEPhrase" value="">
                         </div>
                     </div>
                 </div>
@@ -182,7 +182,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Password Email SSE/DJP</label>
-                            <input type="password" class="form-control form-control-sm" placeholder="....." name="editPassEmailSSEDJP" value="">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPassEmailSSEDJP" value="">
                         </div>
                     </div>
                 </div>
@@ -198,7 +198,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Password Email to Client</label>
-                            <input type="password" class="form-control form-control-sm" placeholder="....." name="editPassClient" value="">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPassClient" value="">
                         </div>
                     </div>
                     <div class="col-4">

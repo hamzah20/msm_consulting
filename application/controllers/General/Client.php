@@ -278,16 +278,37 @@ class Client extends CI_Controller
 		$this->load->view('cms/detail_hitung_pajak');
 	}
 	public function detail_identitas_wp()
-	{
-		$this->load->view('cms/detail_identitas_wp');
+	{ 
+		$data['company'] = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->get('cid'));
+
+		if ($data['company']->num_rows() == 0) {
+			$this->session->set_flashdata('query', 'invalid');
+			redirect('company_profile');
+		} else {
+			$this->load->view('cms/detail_identitas_wp', $data);
+		} 
 	}
 	public function detail_info_perpajakan()
 	{
-		$this->load->view('cms/detail_info_perpajakan');
+		$data['company'] = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->get('cid'));
+
+		if ($data['company']->num_rows() == 0) {
+			$this->session->set_flashdata('query', 'invalid');
+			redirect('company_profile');
+		} else {
+			$this->load->view('cms/detail_info_perpajakan', $data);
+		}  
 	}
 	public function detail_identitas_pj()
 	{
-		$this->load->view('cms/detail_identitas_pj');
+		$data['company'] = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->get('cid'));
+
+		if ($data['company']->num_rows() == 0) {
+			$this->session->set_flashdata('query', 'invalid');
+			redirect('company_profile');
+		} else {
+			$this->load->view('cms/detail_identitas_pj', $data);
+		} 
 	}
 	public function detail_dokumen_elektronik()
 	{

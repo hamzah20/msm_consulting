@@ -65,13 +65,13 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">Nama</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $company->row()->WP_NAME; ?>"> 
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">Bentuk Badan</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $company->row()->WP_CATEGORY; ?>"> 
                             </div>
                         </div>
                     </div>      
@@ -79,13 +79,13 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">NPWP</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" > 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $company->row()->WP_NPWP; ?>" > 
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">Nomor Telepon</label>
-                                <input type="number" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" > 
+                                <input type="number" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $company->row()->WP_PHONE; ?>" > 
                             </div>
                         </div>
                     </div>      
@@ -93,13 +93,13 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">Jenis Usaha</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" > 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $company->row()->WP_BUSINESS_TYPE; ?>" > 
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">Email DJP Online</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="" > 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $company->row()->WP_DJP_EMAIL; ?>" > 
                             </div>
                         </div>
                     </div>      
@@ -107,7 +107,7 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">Alamat Tempat Kedudukan</label>
-                                <textarea type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""></textarea>  
+                                <textarea type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....."><?= $company->row()->WP_ADDRESS; ?></textarea>  
                             </div>
                         </div>
                     </div>     

@@ -65,25 +65,36 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">KPP Administrasi</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $company->row()->TAX_KPP_ADMIN; ?>"> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Nomor Telepon KPP</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $company->row()->TAX_KPP_PHONE; ?>"> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Account Representative</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $company->row()->TAX_ACCOUNT_REP; ?>"> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Status WP</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $company->row()->TAX_WP_STATUS; ?>"> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">Status PKP</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $company->row()->TAX_PKP_STATUS; ?>"> 
                             </div>
                         </div> 
+                        <div class="col-6">
+                            <div class="form-group">
+                                <?php if(!empty($company->row()->TAX_OBLIGATION)){ ?>
+                                    <label for="" class="label-utama">Kewajiban Perpajakan</label>
+                                <?php } else{ ?>
+                                    <label for="" class="label-utama">Kewajiban Perpajakan</label>
+                                    <h6><span class="badge badge-danger">Tidak ada kewajiban perpajakan</span></h6>
+                                <?php } ?>
+                                
+                            </div>
+                        </div>
                     </div>    
                    
                 </form> 

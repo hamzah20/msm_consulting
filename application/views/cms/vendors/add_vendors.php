@@ -28,7 +28,7 @@
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
-                            <li class="active"> <a href="<?php echo base_url('vendors'); ?>">Vendors</a> / Detail </li>
+                            <li class="active"> <a href="<?php echo base_url('vendors'); ?>">Vendors</a> / Add </li>
                         </ol>
                     </div>
                 </div>
@@ -37,45 +37,39 @@
 
         <!-- Content -->
         <div class="content mt-3">      
-           <div class="card px-2">  
-                <a class="btn btn-sm btn-warning col-2 ml-2 mb-3 mt-3 text-white" type="submit" href="<?php echo base_url('vendors/edit'); ?>">Edit Data</a>
-                <hr class="mx-2 mt-0">
-				<form method="POST" action="#" class="px-3"> 
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="" class="label-utama">No. Urut Vendor (Lain-Lain)</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
-                            </div>
-                        </div>
-                    </div> 
+           <div class="card px-2 pt-3">   
+				<form method="POST" action="<?php echo base_url('General/Vendors/insert_vendors'); ?>" class="px-3">  
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">Nama Vendor (Lain-Lain)</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="txtVendor" name="txtVendor" aria-describedby=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">No. Telpon</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="txtPhone" name="txtPhone" aria-describedby=""> 
                             </div>
                             <div class="form-group">
                                 <label for="" class="label-utama">No. Faksimile</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="txtFax" name="txtFax" aria-describedby=""> 
                             </div>  
                         </div> 
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="" class="label-utama">Email</label>
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="txtEmail" name="txtEmail" aria-describedby=""> 
                             </div> 
                             <div class="form-group">
                                 <label for="" class="label-utama">Alamat</label>
-                                <textarea type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> </textarea>
+                                <textarea type="text" class="form-control form-control-sm" id="txtAlamat" name="txtAlamat" aria-describedby=""> </textarea>
                             </div>
                         </div> 
                     </div>     
-                   
+                   <hr>
+                    <div class="row ml-1">
+                        <button class="btn btn-sm btn-success col-2 mb-3" type="submit">Simpan Data</button>
+                        <a class="btn btn-sm btn-secondary col-2 ml-2 mb-3" type="submit" href="<?php echo base_url('vendors/add'); ?>">Batalkan Perubahan</a>
+                    </div>
                 </form> 
             </div>
 

@@ -25,9 +25,9 @@ class Employee extends CI_Controller
 
     public function karyawan_perusahaan()
     {
-        $data['company'] = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->get('cid'));
+        $data['company']  = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->get('cid'));
         $data['employee'] = $this->cms->getSingularData('g_employee', 'EMPLOYEE_COMPANY_ID', $this->input->get('cid'));
-        $data['counter']   = 1;
+        $data['counter']  = 1;
 
         if ($data['company']->num_rows() == 0) {
             $this->session->set_flashdata('query', 'invalid');
@@ -128,7 +128,7 @@ class Employee extends CI_Controller
             'EMPLOYEE_EFIN'                 => $this->input->post('employeeEFIN'),
             'EMPLOYEE_NATIONALITY_STATUS'   => $this->input->post('employeeType'),
             'EMPLOYEE_PHONE'                => $this->input->post('employeePhone'),
-            'EMPLOYEE_EMAIL'                => $this->input->post('employeeEmail'),
+            'EMPLOYEE_EMAIL'                => $this->input->post('employeeEmail'), 
             'EMPLOYEE_ADDRESS'              => $this->input->post('employeeAddress'),
             'UPDATED'                       => date('Y-m-d h:i:s'),
         );

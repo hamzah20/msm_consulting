@@ -52,10 +52,16 @@ class Pph21 extends CI_Controller
 		}
 
 		$this->load->view('cms/hitung_pajak/pph21_bulan', $data);
+		// $this->load->view('cms/hitung_pajak/pph21_bulan_summary', $data);
 	}
 
 	public function pph_21_bulan_summary()
 	{
+		$this->db->select('*')
+			->from('v_g_companies_pph21')
+			->where('COMPANY_ID', $this->input->get('cid'));
+
+		$data['correction'] = $this->db->get();
 		$data['summary'] 	= $this->cms->getGeneralData('v_g_companies_pph21', 'PPH_ID', $this->input->get('pid'));
 
 		$this->db->select('*')

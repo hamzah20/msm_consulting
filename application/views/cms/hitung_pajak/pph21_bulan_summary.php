@@ -14,7 +14,7 @@
   <?php $this->load->view('templates_cms/topbar'); ?>
   <!-- End of Topbar -->
 
-  <!-- Header-->
+  <!-- Header-->  
 
   <div class="breadcrumbs">
     <div class="col-sm-4">
@@ -46,39 +46,40 @@
         <hr>
         <h6><span class="badge badge-success"># Summary / Ringkasan</span></h6> <br>
         <div class="row mb-3">
+          <?php foreach ($employees->result() as $employee) ?>
           <div class="col-4">
             <div class="form-group">
               <label for="" class="label-utama font-weight-bold text-center">(1) Periode / Masa</label>
-              <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtPeriode" value="JAN-2021" readonly>
+              <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtPeriode" value="<?php echo $employee->PERIOD_MONTH."-".$employee->PERIOD_YEAR; ?>" readonly>
             </div>
           </div>
           <div class="col-4">
             <div class="form-group">
               <label for="" class="label-utama font-weight-bold text-center">(2) Pembetulan / Koreksi</label>
-              <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtPembetulan" value="0" readonly>
+              <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtPembetulan" value="<?php echo $correction->num_rows() - 1; ?>" readonly>
             </div>
           </div>
           <div class="col-4">
             <div class="form-group">
               <label for="" class="label-utama font-weight-bold text-center">(3) Approval / Persetujuan Klien</label>
-              <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtApproval" value="BELUM" readonly>
+              <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtApproval" value="<?php echo "";?>" readonly>
             </div>
-          </div>
+          </div> 
         </div>
 
         <a class="btn btn-sm btn-warning text-white" href="#" role="button" data-toggle="modal" data-target="#editPPH21BulanSummary">Edit Kompensasi</a>
         <br><br>
         <table class="table" id="employeeSumTable">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col-4" class="text-center">Jumlah Pegawai</th>
-              <th scope="col-1" class="text-center">Total Penghasilan Bruto</th>
-              <th scope="col-1" class="text-center">PPh 21 Terutang</th>
-              <th scope="col-1" class="text-center">Kompensasi</th>
-              <th scope="col-1" class="text-center">PPh 21 KB (LB)</th>
-              <th scope="col-1" class="text-center">Kode Jenis Setoran</th>
+          <!-- <thead class="thead-dark"> -->
+            <tr class="thead-dark">
+              <th scope="col-" class="text-center">Jumlah Pegawai</th>
+              <th scope="col-" class="text-center">Total Penghasilan Bruto</th>
+              <th scope="col-" class="text-center">PPh 21 Terutang</th>
+              <th scope="col-" class="text-center">Kompensasi</th>
+              <th scope="col-" class="text-center">PPh 21 KB (LB)</th>
+              <th scope="col-" class="text-center">Kode Jenis Setoran</th>
             </tr>
-          </thead>
+          <!-- </thead> -->
           <tbody>
             <?php if ($summary->num_rows() != 0) { ?>
               <tr>
@@ -89,8 +90,7 @@
                 <td class="text-center font-weight-bold"><?= number_format($summary->row()->COMPANY_KBLB); ?></td>
                 <td class="text-center"><?= ($summary->row()->COMPANY_KBLB == 0 ? '' : '411121-100'); ?></td>
               </tr>
-            <?php } ?>
-
+            <?php } ?> 
           </tbody>
         </table>
       </div>
@@ -103,9 +103,9 @@
         <hr>
         <h6><span class="badge badge-success"># Detail / Rincian</span></h6> <br>
 
-        <table class="table" id="companyTable">
-          <thead class="thead-dark">
-            <tr>
+        <table id="companyTable" class="table table-company">
+          <!-- <thead class="thead-dark"> -->
+            <tr class="thead-dark">
               <th scope="col-">No</th>
               <th scope="col-">Nama Karyawan</th>
               <th scope="col-">Status</th>
@@ -120,9 +120,9 @@
               <th scope="col-" title="Penghasilan bruto" class="text-center">PB*</th>
               <th scope="col-" title="Iuran pensiun atau iuran THT/JHT" class="text-center">IU*</th>
               <th scope="col-" title="PPh 21 Terutang" class="text-center">PT*</th>
-              <th scope="col-" title="Gaji/Pensiun atau THT/JHT">Aksi</th>
+              <th scope="col-">Aksi</th> 
             </tr>
-          </thead>
+          <!-- </thead> -->
           <tbody>
             <?php if ($employees->num_rows() != 0) {
 
@@ -153,7 +153,7 @@
                   <td class="text-center"><?= number_format($employee->EMPLOYEE_TANTIEMBONUS); ?></td>
                   <td class="text-center"><?= number_format($employee->EMPLOYEE_BRUTO); ?></td>
                   <td class="text-center"><?= number_format($employee->EMPLOYEE_IURAN_PENSIUN); ?></td>
-                  <td class="text-center font-weight-bold"><?= number_format($employee->EMPLOYEE_PPHVAL); ?></td>
+                  <td class="text-center"><?= number_format($employee->EMPLOYEE_PPHVAL); ?></td>
                   <td>
                     <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_21/bulan/summary/karyawan/detail?eid=' . $employee->EMPLOYEE_ID . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID); ?>"><i class="fa fa-eye"></i></a>
                   </td>
@@ -210,7 +210,6 @@
 <!-- /#right-panel -->
 
 <!-- Right Panel -->
-
 <script>
   jQuery(document).ready(function($) {
 
@@ -218,11 +217,16 @@
 
     $(function() {
       $('[data-toggle="tooltip"]').tooltip()
-    })
+    }) 
 
-    $('#companyTable').DataTable();
     $('#employeeSumTable').DataTable();
+    $('#companyTable').DataTable();
 
+    // $(document).ready(function() {
+    //   $('#companyTable').DataTable( {
+    //       "scrollX": true
+    //   });
+    // }); 
   });
 </script>
 
