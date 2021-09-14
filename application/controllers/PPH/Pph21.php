@@ -36,11 +36,10 @@ class Pph21 extends CI_Controller
 
 		$queryGet = $this->db->get();
 
-		$this->db->select('*')
-			->from('v_g_companies_pph21')
-			->where('COMPANY_ID', $this->input->get('cid'));
+		$cid=$this->input->get('cid');
 
-		$data['correction'] = $this->db->get();
+		$data['correction'] = $this->cms->getPembetulan($cid);
+
 		$data['companies'] 	= $queryGet;
 		$data['counter'] 	= 1;
 		$data['history'] 	= 0;
@@ -51,8 +50,7 @@ class Pph21 extends CI_Controller
 			return;
 		}
 
-		$this->load->view('cms/hitung_pajak/pph21_bulan', $data);
-		// $this->load->view('cms/hitung_pajak/pph21_bulan_summary', $data);
+		$this->load->view('cms/hitung_pajak/pph21_bulan', $data); 
 	}
 
 	public function pph_21_bulan_summary()
@@ -61,7 +59,7 @@ class Pph21 extends CI_Controller
 			->from('v_g_companies_pph21')
 			->where('COMPANY_ID', $this->input->get('cid'));
 
-		$data['correction'] = $this->db->get();
+		$data['correction'] = $this->db->getPembetulan($cid);
 		$data['summary'] 	= $this->cms->getGeneralData('v_g_companies_pph21', 'PPH_ID', $this->input->get('pid'));
 
 		$this->db->select('*')

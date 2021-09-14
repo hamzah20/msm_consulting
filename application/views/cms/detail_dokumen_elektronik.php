@@ -67,7 +67,7 @@
                             <label for="" class="label-utama">Nomor Pokok Wajib Pajak</label>
                             <div class="input-group">
                               <div class="custom-file pt-1">
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $npwp->row()->DOC_NAME; ?>"> 
                               </div> 
                             </div>
                         </div> 
@@ -75,7 +75,7 @@
                             <label for="" class="label-utama">Surat Keterangan Terdaftar</label>
                             <div class="input-group">
                               <div class="custom-file pt-1">
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $skt->row()->DOC_NAME; ?>"> 
                               </div> 
                             </div>
                         </div> 
@@ -83,7 +83,7 @@
                             <label for="" class="label-utama">Surat Pengukuhan Pegusaha Kena Pajak</label>
                             <div class="input-group">
                               <div class="custom-file pt-1">
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $sppkp->row()->DOC_NAME; ?>"> 
                               </div> 
                             </div>
                         </div> 
@@ -91,7 +91,7 @@
                             <label for="" class="label-utama">Tanda Daftar Perusahaan</label>
                             <div class="input-group">
                               <div class="custom-file pt-1">
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $tdp->row()->DOC_NAME; ?>"> 
                               </div> 
                             </div>
                         </div> 
@@ -99,7 +99,7 @@
                             <label for="" class="label-utama">Surat Izin Usaha Perdagangan</label>
                             <div class="input-group">
                               <div class="custom-file pt-1">
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $siup->row()->DOC_NAME; ?>"> 
                               </div> 
                             </div>
                         </div> 
@@ -109,7 +109,7 @@
                             <label for="" class="label-utama">Nomor Induk Berusaha</label>
                             <div class="input-group">
                               <div class="custom-file pt-1">
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $nib->row()->DOC_NAME; ?>"> 
                               </div> 
                             </div>
                         </div> 
@@ -117,7 +117,7 @@
                             <label for="" class="label-utama">Akta Pendirian Perusahaan</label>
                             <div class="input-group">
                               <div class="custom-file pt-1">
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $app->row()->DOC_NAME; ?>"> 
                               </div> 
                             </div>
                         </div> 
@@ -125,7 +125,7 @@
                             <label for="" class="label-utama">Akta Perubahan Perusahaan</label>
                             <div class="input-group">
                               <div class="custom-file pt-1">
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $apbp->row()->DOC_NAME; ?>"> 
                               </div> 
                             </div>
                         </div> 
@@ -133,7 +133,7 @@
                             <label for="" class="label-utama">Akta Sewa / Pinjam Pakai</label>
                             <div class="input-group">
                               <div class="custom-file pt-1">
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $aspp->row()->DOC_NAME; ?>"> 
                               </div> 
                             </div>
                         </div> 
@@ -141,7 +141,7 @@
                             <label for="" class="label-utama">Surat Keterangan Bebas</label>
                             <div class="input-group">
                               <div class="custom-file pt-1">
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $skb->row()->DOC_NAME; ?>"> 
                               </div> 
                             </div>
                         </div> 
@@ -151,7 +151,7 @@
                             <label for="" class="label-utama">Sertifikat Elektronik</label>
                             <div class="input-group">
                               <div class="custom-file pt-1">
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $stl->row()->DOC_NAME; ?>"> 
                               </div> 
                             </div>
                         </div> 
@@ -159,7 +159,7 @@
                             <label for="" class="label-utama">Surat Keterangan Domisili Usaha</label>
                             <div class="input-group">
                               <div class="custom-file pt-1">
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $skdu->row()->DOC_NAME; ?>"> 
                               </div> 
                             </div>
                         </div> 
@@ -167,7 +167,7 @@
                             <label for="" class="label-utama">Electronic Filing Identification Number</label>
                             <div class="input-group">
                               <div class="custom-file pt-1">
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $efin->row()->DOC_NAME; ?>"> 
                               </div> 
                             </div>
                         </div> 
@@ -175,15 +175,15 @@
                             <label for="" class="label-utama">Kartu Tanda Penduduk</label>
                             <div class="input-group">
                               <div class="custom-file pt-1">
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $ktp->row()->DOC_NAME; ?>"> 
                               </div> 
                             </div>
                         </div> 
                         <div class="form-group">
-                            <label for="" class="label-utama">Nomor Pokok Wajib Pajak</label>
+                            <label for="" class="label-utama">Nomor Pokok Wajib Pajak Direktur</label>
                             <div class="input-group">
                               <div class="custom-file pt-1">
-                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value=""> 
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $npwpd->row()->DOC_NAME; ?>"> 
                               </div> 
                             </div>
                         </div> 

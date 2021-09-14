@@ -65,7 +65,7 @@
                         <h4 class="mb-0">
                             <span class="count">10468</span>
                         </h4>
-                        <p class="text-light">Members online</p>
+                        <p class="text-light"></p>
 
                         <div class="chart-wrapper px-0" style="height:70px;" height="70">
                             <canvas id="widgetChart1"></canvas>
@@ -95,7 +95,7 @@
                         <h4 class="mb-0">
                             <span class="count">10468</span>
                         </h4>
-                        <p class="text-light">Members online</p>
+                        <p class="text-light"></p>
 
                         <div class="chart-wrapper px-0" style="height:70px;" height="70">
                             <canvas id="widgetChart2"></canvas>
@@ -124,7 +124,7 @@
                         <h4 class="mb-0">
                             <span class="count">10468</span>
                         </h4>
-                        <p class="text-light">Members online</p>
+                        <p class="text-light"></p>
 
                     </div>
 
@@ -153,7 +153,7 @@
                         <h4 class="mb-0">
                             <span class="count">10468</span>
                         </h4>
-                        <p class="text-light">Members online</p>
+                        <p class="text-light"></p>
 
                         <div class="chart-wrapper px-3" style="height:70px;" height="70">
                             <canvas id="widgetChart4"></canvas>
@@ -161,129 +161,54 @@
 
                     </div>
                 </div>
-            </div>
-            <!--/.col-->
+            </div> 
 
-            <div class="col-lg-3 col-md-6">
-                <div class="social-box facebook">
-                    <i class="fa fa-facebook"></i>
-                    <ul>
-                        <li>
-                            <span class="count">40</span> k
-                            <span>friends</span>
-                        </li>
-                        <li>
-                            <span class="count">450</span>
-                            <span>feeds</span>
-                        </li>
-                    </ul>
-                </div>
-                <!--/social-box-->
-            </div>
-            <!--/.col-->
+            
 
-
-            <div class="col-lg-3 col-md-6">
-                <div class="social-box twitter">
-                    <i class="fa fa-twitter"></i>
-                    <ul>
-                        <li>
-                            <span class="count">30</span> k
-                            <span>friends</span>
-                        </li>
-                        <li>
-                            <span class="count">450</span>
-                            <span>tweets</span>
-                        </li>
-                    </ul>
-                </div>
-                <!--/social-box-->
-            </div>
-            <!--/.col-->
-
-
-            <div class="col-lg-3 col-md-6">
-                <div class="social-box linkedin">
-                    <i class="fa fa-linkedin"></i>
-                    <ul>
-                        <li>
-                            <span class="count">40</span> +
-                            <span>contacts</span>
-                        </li>
-                        <li>
-                            <span class="count">250</span>
-                            <span>feeds</span>
-                        </li>
-                    </ul>
-                </div>
-                <!--/social-box-->
-            </div>
-            <!--/.col-->
-
-
-            <div class="col-lg-3 col-md-6">
-                <div class="social-box google-plus">
-                    <i class="fa fa-google-plus"></i>
-                    <ul>
-                        <li>
-                            <span class="count">94</span> k
-                            <span>followers</span>
-                        </li>
-                        <li>
-                            <span class="count">92</span>
-                            <span>circles</span>
-                        </li>
-                    </ul>
-                </div>
-                <!--/social-box-->
-            </div>
-            <!--/.col-->
-
-            <div class="col-xl-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <h4 class="card-title mb-0">Traffic</h4>
-                                <div class="small text-muted">October 2017</div>
-                            </div>
-                            <!--/.col-->
-                            <div class="col-sm-8 hidden-sm-down">
-                                <button type="button" class="btn btn-primary float-right bg-flat-color-1"><i class="fa fa-cloud-download"></i></button>
-                                <div class="btn-toolbar float-right" role="toolbar" aria-label="Toolbar with button groups">
-                                    <div class="btn-group mr-3" data-toggle="buttons" aria-label="First group">
-                                        <label class="btn btn-outline-secondary">
-                                            <input type="radio" name="options" id="option1"> Day
-                                        </label>
-                                        <label class="btn btn-outline-secondary active">
-                                            <input type="radio" name="options" id="option2" checked=""> Month
-                                        </label>
-                                        <label class="btn btn-outline-secondary">
-                                            <input type="radio" name="options" id="option3"> Year
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/.col-->
-
-
-                        </div>
-                        <!--/.row-->
-                        <div class="chart-wrapper mt-4">
-                            <canvas id="trafficChart" style="height:200px;" height="200"></canvas>
-                        </div>
-
-                    </div> 
-                </div>
-            </div>   
-
-            <div class="col-xl-6">
+            <div class="col-xl-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>World</h4>
+                        <h4>MY PENDING TASK</h4>
                     </div>
-                    <div class="Vector-map-js">
-                        <div id="vmap" class="vmap" style="height: 265px;"></div>
+                    <div class="card-body">
+                       <table class="table table-dashboard">
+                          <thead>
+                            <tr>
+                              <th scope="col">NO</th>
+                              <th scope="col">PROJECT STATUS</th>
+                              <th scope="col">TASK PROJECT</th>
+                              <th scope="col">TAKS DATE</th>
+                              <th scope="col">TARGET DATE</th>
+                              <th scope="col">DUE IN</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>PT. PERUSAHAAN YANG SUKSES</td>
+                              <td>Perhitungan Pajak</td>
+                              <td>Perhitungan Pajak PPh 21</td>
+                              <td>2021-09-17</td>
+                              <td><h6><span class="badge badge-warning text-white">3 more days</span></h6></td>
+                            </tr> 
+                            <tr>
+                              <th scope="row">2</th>
+                              <td>PT. SEJAHTERA ABADI</td>
+                              <td>Pengiriman HardCopy</td>
+                              <td>Menunggu Pengiriman HardCopy</td>
+                              <td>2021-09-10</td>
+                              <td><h6><span class="badge badge-danger">4 days ago</span></h6></td>
+                            </tr> 
+                            <tr>
+                              <th scope="row">3</th>
+                              <td>PT. INCUBE SOLUTIONS</td>
+                              <td>Perhitungan Pajak</td>
+                              <td>Menunggu Approval Klien</td>
+                              <td>2021-09-20</td>
+                              <td><h6><span class="badge badge-success">6 more days</span></h6></td>
+                            </tr> 
+                          </tbody>
+                        </table>
                     </div>
                 </div>
                 <!-- /# card -->

@@ -58,7 +58,7 @@
                       <a class="nav-link" href="<?php echo base_url('company_profile/detail/dokumen_elektronik'); ?>"><i class="fa fa-file mr-1"></i>Dokumen Elektronik</a>
                     </li>
                 </ul> 
-                <a class="btn btn-sm btn-warning col-2 ml-2 mb-3 mt-1 text-white" type="submit" href="<?php echo base_url('company_profile/edit/identitas_wp'); ?>">Edit Data</a>
+                <a class="btn btn-sm btn-warning col-2 ml-2 mb-3 mt-1 text-white" type="submit" href="<?php echo base_url('company_profile/edit/identitas_wp?cid='.$company->row()->COMPANY_ID); ?>">Edit Data</a>
                 <hr class="mx-2 mt-0">
 				<form method="POST" action="#" class="px-3">  
                     <div class="row">

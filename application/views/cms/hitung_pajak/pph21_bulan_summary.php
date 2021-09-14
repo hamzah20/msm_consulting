@@ -46,13 +46,29 @@
         <hr>
         <h6><span class="badge badge-success"># Summary / Ringkasan</span></h6> <br>
         <div class="row mb-3">
-          <?php foreach ($employees->result() as $employee) ?>
-          <div class="col-4">
-            <div class="form-group">
-              <label for="" class="label-utama font-weight-bold text-center">(1) Periode / Masa</label>
-              <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtPeriode" value="<?php echo $employee->PERIOD_MONTH."-".$employee->PERIOD_YEAR; ?>" readonly>
-            </div>
-          </div>
+          <?php 
+              foreach ($employees->result() as $employee); 
+              if(!empty($employee)){
+              ?>
+              <div class="col-4">
+                <div class="form-group">
+                  <label for="" class="label-utama font-weight-bold text-center">(1) Periode / Masa</label> 
+                  <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtPeriode" value="<?php echo $employee->PERIOD_MONTH."-".$employee->PERIOD_YEAR; ?>" readonly>  
+                </div>
+              </div>
+              <?php
+            }else{
+              ?>
+              <div class="col-4">
+                <div class="form-group">
+                  <label for="" class="label-utama font-weight-bold text-center">(1) Periode / Masa</label> 
+                  <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtPeriode" value="...." readonly>  
+                </div>
+              </div>
+              <?php
+            } 
+          ?>
+          
           <div class="col-4">
             <div class="form-group">
               <label for="" class="label-utama font-weight-bold text-center">(2) Pembetulan / Koreksi</label>
@@ -84,10 +100,10 @@
             <?php if ($summary->num_rows() != 0) { ?>
               <tr>
                 <td class="text-center"><?= $employees->num_rows(); ?></td>
-                <td class="text-center font-weight-bold"><?= number_format($summary->row()->COMPANY_BRUTO); ?></td>
-                <td class="text-center font-weight-bold"><?= number_format($summary->row()->COMPANY_KBLB); ?></td>
-                <td class="text-center font-weight-bold"><?= number_format($summary->row()->COMPANY_COMPENSATION); ?></td>
-                <td class="text-center font-weight-bold"><?= number_format($summary->row()->COMPANY_KBLB); ?></td>
+                <td class="text-center"><?= number_format($summary->row()->COMPANY_BRUTO); ?></td>
+                <td class="text-center"><?= number_format($summary->row()->COMPANY_KBLB); ?></td>
+                <td class="text-center"><?= number_format($summary->row()->COMPANY_COMPENSATION); ?></td>
+                <td class="text-center"><?= number_format($summary->row()->COMPANY_KBLB); ?></td>
                 <td class="text-center"><?= ($summary->row()->COMPANY_KBLB == 0 ? '' : '411121-100'); ?></td>
               </tr>
             <?php } ?> 
@@ -155,7 +171,8 @@
                   <td class="text-center"><?= number_format($employee->EMPLOYEE_IURAN_PENSIUN); ?></td>
                   <td class="text-center"><?= number_format($employee->EMPLOYEE_PPHVAL); ?></td>
                   <td>
-                    <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_21/bulan/summary/karyawan/detail?eid=' . $employee->EMPLOYEE_ID . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID); ?>"><i class="fa fa-eye"></i></a>
+                    <a class="btn btn-sm btn-danger mb-1" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_21/bulan/summary/karyawan/detail?eid=' . $employee->EMPLOYEE_ID . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID); ?>"><i class="fa fa-eye"></i></a>
+                    <a class="btn btn-sm btn-warning text-white" data-toggle="tooltip" data-placement="top" title="Lihat" href=""><i class="fa fa-edit"></i></a>
                   </td>
                 </tr>
               <?php

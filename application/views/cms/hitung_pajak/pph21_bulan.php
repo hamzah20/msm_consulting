@@ -57,12 +57,12 @@
           <tbody>
 
             <?php if ($companies->num_rows() != 0) { ?>
-              <?php foreach ($companies->result() as $company) { ?>
+              <?php foreach ($correction->result() as $company) { ?>
                 <tr>
                   <th scope="row" class="text-center"><?= $counter++; ?></th>
                   <td><?= $company->COMPANY_NAME; ?></td>
                   <td class="text-center"><?= strtoupper($company->PERIOD_MONTH) . '-' . $company->PERIOD_YEAR; ?></td>
-                  <td class="text-center text-danger"><?= $correction->num_rows() - 1; ?></td>
+                  <td class="text-center text-danger"><?= $company->TOTAL_PEMBETULAN; ?></td>
                   <td class="text-center"><?= ($company->COMPANY_BRUTO == null ? '-' : number_format($company->COMPANY_BRUTO)); ?></td>
                   <td class="text-center"><?= ($company->COMPANY_KBLB == null ? '-' : number_format($company->COMPANY_KBLB)); ?></td>
                   <td class="text-center">
