@@ -399,6 +399,7 @@ class Client extends CI_Controller
 	}
 	public function detail_dokumen_elektronik()
 	{
+		$data['company'] = $this->cms->getSingularData('g_company_docs', 'COMPANY_ID', $this->input->get('cid'));
 		$data['npwp']	= $this->cms->getSingularDataDetail('g_company_docs', 'COMPANY_ID', 'DOC_ID', $this->input->get('cid'), 'NPWP');
 		$data['skt'] 	= $this->cms->getSingularDataDetail('g_company_docs', 'COMPANY_ID', 'DOC_ID', $this->input->get('cid'), 'SKT');
 		$data['sppkp'] 	= $this->cms->getSingularDataDetail('g_company_docs', 'COMPANY_ID', 'DOC_ID', $this->input->get('cid'), 'SKT');
@@ -416,6 +417,7 @@ class Client extends CI_Controller
 		$data['npwpd'] 	= $this->cms->getSingularDataDetail('g_company_docs', 'COMPANY_ID', 'DOC_ID', $this->input->get('cid'), 'NPWPD');
 
 		if ($data['npwp']->num_rows() == 0 && $data['skt']->num_rows() == 0 && $data['sppkp']->num_rows() == 0 && $data['tdp']->num_rows() == 0 && $data['siup']->num_rows() == 0 && $data['nib']->num_rows() == 0 && $data['app']->num_rows() == 0 && $data['apbp']->num_rows() == 0 && $data['aspp']->num_rows() == 0 && $data['skb']->num_rows() == 0 && $data['stl']->num_rows() == 0 && $data['skdu']->num_rows() == 0 && $data['efin']->num_rows() == 0 && $data['ktp']->num_rows() == 0 && $data['npwpd']->num_rows() == 0) {
+			
 			$this->session->set_flashdata('query', 'invalid');
 			redirect('company_profile');
 		} else {

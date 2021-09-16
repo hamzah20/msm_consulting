@@ -94,7 +94,7 @@
             ->join('s_appl_parent', 's_appl.APPL_PARENT_ID = s_appl_parent.ID', 'inner')
             ->where('GROUP_ID', $groupID)
             ->where('s_appl.APPL_PARENT_ID', $parentID)
-            ->order_by('ORDER', 'ASC');
+            ->order_by('s_appl_group.ORDER_NO', 'ASC');
 
         $query = $this->db->get();
 

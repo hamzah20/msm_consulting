@@ -175,10 +175,11 @@
                           <thead>
                             <tr>
                               <th scope="col">NO</th>
-                              <th scope="col">PROJECT STATUS</th>
-                              <th scope="col">TASK PROJECT</th>
-                              <th scope="col">TAKS DATE</th>
+                              <th scope="col">KLIEN</th>
+                              <th scope="col">PROJECT STATUST</th>
+                              <th scope="col">TASK STATUS</th> 
                               <th scope="col">TARGET DATE</th>
+                              <th scope="col">PIC</th>
                               <th scope="col">DUE IN</th>
                             </tr>
                           </thead>
@@ -189,6 +190,7 @@
                               <td>Perhitungan Pajak</td>
                               <td>Perhitungan Pajak PPh 21</td>
                               <td>2021-09-17</td>
+                              <td>Hamzah</td>
                               <td><h6><span class="badge badge-warning text-white">3 more days</span></h6></td>
                             </tr> 
                             <tr>
@@ -197,6 +199,7 @@
                               <td>Pengiriman HardCopy</td>
                               <td>Menunggu Pengiriman HardCopy</td>
                               <td>2021-09-10</td>
+                              <td>Andi</td>
                               <td><h6><span class="badge badge-danger">4 days ago</span></h6></td>
                             </tr> 
                             <tr>
@@ -205,6 +208,7 @@
                               <td>Perhitungan Pajak</td>
                               <td>Menunggu Approval Klien</td>
                               <td>2021-09-20</td>
+                              <td>Rafif</td>
                               <td><h6><span class="badge badge-success">6 more days</span></h6></td>
                             </tr> 
                           </tbody>
