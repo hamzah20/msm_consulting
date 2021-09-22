@@ -33,6 +33,10 @@
         return $query;
     }
 
+    public function getSingularDataPPH21(){
+        
+    }
+
     public function getGeneralData($table, $field, $query)
     {
         $this->db->select('*')
@@ -115,17 +119,17 @@
         $query = $this->db->get();
 
         return $query;
-    }
-
-    public function getPeriodeTahun($cid){
-
-        $sql = $this->db->query("SELECT a.*,(select count(b.PPH_ID) from v_g_companies_pph21 as b where b.COMPANY_ID=a.COMPANY_ID and (b.PERIOD_MONTH=a.PERIOD_MONTH and b.PERIOD_YEAR=a.PERIOD_YEAR)) AS TOTAL_PEMBETULAN FROM `v_g_companies_pph21` AS a WHERE a.COMPANY_ID='".$cid."' AND a.STATUS='ACTIVE'");
-        return $sql;
-    }
+    } 
 
     public function getPembetulan($cid){
 
-        $sql = $this->db->query("SELECT a.*,(select count(b.PPH_ID) from v_g_companies_pph21 as b where b.COMPANY_ID=a.COMPANY_ID and (b.PERIOD_MONTH=a.PERIOD_MONTH and b.PERIOD_YEAR=a.PERIOD_YEAR)) AS TOTAL_PEMBETULAN FROM `v_g_companies_pph21` AS a WHERE a.COMPANY_ID='".$cid."' AND a.STATUS='ACTIVE'");
+        $sql = $this->db->query("SELECT a.*,(select count(b.PPH_ID)-1 from v_g_companies_pph21_detail as b where b.COMPANY_ID=a.COMPANY_ID and (b.PERIOD_MONTH=a.PERIOD_MONTH and b.PERIOD_YEAR=a.PERIOD_YEAR)) AS TOTAL_PEMBETULAN FROM `v_g_companies_pph21_detail` AS a WHERE a.COMPANY_ID='".$cid."' AND a.STATUS='ACTIVE'");
+        return $sql;
+    }
+
+    public function getPembetulanSummary($cid,$mid){
+
+        $sql = $this->db->query("SELECT a.*,(select count(b.PPH_ID) from v_g_companies_pph21_detail as b where b.COMPANY_ID=a.COMPANY_ID and (b.PERIOD_MONTH=a.PERIOD_MONTH and b.PERIOD_YEAR=a.PERIOD_YEAR)) AS TOTAL_PEMBETULAN FROM `v_g_companies_pph21_detail` AS a WHERE a.COMPANY_ID='".$cid."' AND a.PERIOD_MONTH='".$mid."'");
         return $sql;
     }
 }

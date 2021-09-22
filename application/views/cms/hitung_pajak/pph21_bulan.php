@@ -66,7 +66,8 @@
                   <td class="text-center"><?= ($company->COMPANY_BRUTO == null ? '-' : number_format($company->COMPANY_BRUTO)); ?></td>
                   <td class="text-center"><?= ($company->COMPANY_KBLB == null ? '-' : number_format($company->COMPANY_KBLB)); ?></td>
                   <td class="text-center">
-                    <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_21/bulan/summary?pid=' . $company->PPH_ID . '&cid=' . $company->COMPANY_ID); ?>"><i class="fa fa-eye"></i></a>
+                    <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_21/bulan/summary?pid=' . $company->PPH_ID . '&cid=' . $company->COMPANY_ID . '&mid=' . $company->PERIOD_MONTH . '&yid=' . $company->PERIOD_YEAR); ?>"><i class="fa fa-eye"></i></a>
+                    <a class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Approve" href="<?= base_url('pph_21/bulan/approve?pid=' . $company->PPH_ID . '&cid=' . $company->COMPANY_ID . '&mid=' . $company->PERIOD_MONTH . '&yid=' . $company->PERIOD_YEAR); ?>"><i class="fa fa-check-circle"></i></a>
                   </td>
                 </tr>
               <?php } ?>

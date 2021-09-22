@@ -16,10 +16,9 @@ class Pph21 extends CI_Controller
 	public function index()
 	{
 		$this->db->select('*')
-			->from('v_g_companies_pph21')
-			->where('STATUS', 'ACTIVE');
+				 ->from('v_g_companies_pph21');
 
-		$queryGet = $this->db->get();
+		$queryGet = $this->db->get(); 
 
 		$data['companies']	= $queryGet;
 		$data['counter']	= 1;
@@ -30,15 +29,16 @@ class Pph21 extends CI_Controller
 	public function pph_21_bulan()
 	{
 		$this->db->select('*')
-			->from('v_g_companies_pph21')
+			->from('v_g_companies_pph21_detail')
 			->where('COMPANY_ID', $this->input->get('cid'))
 			->where('STATUS', 'ACTIVE');
 
 		$queryGet = $this->db->get();
 
 		$cid=$this->input->get('cid');
+		$yid=$this->input->get('yid');
 
-		$data['correction'] = $this->cms->getPembetulan($cid);
+		$data['correction'] = $this->cms->getPembetulan($cid,$yid);
 
 		$data['companies'] 	= $queryGet;
 		$data['counter'] 	= 1;
@@ -56,8 +56,10 @@ class Pph21 extends CI_Controller
 	public function pph_21_bulan_summary()
 	{ 
 		$cid=$this->input->get('cid');
-		$data['correction'] = $this->cms->getPembetulan($cid);
-		$data['summary'] 	= $this->cms->getGeneralData('v_g_companies_pph21', 'PPH_ID', $this->input->get('pid'));
+		$mid=$this->input->get('mid');
+		// $mid=$this->input->get('yid');
+		$data['correction'] = $this->cms->getPembetulanSummary($cid,$mid);
+		$data['summary'] 	= $this->cms->getGeneralData('v_g_companies_pph21_detail', 'PPH_ID', $this->input->get('pid'));
 
 		$this->db->select('*')
 			->from('v_g_employee_pph21')
@@ -89,7 +91,7 @@ class Pph21 extends CI_Controller
 
 		$companyData    = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $companyID);
 		$employeeData   = $this->cms->getSingularData('v_g_employee', 'EMPLOYEE_COMPANY_ID', $companyID);
-		$pphData 		= $this->cms->getSingularData('g_pph21', 'PPH_ID', $pphID);
+		
 
 		$fileName = 'FORMAT_PPH21_' . $companyData->row()->COMPANY_NAME . '_' . date('ymd') . '.xlsx';
 
@@ -286,7 +288,7 @@ class Pph21 extends CI_Controller
 			$numCounter = 1;
 
 			foreach ($employeeData->result() as $employee) {
-
+				$pphData 		= $this->cms->getSingularDataDetail('v_g_employee_pph21', 'PPH_ID', 'EMPLOYEE_ID',$pphID,$employee->EMPLOYEE_ID);
 				//2.1 Convert Tanggal sesuai format, lihat di Libraries/Incube.php
 				$monthName = $this->incube->convertMonthName($pphData->row()->PERIOD_MONTH);
 				//EoL 2.1
@@ -295,26 +297,26 @@ class Pph21 extends CI_Controller
 				$sheet->setCellValue('B' . $colCounter, $pphData->row()->PERIOD_YEAR . '-' . $monthName);
 				$sheet->setCellValue('C' . $colCounter, $employee->EMPLOYEE_INTERNAL_ID);
 				$sheet->setCellValue('D' . $colCounter, $employee->EMPLOYEE_NAME);
-				$sheet->setCellValue('E' . $colCounter, 0);
-				$sheet->setCellValue('F' . $colCounter, 0);
-				$sheet->setCellValue('G' . $colCounter, 0);
-				$sheet->setCellValue('H' . $colCounter, 0);
-				$sheet->setCellValue('I' . $colCounter, 0);
-				$sheet->setCellValue('J' . $colCounter, 0);
-				$sheet->setCellValue('K' . $colCounter, 0);
-				$sheet->setCellValue('L' . $colCounter, 0);
-				$sheet->setCellValue('M' . $colCounter, 0);
-				$sheet->setCellValue('N' . $colCounter, 0);
-				$sheet->setCellValue('O' . $colCounter, 0);
-				$sheet->setCellValue('P' . $colCounter, 0);
-				$sheet->setCellValue('Q' . $colCounter, 0);
-				$sheet->setCellValue('R' . $colCounter, 0);
-				$sheet->setCellValue('S' . $colCounter, 0);
-				$sheet->setCellValue('T' . $colCounter, 0);
-				$sheet->setCellValue('U' . $colCounter, 0);
-				$sheet->setCellValue('V' . $colCounter, 0);
-				$sheet->setCellValue('W' . $colCounter, 0);
-				$sheet->setCellValue('X' . $colCounter, 0);
+				$sheet->setCellValue('E' . $colCounter, $pphData->row()->EMPLOYEE_GAJI_POKOK);
+				$sheet->setCellValue('F' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_PPH);
+				$sheet->setCellValue('G' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_1 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_1); 
+				$sheet->setCellValue('H' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_2 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_2);
+				$sheet->setCellValue('I' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_3 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_3);
+				$sheet->setCellValue('J' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_4 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_4);
+				$sheet->setCellValue('K' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_5 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_5);
+				$sheet->setCellValue('L' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_6 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_6);
+				$sheet->setCellValue('M' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_7 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_7);
+				$sheet->setCellValue('N' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_8 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_8);
+				$sheet->setCellValue('O' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_9 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_9);
+				$sheet->setCellValue('P' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_10 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_10);
+				$sheet->setCellValue('Q' . $colCounter, $pphData->row()->EMPLOYEE_HONORARIUM);
+				$sheet->setCellValue('R' . $colCounter, $pphData->row()->EMPLOYEE_PREMI_JKK == null ? '0' : $pphData->row()->EMPLOYEE_PREMI_JKK);
+				$sheet->setCellValue('S' . $colCounter, $pphData->row()->EMPLOYEE_PREMI_JKM == null ? '0' : $pphData->row()->EMPLOYEE_PREMI_JKM);
+				$sheet->setCellValue('T' . $colCounter, $pphData->row()->EMPLOYEE_PREMI_BPJS == null ? '0' : $pphData->row()->EMPLOYEE_PREMI_BPJS);
+				$sheet->setCellValue('U' . $colCounter, $pphData->row()->EMPLOYEE_NATURA);
+				$sheet->setCellValue('V' . $colCounter, $pphData->row()->EMPLOYEE_TANTIEMBONUS);
+				$sheet->setCellValue('W' . $colCounter, $pphData->row()->EMPLOYEE_IURAN_THT == null ? '0' : $pphData->row()->EMPLOYEE_IURAN_THT);
+				$sheet->setCellValue('X' . $colCounter, $pphData->row()->EMPLOYEE_IURAN_JP == null ? '0' : $pphData->row()->EMPLOYEE_IURAN_JP);
 
 				$colCounter++;
 				$numCounter++;
@@ -378,6 +380,8 @@ class Pph21 extends CI_Controller
 	public function importXLSLFile()
 	{
 		$this->output->enable_profiler(TRUE);
+
+		$ketPembetulan = $this->input->post('pembetulan'); //get keterangan pembetulan
 
 		$companyCheck  = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->post('companyID'));
 		$employeeCheck = $this->cms->getSingularData('v_g_employee', 'EMPLOYEE_COMPANY_ID', $this->input->post('companyID'));
@@ -447,6 +451,11 @@ class Pph21 extends CI_Controller
 			return;
 		}
 
+		// Jika tidak melakukan pembetulan, hapus terlebih dahulu data lama di g_employee_income
+		if(empty($ketPembetulan)){
+			$deleteEmployeeIncome = $this->cms->deleteGeneralData('g_employee_income', 'PPH_ID', $this->input->post('pphID'));
+		}
+
 		foreach ($sheet as $sheetData) {
 
 			$employeeID     = $this->incube->generateID(10);
@@ -486,7 +495,9 @@ class Pph21 extends CI_Controller
 
 				//Dibulatkan biar 3 digit dibelakang jadi 0
 				$yearlyPKP = (floor($yearlyPKP / 1000)) * 1000;
+				//looping Tingkatan Pajak
 				$yearlyPPH = 0.05 * $yearlyPKP;
+				
 				$monthlyPPH = $yearlyPPH / 12;
 			}
 
@@ -524,8 +535,15 @@ class Pph21 extends CI_Controller
 						break;
 				}
 			}
-			//EoL PPH21 Gross Up
+			
+			// Update data sebelumnya, sebelum di inputkan data baru
+			$updatePPH21 = array(
+				'UPDATED'	=> date('Y-m-d H:i:s')
+			);
+			$this->cms->updateGeneralData('g_pph21', $updatePPH21, 'PPH_ID', $this->input->post('pphID'));
 
+
+			//EoL PPH21 Gross Up
 			$employeeData = array(
 				'INCOME_ID'                 	=> $employeeID,
 				'PPH_ID'						=> $this->input->post('pphID'),
@@ -533,18 +551,33 @@ class Pph21 extends CI_Controller
 				'EMPLOYEE_ID'             		=> $employeeArr[$employeeIndex]['ID'],
 				'EMPLOYEE_GAJI_POKOK'			=> $sheetData['E'],
 				'EMPLOYEE_TUNJANGAN_PPH'		=> $sheetData['F'],
+				'EMPLOYEE_TUNJANGAN_1'			=> $sheetData['G'],
+				'EMPLOYEE_TUNJANGAN_2'			=> $sheetData['H'],
+				'EMPLOYEE_TUNJANGAN_3'			=> $sheetData['I'],
+				'EMPLOYEE_TUNJANGAN_4'			=> $sheetData['J'],
+				'EMPLOYEE_TUNJANGAN_5'			=> $sheetData['K'],
+				'EMPLOYEE_TUNJANGAN_6'			=> $sheetData['L'],
+				'EMPLOYEE_TUNJANGAN_7'			=> $sheetData['M'],
+				'EMPLOYEE_TUNJANGAN_8'			=> $sheetData['N'],
+				'EMPLOYEE_TUNJANGAN_9'			=> $sheetData['O'],
+				'EMPLOYEE_TUNJANGAN_10'			=> $sheetData['P'],
 				'EMPLOYEE_TUNJANGAN_LAINNYA'	=> $totalTunjangan,
 				'EMPLOYEE_HONORARIUM'			=> $sheetData['Q'],
+				'EMPLOYEE_PREMI_JKK'			=> $sheetData['R'],
+				'EMPLOYEE_PREMI_JKM'			=> $sheetData['S'],
+				'EMPLOYEE_PREMI_BPJS'			=> $sheetData['T'],
 				'EMPLOYEE_PREMI'				=> $totalPremi,
 				'EMPLOYEE_NATURA'				=> $sheetData['U'],
 				'EMPLOYEE_TANTIEMBONUS'			=> $sheetData['V'],
+				'EMPLOYEE_IURAN_THT'			=> $sheetData['W'],
+				'EMPLOYEE_IURAN_JP'				=> $sheetData['X'],
 				'EMPLOYEE_IURAN_PENSIUN'		=> $iuran,
 				'EMPLOYEE_BIAYA_JABATAN'		=> 0.05 * $totalBruto,
 				'EMPLOYEE_BRUTO'				=> $totalBruto,
 				'EMPLOYEE_NETTO'				=> $totalBruto - $totalPengurang,
+				'EMPLOYEE_PPHVAL'				=> round($monthlyPPH),
 				'CREATED'						=> date('Y-m-d h:i:s'),
-				'STATUS'						=> 'ACTIVE',
-				'EMPLOYEE_PPHVAL'				=> round($monthlyPPH)
+				'STATUS'						=> 'ACTIVE'
 			);
 
 			$companyBruto 	= $companyBruto + $totalBruto;
@@ -555,6 +588,7 @@ class Pph21 extends CI_Controller
 			// echo json_encode($employeeData);
 
 			$this->cms->insertGeneralData('g_employee_income', $employeeData);
+
 		}
 
 		//Tambah data ke NETTO & BRUTO PERUSAHAAN

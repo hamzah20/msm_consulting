@@ -41,12 +41,11 @@
       <div class="card-body">
         <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addPPH21Perusahaan">Tambah Data</a>
         <hr>
-
-        <div class="row">
+        <div class="row"> 
           <div class="col-2">
-            <input type="text" id="FilterTahun" name="FilterTahun" class="form-control form-control-sm" placeholder="Periode" value="<?php echo date('Y'); ?>">
-          </div>
-        </div>
+            <input type="text" id="FilterTahun" name="FilterTahun" class="form-control form-control-sm" placeholder="Periode" value="<?php echo date('Y'); ?>"> 
+          </div> 
+        </div> <span class="badge badge-info mt-1 mb-3">*Filter by Years</span>
         <table class="table" id="example" class="display">
 
           <br>
@@ -69,10 +68,10 @@
                   <td><?= $company->COMPANY_NAME; ?></td>
                   <td class="text-center"><?= ($company->COMPANY_NPWP == null ? '-' : $company->COMPANY_NPWP); ?></td>
                   <td class="text-center text-danger"><?= $company->PERIOD_YEAR; ?></td>
-                  <td class="text-center"><?= ($company->COMPANY_BRUTO == null ? '-' : number_format($company->COMPANY_BRUTO)); ?></td>
-                  <td class="text-center"><?= ($company->COMPANY_KBLB == null ? '-' : number_format($company->COMPANY_KBLB)); ?></td>
+                  <td class="text-center"><?= ($company->TOTAL_COMPANY_BRUTO == null ? '-' : number_format($company->TOTAL_COMPANY_BRUTO)); ?></td>
+                  <td class="text-center"><?= ($company->TOTAL_COMPANY_KBLB == null ? '-' : number_format($company->TOTAL_COMPANY_KBLB)); ?></td>
                   <td class="text-center">
-                    <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Summary Bulanan" href="<?= base_url('pph_21/bulan?cid=' . $company->COMPANY_ID); ?>"><i class="fa fa-eye"></i></a>
+                    <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Summary Bulanan" href="<?= base_url('pph_21/bulan?cid=' . $company->COMPANY_ID . '&yid=' . $company->PERIOD_YEAR); ?>"><i class="fa fa-eye"></i></a>
                     <a class="btn btn-sm btn-primary text-white" data-toggle="tooltip" data-placement="top" title="Summary Tahunan" href="<?= base_url('pph_21/tahun'); ?>" role="button" role="button"><i class="fa fa-eye"></i></a>
                   </td>
                 </tr>

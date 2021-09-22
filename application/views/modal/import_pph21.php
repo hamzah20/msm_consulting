@@ -13,20 +13,15 @@
   							<div class="custom-file">
   								<input type="file" class="custom-file-input" id="fileImport" name="fileImport" aria-describedby="ImportDataPPH21" required>
   								<label class="custom-file-label" id="custom-file-label" for="fileImport">Import file</label>
-  							</div>
-
-  							<!-- JS for Show The Name File in Input File -->
-  							<script type="application/javascript">
-  								$('#custom-file-label').on('change', function() {
-  									// Ambil nama file 
-  									let fileName = $(this).val().split('\\').pop();
-  									// Ubah "Choose a file" label sesuai dengan nama file yag akan diupload
-  									$(this).next('.custom-file-label').addClass("selected").html(fileName);
-  								});
-  							</script>
-
+  							</div> 
   						</div>
-  						<small class="bg bg-warning font-weight-bold"><i>*Max Size 1MB</i></small>
+  						<small class="bg bg-warning font-weight-bold"><i>*Max Size 1MB</i></small> 
+              <div class="form-check mt-2">
+                <input class="form-check-input" type="checkbox" name="pembetulan" value="yes">
+                <label class="form-check-label mt-1">
+                  Apakah anda ingin melakukan pembetulan?
+                </label> 
+              </div> 
   						<input type="hidden" name="companyID" value="<?= $this->input->get('cid'); ?>" readonly>
   						<input type="hidden" name="pphID" value="<?= $this->input->get('pid'); ?>" readonly>
   					</div>
