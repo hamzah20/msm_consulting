@@ -28,10 +28,13 @@ class Pph21 extends CI_Controller
 
 	public function pph_21_bulan()
 	{
+
+		//$status = "STATUS='ACTIVE' OR STATUS='APPROVED'";
+
 		$this->db->select('*')
-			->from('v_g_companies_pph21_detail')
-			->where('COMPANY_ID', $this->input->get('cid'))
-			->where('STATUS', 'ACTIVE');
+			->from('v_g_companies_pph21_detail');
+			// ->where('COMPANY_ID', $this->input->get('cid'))
+			// ->where('STATUS', 'APPROVED');
 
 		$queryGet = $this->db->get();
 
@@ -80,6 +83,22 @@ class Pph21 extends CI_Controller
 		// }
 
 		$this->load->view('cms/hitung_pajak/pph21_bulan_summary', $data);
+	}
+
+	public function pph_21_bulan_approve()
+	{
+		$pid=$this->input->get('pid');
+		$cid=$this->input->get('cid');
+		$yid=$this->input->get('yid');
+
+		$statusApprove = array(
+			'STATUS'  => 'WAITING FOR APPROVAL'
+		);
+
+		$this->cms->updateGeneralData('g_pph21', $statusApprove, 'PPH_ID', $this->input->get('pid'));
+		$this->cms->updateGeneralData('g_employee_income', $statusApprove, 'PPH_ID', $this->input->get('pid'));
+
+		redirect('PPH/Pph21/pph_21_bulan?cid='.$cid.'&pid='.$yid.'');		
 	}
 
 	public function generateXLSFile()
@@ -379,9 +398,9 @@ class Pph21 extends CI_Controller
 
 	public function importXLSLFile()
 	{
-		$this->output->enable_profiler(TRUE);
+		$this->output->enable_profiler(TRUE); 
 
-		$ketPembetulan = $this->input->post('pembetulan'); //get keterangan pembetulan
+		//echo $this->input->post('pphID');
 
 		$companyCheck  = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->post('companyID'));
 		$employeeCheck = $this->cms->getSingularData('v_g_employee', 'EMPLOYEE_COMPANY_ID', $this->input->post('companyID'));
@@ -451,10 +470,18 @@ class Pph21 extends CI_Controller
 			return;
 		}
 
-		// Jika tidak melakukan pembetulan, hapus terlebih dahulu data lama di g_employee_income
-		if(empty($ketPembetulan)){
-			$deleteEmployeeIncome = $this->cms->deleteGeneralData('g_employee_income', 'PPH_ID', $this->input->post('pphID'));
-		}
+		// Mengecek status pada table g_pph21, jika status belum PAID
+		// Maka data lama pada g_employee_income akan dihapus terlebih dahulu, baru diinputkan data terbaru
+		$this->db->select('STATUS')
+				 ->from('g_pph21')
+				 ->where('PPH_ID', $this->input->post('pphID'));
+
+		$status = $this->db->get(); 
+
+		// Jika status bukan PAID, hapus terlebih dahulu data lama di g_employee_income
+		if($status == "ACTIVE" OR $status == "WAITING FOR APPROVAL" OR $status == "WAITING FOR CUSTOMER APPROVAL" OR $status == "WAITING FOR PAYMENT"){
+			$this->cms->deleteGeneralData('g_employee_income', 'PPH_ID', $this->input->post('pphID'));
+		} 
 
 		foreach ($sheet as $sheetData) {
 
@@ -538,7 +565,8 @@ class Pph21 extends CI_Controller
 			
 			// Update data sebelumnya, sebelum di inputkan data baru
 			$updatePPH21 = array(
-				'UPDATED'	=> date('Y-m-d H:i:s')
+				'UPDATED'	=> date('Y-m-d H:i:s'),
+				'STATUS'	=> 'ACTIVE'
 			);
 			$this->cms->updateGeneralData('g_pph21', $updatePPH21, 'PPH_ID', $this->input->post('pphID'));
 
@@ -605,6 +633,58 @@ class Pph21 extends CI_Controller
 
 		redirect('pph_21/bulan/summary?pid=' . $this->input->post('pphID') . '&cid= ' . $this->input->post('companyID'));
 	}
+
+	// Waiting Approve by Customer
+	public function approveCustomer()
+	{
+		// Update status g_pph21
+		$updateApproval = array(
+			'UPDATED'	=> date('Y-m-d H:i:s'),
+			'STATUS'	=> 'WAITING FOR APPROVAL BY CUSTOMER'
+		);
+		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
+
+		// Update status g_employee_income
+		$updateApprovalEmployee = array( 
+			'STATUS'	=> 'WAITING FOR APPROVAL BY CUSTOMER'
+		);
+		$this->cms->updateGeneralData('g_employee_income', $updateApprovalEmployee, 'PPH_ID', $this->input->get('pphID'));
+	}
+
+	// Waiting for Payment
+	public function waitingPayment()
+	{
+		// Update status g_pph21
+		$updateApproval = array(
+			'UPDATED'	=> date('Y-m-d H:i:s'),
+			'STATUS'	=> 'WAITING FOR PAYMENT'
+		);
+		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
+
+		// Update status g_employee_income
+		$updateApprovalEmployee = array( 
+			'STATUS'	=> 'WAITING FOR PAYMENT'
+		);
+		$this->cms->updateGeneralData('g_employee_income', $updateApprovalEmployee, 'PPH_ID', $this->input->get('pphID'));
+	}
+
+	// Payment
+	public function Payment()
+	{
+		// Update status g_pph21
+		$updateApproval = array(
+			'UPDATED'	=> date('Y-m-d H:i:s'),
+			'STATUS'	=> 'PAID'
+		);
+		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
+
+		// Update status g_employee_income
+		$updateApprovalEmployee = array( 
+			'STATUS'	=> 'PAID'
+		);
+		$this->cms->updateGeneralData('g_employee_income', $updateApprovalEmployee, 'PPH_ID', $this->input->get('pphID'));
+	}
+
 
 	public function generateReport()
 	{

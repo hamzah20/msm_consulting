@@ -15,15 +15,9 @@
   								<label class="custom-file-label" id="custom-file-label" for="fileImport">Import file</label>
   							</div> 
   						</div>
-  						<small class="bg bg-warning font-weight-bold"><i>*Max Size 1MB</i></small> 
-              <div class="form-check mt-2">
-                <input class="form-check-input" type="checkbox" name="pembetulan" value="yes">
-                <label class="form-check-label mt-1">
-                  Apakah anda ingin melakukan pembetulan?
-                </label> 
-              </div> 
+  						<small class="bg bg-warning font-weight-bold"><i>*Max Size 1MB</i></small>  
   						<input type="hidden" name="companyID" value="<?= $this->input->get('cid'); ?>" readonly>
-  						<input type="hidden" name="pphID" value="<?= $this->input->get('pid'); ?>" readonly>
+  						<input type="hidden" name="pphID" value="<?= $this->input->get('pid'); ?>" readonly> 
   					</div>
 
   					<div class="modal-footer">
