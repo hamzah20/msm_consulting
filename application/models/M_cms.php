@@ -63,9 +63,28 @@
         return $query;
     }
 
+    public function deleteGeneralDataDouble($table, $filter1, $query1, $filter2, $query2)
+    {
+        $query = $this->db->where($filter1, $query1)
+                          ->where($filter2, $query2)
+                          ->delete($table);
+
+        return $query;
+    }
+
     public function updateGeneralData($table, $data, $filter, $query)
     {
         $this->db->where($filter, $query);
+
+        $query = $this->db->update($table, $data);
+
+        return $query;
+    }
+
+    public function updateGeneralDataDouble($table, $data, $filter1, $query1, $filter2, $query2)
+    {
+        $this->db->where($filter1, $query1);
+        $this->db->where($filter2, $query2);
 
         $query = $this->db->update($table, $data);
 
@@ -121,15 +140,36 @@
         return $query;
     } 
 
+    public function cekstatuspph21($pid){
+        $sql = $this->db->query("SELECT STATUS FROM `g_pph21` WHERE PPH_ID='".$pid."'");
+        return $sql;
+    }
+
+    public function count_pembetulan($pid){
+        $sql = $this->db->query("SELECT count(*) as TOTAL_PEMBETULAN FROM `g_pph21` WHERE 'STATUS'='ON PROGRESS'");
+        return $sql;
+        //var_dump($sql->num_rows());
+    }
+
+    public function total_bruto_netto($pid){
+        $sql = $this->db->query("SELECT SUM(EMPLOYEE_BRUTO) AS TOTAL_BRUTTO,SUM(EMPLOYEE_NETTO) AS TOTAL_NETTO FROM `g_employee_income` WHERE PPH_ID='".$pid."'");
+        return $sql;
+    }
+
     public function getPembetulan($cid){
 
-        $sql = $this->db->query("SELECT a.*,(select count(b.PPH_ID)-1 from v_g_companies_pph21_detail as b where b.COMPANY_ID=a.COMPANY_ID and (b.PERIOD_MONTH=a.PERIOD_MONTH and b.PERIOD_YEAR=a.PERIOD_YEAR)) AS TOTAL_PEMBETULAN FROM `v_g_companies_pph21_detail` AS a WHERE a.COMPANY_ID='".$cid."' AND a.STATUS IN ('ACTIVE', 'APPROVED')");
+        $sql = $this->db->query("SELECT a.*,(select count(b.PPH_ID)-1 from v_g_companies_pph21_detail as b where b.COMPANY_ID=a.COMPANY_ID and (b.PERIOD_MONTH=a.PERIOD_MONTH and b.PERIOD_YEAR=a.PERIOD_YEAR)) AS TOTAL_PEMBETULAN FROM `v_g_companies_pph21_detail` AS a WHERE a.COMPANY_ID='".$cid."' AND a.STATUS IN ('ON PROGRESS', 'APPROVED','PAID')");
         return $sql;
     }
 
     public function getPembetulanSummary($cid,$mid){
 
         $sql = $this->db->query("SELECT a.*,(select count(b.PPH_ID) from v_g_companies_pph21_detail as b where b.COMPANY_ID=a.COMPANY_ID and (b.PERIOD_MONTH=a.PERIOD_MONTH and b.PERIOD_YEAR=a.PERIOD_YEAR)) AS TOTAL_PEMBETULAN FROM `v_g_companies_pph21_detail` AS a WHERE a.COMPANY_ID='".$cid."' AND a.PERIOD_MONTH='".$mid."'");
+        return $sql;
+    }
+    public function getPersen($bruto){
+          $sql = $this->db->query("SELECT PRESENTASE FROM m_tax_netto WHERE (  SALARY_END>='0' and SALARY_START<='".$bruto."') OR (  SALARY_END>='".$bruto."' and SALARY_START<='".$bruto."')");
+                                                                             
         return $sql;
     }
 }

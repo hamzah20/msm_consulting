@@ -205,6 +205,54 @@ class Incube
         return $monthDate;
     }
 
+    public function convertMonthNameLP($month)
+    {
+        switch ($month) {
+
+            case 'Januari':
+                $monthDate = '1';
+                break;
+            case 'Februari':
+                $monthDate = '2';
+                break;
+            case 'Maret':
+                $monthDate = '3';
+                break;
+            case 'April':
+                $monthDate = '4';
+                break;
+            case 'Mei':
+                $monthDate = '5';
+                break;
+            case 'Juni':
+                $monthDate = '6';
+                break;
+            case 'Juli':
+                $monthDate = '7';
+                break;
+            case 'Agustus':
+                $monthDate = '8';
+                break;
+            case 'September':
+                $monthDate = '9';
+                break;
+            case 'Oktober':
+                $monthDate = '10';
+                break;
+            case 'November':
+                $monthDate = '11';
+                break;
+            case 'Desember':
+                $monthDate = '12';
+                break;
+            default:
+                $monthDate = null;
+                break;
+        }
+
+        return $monthDate;
+    }
+
     public function convertMonthNumber($month)
     {
         switch ($month) {

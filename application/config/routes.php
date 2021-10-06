@@ -102,5 +102,6 @@ $route['pph_21/tahun']                                  = 'PPH/Pph21/pph_21_tahu
 $route['pph_21/bulan/summary']                          = 'PPH/Pph21/pph_21_bulan_summary';
 $route['pph_21/bulan/approve']                          = 'PPH/Pph21/pph_21_bulan_approve';
 $route['pph_21/bulan/summary/karyawan/detail']          = 'PPH/Pph21/pph_21_bulan_summary_karyawan';
+$route['pph_21/bulan/summary/karyawan/edit']          	= 'PPH/Pph21/edit_pph_21_bulan_summary_karyawan';
 $route['pph_21/bulan/summary/aktifitas_pajak']          = 'PPH/Pph21/aktifitas_pajak';
 $route['pph_21/bulan/summary/aktifitas_pajak/edit']     = 'PPH/Pph21/edit_aktifitas_pajak';
