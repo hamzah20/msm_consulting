@@ -32,8 +32,8 @@ class Pph21 extends CI_Controller
 		//$status = "STATUS='ACTIVE' OR STATUS='APPROVED'";
 
 		$this->db->select('*')
-			->from('v_g_companies_pph21_detail');
-			// ->where('COMPANY_ID', $this->input->get('cid'))
+			->from('v_g_companies_pph21_detail')
+			->where('COMPANY_ID', $this->input->get('cid'));
 			// ->where('STATUS', 'APPROVED');
 
 		$queryGet = $this->db->get();
@@ -60,8 +60,9 @@ class Pph21 extends CI_Controller
 	{ 
 		$cid=$this->input->get('cid');
 		$mid=$this->input->get('mid');
+		$yid=$this->input->get('yid');
 		// $mid=$this->input->get('yid');
-		$data['correction'] = $this->cms->getPembetulanSummary($cid,$mid);
+		$data['correction'] = $this->cms->getPembetulanSummary($cid,$mid,$yid);
 		$data['summary'] 	= $this->cms->getGeneralData('v_g_companies_pph21_detail', 'PPH_ID', $this->input->get('pid'));
 
 		$this->db->select('*')
@@ -501,13 +502,17 @@ class Pph21 extends CI_Controller
 
 	public function importXLSLFile()
 	{
-		//$this->output->enable_profiler(TRUE); 
+		$this->output->enable_profiler(TRUE); 
 
 		//echo $this->input->post('pphID');
 
 		$companyCheck  = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->post('companyID'));
 		$employeeCheck = $this->cms->getSingularData('v_g_employee', 'EMPLOYEE_COMPANY_ID', $this->input->post('companyID'));
 		$pphCheck 	   = $this->cms->getSingularData('g_pph21', 'PPH_ID', $this->input->post('pphID'));
+		
+
+
+
 
 		//Deklrasi Variabel awal
 		$companyBruto = 0;
@@ -575,6 +580,7 @@ class Pph21 extends CI_Controller
 
 		// Mengecek status pada table g_pph21, jika status belum PAID
 		// Maka data lama pada g_employee_income akan dihapus terlebih dahulu, baru diinputkan data terbaru
+		$processType='REVISI';
 		$this->db->select('STATUS')
 				 ->from('g_pph21')
 				 ->where('PPH_ID', $this->input->post('pphID'));
@@ -583,10 +589,45 @@ class Pph21 extends CI_Controller
 
 		foreach ($status->result() as $key);
 
-		// Jika status bukan PAID, hapus terlebih dahulu data lama di g_employee_income
-		if($key->STATUS == "ON PROGRESS" OR $key->STATUS  == "WAITING FOR APPROVAL" OR $key->STATUS  == "WAITING FOR CUSTOMER APPROVAL" OR $key->STATUS  == "WAITING FOR PAYMENT" OR $key->STATUS  == "PAID" OR $key->STATUS  == "TAX FILING" OR $key->STATUS  == "HARDCOPY"){
+		// Jika status bukan Lapor Pajak, hapus terlebih dahulu data lama di g_employee_income
+		if($key->STATUS == "ACTIVE" OR $key->STATUS == "ON PROGRESS" OR $key->STATUS  == "WAITING FOR APPROVAL" OR $key->STATUS  == "WAITING FOR CUSTOMER APPROVAL" OR $key->STATUS  == "WAITING FOR PAYMENT" OR $key->STATUS  == "PAID" OR $key->STATUS  == "TAX FILING" ){
+			//REVISI
 			$this->cms->deleteGeneralData('g_employee_income', 'PPH_ID', $this->input->post('pphID'));
-		} 
+		} elseif ($key->STATUS == "LAPOR PAJAK" OR $key->STATUS  == "HARDCOPY" ) {
+			//PEMBETULANN
+			$processType='PEMBETULAN';
+			$pembetulanKe = $this->cms->cekpembetulan($this->input->post('companyID'), 'Januari', '2021');
+		
+			foreach ($pphCheck->result() as $cekPPH21);
+			$prevPPHVAL = $cekPPH21->COMPANY_PPHVAL;
+			// Ubah dulu status lama jadi HISTORY
+			$updateStatusPPH21 = array(
+				'UPDATED'	=> date('Y-m-d H:i:s'),
+				'STATUS'	=> 'HISTORY'
+			);
+			$this->cms->updateGeneralData('g_pph21', $updateStatusPPH21, 'PPH_ID', $this->input->post('pphID'));
+
+
+		}
+
+		if($processType=="REVISI") {
+			$pphID = $this->input->post('pphID');
+		}else {
+			$pphID = $this->incube->generateID(10);
+			$companyData = array(
+				'PPH_ID'		=> $pphID,
+				'COMPANY_ID'	=> $this->input->post('companyID'),
+				'PERIOD_YEAR'	=> '2021',
+				'PERIOD_MONTH'	=> 'Januari',
+				'CREATED'		=> date('Y-m-d h:i:s'),
+				'STATUS'		=> 'RE PROGRESS',
+			);
+
+			$queryInsert = $this->cms->insertGeneralData('g_pph21', $companyData);
+			//EoL 1
+			
+		}
+
 
 		foreach ($sheet as $sheetData) {
 
@@ -736,11 +777,8 @@ class Pph21 extends CI_Controller
 
 					}
 
-				}
-
-
-			}
-
+				} 
+			} 
 
 			if ($yearlyPKP > 0) {
 			    if ($yearlyPKP > 500000000) {
@@ -764,9 +802,7 @@ class Pph21 extends CI_Controller
 			    }
 			}		
 
-			$monthlyPPH = ($yearlyPPH / 12);
-
-
+			$monthlyPPH = ($yearlyPPH / 12); 
 
 			if (strlen($employeeArr[$employeeIndex]['NPWP']) == 0) {
 				//Kalau misalnya pegawai ga punya NPWP
@@ -774,33 +810,19 @@ class Pph21 extends CI_Controller
 			} else {
 				//Kalau misalnya pegawai punya NPWP		
 				$monthlyPPHFinal = $monthlyPPH;
-			}
-
-			// DEBUG HASIL PERHITUNGAN PPH 21
-			// echo 'Bruto tahun - ' . number_format($totalBruto) . '</br>';
-			// echo 'Neto setahun - ' . number_format($yearlyNeto) . '</br>';
-			// echo 'PTPKP - ' . number_format($ptkpTarif) . '</br>';
-			// echo 'PPH Tahunan - ' . number_format($yearlyPPH) . '</br>';
-			// echo 'PPH Bulanan - ' . number_format($monthlyPPH) . '</br>';
-			// echo 'PKP Setahun - ' . number_format($yearlyPKP) . '</br></br>';
-			//EoL PPH21 Non-Gross Up
-
-			// echo (floor($totalBruto) - $totalPengurang)*12;
-			// echo"<br>";
-			// echo"<br>";
+			} 
 			
-			// Update data sebelumnya, sebelum di inputkan data baru
+			// Update data sebelumnya, sebelum di inputkan data baru 
 			$updatePPH21 = array(
 				'UPDATED'	=> date('Y-m-d H:i:s'),
 				'STATUS'	=> 'ON PROGRESS'
 			);
-			$this->cms->updateGeneralData('g_pph21', $updatePPH21, 'PPH_ID', $this->input->post('pphID'));
-
+			$this->cms->updateGeneralData('g_pph21', $updatePPH21, 'PPH_ID', $pphID); 
 
 			//EoL PPH21 Gross Up
 			$employeeData = array(
 				'INCOME_ID'                 	=> $employeeID,
-				'PPH_ID'						=> $this->input->post('pphID'),
+				'PPH_ID'						=> $pphID,
 				'COMPANY_ID'           			=> $this->input->post('companyID'),
 				'EMPLOYEE_ID'             		=> $employeeArr[$employeeIndex]['ID'],
 				'EMPLOYEE_GAJI_POKOK'			=> $sheetData['E'],
@@ -852,19 +874,27 @@ class Pph21 extends CI_Controller
 
 		}
 
+		if($processType=="REVISI") {
+				$KBLB = 0;
+			}else {
+				$KBLB = $prevPPHVAL - $companyPPH21;
+				
+			} 
+
 		//Tambah data ke NETTO & BRUTO PERUSAHAAN
 		$companyData = array(
 			'COMPANY_BRUTO'		=> $companyBruto,
-			'COMPANY_NETTO'		=> $companyNeto,
-			'COMPANY_KBLB'		=> $companyPPH21
+			'COMPANY_NETTO'		=> $companyNeto, 
+			'COMPANY_PPHVAL'	=> $companyPPH21,
+			'COMPANY_KBLB'		=> $KBLB
 		);
 
 		//DEBUG DATA YANG MAU DIMASUKIN
 		// echo json_encode($companyData);
 
-		$this->cms->updateGeneralData('g_pph21', $companyData, 'PPH_ID', $this->input->post('pphID'));
+		$this->cms->updateGeneralData('g_pph21', $companyData, 'PPH_ID', $pphID);
 
-		redirect('pph_21/bulan/summary?pid=' . $this->input->post('pphID') . '&cid= ' . $this->input->post('companyID'));
+		redirect('pph_21/bulan/summary?pid=' . $pphID . '&cid=' . $this->input->post('companyID'). '&mid=' . $this->input->post('monthID'). '&yid=' . $this->input->post('yearID'));
 	}
 
 	// Waiting Approve by Customer
@@ -1040,13 +1070,13 @@ class Pph21 extends CI_Controller
 			'UPDATED'	=> date('Y-m-d H:i:s'),
 			'STATUS'	=> 'LAPOR PAJAK'
 		);
-		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
+		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pid'));
 
 		// Update status g_employee_income
 		$updateApprovalEmployee = array( 
 			'STATUS'	=> 'LAPOR PAJAK'
 		);
-		$this->cms->updateGeneralData('g_employee_income', $updateApprovalEmployee, 'PPH_ID', $this->input->get('pphID'));
+		$this->cms->updateGeneralData('g_employee_income', $updateApprovalEmployee, 'PPH_ID', $this->input->get('pid'));
 
 		// INSERT LOG
 		$insertLog = array(
@@ -1057,6 +1087,8 @@ class Pph21 extends CI_Controller
 			'SQLSYNTAX'	=> '..........'
 		);
 		$queryInsert = $this->cms->insertGeneralData('s_log', $insertLog);
+
+		redirect('pph_21/bulan/summary?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid'). '&mid=' . $this->input->get('mid'). '&yid=' . $this->input->get('yid'));
 	}
 
 	// Closed
@@ -1308,6 +1340,7 @@ class Pph21 extends CI_Controller
 
 		$queryGet = $this->db->get();
 
+		// echo $this->input->post('addPeriodeTahun');
 
 		$companyData = array(
 			'PPH_ID'		=> $this->incube->generateID(10),
@@ -1328,7 +1361,7 @@ class Pph21 extends CI_Controller
 		}
 
 		redirect(($this->input->post('pphFlag') == true ? base_url('pph_21/bulan?cid=' . $this->input->post('companyID')) : base_url('pph_21')));
-	}
+	} 
 
 	public function pph_21_tahun()
 	{
@@ -1664,11 +1697,6 @@ class Pph21 extends CI_Controller
 			'PPHCOUNT_METHOD'				=> $companyCheck->row()->PPHCOUNT_METHOD
 		);
 
-		echo $gaji;  
-
-		// Cek Company Bruto kembali yang sudah diubah
-		$this->update_g_pph21($this->input->post('pphID')); 
-
 
 
 		// Mengecek status pada table g_pph21, jika status belum PAID
@@ -1692,18 +1720,15 @@ class Pph21 extends CI_Controller
 				'UPDATED'	=> date('Y-m-d H:i:s'),
 				'STATUS'	=> 'ON PROGRESS'
 			);
-			$this->cms->updateGeneralData('g_pph21', $updatePPH21, 'PPH_ID', $this->input->post('pphID'));
-
-			// $updateemployeePPH21 = array(
-			// 	'CREATED'	=> date('Y-m-d H:i:s'),
-			// 	'STATUS'	=> 'ON PROGRESS'
-			// );
-			// $this->cms->updateGeneralDataDouble('g_employee_income', $updateemployeePPH21, 'PPH_ID', $this->input->post('pphID'), 'EMPLOYEE_ID', $this->input->post('employeeID'));
+			$this->cms->updateGeneralData('g_pph21', $updatePPH21, 'PPH_ID', $this->input->post('pphID')); 
 		} 
 
-		$this->cms->insertGeneralData('g_employee_income', $employeeData);  
+		$this->cms->insertGeneralData('g_employee_income', $employeeData);
 
-		redirect('pph_21/bulan/summary?pid=' . $this->input->post('pphID') . '&cid= ' . $this->input->post('companyID'));
+		// Cek Company Bruto kembali yang sudah diubah
+		$this->update_g_pph21($this->input->post('pphID')); 
+
+		redirect('pph_21/bulan/summary?pid='. $this->input->post('pphID') . '&cid=' . $this->input->post('companyID'). '&mid=' . $this->input->post('monthID'). '&yid=' . $this->input->post('yearID'));
 	}
 
 
@@ -1714,11 +1739,13 @@ class Pph21 extends CI_Controller
 		foreach ($query_total->result() as $key);
 		$total_bruto = $key->TOTAL_BRUTTO;
 		$total_netto  = $key->TOTAL_NETTO;
+		$total_pphval = $key->TOTAL_PPH21;
 
 		// Update total bruto karyawan dengan PPH ID yang sama
 		$UpdateCompanyData = array(
 			'COMPANY_BRUTO'		=> $total_bruto,
 			'COMPANY_NETTO'		=> $total_netto,
+			'COMPANY_PPHVAL'	=> $total_pphval,
 			'COMPANY_KBLB'		=> 0 // Lupa dapet nya dari mana :(
 		); 
 

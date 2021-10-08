@@ -50,7 +50,8 @@
               <th scope="col-1" class="text-center">Periode / Masa</th>
               <th scope="col-1" class="text-center">Pembetulan</th>
               <th scope="col-1" class="text-center">Total Penghasilan Bruto</th>
-              <th scope="col-1" class="text-center">PPh 21 KB (LB)</th>
+              <th scope="col-1" class="text-center">PPh 21</th>
+              <th scope="col-1" class="text-center">KB (LB)</th>
               <th scope="col-3" class="text-center">Aksi</th>
             </tr>
           </thead>
@@ -64,6 +65,7 @@
                   <td class="text-center"><?= strtoupper($company->PERIOD_MONTH) . '-' . $company->PERIOD_YEAR; ?></td>
                   <td class="text-center text-danger"><?= $company->TOTAL_PEMBETULAN; ?></td>
                   <td class="text-center"><?= ($company->COMPANY_BRUTO == null ? '-' : number_format($company->COMPANY_BRUTO)); ?></td>
+                  <td class="text-center"><?= ($company->COMPANY_PPHVAL == null ? '-' : number_format($company->COMPANY_PPHVAL)); ?></td>
                   <td class="text-center"><?= ($company->COMPANY_KBLB == null ? '-' : number_format($company->COMPANY_KBLB)); ?></td>
                   <td class="text-center">
                     <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_21/bulan/summary?pid=' . $company->PPH_ID . '&cid=' . $company->COMPANY_ID . '&mid=' . $company->PERIOD_MONTH . '&yid=' . $company->PERIOD_YEAR); ?>"><i class="fa fa-eye"></i></a>

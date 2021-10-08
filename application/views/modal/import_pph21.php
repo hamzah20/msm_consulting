@@ -18,6 +18,8 @@
   						<small class="bg bg-warning font-weight-bold"><i>*Max Size 1MB</i></small>  
   						<input type="hidden" name="companyID" value="<?= $this->input->get('cid'); ?>" readonly>
   						<input type="hidden" name="pphID" value="<?= $this->input->get('pid'); ?>" readonly> 
+              <input type="hidden" name="monthID" value="<?= $this->input->get('mid'); ?>" readonly> 
+              <input type="hidden" name="yearID" value="<?= $this->input->get('yid'); ?>" readonly> 
   					</div>
 
   					<div class="modal-footer">

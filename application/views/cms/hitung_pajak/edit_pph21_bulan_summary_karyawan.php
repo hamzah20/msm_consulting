@@ -80,6 +80,8 @@
           <input type="hidden" name="companyID" value="<?php echo $this->input->get('cid') ?>">
           <input type="hidden" name="pphID" value="<?php echo $this->input->get('pid') ?>">
           <input type="hidden" name="employeeID" value="<?php echo $this->input->get('eid') ?>">
+          <input type="hidden" name="monthID" value="<?php echo $this->input->get('mid') ?>">
+          <input type="hidden" name="yearID" value="<?php echo $this->input->get('yid') ?>">
           <div class="row">
             <div class="col-4">
               <h6><span class="badge badge-success mb-4">Penghasilan</span></h6>

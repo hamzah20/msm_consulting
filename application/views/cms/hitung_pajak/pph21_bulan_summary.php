@@ -98,12 +98,14 @@
               </div>
               <?php
             } 
+            foreach($correction->result() as $pembetulan); 
+
           ?>
           
           <div class="col-4">
             <div class="form-group">
               <label for="" class="label-utama font-weight-bold text-center">(2) Pembetulan / Koreksi</label>
-              <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtPembetulan" value="<?php echo $correction->num_rows() - 1; ?>" readonly>
+              <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtPembetulan" value="<?php echo $pembetulan->TOTAL_PEMBETULAN;?>" readonly>
             </div>
           </div>
           <div class="col-4">
@@ -126,18 +128,7 @@
                   <td class="px-4"></td>
                   <td>TOTAL PPH21</td>
                   <td class="px-2">:</td>
-                  <td>
-                    <?php
-                      if($payment->num_rows() != 0){
-                      foreach ($payment->result() as $key1);
-                      echo $key1->TOTAL_PPH21;  
-                    }
-                    else{
-                      echo "0";
-                    }
-                     
-                     ?>
-                  </td>
+                  <td><?= number_format($summary->row()->COMPANY_PPHVAL); ?></td>
                 </tr>
                 <tr>
                   <td>JUMLAH PEGAWAI</td>
@@ -148,12 +139,14 @@
                   <td class="px-2">:</td>
                   <td>
                     <?php
+                      foreach ($payment->result() as $key1);
                       if($payment->num_rows() != 0){ 
-                        echo $key1->PAID_PPH21; 
+                        $pphTerbayar=$key1->PAID_PPH21;            
                       }
                       else{
-                        echo "0";
+                        $pphTerbayar = "0";
                       } 
+                      echo number_format($pphTerbayar); 
                     ?> 
                   </td>
                 </tr>
@@ -165,20 +158,16 @@
                   <td>PPH21 TERHUTANG</td>
                   <td class="px-2">:</td>
                   <td>
-                    <?php
-                      if($payment->num_rows() != 0){
-                        echo $key1->OWED_PPH21; 
-                      }
-                      else{
-                        echo "0";
-                      }
+                    <?php 
+                      $pph_terhutang = $summary->row()->COMPANY_PPHVAL -  $pphTerbayar;
+                      echo number_format($pph_terhutang);
                     ?>
                   </td>
                 </tr>
                 <tr>
-                  <td>KOMPENSASI</td>
+                  <td>KURANG / LEBIH (BAYAR)</td>
                   <td class="px-2">:</td>
-                  <td><?= number_format($summary->row()->COMPANY_COMPENSATION); ?></td>
+                  <td><?= number_format($summary->row()->COMPANY_KBLB); ?></td>
                   <?php } ?>
               </table> 
             </div>
@@ -186,8 +175,8 @@
           <div class="col-4">
             <div class="alert alert-success pb-3" role="alert">
               <h4 class="alert-heading">NOTES :</h4> <hr>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua.
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, ut labore et dolore magna aliqua. <br/><br/>
+              <span class="font-weight-bold">Immanuel Titus - 20 Sept 2021 13:51</span>
             </div>
           </div>
         </div> 
@@ -198,18 +187,17 @@
       <div class="card-body">
         <div class="row">
           <div class="col-6">
-            <a class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Download" href="<?= base_url('PPH/Pph21/generateXLSFile?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-download"></i> Donwload</a>
+            <a class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Download" href="<?= base_url('PPH/Pph21/generateXLSFile?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-download"></i> Download</a>
             <a class="btn btn-sm btn-danger" href="#" role="button" data-toggle="modal" title="Import" data-target="#importPPH21"><i class="fa fa-upload"></i> Upload</a>
           </div>
           <div class="col-6 text-right">
-            <a class="btn btn-sm btn-info mb-1" data-toggle="tooltip" data-placement="top" title="" href="<?= base_url('PPH/Pph21/generateXLSFileLaporPajak?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-check-circle"></i></a> 
-            <a class="btn btn-sm btn-primary mb-1" data-toggle="tooltip" data-placement="top" title="" href="<?= base_url('PPH/Pph21/generateXLSFile?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-thumbs-up"></i></a> 
-            <a class="btn btn-sm btn-warning text-white mb-1" data-toggle="tooltip" data-placement="top" title=" for Approval" href="<?= base_url('PPH/Pph21/generateXLSFile?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-hourglass-start"></i> </a> 
-            <a class="btn btn-sm btn-warning text-white mb-1" data-toggle="tooltip" data-placement="top" title="" href="<?= base_url('PPH/Pph21/generateXLSFile?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-user"></i> </a> 
-            <a class="btn btn-sm btn-success mb-1" data-toggle="tooltip" data-placement="top" title="" href="<?= base_url('PPH/Pph21/generateXLSFile?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-dollar"></i> </a> 
-            <a class="btn btn-sm btn-danger mb-1" data-toggle="tooltip" data-placement="top" title="" href="<?= base_url('PPH/Pph21/generateXLSFile?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-file"></i> </a> 
-            <a class="btn btn-sm text-white mb-1" style="background: #672511" data-toggle="tooltip" data-placement="top" title="" href="<?= base_url('PPH/Pph21/generateXLSFile?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-copy"></i> </a> 
-            <a class="btn btn-sm btn-dark mb-1" data-toggle="tooltip" data-placement="top" title="" href="<?= base_url('PPH/Pph21/generateXLSFileLaporPajak?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-envelope"></i> </a> 
+            <a class="btn btn-sm btn-info mb-1" data-toggle="tooltip" data-placement="top" title="Submit Perhitungan PPh" href="<?= base_url('PPH/Pph21/generateXLSFileLaporPajak?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-check-circle"></i></a> 
+            <a class="btn btn-sm btn-primary mb-1" data-toggle="tooltip" data-placement="top" title="Approve Perhitungan" href="<?= base_url('PPH/Pph21/generateXLSFile?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-thumbs-up"></i></a> 
+            <a class="btn btn-sm btn-warning text-white mb-1" data-toggle="tooltip" data-placement="top" title="Customer Approval" href="<?= base_url('PPH/Pph21/generateXLSFile?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-user"></i> </a> 
+            <a class="btn btn-sm btn-success mb-1" data-toggle="tooltip" data-placement="top" title="Pembayara PPh" href="<?= base_url('PPH/Pph21/generateXLSFile?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-dollar"></i> </a> 
+            <a class="btn btn-sm btn-danger mb-1" data-toggle="tooltip" data-placement="top" title="Tax Filing" href="<?= base_url('PPH/Pph21/generateXLSFile?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-file"></i> </a> 
+            <a class="btn btn-sm text-white mb-1" style="background: #672511" data-toggles="tooltip" data-placement="top" title="Lapor Pajak" href="<?= base_url('PPH/Pph21/LaporPajak?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid'). '&mid=' . $this->input->get('mid'). '&yid=' . $this->input->get('yid')); ?>"><i class="fa fa-copy"></i> </a> 
+            <a class="btn btn-sm btn-dark mb-1" data-toggle="tooltip" data-placement="top" title="Harcopy" href="<?= base_url('PPH/Pph21/generateXLSFileLaporPajak?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-envelope"></i> </a> 
           </div>
         </div>
         
@@ -269,7 +257,7 @@
                   <td class="text-center"><?= number_format($employee->EMPLOYEE_PPHVAL); ?></td>
                   <td>
                     <a class="btn btn-sm btn-danger mb-1" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_21/bulan/summary/karyawan/detail?eid=' . $employee->EMPLOYEE_ID . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID); ?>"><i class="fa fa-eye"></i></a>
-                    <a class="btn btn-sm btn-warning text-white" data-toggle="tooltip" data-placement="top" title="Edit" href="<?= base_url('pph_21/bulan/summary/karyawan/edit?eid=' . $employee->EMPLOYEE_ID . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID); ?>"><i class="fa fa-edit"></i></a>
+                    <a class="btn btn-sm btn-warning text-white" data-toggle="tooltip" data-placement="top" title="Edit" href="<?= base_url('pph_21/bulan/summary/karyawan/edit?eid=' . $employee->EMPLOYEE_ID . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID. '&mid=' . $employee->PERIOD_MONTH. '&yid=' . $employee->PERIOD_YEAR); ?>"><i class="fa fa-edit"></i></a>
                   </td>
                 </tr>
               <?php
