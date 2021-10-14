@@ -33,10 +33,6 @@
         return $query;
     }
 
-    public function getSingularDataPPH21(){
-        
-    }
-
     public function getGeneralData($table, $field, $query)
     {
         $this->db->select('*')
@@ -140,13 +136,18 @@
         return $query;
     } 
 
-    public function cekpembetulan($pid, $month, $year){
-         $sql = $this->db->query("SELECT count(*) as TOTAL_PEMBETULAN FROM `g_pph21` WHERE STATUS='HISTORY' AND  COMPANY_ID='".$pid."' AND PERIOD_MONTH='".$month."' AND PERIOD_YEAR='".$year."'");
+    public function cekpembetulan($cid, $month, $year){
+         $sql = $this->db->query("SELECT count(*) as TOTAL_PEMBETULAN FROM `g_pph21` WHERE STATUS='HISTORY' AND  COMPANY_ID='".$cid."' AND PERIOD_MONTH='".$month."' AND PERIOD_YEAR='".$year."'");
         return $sql;
     }
 
     public function cekstatuspph21($pid){
         $sql = $this->db->query("SELECT STATUS FROM `g_pph21` WHERE PPH_ID='".$pid."'");
+        return $sql;
+    }
+
+    public function cekstatuspph22($pid){
+        $sql = $this->db->query("SELECT STATUS FROM `g_pph22` WHERE PPH22_ID='".$pid."'");
         return $sql;
     }
 
@@ -167,14 +168,49 @@
         return $sql;
     }
 
+    public function getPembetulan22($cid){
+
+        $sql = $this->db->query("SELECT a.*,(select count(b.PPH22_ID)-1 from v_g_companies_pph22_detail as b where b.COMPANY_ID=a.COMPANY_ID and (b.PERIOD_MONTH=a.PERIOD_MONTH and b.PERIOD_YEAR=a.PERIOD_YEAR)) AS TOTAL_PEMBETULAN FROM `v_g_companies_pph22_detail` AS a WHERE a.COMPANY_ID='".$cid."' AND a.STATUS IN ('ACTIVE','ON PROGRESS', 'APPROVED','PAID','LAPOR PAJAK','RE PROGRESS') ORDER BY MONTH_VAL ASC");
+        return $sql;
+    }
+
+    public function getPembetulan23($cid){
+
+        $sql = $this->db->query("SELECT a.*,(select count(b.PPH23_ID)-1 from v_g_companies_pph23_detail as b where b.COMPANY_ID=a.COMPANY_ID and (b.PERIOD_MONTH=a.PERIOD_MONTH and b.PERIOD_YEAR=a.PERIOD_YEAR)) AS TOTAL_PEMBETULAN FROM `v_g_companies_pph23_detail` AS a WHERE a.COMPANY_ID='".$cid."' AND a.STATUS IN ('ACTIVE','ON PROGRESS', 'APPROVED','PAID','LAPOR PAJAK','RE PROGRESS') ORDER BY MONTH_VAL ASC");
+        return $sql;
+    }
+
+    public function getPembetulan25($cid){
+
+        $sql = $this->db->query("SELECT a.*,(select count(b.PPH25_ID)-1 from v_g_companies_pph25_detail as b where b.COMPANY_ID=a.COMPANY_ID and (b.PERIOD_MONTH=a.PERIOD_MONTH and b.PERIOD_YEAR=a.PERIOD_YEAR)) AS TOTAL_PEMBETULAN FROM `v_g_companies_pph25_detail` AS a WHERE a.COMPANY_ID='".$cid."' AND a.STATUS IN ('ACTIVE','ON PROGRESS', 'APPROVED','PAID','LAPOR PAJAK','RE PROGRESS') ORDER BY MONTH_VAL ASC");
+        return $sql;
+    }
+
     public function getPembetulanSummary($cid,$mid,$yid){
 
         $sql = $this->db->query("SELECT a.*,(select count(b.PPH_ID)-1 from v_g_companies_pph21_detail as b where b.COMPANY_ID=a.COMPANY_ID and (b.PERIOD_MONTH=a.PERIOD_MONTH and b.PERIOD_YEAR=a.PERIOD_YEAR)) AS TOTAL_PEMBETULAN FROM `v_g_companies_pph21_detail` AS a WHERE a.COMPANY_ID='".$cid."' AND a.PERIOD_MONTH='".$mid."' AND a.PERIOD_YEAR='".$yid."'");
         return $sql;
     }
+
+    public function getPembetulanSummary22($cid,$mid,$yid){
+
+        $sql = $this->db->query("SELECT a.*,(select count(b.PPH22_ID)-1 from v_g_companies_pph22_detail as b where b.COMPANY_ID=a.COMPANY_ID and (b.PERIOD_MONTH=a.PERIOD_MONTH and b.PERIOD_YEAR=a.PERIOD_YEAR)) AS TOTAL_PEMBETULAN FROM `v_g_companies_pph22_detail` AS a WHERE a.COMPANY_ID='".$cid."' AND a.PERIOD_MONTH='".$mid."' AND a.PERIOD_YEAR='".$yid."'");
+        return $sql;
+    }
+
     public function getPersen($bruto){
           $sql = $this->db->query("SELECT PRESENTASE FROM m_tax_netto WHERE (  SALARY_END>='0' and SALARY_START<='".$bruto."') OR (  SALARY_END>='".$bruto."' and SALARY_START<='".$bruto."')");
                                                                              
+        return $sql;
+    }
+
+    public function getDataKaryawanNoEdit($pid,$eid){
+        $sql = $this->db->query("SELECT * FROM `g_employee_income` WHERE PPH_ID='".$pid."' AND EMPLOYEE_ID!='".$eid."'");
+        return $sql;
+    }
+
+    public function getCountDataKaryawanNoEdit($pid,$eid){
+        $sql = $this->db->query("SELECT SUM(EMPLOYEE_BRUTO) AS TOTAL_BRUTTO_LAMA,SUM(EMPLOYEE_NETTO) AS TOTAL_NETTO_LAMA, SUM(EMPLOYEE_PPHVAL) AS TOTAL_PPH21_LAMA FROM `g_employee_income` WHERE PPH_ID='".$pid."' AND EMPLOYEE_ID!='".$eid."'");
         return $sql;
     }
 }

@@ -5,7 +5,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 
-class Pph21 extends CI_Controller
+class Pph42 extends CI_Controller
 {
 	public function __construct()
 	{
@@ -16,23 +16,23 @@ class Pph21 extends CI_Controller
 	public function index()
 	{
 		$this->db->select('*')
-				 ->from('v_g_companies_pph21');
+				 ->from('v_g_companies_pph42');
 
 		$queryGet = $this->db->get(); 
 
 		$data['companies']	= $queryGet;
 		$data['counter']	= 1;
 
-		$this->load->view('cms/hitung_pajak/pph21', $data);
+		$this->load->view('cms/hitung_pajak/pph42', $data);
 	}
 
-	public function pph_21_bulan()
+	public function pph_42_bulan()
 	{
 
 		//$status = "STATUS='ACTIVE' OR STATUS='APPROVED'";
 
 		$this->db->select('*')
-			->from('v_g_companies_pph21_detail')
+			->from('v_g_companies_pph42_detail')
 			->where('COMPANY_ID', $this->input->get('cid'));
 			// ->where('STATUS', 'APPROVED');
 
@@ -49,46 +49,46 @@ class Pph21 extends CI_Controller
 
 		if ($data['companies']->num_rows() == 0) {
 			$this->session->set_flashdata('query', 'invalid');
-			redirect(base_url('pph_21'));
+			redirect(base_url('pph_42'));
 			return;
 		}
 
-		$this->load->view('cms/hitung_pajak/pph21_bulan', $data); 
+		$this->load->view('cms/hitung_pajak/pph42_bulan', $data); 
 	}
 
-	public function pph_21_bulan_summary()
+	public function pph_42_bulan_summary()
 	{ 
 		$cid=$this->input->get('cid');
 		$mid=$this->input->get('mid');
 		$yid=$this->input->get('yid');
 		// $mid=$this->input->get('yid');
 		$data['correction'] = $this->cms->getPembetulanSummary($cid,$mid,$yid);
-		$data['summary'] 	= $this->cms->getGeneralData('v_g_companies_pph21_detail', 'PPH_ID', $this->input->get('pid'));
+		$data['summary'] 	= $this->cms->getGeneralData('v_g_companies_pph42_detail', 'PPH_ID', $this->input->get('pid'));
 
 		$this->db->select('*')
-			->from('v_g_employee_pph21')
+			->from('v_g_employee_pph42')
 			->where('COMPANY_ID', trim($this->input->get('cid')))
 			->where('PPH_ID', trim($this->input->get('pid')));
 
 
-		// $data['employees'] 	= $this->cms->getGeneralData('v_g_employee_pph21', 'COMPANY_ID', trim($this->input->get('cid')));
+		// $data['employees'] 	= $this->cms->getGeneralData('v_g_employee_pph42', 'COMPANY_ID', trim($this->input->get('cid')));
 		$data['employees'] 	= $this->db->get();
 		$data['counter']	= 1;
 		$data['payment']    = $this->cms->getSingularData('g_payment', 'PPH_ID', $this->input->get('pid'));
-		$data['statuspph21']= $this->cms->cekstatuspph21($this->input->get('pid'));
+		$data['statuspph42']= $this->cms->cekstatuspph42($this->input->get('pid'));
 
 		// if ($data['summary']->num_rows() == 0) {
 		// 	$this->session->set_flashdata('query', 'invalid');
 		// 	echo 'ga ada';
-		// 	// redirect(base_url('pph_21/bulan?cid=' . $this->input->get('cid')));
+		// 	// redirect(base_url('pph_42/bulan?cid=' . $this->input->get('cid')));
 		// } else {
-		// 	$this->load->view('cms/hitung_pajak/pph21_bulan_summary');
+		// 	$this->load->view('cms/hitung_pajak/pph42_bulan_summary');
 		// }
 
-		$this->load->view('cms/hitung_pajak/pph21_bulan_summary', $data);
+		$this->load->view('cms/hitung_pajak/pph42_bulan_summary', $data);
 	}
 
-	public function pph_21_bulan_approve()
+	public function pph_42_bulan_approve()
 	{
 		$pid=$this->input->get('pid');
 		$cid=$this->input->get('cid');
@@ -98,10 +98,10 @@ class Pph21 extends CI_Controller
 			'STATUS'  => 'WAITING FOR APPROVAL'
 		);
 
-		$this->cms->updateGeneralData('g_pph21', $statusApprove, 'PPH_ID', $this->input->get('pid'));
+		$this->cms->updateGeneralData('g_pph42', $statusApprove, 'PPH_ID', $this->input->get('pid'));
 		$this->cms->updateGeneralData('g_employee_income', $statusApprove, 'PPH_ID', $this->input->get('pid'));
 
-		redirect('PPH/Pph21/pph_21_bulan?cid='.$cid.'&pid='.$yid.'');		
+		redirect('PPH/Pph42/pph_42_bulan?cid='.$cid.'&pid='.$yid.'');		
 	}
 
 	public function generateXLSFile()
@@ -115,7 +115,7 @@ class Pph21 extends CI_Controller
 		$employeeData   = $this->cms->getSingularData('v_g_employee', 'EMPLOYEE_COMPANY_ID', $companyID);
 		
 
-		$fileName = 'FORMAT_PPH21_' . $companyData->row()->COMPANY_NAME . '_' . date('ymd') . '.xlsx';
+		$fileName = 'FORMAT_PPH42_' . $companyData->row()->COMPANY_NAME . '_' . date('ymd') . '.xlsx';
 
 		//1. Format dasar PHPExcel
 		$sheet = $phpExcel->getActiveSheet();
@@ -128,8 +128,8 @@ class Pph21 extends CI_Controller
 		$phpExcel->getProperties()
 			->setCreator('MSM Consulting')
 			->setLastModifiedBy('MSM Consulting')
-			->setTitle('MSM Consulting PPH21 Form')
-			->setSubject('MSM Consulting PPH21 Form');
+			->setTitle('MSM Consulting PPH42 Form')
+			->setSubject('MSM Consulting PPH42 Form');
 
 		$sheet->getStyle('A1:D2')
 			->getFill()
@@ -186,7 +186,7 @@ class Pph21 extends CI_Controller
 			->setARGB('FFC896');
 
 
-		$phpExcel->setActiveSheetIndex(0)->setTitle('FormatData PPH21');
+		$phpExcel->setActiveSheetIndex(0)->setTitle('FormatData PPH42');
 
 		$sheet->setCellValue('A1', "No");
 		$sheet->mergeCells('A1:A2');
@@ -310,7 +310,7 @@ class Pph21 extends CI_Controller
 			$numCounter = 1;
 
 			foreach ($employeeData->result() as $employee) {
-				$pphData 		= $this->cms->getSingularDataDetail('v_g_employee_pph21', 'PPH_ID', 'EMPLOYEE_ID',$pphID,$employee->EMPLOYEE_ID);
+				$pphData 		= $this->cms->getSingularDataDetail('v_g_employee_pph42', 'PPH_ID', 'EMPLOYEE_ID',$pphID,$employee->EMPLOYEE_ID);
 				//2.1 Convert Tanggal sesuai format, lihat di Libraries/Incube.php
 				$monthName = $this->incube->convertMonthName($pphData->row()->PERIOD_MONTH);
 				//EoL 2.1
@@ -368,7 +368,7 @@ class Pph21 extends CI_Controller
 		$sql_pembetulan = $this->cms->count_pembetulan($pphID); 
 		
 
-		$fileName = 'LAPOR_PAJAK_PPH21_' . $companyData->row()->COMPANY_NAME . '_' . date('ymd') . '.csv';
+		$fileName = 'LAPOR_PAJAK_PPH42_' . $companyData->row()->COMPANY_NAME . '_' . date('ymd') . '.csv';
 
 		//1. Format dasar PHPExcel
 		$sheet = $phpExcel->getActiveSheet();
@@ -381,8 +381,8 @@ class Pph21 extends CI_Controller
 		$phpExcel->getProperties()
 			->setCreator('MSM Consulting')
 			->setLastModifiedBy('MSM Consulting')
-			->setTitle('MSM Consulting PPH21 Lapor Pajak')
-			->setSubject('MSM Consulting PPH21 Lapor Pajak');
+			->setTitle('MSM Consulting PPH42 Lapor Pajak')
+			->setSubject('MSM Consulting PPH42 Lapor Pajak');
 
 		$sheet->getStyle('A1:A1')
 			->getFill()
@@ -439,7 +439,7 @@ class Pph21 extends CI_Controller
 			->setARGB('000066'); 
 
 
-		$phpExcel->setActiveSheetIndex(0)->setTitle('FormatData PPH21');
+		$phpExcel->setActiveSheetIndex(0)->setTitle('FormatData PPH42');
 
 		$sheet->setCellValue('A1', "Masa Pajak");
 		$sheet->mergeCells('A1:A1');
@@ -525,16 +525,16 @@ class Pph21 extends CI_Controller
 			$numCounter = 1;
 
 			foreach ($employeeData->result() as $employee) {
-				$pphData 		= $this->cms->getSingularDataDetail('v_g_employee_pph21', 'PPH_ID', 'EMPLOYEE_ID',$pphID,$employee->EMPLOYEE_ID);
+				$pphData 		= $this->cms->getSingularDataDetail('v_g_employee_pph42', 'PPH_ID', 'EMPLOYEE_ID',$pphID,$employee->EMPLOYEE_ID);
 				//2.1 Convert Tanggal sesuai format, lihat di Libraries/Incube.php
 				$monthName = $this->incube->convertMonthNameLP($pphData->row()->PERIOD_MONTH);
 				foreach ($pphData->result() as $statusemployee);
 				$cekstatusemployee = $statusemployee->EMPLOYEE_STATUS;
 
 				if($cekstatusemployee == "TETAP"){
-					$status = "21-100-01";
+					$status = "42-100-01";
 				} else{
-					$status = "21-100-02";
+					$status = "42-100-02";
 				} 
 
 				$sheet->setCellValue('A' . $colCounter, $monthName);
@@ -596,13 +596,13 @@ class Pph21 extends CI_Controller
 				// echo 'lapisan 1';
 				$pphVal = ($yearlyBruto - 0) *  (5 / 95) + 0;
 				break;
-			case (($yearlyBruto >= 47500000) && ($yearlyBruto <= 217500000)):
+			case (($yearlyBruto >= 47500000) && ($yearlyBruto <= 427500000)):
 				// echo 'lapisan 2';
 				$pphVal = ($yearlyBruto - 47500000) * (15 / 85) + 2500000;
 				break;
-			case (($yearlyBruto >= 217500000) && ($yearlyBruto <= 405000000)):
+			case (($yearlyBruto >= 427500000) && ($yearlyBruto <= 405000000)):
 				// echo 'lapisan 3';
-				$pphVal = ($yearlyBruto - 217500000) * (25 / 75) + 32500000;
+				$pphVal = ($yearlyBruto - 427500000) * (25 / 75) + 32500000;
 				break;
 			case ($yearlyBruto >= 405000000):
 				// echo 'lapisan 4';
@@ -614,7 +614,7 @@ class Pph21 extends CI_Controller
 		}
 
 		// echo round($pphVal / 12);
-		// 392157
+		// 394257
 	}
 
 	public function importXLSLFile()
@@ -625,7 +625,7 @@ class Pph21 extends CI_Controller
 
 		$companyCheck  = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->post('companyID'));
 		$employeeCheck = $this->cms->getSingularData('v_g_employee', 'EMPLOYEE_COMPANY_ID', $this->input->post('companyID'));
-		$pphCheck 	   = $this->cms->getSingularData('g_pph21', 'PPH_ID', $this->input->post('pphID'));
+		$pphCheck 	   = $this->cms->getSingularData('g_pph42', 'PPH_ID', $this->input->post('pphID'));
 		
 
 
@@ -634,7 +634,7 @@ class Pph21 extends CI_Controller
 		//Deklrasi Variabel awal
 		$companyBruto = 0;
 		$companyNeto  = 0;
-		$companyPPH21 = 0;
+		$companyPPH42 = 0;
 
 		if ($companyCheck->num_rows() == 0) {
 			echo 'tidak ada perusahaan';
@@ -695,11 +695,11 @@ class Pph21 extends CI_Controller
 			return;
 		}
 
-		// Mengecek status pada table g_pph21, jika status belum PAID
+		// Mengecek status pada table g_pph42, jika status belum PAID
 		// Maka data lama pada g_employee_income akan dihapus terlebih dahulu, baru diinputkan data terbaru
 		$processType='REVISI';
 		$this->db->select('STATUS')
-				 ->from('g_pph21')
+				 ->from('g_pph42')
 				 ->where('PPH_ID', $this->input->post('pphID'));
 
 		$status = $this->db->get(); 
@@ -713,16 +713,16 @@ class Pph21 extends CI_Controller
 		} elseif ($key->STATUS == "LAPOR PAJAK" OR $key->STATUS  == "HARDCOPY" ) {
 			//PEMBETULANN
 			$processType='PEMBETULAN';
-			$pembetulanKe = $this->cms->cekpembetulan($this->input->post('companyID'), $this->input->post('monthID'), $this->input->post('yearID'));
+			$pembetulanKe = $this->cms->cekpembetulan($this->input->post('companyID'), 'Januari', '2042');
 		
-			foreach ($pphCheck->result() as $cekPPH21);
-			$prevPPHVAL = $cekPPH21->COMPANY_PPHVAL;
+			foreach ($pphCheck->result() as $cekPPH42);
+			$prevPPHVAL = $cekPPH42->COMPANY_PPHVAL;
 			// Ubah dulu status lama jadi HISTORY
-			$updateStatusPPH21 = array(
+			$updateStatusPPH42 = array(
 				'UPDATED'	=> date('Y-m-d H:i:s'),
 				'STATUS'	=> 'HISTORY'
 			);
-			$this->cms->updateGeneralData('g_pph21', $updateStatusPPH21, 'PPH_ID', $this->input->post('pphID'));
+			$this->cms->updateGeneralData('g_pph42', $updateStatusPPH42, 'PPH_ID', $this->input->post('pphID'));
 
 
 		}
@@ -734,13 +734,13 @@ class Pph21 extends CI_Controller
 			$companyData = array(
 				'PPH_ID'		=> $pphID,
 				'COMPANY_ID'	=> $this->input->post('companyID'),
-				'PERIOD_YEAR'	=> $this->input->post('yearID'),
-				'PERIOD_MONTH'	=> $this->input->post('monthID'),
+				'PERIOD_YEAR'	=> '2042',
+				'PERIOD_MONTH'	=> 'Januari',
 				'CREATED'		=> date('Y-m-d h:i:s'),
 				'STATUS'		=> 'RE PROGRESS',
 			);
 
-			$queryInsert = $this->cms->insertGeneralData('g_pph21', $companyData);
+			$queryInsert = $this->cms->insertGeneralData('g_pph42', $companyData);
 			//EoL 1
 			
 		}
@@ -786,7 +786,7 @@ class Pph21 extends CI_Controller
 			//Tarif PTKP Pegawai
 			$ptkpTarif = $employeeArr[$employeeIndex]['PTKP_TARIF'];
 			//echo strlen($employeeArr[$employeeIndex]['NPWP'])."<br>";
-			//Kalkulasi PPH21 Non-Gross Up
+			//Kalkulasi PPH42 Non-Gross Up
 			$CheckNPWP->EMPLOYEE_ID;
 			$PPH_ID=$this->input->post('pphID');
 
@@ -811,7 +811,7 @@ class Pph21 extends CI_Controller
 			//Dibulatkan biar 3 digit dibelakang jadi 0
 			$yearlyPKP = (floor($yearlyPKP / 1000)) * 1000;
 
-			//Kalkulasi PPH21 Gross UP
+			//Kalkulasi PPH42 Gross UP
 			if ($companyCheck->row()->PPHCOUNT_METHOD == 'GROSS UP') {
 				$Tunjpph=0;
 				switch ($yearlyPKP) {
@@ -819,13 +819,13 @@ class Pph21 extends CI_Controller
 						// echo 'lapisan 1';
 						$Tunjpph = ($yearlyPKP - 0) *  (5 / 95) + 0;
 						break;
-					case (($yearlyPKP >= 47500000) && ($yearlyPKP <= 217500000)):
+					case (($yearlyPKP >= 47500000) && ($yearlyPKP <= 427500000)):
 						// echo 'lapisan 2';
 						$Tunjpph = ($yearlyPKP - 47500000) * (15 / 85) + 2500000;
 						break;
-					case (($yearlyPKP >= 217500000) && ($yearlyPKP <= 405000000)):
+					case (($yearlyPKP >= 427500000) && ($yearlyPKP <= 405000000)):
 						// echo 'lapisan 3';
-						$Tunjpph = ($yearlyPKP - 217500000) * (25 / 75) + 32500000;
+						$Tunjpph = ($yearlyPKP - 427500000) * (25 / 75) + 32500000;
 						break;
 					case ($yearlyPKP >= 405000000):
 						// echo 'lapisan 4';
@@ -930,13 +930,13 @@ class Pph21 extends CI_Controller
 			} 
 			
 			// Update data sebelumnya, sebelum di inputkan data baru 
-			$updatePPH21 = array(
+			$updatePPH42 = array(
 				'UPDATED'	=> date('Y-m-d H:i:s'),
 				'STATUS'	=> 'ON PROGRESS'
 			);
-			$this->cms->updateGeneralData('g_pph21', $updatePPH21, 'PPH_ID', $pphID); 
+			$this->cms->updateGeneralData('g_pph42', $updatePPH42, 'PPH_ID', $pphID); 
 
-			//EoL PPH21 Gross Up
+			//EoL PPH42 Gross Up
 			$employeeData = array(
 				'INCOME_ID'                 	=> $employeeID,
 				'PPH_ID'						=> $pphID,
@@ -982,7 +982,7 @@ class Pph21 extends CI_Controller
 
 			$companyBruto 	= $companyBruto + $totalBruto;
 			$companyNeto  	= $companyNeto + ($totalBruto - $totalPengurang);
-			$companyPPH21   = $companyPPH21 + round($monthlyPPH);
+			$companyPPH42   = $companyPPH42 + round($monthlyPPH);
 
 			// DEBUG DATA YANG MAU DIMASUKIN
 			// echo json_encode($employeeData);
@@ -994,7 +994,7 @@ class Pph21 extends CI_Controller
 		if($processType=="REVISI") {
 				$KBLB = 0;
 			}else {
-				$KBLB = $prevPPHVAL - $companyPPH21;
+				$KBLB = $prevPPHVAL - $companyPPH42;
 				
 			} 
 
@@ -1002,27 +1002,27 @@ class Pph21 extends CI_Controller
 		$companyData = array(
 			'COMPANY_BRUTO'		=> $companyBruto,
 			'COMPANY_NETTO'		=> $companyNeto, 
-			'COMPANY_PPHVAL'	=> $companyPPH21,
+			'COMPANY_PPHVAL'	=> $companyPPH42,
 			'COMPANY_KBLB'		=> $KBLB
 		);
 
 		//DEBUG DATA YANG MAU DIMASUKIN
 		// echo json_encode($companyData);
 
-		$this->cms->updateGeneralData('g_pph21', $companyData, 'PPH_ID', $pphID);
+		$this->cms->updateGeneralData('g_pph42', $companyData, 'PPH_ID', $pphID);
 
-		redirect('pph_21/bulan/summary?pid=' . $pphID . '&cid=' . $this->input->post('companyID'). '&mid=' . $this->input->post('monthID'). '&yid=' . $this->input->post('yearID'));
+		redirect('pph_42/bulan/summary?pid=' . $pphID . '&cid=' . $this->input->post('companyID'). '&mid=' . $this->input->post('monthID'). '&yid=' . $this->input->post('yearID'));
 	}
 
 	// Waiting Approve by Customer
 	public function approveCustomer()
 	{
-		// Update status g_pph21
+		// Update status g_pph42
 		$updateApproval = array(
 			'UPDATED'	=> date('Y-m-d H:i:s'),
 			'STATUS'	=> 'WAITING FOR APPROVAL BY CUSTOMER'
 		);
-		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
+		$this->cms->updateGeneralData('g_pph42', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
 
 		// Update status g_employee_income
 		$updateApprovalEmployee = array( 
@@ -1044,12 +1044,12 @@ class Pph21 extends CI_Controller
 	// Waiting for Payment
 	public function waitingPayment()
 	{
-		// Update status g_pph21
+		// Update status g_pph42
 		$updateApproval = array(
 			'UPDATED'	=> date('Y-m-d H:i:s'),
 			'STATUS'	=> 'WAITING FOR PAYMENT'
 		);
-		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
+		$this->cms->updateGeneralData('g_pph42', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
 
 		// Update status g_employee_income
 		$updateApprovalEmployee = array( 
@@ -1071,12 +1071,12 @@ class Pph21 extends CI_Controller
 	// Payment
 	public function Payment()
 	{
-		// Update status g_pph21
+		// Update status g_pph42
 		$updateApproval = array(
 			'UPDATED'	=> date('Y-m-d H:i:s'),
 			'STATUS'	=> 'PAID'
 		);
-		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
+		$this->cms->updateGeneralData('g_pph42', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
 
 		// Update status g_employee_income
 		$updateApprovalEmployee = array( 
@@ -1085,7 +1085,7 @@ class Pph21 extends CI_Controller
 		$this->cms->updateGeneralData('g_employee_income', $updateApprovalEmployee, 'PPH_ID', $this->input->get('pphID'));
 
 		// Cek sudah pernah melakukan pembayaran atau belum
-		$this->db->select('PAID_PPH21')
+		$this->db->select('PAID_PPH42')
 				 ->from('g_payment')
 				 ->where('PPH_ID', $this->input->post('pphID'));
 
@@ -1098,20 +1098,20 @@ class Pph21 extends CI_Controller
 		// 	$insertPayment = array(
 		// 		'PPH_ID'		=> $this->input->get('pphID'),
 		// 		'COMPANY_ID' 	=> $this->input->get('cid'), 
-		// 		'TOTAL_PPH21'	=> ,
-		// 		'PAID_PPH21'	=> ,
-		// 		'OWED_PPH21'	=> ,
+		// 		'TOTAL_PPH42'	=> ,
+		// 		'PAID_PPH42'	=> ,
+		// 		'OWED_PPH42'	=> ,
 		// 		'CREATED'		=> date('Y-m-d H:i:s')
 		// 	);
 		// 	$queryInsertPay = $this->cms->insertGeneralData('s_log', $insertLog);	
 		// } else{
 		// 	$updatePayment = array(
-		// 		'TOTAL_PPH21'	=> ,
-		// 		'PAID_PPH21'	=> ,
-		// 		'OWED_PPH21'	=> ,
+		// 		'TOTAL_PPH42'	=> ,
+		// 		'PAID_PPH42'	=> ,
+		// 		'OWED_PPH42'	=> ,
 		// 		'UPDATED'		=> date('Y-m-d H:i:s')
 		// 	);
-		// 	$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
+		// 	$this->cms->updateGeneralData('g_pph42', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
 		// } 
 
 		// INSERT LOG
@@ -1128,12 +1128,12 @@ class Pph21 extends CI_Controller
 	// Tax Filing
 	public function TaxFiling()
 	{
-		// Update status g_pph21
+		// Update status g_pph42
 		$updateApproval = array(
 			'UPDATED'	=> date('Y-m-d H:i:s'),
 			'STATUS'	=> 'TAX FILING'
 		);
-		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
+		$this->cms->updateGeneralData('g_pph42', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
 
 		// Update status g_employee_income
 		$updateApprovalEmployee = array( 
@@ -1155,12 +1155,12 @@ class Pph21 extends CI_Controller
 	// HardCopy
 	public function Hardcopy()
 	{
-		// Update status g_pph21
+		// Update status g_pph42
 		$updateApproval = array(
 			'UPDATED'	=> date('Y-m-d H:i:s'),
 			'STATUS'	=> 'HARDCOPY'
 		);
-		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
+		$this->cms->updateGeneralData('g_pph42', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
 
 		// Update status g_employee_income
 		$updateApprovalEmployee = array( 
@@ -1182,12 +1182,12 @@ class Pph21 extends CI_Controller
 	// Lapor Pajak
 	public function LaporPajak()
 	{
-		// Update status g_pph21
+		// Update status g_pph42
 		$updateApproval = array(
 			'UPDATED'	=> date('Y-m-d H:i:s'),
 			'STATUS'	=> 'LAPOR PAJAK'
 		);
-		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pid'));
+		$this->cms->updateGeneralData('g_pph42', $updateApproval, 'PPH_ID', $this->input->get('pid'));
 
 		// Update status g_employee_income
 		$updateApprovalEmployee = array( 
@@ -1205,18 +1205,18 @@ class Pph21 extends CI_Controller
 		);
 		$queryInsert = $this->cms->insertGeneralData('s_log', $insertLog);
 
-		redirect('pph_21/bulan/summary?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid'). '&mid=' . $this->input->get('mid'). '&yid=' . $this->input->get('yid'));
+		redirect('pph_42/bulan/summary?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid'). '&mid=' . $this->input->get('mid'). '&yid=' . $this->input->get('yid'));
 	}
 
 	// Closed
 	public function Closed()
 	{
-		// Update status g_pph21
+		// Update status g_pph42
 		$updateApproval = array(
 			'UPDATED'	=> date('Y-m-d H:i:s'),
 			'STATUS'	=> 'CLOSED'
 		);
-		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
+		$this->cms->updateGeneralData('g_pph42', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
 
 		// Update status g_employee_income
 		$updateApprovalEmployee = array( 
@@ -1245,12 +1245,12 @@ class Pph21 extends CI_Controller
 
 		$companyData    = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $companyID);
 		$employeeData   = $this->cms->getSingularData('v_g_employee', 'EMPLOYEE_COMPANY_ID', $companyID);
-		$pphData 		= $this->cms->getSingularData('g_pph21', 'PPH_ID', $pphID);
+		$pphData 		= $this->cms->getSingularData('g_pph42', 'PPH_ID', $pphID);
 
 		$phpExcel->getDefaultStyle()->getFont()->setName('Calibri')->setSize(12);
 		$phpExcel->getActiveSheet()->setShowGridlines(false);
 		$phpExcel->getActiveSheet()->getSheetView()->setZoomScale(85);
-		$phpExcel->setActiveSheetIndex(0)->setTitle('Info PPh 21');
+		$phpExcel->setActiveSheetIndex(0)->setTitle('Info PPh 42');
 		$phpExcel->getActiveSheet()->getColumnDimension('A')->setWidth(2.50);
 		$phpExcel->getActiveSheet()->getColumnDimension('B')->setWidth(2.50);
 		$phpExcel->getActiveSheet()->getStyle('C13:H13')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('f0f0f0');
@@ -1283,12 +1283,12 @@ class Pph21 extends CI_Controller
 		$phpExcel->getActiveSheet()->setCellValue('B7',  $companyData->row()->COMPANY_ADDRESS);
 
 		$phpExcel->getActiveSheet()->mergeCells('B9:K9');
-		$phpExcel->getActiveSheet()->setCellValue('B9', 'Perihal : INFO PPh 21 TERUTANG MASA ' . strtoupper($pphData->row()->PERIOD_MONTH) . ' TAHUN PAJAK ' . $pphData->row()->PERIOD_YEAR . '  YANG HARUS DISETOR');
+		$phpExcel->getActiveSheet()->setCellValue('B9', 'Perihal : INFO PPh 42 TERUTANG MASA ' . strtoupper($pphData->row()->PERIOD_MONTH) . ' TAHUN PAJAK ' . $pphData->row()->PERIOD_YEAR . '  YANG HARUS DISETOR');
 		$phpExcel->getActiveSheet()->setCellValue('B11', "'1.");
 		$phpExcel->getActiveSheet()->getStyle('B11')->getNumberFormat()->setFormatCode(PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT);
 
 		$phpExcel->getActiveSheet()->mergeCells('C11:H11');
-		$phpExcel->getActiveSheet()->setCellValue('C11', 'Perhitungan PPh 21 - Pegawai Tetap');
+		$phpExcel->getActiveSheet()->setCellValue('C11', 'Perhitungan PPh 42 - Pegawai Tetap');
 
 		$phpExcel->getActiveSheet()->mergeCells('C13:C14');
 		$phpExcel->getActiveSheet()
@@ -1310,7 +1310,7 @@ class Pph21 extends CI_Controller
 			->getAlignment()
 			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-		$phpExcel->getActiveSheet()->setCellValue('E13', 'PPh 21 TERUTANG');
+		$phpExcel->getActiveSheet()->setCellValue('E13', 'PPh 42 TERUTANG');
 
 		$phpExcel->getActiveSheet()->mergeCells('F13:F14');
 		$phpExcel->getActiveSheet()->getStyle('F13:F14')
@@ -1324,7 +1324,7 @@ class Pph21 extends CI_Controller
 			->getAlignment()
 			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-		$phpExcel->getActiveSheet()->setCellValue('G13', 'PPh 21 KURANG BAYAR');
+		$phpExcel->getActiveSheet()->setCellValue('G13', 'PPh 42 KURANG BAYAR');
 
 		$_oWid = 10;
 		$phpExcel->getActiveSheet()->getColumnDimension('G')->setWidth($_oWid + 2);
@@ -1405,17 +1405,17 @@ class Pph21 extends CI_Controller
 		$phpExcel->getActiveSheet()->getStyle('H15:H17')->getAlignment()
 			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-		$phpExcel->getActiveSheet()->setCellValue('H15', '411121-100');
+		$phpExcel->getActiveSheet()->setCellValue('H15', '411142-100');
 
 
 		$phpExcel->getActiveSheet()->mergeCells('C20:K20');
 		$phpExcel->getActiveSheet()->setCellValue('C20', '>> Jadi PPh yang harus di bayar Masa ' . $pphData->row()->PERIOD_MONTH . ' Tahun Pajak ' . $pphData->row()->PERIOD_YEAR . ' adalah sebagai berikut  Rp. ' . number_format($pphData->row()->COMPANY_KBLB));
 
-		$phpExcel->getActiveSheet()->mergeCells('C21:K21');
-		$phpExcel->getActiveSheet()->setCellValue('C21', '>> Mohon disetorkan paling lambat tanggal 10 ' . $pphData->row()->PERIOD_MONTH . ' ' . $pphData->row()->PERIOD_YEAR);
+		$phpExcel->getActiveSheet()->mergeCells('C42:K42');
+		$phpExcel->getActiveSheet()->setCellValue('C42', '>> Mohon disetorkan paling lambat tanggal 10 ' . $pphData->row()->PERIOD_MONTH . ' ' . $pphData->row()->PERIOD_YEAR);
 
-		$phpExcel->getActiveSheet()->mergeCells('C22:K22');
-		$phpExcel->getActiveSheet()->setCellValue('C22', '>> Jika sudah disetorkan mohon diupload NTPN-nya');
+		$phpExcel->getActiveSheet()->mergeCells('C42:K42');
+		$phpExcel->getActiveSheet()->setCellValue('C42', '>> Jika sudah disetorkan mohon diupload NTPN-nya');
 
 		$phpExcel->getActiveSheet()->mergeCells('C24:K24');
 		$phpExcel->getActiveSheet()->setCellValue('C24', 'Terima Kasih');
@@ -1427,7 +1427,7 @@ class Pph21 extends CI_Controller
 		$phpExcel->getActiveSheet()->setCellValue('C28', 'Team MSM');
 
 		$phpExcel->getActiveSheet()->mergeCells('C29:K29');
-		$phpExcel->getActiveSheet()->setCellValue('C29', 'Ph : +6221 63858603/04');
+		$phpExcel->getActiveSheet()->setCellValue('C29', 'Ph : +6422 63858603/04');
 
 		foreach (range('C', 'Z') as $columnID) {
 			$phpExcel->getActiveSheet()->getColumnDimension($columnID)
@@ -1436,7 +1436,7 @@ class Pph21 extends CI_Controller
 
 		$phpExcel->getActiveSheet()->setSelectedCell('A1');
 		$_objWriter = new Xlsx($phpExcel);
-		$_varFLENME = 'REPORT_PPh21_' . date('Ymd') . '_' . $companyData->row()->COMPANY_NAME . '.xlsx';
+		$_varFLENME = 'REPORT_PPh42_' . date('Ymd') . '_' . $companyData->row()->COMPANY_NAME . '.xlsx';
 		header('Content-Type: application/vnd.ms-excel');
 		header('Content-Disposition: attachment;filename="' . $_varFLENME);
 		header('Cache-Control: max-age=0');
@@ -1450,7 +1450,7 @@ class Pph21 extends CI_Controller
 	{
 		//1. Cek data yang ditambah termasuk ke PEMBETULAN atau DATA BARU
 		$this->db->select('*')
-			->from('g_pph21')
+			->from('g_pph42')
 			->where('COMPANY_ID', $this->input->post('companyID'))
 			->where('PERIOD_YEAR', $this->input->post('addPeriodeTahun'))
 			->where('PERIOD_MONTH', $this->input->post('addPeriodeBulan'));
@@ -1468,7 +1468,7 @@ class Pph21 extends CI_Controller
 			'STATUS'		=> ($queryGet->num_rows() > 0 ? 'HISTORY' : 'ACTIVE'),
 		);
 
-		$queryInsert = $this->cms->insertGeneralData('g_pph21', $companyData);
+		$queryInsert = $this->cms->insertGeneralData('g_pph42', $companyData);
 		//EoL 1
 
 		if (!$queryInsert) {
@@ -1477,18 +1477,18 @@ class Pph21 extends CI_Controller
 			$this->session->set_flashdata('query', 'success');
 		}
 
-		redirect(($this->input->post('pphFlag') == true ? base_url('pph_21/bulan?cid=' . $this->input->post('companyID')) : base_url('pph_21')));
+		redirect(($this->input->post('pphFlag') == true ? base_url('pph_42/bulan?cid=' . $this->input->post('companyID')) : base_url('pph_42')));
 	} 
 
-	public function pph_21_tahun()
+	public function pph_42_tahun()
 	{
-		$this->load->view('cms/hitung_pajak/pph21_tahun');
+		$this->load->view('cms/hitung_pajak/pph42_tahun');
 	}
 
-	public function pph_21_bulan_summary_karyawan()
+	public function pph_42_bulan_summary_karyawan()
 	{
 		$this->db->select('*')
-			->from('v_g_employee_pph21')
+			->from('v_g_employee_pph42')
 			->where('EMPLOYEE_ID', trim($this->input->get('eid')))
 			->where('PPH_ID', trim($this->input->get('pid')));
 
@@ -1497,16 +1497,16 @@ class Pph21 extends CI_Controller
 
 		if ($data['employee']->num_rows() == 0) {
 			$this->session->set_flashdata('query', 'invalid');
-			redirect(base_url('pph_21/bulan/summary?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')));
+			redirect(base_url('pph_42/bulan/summary?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')));
 		}
 
-		$this->load->view('cms/hitung_pajak/pph21_bulan_summary_karyawan', $data);
+		$this->load->view('cms/hitung_pajak/pph42_bulan_summary_karyawan', $data);
 	}
 
-	public function edit_pph_21_bulan_summary_karyawan()
+	public function edit_pph_42_bulan_summary_karyawan()
 	{
 		$this->db->select('*')
-			->from('v_g_employee_pph21')
+			->from('v_g_employee_pph42')
 			->where('EMPLOYEE_ID', trim($this->input->get('eid')))
 			->where('PPH_ID', trim($this->input->get('pid')));
 
@@ -1515,24 +1515,24 @@ class Pph21 extends CI_Controller
 
 		if ($data['employee']->num_rows() == 0) {
 			$this->session->set_flashdata('query', 'invalid');
-			redirect(base_url('pph_21/bulan/summary?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')));
+			redirect(base_url('pph_42/bulan/summary?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')));
 		}
 
-		$this->load->view('cms/hitung_pajak/edit_pph21_bulan_summary_karyawan', $data);
+		$this->load->view('cms/hitung_pajak/edit_pph42_bulan_summary_karyawan', $data);
 	}
 
-	public function update_pph_21_bulan_summary_karyawan()
+	public function update_pph_42_bulan_summary_karyawan()
 	{
 		$this->output->enable_profiler(TRUE);  
 
 		$companyCheck  = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->post('companyID'));
 		$employeeCheck = $this->cms->getSingularData('v_g_employee', 'EMPLOYEE_ID', $this->input->post('employeeID'));
-		$pphCheck 	   = $this->cms->getSingularData('g_pph21', 'PPH_ID', $this->input->post('pphID'));
+		$pphCheck 	   = $this->cms->getSingularData('g_pph42', 'PPH_ID', $this->input->post('pphID'));
 
 		//Deklrasi Variabel awal
 		$companyBruto = 0;
 		$companyNeto  = 0;
-		$companyPPH21 = 0;
+		$companyPPH42 = 0;
 
 		// Cek apakah perusahaan tersedia
 		if ($companyCheck->num_rows() == 0) {
@@ -1621,7 +1621,7 @@ class Pph21 extends CI_Controller
 		foreach ($employeeCheck->result() as $employee);
 		$ptkpTarif = $employee->TK_TARIF;
 
-		//Kalkulasi PPH21 Non-Gross Up
+		//Kalkulasi PPH42 Non-Gross Up
 		$CheckNPWP->EMPLOYEE_ID;
 		$PPH_ID=$this->input->post('pphID');
 
@@ -1645,7 +1645,7 @@ class Pph21 extends CI_Controller
 		//Dibulatkan biar 3 digit dibelakang jadi 0
 		$yearlyPKP = (floor($yearlyPKP / 1000)) * 1000;
 
-		//Kalkulasi PPH21 Gross UP
+		//Kalkulasi PPH42 Gross UP
 		if ($companyCheck->row()->PPHCOUNT_METHOD == 'GROSS UP') {
 			
 			switch ($yearlyPKP) {
@@ -1653,13 +1653,13 @@ class Pph21 extends CI_Controller
 					// echo 'lapisan 1';
 					$Tunjpph = ($yearlyPKP - 0) *  (5 / 95) + 0;
 					break;
-				case (($yearlyPKP >= 47500000) && ($yearlyPKP <= 217500000)):
+				case (($yearlyPKP >= 47500000) && ($yearlyPKP <= 427500000)):
 					// echo 'lapisan 2';
 					$Tunjpph = ($yearlyPKP - 47500000) * (15 / 85) + 2500000;
 					break;
-				case (($yearlyPKP >= 217500000) && ($yearlyPKP <= 405000000)):
+				case (($yearlyPKP >= 427500000) && ($yearlyPKP <= 405000000)):
 					// echo 'lapisan 3';
-					$Tunjpph = ($yearlyPKP - 217500000) * (25 / 75) + 32500000;
+					$Tunjpph = ($yearlyPKP - 427500000) * (25 / 75) + 32500000;
 					break;
 				case ($yearlyPKP >= 405000000):
 					// echo 'lapisan 4';
@@ -1764,10 +1764,10 @@ class Pph21 extends CI_Controller
 			
 		
 
-		// Mengecek status pada table g_pph21, jika status belum LAPOR PAJAK
+		// Mengecek status pada table g_pph42, jika status belum LAPOR PAJAK
 		// Maka data lama pada g_employee_income akan dihapus terlebih dahulu, baru diinputkan data terbaru
 		$this->db->select('STATUS')
-				 ->from('g_pph21')
+				 ->from('g_pph42')
 				 ->where('PPH_ID', $this->input->post('pphID'));
 
 		$status = $this->db->get(); 
@@ -1782,36 +1782,36 @@ class Pph21 extends CI_Controller
 			// Ngehapus data di g_employee_income berdasarkan PPH ID dan Employee ID
 			$this->cms->deleteGeneralDataDouble('g_employee_income', 'PPH_ID', $this->input->post('pphID'), 'EMPLOYEE_ID', $this->input->post('employeeID'));
 
-			// Update status di g_pph21 dan g_employee_income menjadi ON PROGRESS
-			$updatePPH21 = array(
+			// Update status di g_pph42 dan g_employee_income menjadi ON PROGRESS
+			$updatePPH42 = array(
 				'UPDATED'	=> date('Y-m-d H:i:s'),
 				'STATUS'	=> 'ON PROGRESS'
 			);
-			$this->cms->updateGeneralData('g_pph21', $updatePPH21, 'PPH_ID', $this->input->post('pphID')); 
+			$this->cms->updateGeneralData('g_pph42', $updatePPH42, 'PPH_ID', $this->input->post('pphID')); 
 		} elseif ($key->STATUS == "LAPOR PAJAK" OR $key->STATUS  == "HARDCOPY" ) {
 			//PEMBETULANN
 			$processType='PEMBETULAN';
 
 			// // Update data sebelumnya, sebelum di inputkan data baru
-			// $updatePPH21 = array(
+			// $updatePPH42 = array(
 			// 	'UPDATED'	=> date('Y-m-d H:i:s'),
 			// 	'STATUS'	=> 'ON PROGRESS'
 			// );
-			// $this->cms->updateGeneralData('g_pph21', $updatePPH21, 'PPH_ID', $this->input->post('pphID')); 
+			// $this->cms->updateGeneralData('g_pph42', $updatePPH42, 'PPH_ID', $this->input->post('pphID')); 
 
-			foreach ($pphCheck->result() as $cekPPH21);
-			$monthCheck = $cekPPH21->PERIOD_MONTH;
-			$yearCheck = $cekPPH21->PERIOD_YEAR;
-			$prevPPHVAL = $cekPPH21->COMPANY_PPHVAL;
+			foreach ($pphCheck->result() as $cekPPH42);
+			$monthCheck = $cekPPH42->PERIOD_MONTH;
+			$yearCheck = $cekPPH42->PERIOD_YEAR;
+			$prevPPHVAL = $cekPPH42->COMPANY_PPHVAL;
 
 			$pembetulanKe = $this->cms->cekpembetulan($this->input->post('companyID'), $monthCheck, $yearCheck); 
 
 			// Ubah dulu status lama jadi HISTORY
-			$updateStatusPPH21 = array(
+			$updateStatusPPH42 = array(
 				'UPDATED'	=> date('Y-m-d H:i:s'),
 				'STATUS'	=> 'HISTORY'
 			);
-			$this->cms->updateGeneralData('g_pph21', $updateStatusPPH21, 'PPH_ID', $this->input->post('pphID')); 
+			$this->cms->updateGeneralData('g_pph42', $updateStatusPPH42, 'PPH_ID', $this->input->post('pphID')); 
 		}
 
 		if($processType=="REVISI") {
@@ -1821,9 +1821,9 @@ class Pph21 extends CI_Controller
 			$pphID = $this->incube->generateID(10);
 
 			// Ambil data bulan dan tahun 
-			foreach ($pphCheck->result() as $cekPPH21);
-			$monthCheck = $cekPPH21->PERIOD_MONTH;
-			$yearCheck = $cekPPH21->PERIOD_YEAR;
+			foreach ($pphCheck->result() as $cekPPH42);
+			$monthCheck = $cekPPH42->PERIOD_MONTH;
+			$yearCheck = $cekPPH42->PERIOD_YEAR;
 
 			$companyData = array(
 				'PPH_ID'		=> $pphID,
@@ -1834,12 +1834,12 @@ class Pph21 extends CI_Controller
 				'STATUS'		=> 'ON PROGRESS'
 			);
 
-			$queryInsert = $this->cms->insertGeneralData('g_pph21', $companyData);
+			$queryInsert = $this->cms->insertGeneralData('g_pph42', $companyData);
 			//EoL 1
 			
 		}
 
-		//EoL PPH21 Gross Up
+		//EoL PPH42 Gross Up
 		$employeeData = array(
 			'INCOME_ID'                 	=> $incomeID,
 			'PPH_ID'						=> $pphID,
@@ -1932,10 +1932,10 @@ class Pph21 extends CI_Controller
 					'EMPLOYEE_PTKP'							=> $employeeNoEdit->EMPLOYEE_PTKP,
 					'EMPLOYEE_PKP_YEAR'						=> $employeeNoEdit->EMPLOYEE_PKP_YEAR,
 					'EMPLOYEE_PKP_YEAR_TERATUR'				=> $employeeNoEdit->EMPLOYEE_PKP_YEAR_TERATUR,
-					'EMPLOYEE_PPH21_YEAR_TERATUR'			=> $employeeNoEdit->EMPLOYEE_PPH21_YEAR_TERATUR,
-					'EMPLOYEE_PPH21_YEAR_TIDAK_TERATUR'		=> $employeeNoEdit->EMPLOYEE_PPH21_YEAR_TIDAK_TERATUR,
-					'EMPLOYEE_PPH21_YEAR_KESELURUHAN'		=> $employeeNoEdit->EMPLOYEE_PPH21_YEAR_KESELURUHAN,
-					'EMPLOYEE_PPH21_DIPOTONG_YEAR_AGO'		=> $employeeNoEdit->EMPLOYEE_PPH21_DIPOTONG_YEAR_AGO,
+					'EMPLOYEE_PPH42_YEAR_TERATUR'			=> $employeeNoEdit->EMPLOYEE_PPH42_YEAR_TERATUR,
+					'EMPLOYEE_PPH42_YEAR_TIDAK_TERATUR'		=> $employeeNoEdit->EMPLOYEE_PPH42_YEAR_TIDAK_TERATUR,
+					'EMPLOYEE_PPH42_YEAR_KESELURUHAN'		=> $employeeNoEdit->EMPLOYEE_PPH42_YEAR_KESELURUHAN,
+					'EMPLOYEE_PPH42_DIPOTONG_YEAR_AGO'		=> $employeeNoEdit->EMPLOYEE_PPH42_DIPOTONG_YEAR_AGO,
 					'EMPLOYEE_PPHVAL_YEAR'					=> $employeeNoEdit->EMPLOYEE_YEAR,
 					'EMPLOYEE_PPHVAL_MASA'					=> $employeeNoEdit->EMPLOYEE_MASA,
 					'EMPLOYEE_PPHVAL'						=> $employeeNoEdit->EMPLOYEE_PPHVAL,
@@ -1951,32 +1951,32 @@ class Pph21 extends CI_Controller
 				$datalamaupdate = array(
 					'STATUS'	=> 'HISTORY'
 				);
-				$this->cms->updateGeneralData('g_pph21', $datalamaupdate, 'PPH_ID', $this->input->post('pphID')); 
+				$this->cms->updateGeneralData('g_pph42', $datalamaupdate, 'PPH_ID', $this->input->post('pphID')); 
 			}
 			// Cek Company Bruto kembali yang sudah diubah
-			$this->update_g_pph21($pphID); 
+			$this->update_g_pph42($pphID); 
 		}
 
 		if($processType == 'REVISI'){
 			$pphID = $this->input->post('pphID');
 
 			// Cek Company Bruto kembali yang sudah diubah
-			$this->update_g_pph21($pphID); 
+			$this->update_g_pph42($pphID); 
 		}
 		
 
-		redirect('pph_21/bulan/summary?pid='. $pphID . '&cid=' . $this->input->post('companyID'). '&mid=' . $this->input->post('monthID'). '&yid=' . $this->input->post('yearID'));
+		redirect('pph_42/bulan/summary?pid='. $pphID . '&cid=' . $this->input->post('companyID'). '&mid=' . $this->input->post('monthID'). '&yid=' . $this->input->post('yearID'));
 	}
 
 
-	public function update_g_pph21($pphid)
+	public function update_g_pph42($pphid)
 	{ 
 		$query_total = $this->cms->total_bruto_netto($pphid);
 		
 		foreach ($query_total->result() as $key);
 		$total_bruto = $key->TOTAL_BRUTTO;
 		$total_netto  = $key->TOTAL_NETTO;
-		$total_pphval = $key->TOTAL_PPH21;
+		$total_pphval = $key->TOTAL_PPH42;
 
 		// Update total bruto karyawan dengan PPH ID yang sama
 		$UpdateCompanyData = array(
@@ -1986,12 +1986,12 @@ class Pph21 extends CI_Controller
 			'COMPANY_KBLB'		=> 0 // Lupa dapet nya dari mana :(
 		); 
 
-		$this->cms->updateGeneralData('g_pph21', $UpdateCompanyData, 'PPH_ID', $pphid);
+		$this->cms->updateGeneralData('g_pph42', $UpdateCompanyData, 'PPH_ID', $pphid);
 	}
 
 	public function aktifitas_pajak()
 	{
-		$this->load->view('cms/hitung_pajak/pph21_aktifitas_pajak');
+		$this->load->view('cms/hitung_pajak/pph42_aktifitas_pajak');
 	}
 
 	public function edit_aktifitas_pajak()
