@@ -157,6 +157,12 @@
         //var_dump($sql->num_rows());
     }
 
+    public function count_pembetulan22($pid){
+        $sql = $this->db->query("SELECT count(*) as TOTAL_PEMBETULAN FROM `g_pph22` WHERE 'STATUS'='ON PROGRESS' AND PPH22_ID='".$pid."'");
+        return $sql;
+        //var_dump($sql->num_rows());
+    }
+
     public function total_bruto_netto($pid){
         $sql = $this->db->query("SELECT SUM(EMPLOYEE_BRUTO) AS TOTAL_BRUTTO,SUM(EMPLOYEE_NETTO) AS TOTAL_NETTO, SUM(EMPLOYEE_PPHVAL) AS TOTAL_PPH21 FROM `g_employee_income` WHERE PPH_ID='".$pid."'");
         return $sql;
@@ -212,5 +218,5 @@
     public function getCountDataKaryawanNoEdit($pid,$eid){
         $sql = $this->db->query("SELECT SUM(EMPLOYEE_BRUTO) AS TOTAL_BRUTTO_LAMA,SUM(EMPLOYEE_NETTO) AS TOTAL_NETTO_LAMA, SUM(EMPLOYEE_PPHVAL) AS TOTAL_PPH21_LAMA FROM `g_employee_income` WHERE PPH_ID='".$pid."' AND EMPLOYEE_ID!='".$eid."'");
         return $sql;
-    }
+    } 
 }

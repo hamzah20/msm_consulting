@@ -10,7 +10,7 @@ class Pph22 extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		// $this->output->enable_profiler(TRUE);
+		//$this->output->enable_profiler(TRUE);
 	}
 
 	public function index()
@@ -339,9 +339,16 @@ class Pph22 extends CI_Controller
 		$pphID			= $this->input->get('pid');
 
 		$companyData    = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $companyID);
-		$employeeData   = $this->cms->getSingularData('v_g_employee', 'EMPLOYEE_COMPANY_ID', $companyID);
+		$employeeData   = $this->cms->getSingularData('v_g_employee_pph22', 'PPH22_ID', $pphID);
 
-		$sql_pembetulan = $this->cms->count_pembetulan($pphID); 
+		$sql_pembetulan = $this->cms->count_pembetulan22($pphID); 
+		// foreach ($sql_pembetulan->result() as $key) {
+		// 	echo $key->TOTAL_PEMBETULAN;
+		// }
+		// foreach ($employeeData->result() as $employee) {
+		// 	echo $employee->TRANSACTION_NAME;
+		// 	echo"<br>";
+		// }
 		
 
 		$fileName = 'LAPOR_PAJAK_PPH22_' . $companyData->row()->COMPANY_NAME . '_' . date('ymd') . '.csv';
@@ -349,7 +356,7 @@ class Pph22 extends CI_Controller
 		//1. Format dasar PHPExcel
 		$sheet = $phpExcel->getActiveSheet();
 
-		$sheet->getStyle('A1:I1')
+		$sheet->getStyle('A1:AY1')
 			->getFont()
 			->getColor()
 			->setRGB('ffffff');
@@ -357,67 +364,18 @@ class Pph22 extends CI_Controller
 		$phpExcel->getProperties()
 			->setCreator('MSM Consulting')
 			->setLastModifiedBy('MSM Consulting')
-			->setTitle('MSM Consulting PPH22 Lapor Pajak')
-			->setSubject('MSM Consulting PPH22 Lapor Pajak');
+			->setTitle('MSM Consulting PPH 22 Lapor Pajak')
+			->setSubject('MSM Consulting PPH 22 Lapor Pajak');
 
-		$sheet->getStyle('A1:A1')
+		$sheet->getStyle('A1:AY1')
 			->getFill()
 			->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
 			->getStartColor()
-			->setARGB('000066'); 
-
-		$sheet->getStyle('B1:B1')
-			->getFill()
-			->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-			->getStartColor()
-			->setARGB('000066'); 
-
-		$sheet->getStyle('C1:C1')
-			->getFill()
-			->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-			->getStartColor()
-			->setARGB('000066'); 
-
-		$sheet->getStyle('D1:D1')
-			->getFill()
-			->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-			->getStartColor()
-			->setARGB('000066'); 
-
-		$sheet->getStyle('E1:E1')
-			->getFill()
-			->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-			->getStartColor()
-			->setARGB('000066'); 
-
-		$sheet->getStyle('F1:F1')
-			->getFill()
-			->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-			->getStartColor()
-			->setARGB('000066'); 
-
-		$sheet->getStyle('G1:G1')
-			->getFill()
-			->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-			->getStartColor()
-			->setARGB('000066'); 
-
-		$sheet->getStyle('H1:H1')
-			->getFill()
-			->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-			->getStartColor()
-			->setARGB('000066'); 
-
-		$sheet->getStyle('I1:I1')
-			->getFill()
-			->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
-			->getStartColor()
-			->setARGB('000066'); 
-
+			->setARGB('000066');  
 
 		$phpExcel->setActiveSheetIndex(0)->setTitle('FormatData PPH22');
 
-		$sheet->setCellValue('A1', "Masa Pajak");
+		$sheet->setCellValue('A1', "Nomor Formulir");
 		$sheet->mergeCells('A1:A1');
 		$sheet->getStyle('A1:A1')
 			->getAlignment()
@@ -425,7 +383,7 @@ class Pph22 extends CI_Controller
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true); 
 
-		$sheet->setCellValue('B1', "Tahun Pajak");
+		$sheet->setCellValue('B1', "Masa Pajak");
 		$sheet->mergeCells('B1:B1');
 		$sheet->getStyle('B1:B1')
 			->getAlignment()
@@ -433,7 +391,7 @@ class Pph22 extends CI_Controller
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
-		$sheet->setCellValue('C1', "Pembetulan");
+		$sheet->setCellValue('C1', "Tahun Pajak");
 		$sheet->mergeCells('C1:C1');
 		$sheet->getStyle('C1:C1')
 			->getAlignment()
@@ -441,7 +399,7 @@ class Pph22 extends CI_Controller
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
-		$sheet->setCellValue('D1', "NPWP");
+		$sheet->setCellValue('D1', "Pembetulan");
 		$sheet->mergeCells('D1:D1');
 		$sheet->getStyle('D1:D1')
 			->getAlignment()
@@ -449,7 +407,7 @@ class Pph22 extends CI_Controller
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
-		$sheet->setCellValue('E1', "Nama");
+		$sheet->setCellValue('E1', "NPWP Lawan Transaksi");
 		$sheet->mergeCells('E1:E1');
 		$sheet->getStyle('E1:E1')
 			->getAlignment()
@@ -457,7 +415,7 @@ class Pph22 extends CI_Controller
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
-		$sheet->setCellValue('F1', "Kode Pajak");
+		$sheet->setCellValue('F1', "Nama Lawan Transaksi");
 		$sheet->mergeCells('F1:F1');
 		$sheet->getStyle('F1:F1')
 			->getAlignment()
@@ -465,7 +423,7 @@ class Pph22 extends CI_Controller
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
-		$sheet->setCellValue('G1', "Jumlah Bruto");
+		$sheet->setCellValue('G1', "Alamat");
 		$sheet->mergeCells('G1:G1');
 		$sheet->getStyle('G1:G1')
 			->getAlignment()
@@ -473,7 +431,7 @@ class Pph22 extends CI_Controller
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
-		$sheet->setCellValue('H1', "Jumlah PPh");
+		$sheet->setCellValue('H1', "No Bukti Potong");
 		$sheet->mergeCells('H1:H1');
 		$sheet->getStyle('H1:H1')
 			->getAlignment()
@@ -481,9 +439,345 @@ class Pph22 extends CI_Controller
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
-		$sheet->setCellValue('I1', "Kode Negara");
+		$sheet->setCellValue('I1', "Tanggal Bukti Potong");
 		$sheet->mergeCells('I1:I1');
 		$sheet->getStyle('I1:I1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('J1', "Penjualan Bruto Semen (Rp)");
+		$sheet->mergeCells('J1:J1');
+		$sheet->getStyle('J1:J1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('K1', "Tarif (%)");
+		$sheet->mergeCells('K1:K1');
+		$sheet->getStyle('K1:K1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('L1', "PPh yang Dipungut (Rp)");
+		$sheet->mergeCells('L1:L1');
+		$sheet->getStyle('L1:L1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('M1', "Penjualan Bruto Kertas (Rp)");
+		$sheet->mergeCells('M1:M1');
+		$sheet->getStyle('M1:M1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('N1', "Tarif (%)");
+		$sheet->mergeCells('N1:N1');
+		$sheet->getStyle('N1:N1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('O1', "PPh yang Dipungut (Rp)");
+		$sheet->mergeCells('O1:O1');
+		$sheet->getStyle('O1:O1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('P1', "Penjualan Bruto Baja (Rp)");
+		$sheet->mergeCells('P1:P1');
+		$sheet->getStyle('P1:P1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('Q1', "Tarif (%)");
+		$sheet->mergeCells('Q1:Q1');
+		$sheet->getStyle('Q1:Q1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('R1', "PPh yang Dipungut (Rp)");
+		$sheet->mergeCells('R1:R1');
+		$sheet->getStyle('R1:R1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('S1', "Penjualan Bruto Otomotif (Rp)");
+		$sheet->mergeCells('S1:S1');
+		$sheet->getStyle('S1:S1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('T1', "Tarif (%)");
+		$sheet->mergeCells('T1:T1');
+		$sheet->getStyle('T1:T1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('U1', "PPh yang Dipungut (Rp)");
+		$sheet->mergeCells('U1:U1');
+		$sheet->getStyle('U1:U1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('V1', "Farmasi/BBM, Gas, Pelumas (Final)");
+		$sheet->mergeCells('V1:V1');
+		$sheet->getStyle('V1:V1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('W1', "Penjualan Bruto (Rp)");
+		$sheet->mergeCells('W1:W1');
+		$sheet->getStyle('W1:W1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('X1', "Tarif (%)");
+		$sheet->mergeCells('X1:X1');
+		$sheet->getStyle('X1:X1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('Y1', "PPh yang Dipungut (Rp)");
+		$sheet->mergeCells('Y1:Y1');
+		$sheet->getStyle('Y1:Y1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('Z1', "Farmasi/BBM, Gas, Pelumas (Tidak Final)");
+		$sheet->mergeCells('Z1:Z1');
+		$sheet->getStyle('Z1:Z1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('AA1', "Penjualan Bruto (Rp)");
+		$sheet->mergeCells('AA1:AA1');
+		$sheet->getStyle('AA1:AA1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('AB1', "Tarif (%)");
+		$sheet->mergeCells('AB1:AB1');
+		$sheet->getStyle('AB1:AB1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('AC1', "PPh yang Dipungut (Rp)");
+		$sheet->mergeCells('AC1:AC1');
+		$sheet->getStyle('AC1:AC1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('AD1', "Barang Sangat Mewah");
+		$sheet->mergeCells('AD1:AD1');
+		$sheet->getStyle('AD1:AD1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('AE1', "Harga Jual (Rp)");
+		$sheet->mergeCells('AE1:AE1');
+		$sheet->getStyle('AE1:AE1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('AF1', "Tarif (%)");
+		$sheet->mergeCells('AF1:AF1');
+		$sheet->getStyle('AF1:AF1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('AG1', "PPh yang Dipungut (Rp)");
+		$sheet->mergeCells('AG1:AG1');
+		$sheet->getStyle('AG1:AG1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('AH1', "Sektor 1");
+		$sheet->mergeCells('AH1:AH1');
+		$sheet->getStyle('AH1:AH1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('AI1', "Pembelian Bruto (Rp)");
+		$sheet->mergeCells('AI1:AI1');
+		$sheet->getStyle('AI1:AI1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('AJ1', "Tarif (%)");
+		$sheet->mergeCells('AJ1:AJ1');
+		$sheet->getStyle('AJ1:AJ1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('AK1', "PPh yang Dipungut (Rp)");
+		$sheet->mergeCells('AK1:AK1');
+		$sheet->getStyle('AK1:AK1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('AL1', "Sektor 2");
+		$sheet->mergeCells('AL1:AL1');
+		$sheet->getStyle('AL1:AL1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('AM1', "Pembelian Bruto (Rp)");
+		$sheet->mergeCells('AM1:AM1');
+		$sheet->getStyle('AM1:AM1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('AN1', "Tarif (%)");
+		$sheet->mergeCells('AN1:AN1');
+		$sheet->getStyle('AN1:AN1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('AO1', "PPh yang Dipungut (Rp)");
+		$sheet->mergeCells('AO1:AO1');
+		$sheet->getStyle('AO1:AO1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('AP1', "Badan Tertentu Lainnya 1");
+		$sheet->mergeCells('AP1:AP1');
+		$sheet->getStyle('AP1:AP1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('AQ1', "Pembelian Bruto (Rp)");
+		$sheet->mergeCells('AQ1:AQ1');
+		$sheet->getStyle('AQ1:AQ1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('AR1', "Tarif (%)");
+		$sheet->mergeCells('AR1:AR1');
+		$sheet->getStyle('K1:K1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('AS1', "PPh yang Dipungut (Rp)");
+		$sheet->mergeCells('AS1:AS1');
+		$sheet->getStyle('AS1:AS1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('AT1', "Badan Tertentu Lainnya 2");
+		$sheet->mergeCells('AT1:AT1');
+		$sheet->getStyle('AT1:AT1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('AU1', "Pembelian Bruto (Rp)");
+		$sheet->mergeCells('AU1:AU1');
+		$sheet->getStyle('AU1:AU1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('AV1', "Tarif (%)");
+		$sheet->mergeCells('AV1:AV1');
+		$sheet->getStyle('AV1:AV1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('AW1', "PPh yang Dipungut (Rp)");
+		$sheet->mergeCells('AW1:AW1');
+		$sheet->getStyle('AW1:AW1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('AX1', "Total DPP (Rp)");
+		$sheet->mergeCells('AX1:AX1');
+		$sheet->getStyle('AX1:AX1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('AY1', "Total PPh yang Dipungut (Rp)");
+		$sheet->mergeCells('AY1:AY1');
+		$sheet->getStyle('AY1:AY1')
 			->getAlignment()
 			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
@@ -499,32 +793,84 @@ class Pph22 extends CI_Controller
 
 			$colCounter = 2;
 			$numCounter = 1;
-
+			foreach ($sql_pembetulan->result() as $pembetulan_r );
 			foreach ($employeeData->result() as $employee) {
-				$pphData 		= $this->cms->getSingularDataDetail('v_g_employee_pph22', 'PPH_ID', 'EMPLOYEE_ID',$pphID,$employee->EMPLOYEE_ID);
-				//2.1 Convert Tanggal sesuai format, lihat di Libraries/Incube.php
-				$monthName = $this->incube->convertMonthNameLP($pphData->row()->PERIOD_MONTH);
-				foreach ($pphData->result() as $statusemployee);
-				$cekstatusemployee = $statusemployee->EMPLOYEE_STATUS;
+				$pphData 		= $this->cms->getSingularData('v_g_employee_pph22', 'PPH22_ID',$pphID);
+				
+				// Convert Tanggal sesuai format, lihat di Libraries/Incube.php
+				$monthName = $this->incube->convertMonthNameLP($pphData->row()->PERIOD_MONTH); 
+				
+				$count_bruto_final 		= 0;
+				$count_bruto_tidakfinal	= 0;
+				
+				if(!empty($employee->EMPLOYEE_BRUTO_FARMASI)){
+					$count_bruto_final 		= $employee->EMPLOYEE_BRUTO_FARMASI;
+					$count_bruto_tidakfinal = 0;
+				} elseif($employee->PENYALUR_AGEN == "Y"){
+					$count_bruto_final 		= $employee->EMPLOYEE_BRUTO_BBM_BBG;
+					$count_bruto_tidakfinal = $employee->EMPLOYEE_BRUTO_PELUMAS;
+				}elseif($employee->PENYALUR_AGEN == "N"){
+					$count_bruto_final 		= 0;
+					$count_bruto_tidakfinal = $employee->EMPLOYEE_BRUTO_BBM_BBG + $employee->EMPLOYEE_BRUTO_PELUMAS;
+				}
 
-				if($cekstatusemployee == "TETAP"){
-					$status = "22-100-01";
-				} else{
-					$status = "22-100-02";
-				} 
+				$sheet->setCellValue('A' . $colCounter, 'Nomor Formulir');
+				$sheet->setCellValue('B' . $colCounter, $monthName);
+				$sheet->setCellValue('C' . $colCounter, $employee->PERIOD_YEAR);
+				$sheet->setCellValue('D' . $colCounter, $pembetulan_r->TOTAL_PEMBETULAN == null ? '0' : $pembetulan_r->TOTAL_PEMBETULAN);
+				$sheet->setCellValue('E' . $colCounter, str_replace('.','',str_replace('-', '',$pphData->row()->TRANSACTION_NPWP)));
+				$sheet->setCellValue('F' . $colCounter, $employee->TRANSACTION_NAME);
+				$sheet->setCellValue('G' . $colCounter, $employee->TRANSACTION_ADDRESS);
+				$sheet->setCellValue('H' . $colCounter, 'Nomor Bukti Potong');
+				$sheet->setCellValue('I' . $colCounter, $employee->INVOICE_DATE);
+				$sheet->setCellValue('J' . $colCounter, $employee->EMPLOYEE_BRUTO_SEMEN);
+				$sheet->setCellValue('K' . $colCounter, $employee->BRUTO_SEMEN_RATES);
+				$sheet->setCellValue('L' . $colCounter, $employee->PPH_SEMEN);
+				$sheet->setCellValue('M' . $colCounter, $employee->EMPLOYEE_BRUTO_KERTAS);
+				$sheet->setCellValue('N' . $colCounter, $employee->BRUTO_KERTAS_RATES);
+				$sheet->setCellValue('O' . $colCounter, $employee->PPH_KERTAS);
+				$sheet->setCellValue('P' . $colCounter, $employee->EMPLOYEE_BRUTO_BAJA);
+				$sheet->setCellValue('Q' . $colCounter, $employee->BRUTO_BAJA_RATES);
+				$sheet->setCellValue('R' . $colCounter, $employee->PPH_BAJA);
+				$sheet->setCellValue('S' . $colCounter, $employee->EMPLOYEE_BRUTO_OTOMOTIF);
+				$sheet->setCellValue('T' . $colCounter, $employee->BRUTO_OTOMOTIF_RATES);
+				$sheet->setCellValue('U' . $colCounter, $employee->PPH_OTOMOTIF);
+				$sheet->setCellValue('V' . $colCounter, '');
+				$sheet->setCellValue('W' . $colCounter, $count_bruto_final);
+				$sheet->setCellValue('X' . $colCounter, 0.30);
+				$sheet->setCellValue('Y' . $colCounter, $count_bruto_final * 0.30);
+				$sheet->setCellValue('Z' . $colCounter, '');
+				$sheet->setCellValue('AA' . $colCounter, $count_bruto_tidakfinal);
+				$sheet->setCellValue('AB' . $colCounter, 0.30);
+				$sheet->setCellValue('AC' . $colCounter, $count_bruto_tidakfinal * 0.30);
+				$sheet->setCellValue('AD' . $colCounter, $employee->PRODUCT_TYPE);				
+				$sheet->setCellValue('AE' . $colCounter, $employee->SELLING_PRICE);	
+				$sheet->setCellValue('AF' . $colCounter, '');
+				$sheet->setCellValue('AG' . $colCounter, '');			
+				$sheet->setCellValue('AH' . $colCounter, '');
+				$sheet->setCellValue('AI' . $colCounter, '');
+				$sheet->setCellValue('AJ' . $colCounter, '');
+				$sheet->setCellValue('AK' . $colCounter, '');
+				$sheet->setCellValue('AL' . $colCounter, '');
+				$sheet->setCellValue('AM' . $colCounter, '');
+				$sheet->setCellValue('AN' . $colCounter, '');
+				$sheet->setCellValue('AO' . $colCounter, '');
+				$sheet->setCellValue('AP' . $colCounter, '');
+				$sheet->setCellValue('AQ' . $colCounter, '');
+				$sheet->setCellValue('AR' . $colCounter, '');
+				$sheet->setCellValue('AS' . $colCounter, '');
+				$sheet->setCellValue('AT' . $colCounter, '');
+				$sheet->setCellValue('AU' . $colCounter, '');
+				$sheet->setCellValue('AV' . $colCounter, '');
+				$sheet->setCellValue('AW' . $colCounter, '');
+				$sheet->setCellValue('AX' . $colCounter, '');
+				$sheet->setCellValue('AY' . $colCounter, '');  
 
-				$sheet->setCellValue('A' . $colCounter, $monthName);
-				$sheet->setCellValue('B' . $colCounter, $pphData->row()->PERIOD_YEAR);
-				$sheet->setCellValue('C' . $colCounter, $sql_pembetulan->TOTAL_PEMBETULAN == null ? '0' : $sql_pembetulan->TOTAL_PEMBETULAN);
-				$sheet->setCellValue('D' . $colCounter, str_replace('.','',str_replace('-', '',$pphData->row()->EMPLOYEE_NPWP)));
-				$sheet->setCellValue('E' . $colCounter, $pphData->row()->EMPLOYEE_NAME);
-				$sheet->setCellValue('F' . $colCounter, $status);
-				$sheet->setCellValue('G' . $colCounter, $pphData->row()->EMPLOYEE_BRUTO);
-				$sheet->setCellValue('H' . $colCounter, $pphData->row()->EMPLOYEE_PPHVAL);
-				$sheet->setCellValue('I' . $colCounter, $pphData->row()->COUNTRY_CODE == 'INA' ? '' : $pphData->row()->COUNTRY_CODE);  
+				// $sheet->setCellValue('I' . $colCounter, $pphData->row()->COUNTRY_CODE == 'INA' ? '' : $pphData->row()->COUNTRY_CODE);  
 
 				$colCounter++;
 				$numCounter++;
+
 			}
 		} 
 
@@ -681,7 +1027,7 @@ class Pph22 extends CI_Controller
 		// Jika status bukan Lapor Pajak, hapus terlebih dahulu data lama di g_pph22_detail
 		if($key->STATUS == "ACTIVE" OR $key->STATUS == "ON PROGRESS" OR $key->STATUS  == "WAITING FOR APPROVAL" OR $key->STATUS  == "WAITING FOR CUSTOMER APPROVAL" OR $key->STATUS  == "WAITING FOR PAYMENT" OR $key->STATUS  == "PAID" OR $key->STATUS  == "TAX FILING" ){
 			//REVISI
-			$this->cms->deleteGeneralData('g_employee_income', 'PPH_ID', $this->input->post('pphID'));
+			$this->cms->deleteGeneralData('g_pph22_detail', 'PPH22_ID', $this->input->post('pphID'));
 		} elseif ($key->STATUS == "LAPOR PAJAK" OR $key->STATUS  == "HARDCOPY" ) {
 			//PEMBETULANN
 			$processType='PEMBETULAN';
@@ -736,170 +1082,9 @@ class Pph22 extends CI_Controller
 
 			foreach ($CheckEmpNPWP->result() as $CheckNPWP);  
 
-			$totalTunjangan=0;
+			$totalTunjangan=0; 
 
-			//Kalkulasi Bruto, Neto & Jumlah Pengurang (TUNJANGAN, IURAN, PREMI, DLL)
-
-			// $totalTunjangan = $sheetData['G'] + $sheetData['H'] + $sheetData['I'] + $sheetData['J'] + $sheetData['K'] + $sheetData['L'] + $sheetData['M'] + $sheetData['O'] + $sheetData['P'];
-			// $totalPremi 	= $sheetData['R'] + $sheetData['S'] + $sheetData['T'];
-			// $iuran 			= $sheetData['W'] + $sheetData['X'];
-
-			// $totalBruto 	= $sheetData['E'] + $totalTunjangan + $sheetData['Q'] + $totalPremi + $sheetData['U'] + $sheetData['V'];
-
-
-			//Biaya Jabatan Mx 5000000
-
-			// $bijab = 0.05 * $totalBruto;
-			// if($bijab>500000) {
-			// 	$bijab= 500000;
-			// }
-			// $totalPengurang	= $bijab + $iuran;
-
-			//Tarif PTKP Pegawai
-			$ptkpTarif = $employeeArr[$employeeIndex]['PTKP_TARIF'];
-			//echo strlen($employeeArr[$employeeIndex]['NPWP'])."<br>";
-			//Kalkulasi PPH22 Non-Gross Up
-			$CheckNPWP->EMPLOYEE_ID;
-			$PPH_ID=$this->input->post('pphID');
-
-			$this->db->select('*')
-			 ->from('g_pph22_detail')
-			 ->where('EMPLOYEE_ID', $CheckNPWP->EMPLOYEE_ID)
-			 ->where('PPH_ID', $PPH_ID);
-
-			$CheckBruto = $this->db->get(); 
-
-			foreach ($CheckBruto->result() as $BrutoEmp){
-					$persen=$this->cms->getPersen($BrutoEmp->EMPLOYEE_BRUTO);
-					foreach ($persen->result() as $CheckPersen){
-
-					echo  $BrutoEmp->EMPLOYEE_BRUTO." - ".$CheckPersen->PRESENTASE."<BR>"; 
-					}
-			}
-			
-			// $yearlyNeto = 12 * ($totalBruto - $totalPengurang);
-			// $yearlyPKP  = $yearlyNeto - $ptkpTarif;
-
-			// //Dibulatkan biar 3 digit dibelakang jadi 0
-			// $yearlyPKP = (floor($yearlyPKP / 1000)) * 1000;
-
-			// //Kalkulasi PPH22 Gross UP
-			// if ($companyCheck->row()->PPHCOUNT_METHOD == 'GROSS UP') {
-			// 	$Tunjpph=0;
-			// 	switch ($yearlyPKP) {
-			// 		case ($yearlyPKP <= 47500000):
-			// 			// echo 'lapisan 1';
-			// 			$Tunjpph = ($yearlyPKP - 0) *  (5 / 95) + 0;
-			// 			break;
-			// 		case (($yearlyPKP >= 47500000) && ($yearlyPKP <= 227500000)):
-			// 			// echo 'lapisan 2';
-			// 			$Tunjpph = ($yearlyPKP - 47500000) * (15 / 85) + 2500000;
-			// 			break;
-			// 		case (($yearlyPKP >= 227500000) && ($yearlyPKP <= 405000000)):
-			// 			// echo 'lapisan 3';
-			// 			$Tunjpph = ($yearlyPKP - 227500000) * (25 / 75) + 32500000;
-			// 			break;
-			// 		case ($yearlyPKP >= 405000000):
-			// 			// echo 'lapisan 4';
-			// 			$Tunjpph = ($yearlyPKP - 405000000) * (30 / 70) + 95000000;
-			// 			break;
-			// 		default:
-			// 			break;
-			// 	}
-			// 	$Tunjpph = $Tunjpph/12; //579.392
-
-			// 	$monthlyPPH =0;
-
-
-			// 	//while $tunjpph <> $monnthlyPPH
-			// 	while ($Tunjpph != $monthlyPPH) {
-			// 		# code...
-			// 		//HITUNG YearlyPKP (after tunjanganpph)
-			// 		 $totalBruto 	= $sheetData['E'] + $Tunjpph + $totalTunjangan + $sheetData['Q'] + $totalPremi + $sheetData['U'] + $sheetData['V']; 
-
-
-			// 		// Biaya jabatan max 500 ribu
-			// 		// Biaya jabatan dihitung 5% dari total bruto
-			// 		// Jika setalah dihitung biaya jabatan > 500 ribu, 
-			// 		// Maka akan dibuat sebesar 500 ribu
-			// 		$bijab = 0.05 * $totalBruto;
-			// 		if($bijab>500000) {
-			// 			$bijab= 500000;
-			// 		}
-			// 		$totalPengurang	= $bijab + $iuran;
-							
-			// 		$yearlyNeto = 12 * ($totalBruto - $totalPengurang);
-			// 		$yearlyPKP  = $yearlyNeto - $ptkpTarif;
-
-			// 		//Dibulatkan biar 3 digit dibelakang jadi 0
-			// 		$yearlyPKP = (floor($yearlyPKP / 1000)) * 1000;
-
-
-			// 		if ($yearlyPKP > 0) {
-			// 		    if ($yearlyPKP > 500000000) {
-			// 		        $tier1 = 0.05 * 50000000;
-			// 		        $tier2 = 0.15 * 200000000;
-			// 		        $tier3 = 0.25 * 250000000;
-			// 		        $tier4 = 0.3 * ($yearlyPKP - 500000000);
-			// 		        $yearlyPPH = $tier1 + $tier2 + $tier3 + $tier4;
-			// 		    } elseif ($yearlyPKP > 250000000) {
-			// 		        $tier1 = 0.05 * 50000000;
-			// 		        $tier2 = 0.15 * 200000000;
-			// 		        $tier3 = 0.25 * ($yearlyPKP - 250000000);
-			// 		        $yearlyPPH = $tier1 + $tier2 + $tier3;
-			// 		    } elseif ($yearlyPKP > 50000000) {
-			// 		        $tier1 = 0.05 * 50000000;
-			// 		        $tier2 = 0.15 * ($yearlyPKP - 50000000);
-			// 		        $yearlyPPH = $tier1 + $tier2;
-			// 		    } else {
-			// 		        $tier1 = 0.05 * $yearlyPKP;
-			// 		        $yearlyPPH = $tier1;
-			// 		    }
-			// 		}		
-
-			// 		$monthlyPPH = ($yearlyPPH / 12);
-
-			// 		if($Tunjpph != $monthlyPPH){
-						
-			// 			$Tunjpph = $monthlyPPH;
-			// 			$monthlyPPH = 0;
-
-			// 		}
-
-			// 	} 
-			// } 
-
-			// if ($yearlyPKP > 0) {
-			//     if ($yearlyPKP > 500000000) {
-			//         $tier1 = 0.05 * 50000000;
-			//         $tier2 = 0.15 * 200000000;
-			//         $tier3 = 0.25 * 250000000;
-			//         $tier4 = 0.3 * ($yearlyPKP - 500000000);
-			//         $yearlyPPH = $tier1 + $tier2 + $tier3 + $tier4;
-			//     } elseif ($yearlyPKP > 250000000) {
-			//         $tier1 = 0.05 * 50000000;
-			//         $tier2 = 0.15 * 200000000;
-			//         $tier3 = 0.25 * ($yearlyPKP - 250000000);
-			//         $yearlyPPH = $tier1 + $tier2 + $tier3;
-			//     } elseif ($yearlyPKP > 50000000) {
-			//         $tier1 = 0.05 * 50000000;
-			//         $tier2 = 0.15 * ($yearlyPKP - 50000000);
-			//         $yearlyPPH = $tier1 + $tier2;
-			//     } else {
-			//         $tier1 = 0.05 * $yearlyPKP;
-			//         $yearlyPPH = $tier1;
-			//     }
-			// }		
-
-			// $monthlyPPH = ($yearlyPPH / 12); 
-
-			// if (strlen($employeeArr[$employeeIndex]['NPWP']) == 0) {
-			// 	//Kalau misalnya pegawai ga punya NPWP
-			// 	$monthlyPPHFinal = $monthlyPPH  * 1.2;
-			// } else {
-			// 	//Kalau misalnya pegawai punya NPWP		
-			// 	$monthlyPPHFinal = $monthlyPPH;
-			// } 
+			$PPH_ID=$this->input->post('pphID'); 
 			
 			// Update data sebelumnya, sebelum di inputkan data baru 
 			$updatePPH22 = array(
@@ -908,19 +1093,33 @@ class Pph22 extends CI_Controller
 			);
 			$this->cms->updateGeneralData('g_pph22', $updatePPH22, 'PPH22_ID', $pphID); 
 
+			// Cek rates dari tiap jenis bruto (HARDCODE)
+			$this->db->select('TYPE_ID')
+					 ->from('m_rates')
+					 ->where('STATUS', 'ACTIVE');
+
+			$cekRates = $this->db->get(); 
+
+			foreach ($cekRates->result() as $rates);
+
 			//EoL PPH22 Gross Up
 			$employeeData = array(
 				'INCOME_ID'                 	=> $employeeID,
 				'COMPANY_ID'           			=> $this->input->post('companyID'),
-				'PPH_ID'						=> $pphID,
-				'EMPLOYEE_ID'             		=> $employeeArr[$employeeIndex]['ID'],
-				'EMPLOYEE_ADDRESS'				=> $sheetData['D'],
+				'PPH22_ID'						=> $pphID, 
+				'TRANSACTION_NAME'				=> $sheetData['B'],
+				'TRANSACTION_ADDRESS'			=> $sheetData['D'],
 				'TRANSACTION_NOTES'				=> $sheetData['F'],
 				'EMPLOYEE_BRUTO_SEMEN'			=> $sheetData['G'],
+				'BRUTO_SEMEN_RATES'				=> 0.25,
 				'EMPLOYEE_BRUTO_KERTAS'			=> $sheetData['H'],
+				'BRUTO_KERTAS_RATES'			=> 0.10,
 				'EMPLOYEE_BRUTO_BAJA'			=> $sheetData['I'],
+				'BRUTO_BAJA_RATES'				=> 0.30,
 				'EMPLOYEE_BRUTO_OTOMOTIF'		=> $sheetData['J'],
+				'BRUTO_OTOMOTIF_RATES'		=> 0.45,
 				'EMPLOYEE_BRUTO_FARMASI'		=> $sheetData['K'],
+				'BRUTO_FARMASI_RATES'			=> 0.30,
 				'PENYALUR_AGEN'					=> $sheetData['L'],
 				'EMPLOYEE_BRUTO_BBM_BBG'		=> $sheetData['M'],
 				'EMPLOYEE_BRUTO_PELUMAS'		=> $sheetData['N'],
@@ -931,35 +1130,17 @@ class Pph22 extends CI_Controller
 				'CREATED'						=> date('Y-m-d h:i:s'),
 				'STATUS'						=> 'ON PROGRESS', 
 				'PPHCOUNT_METHOD'				=> $companyCheck->row()->PPHCOUNT_METHOD
-			);
-
-			// $companyBruto 	= $companyBruto + $totalBruto;
-			// $companyNeto  	= $companyNeto + ($totalBruto - $totalPengurang);
-			// $companyPPH22   = $companyPPH22 + round($monthlyPPH);
-
-			// DEBUG DATA YANG MAU DIMASUKIN
-			// echo json_encode($employeeData);
+			); 
 
 			$this->cms->insertGeneralData('g_pph22_detail', $employeeData);
 
-		}
-
-		// if($processType=="REVISI") {
-		// 		$KBLB = 0;
-		// }else {
-		// 		$KBLB = $prevPPHVAL - $companyPPH22;
-				
-		// } 
+		} 
 
 		// TAMBAH DATA KE DPP, TAX RATE, DAN PPH PERUSAHAAN
-		$companyData = array(
-			'COMPANY_DPP'		=> 10000000, 
-			'COMPANY_TAX_RATE'	=> 10000000,
+		$companyData = array( 
+			'INVOICE_DATE'		=> date('Y-m-d H:i:s'),
 			'COMPANY_PPHVAL22'	=> 10000000
-		);
-
-		//DEBUG DATA YANG MAU DIMASUKIN
-		// echo json_encode($companyData);
+		); 
 
 		$this->cms->updateGeneralData('g_pph22', $companyData, 'PPH22_ID', $pphID);
 
@@ -1197,7 +1378,7 @@ class Pph22 extends CI_Controller
 
 		$companyData    = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $companyID);
 		$employeeData   = $this->cms->getSingularData('v_g_employee', 'EMPLOYEE_COMPANY_ID', $companyID);
-		$pphData 		= $this->cms->getSingularData('g_pph22', 'PPH_ID', $pphID);
+		$pphData 		= $this->cms->getSingularData('g_pph22', 'PPH22_ID', $pphID);
 
 		$phpExcel->getDefaultStyle()->getFont()->setName('Calibri')->setSize(12);
 		$phpExcel->getActiveSheet()->setShowGridlines(false);
@@ -1459,8 +1640,8 @@ class Pph22 extends CI_Controller
 	{
 		$this->db->select('*')
 			->from('v_g_employee_pph22')
-			->where('EMPLOYEE_ID', trim($this->input->get('eid')))
-			->where('PPH_ID', trim($this->input->get('pid')));
+			->where('INCOME_ID', trim($this->input->get('eid')))
+			->where('PPH22_ID', trim($this->input->get('pid')));
 
 
 		$data['employee'] 	= $this->db->get();

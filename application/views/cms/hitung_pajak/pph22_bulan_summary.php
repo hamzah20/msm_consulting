@@ -49,7 +49,7 @@
           <div class="col-6 text-right">
             <?php   
               foreach ($statuspph22->result() as $key_status);
-              echo $key_status->STATUS;
+              // echo $key_status->STATUS;
               if($key_status->STATUS == 'ON PROGRESS'){
                echo "<h3><span class='badge badge-info'>ON PROGRESS</span></h3>"; 
               } elseif ($key_status->STATUS == 'WAITING FOR APPROVAL') {
@@ -131,7 +131,7 @@
             <a class="btn btn-sm btn-success mb-1" data-toggle="tooltip" data-placement="top" title="Pembayara PPh" href="<?= base_url('PPH/Pph21/generateXLSFile?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-dollar"></i> </a> 
             <a class="btn btn-sm btn-danger mb-1" data-toggle="tooltip" data-placement="top" title="Tax Filing" href="<?= base_url('PPH/Pph21/generateXLSFile?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-file"></i> </a> 
             <a class="btn btn-sm text-white mb-1" style="background: #672511" data-toggles="tooltip" data-placement="top" title="Lapor Pajak" href="<?= base_url('PPH/Pph21/LaporPajak?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid'). '&mid=' . $this->input->get('mid'). '&yid=' . $this->input->get('yid')); ?>"><i class="fa fa-copy"></i> </a> 
-            <a class="btn btn-sm btn-dark mb-1" data-toggle="tooltip" data-placement="top" title="Harcopy" href="<?= base_url('PPH/Pph21/generateXLSFileLaporPajak?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-envelope"></i> </a> 
+            <a class="btn btn-sm btn-dark mb-1" data-toggle="tooltip" data-placement="top" title="Harcopy" href="<?= base_url('PPH/Pph22/generateXLSFileLaporPajak?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-envelope"></i> </a> 
           </div>
         </div>
         

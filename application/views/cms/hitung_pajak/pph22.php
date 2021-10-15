@@ -55,7 +55,7 @@
               <th scope="col-2">Nama Perusahaan</th>
               <th scope="col-1" class="text-center">NPWP</th>
               <th scope="col-1" class="text-center">Periode (Tahun)</th>
-              <th scope="col-1" class="text-center">Total Penghasilan DPP</th> 
+              <th scope="col-1" class="text-center">Total PPH</th> 
               <th scope="col-4" class="text-center">Aksi</th>
             </tr>
           </thead>
@@ -67,7 +67,7 @@
                   <td><?= $company->COMPANY_NAME; ?></td>
                   <td class="text-center"><?= ($company->COMPANY_NPWP == null ? '-' : $company->COMPANY_NPWP); ?></td>
                   <td class="text-center text-danger"><?= $company->PERIOD_YEAR; ?></td>
-                  <td class="text-center"><?= ($company->TOTAL_COMPANY_DPP == null ? '-' : number_format($company->TOTAL_COMPANY_DPP)); ?></td> 
+                  <td class="text-center"><?= ($company->TOTAL_COMPANY_PPHVAL22 == null ? '-' : number_format($company->TOTAL_COMPANY_PPHVAL22)); ?></td> 
                   <td class="text-center">
                     <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Summary Bulanan" href="<?= base_url('pph_22/bulan?cid=' . $company->COMPANY_ID . '&yid=' . $company->PERIOD_YEAR); ?>"><i class="fa fa-eye"></i></a>
                     <a class="btn btn-sm btn-primary text-white" data-toggle="tooltip" data-placement="top" title="Summary Tahunan" href="<?= base_url('pph_21/tahun'); ?>" role="button" role="button"><i class="fa fa-eye"></i></a>
