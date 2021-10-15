@@ -142,8 +142,7 @@
           <!-- <thead class="thead-dark"> -->
             <tr class="thead-dark">
               <th scope="col-">No</th>
-              <th scope="col-">Tgl. Invoice</th>
-              <th scope="col-">Tgl. Bayar</th>
+              <th scope="col-">Tgl. Invoice</th> 
               <th scope="col-">No. Invoice</th>
               <th scope="col-">Nama Lawan Transaksi</th> 
               <th scope="col-">PPh</th> 
@@ -168,8 +167,7 @@
               <?php foreach ($employees->result() as $employee) { ?>
                 <tr>
                   <td><?= $counter++; ?></td>
-                  <td><?= $employee->INVOICE_DATE; ?></td>
-                  <td><?= $employee->PAYMENT_DATE; ?></td>
+                  <td><?= $employee->INVOICE_DATE; ?></td> 
                   <td><?= $employee->INVOICE_NO; ?></td>
                   <td><?= $employee->TRANSACTION_NAME; ?></td> 
                   <td><?= number_format($employee->EMPLOYEE_PPHVAL22); ?></td>

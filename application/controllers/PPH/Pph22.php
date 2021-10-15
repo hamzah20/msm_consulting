@@ -117,7 +117,7 @@ class Pph22 extends CI_Controller
 		$pphID			= $this->input->get('pid');
 
 		$companyData    = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $companyID);
-		$employeeData   = $this->cms->getSingularData('v_g_employee', 'EMPLOYEE_COMPANY_ID', $companyID);
+		$employeeData   = $this->cms->getSingularData('v_g_employee_pph22', 'PPH22_ID', $pphID);
 		
 
 		$fileName = 'FORMAT_PPH22_' . $companyData->row()->COMPANY_NAME . '_' . date('ymd') . '.xlsx';
@@ -172,6 +172,18 @@ class Pph22 extends CI_Controller
 			->getStartColor()
 			->setARGB('BB0F0F'); 
 
+		$sheet->getStyle('S1:S2')
+			->getFill()
+			->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+			->getStartColor()
+			->setARGB('BB0F0F');
+
+		$sheet->getStyle('T1:T2')
+			->getFill()
+			->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+			->getStartColor()
+			->setARGB('BB0F0F');  
+
 
 		$phpExcel->setActiveSheetIndex(0)->setTitle('FormatData PPH22');
 
@@ -183,8 +195,7 @@ class Pph22 extends CI_Controller
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
-
-		$sheet->setCellValue('B1', "Nama Lawan \n Transaksi");
+		$sheet->setCellValue('B1', "Nomor \n Formulir");
 		$sheet->mergeCells('B1:B2');
 		$sheet->getStyle('B1:B2')
 			->getAlignment()
@@ -192,8 +203,7 @@ class Pph22 extends CI_Controller
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
-
-		$sheet->setCellValue('C1', "NPWP Lawan \n Transaksi)");
+		$sheet->setCellValue('C1', "Nama Lawan \n Transaksi");
 		$sheet->mergeCells('C1:C2');
 		$sheet->getStyle('C1:C2')
 			->getAlignment()
@@ -201,7 +211,8 @@ class Pph22 extends CI_Controller
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
-		$sheet->setCellValue('D1', "Alamat Lawan \n Transaksi)");
+
+		$sheet->setCellValue('D1', "NPWP Lawan \n Transaksi)");
 		$sheet->mergeCells('D1:D2');
 		$sheet->getStyle('D1:D2')
 			->getAlignment()
@@ -209,16 +220,15 @@ class Pph22 extends CI_Controller
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
-
-		$sheet->setCellValue('E1', "Tanggal Bukti \n Potong");
+		$sheet->setCellValue('E1', "Alamat Lawan \n Transaksi)");
 		$sheet->mergeCells('E1:E2');
-		$sheet->getStyle('E1:E2')->getAlignment()
+		$sheet->getStyle('E1:E2')
+			->getAlignment()
 			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
-
-		$sheet->setCellValue('F1', "Keterangan\nTransaksi");
+		$sheet->setCellValue('F1', "Nomor \n Bukti Potong");
 		$sheet->mergeCells('F1:F2');
 		$sheet->getStyle('F1:F2')
 			->getAlignment()
@@ -226,53 +236,70 @@ class Pph22 extends CI_Controller
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
-		$sheet->setCellValue('G1', 'Bidang Industri Tertentu');
-		$sheet->mergeCells('G1:K1');
-		$sheet->setCellValue('G2', "Penjualan Bruto \n Semen (Rp)");
-		$sheet->setCellValue('H2', "Penjuakan Bruto \n Kertas (Rp)");
-		$sheet->setCellValue('I2', "Penjualan Bruto \n Baja (Rp)");
-		$sheet->setCellValue('J2', "Penjualan Bruto \n Otomotif (Rp)");
-		$sheet->setCellValue('K2', "Penjualan Bruto \n Farmasi (Rp)");
-		$sheet->getStyle('G1:K1')
-			->getAlignment()
-			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
-			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
-			->setWrapText(true);
 
-		$sheet->setCellValue('L1', 'BBM, BBG, Pelumas');
-		$sheet->mergeCells('L1:N1');
-		$sheet->setCellValue('L2', "Penyalur/Agen \n (Jika ada BBM,\n BBG, dan \nPelumas maka \npenjualan bruto \nfarmasi harus \nnill)");
-		$sheet->setCellValue('M2', "Penjualan Bruto \nBBM & BBG \n(Rp)");
-		$sheet->setCellValue('N2', "Penjualan Bruto \nPelumas \n(Rp)");
-		$sheet->getStyle('L1:N1')
-			->getAlignment()
-			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
-			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
-			->setWrapText(true);
-
-		$sheet->setCellValue('O1', "Barang yang Tergolong \n Sangat Mewah");
-		$sheet->mergeCells('O1:P1');
-		$sheet->setCellValue('O2', "Jenis");
-		$sheet->setCellValue('P2', 'Harga Jual (Rp)'); 
-		$sheet->getStyle('O1:P1')
-			->getAlignment()
+		$sheet->setCellValue('G1', "Tanggal Bukti \n Potong");
+		$sheet->mergeCells('G1:G2');
+		$sheet->getStyle('G1:G2')->getAlignment()
 			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
 
-		$sheet->setCelLValue('Q1', "Pembelian \nBahan-Bahan \nuntuk Keperluan \nIndustri atau \nEkspor dari \nPedagang \nPengumpul");
-		$sheet->mergeCells('Q1:Q2');
-		$sheet->getStyle('Q1:Q2')
+		$sheet->setCellValue('H1', "Keterangan\nTransaksi");
+		$sheet->mergeCells('H1:H2');
+		$sheet->getStyle('H1:H2')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('I1', 'Bidang Industri Tertentu');
+		$sheet->mergeCells('I1:M1');
+		$sheet->setCellValue('I2', "Penjualan Bruto \n Semen (Rp)");
+		$sheet->setCellValue('J2', "Penjuakan Bruto \n Kertas (Rp)");
+		$sheet->setCellValue('K2', "Penjualan Bruto \n Baja (Rp)");
+		$sheet->setCellValue('L2', "Penjualan Bruto \n Otomotif (Rp)");
+		$sheet->setCellValue('M2', "Penjualan Bruto \n Farmasi (Rp)");
+		$sheet->getStyle('I1:M1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('N1', 'BBM, BBG, Pelumas');
+		$sheet->mergeCells('N1:P1');
+		$sheet->setCellValue('N2', "Penyalur/Agen \n (Jika ada BBM,\n BBG, dan \nPelumas maka \npenjualan bruto \nfarmasi harus \nnill)");
+		$sheet->setCellValue('O2', "Penjualan Bruto \nBBM & BBG \n(Rp)");
+		$sheet->setCellValue('P2', "Penjualan Bruto \nPelumas \n(Rp)");
+		$sheet->getStyle('N1:P1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('Q1', "Barang yang Tergolong \n Sangat Mewah");
+		$sheet->mergeCells('Q1:R1');
+		$sheet->setCellValue('Q2', "Jenis");
+		$sheet->setCellValue('R2', 'Harga Jual (Rp)'); 
+		$sheet->getStyle('Q1:R1')
 			->getAlignment()
 			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
 
-		$sheet->setCellValue('R1', "Pembelian \nBatubara, \nMineral Logam, \ndan Mineral \nBukan Logam, \ndari Badan atau \nOrang Pribadi \nPemegang Izin \nUsaha \nPertambangan \noleh Industri \natau Badan \nUsaha (Rp)");
-		$sheet->mergeCells('R1:R2');
-		$sheet->getStyle('R1:R2')
+		$sheet->setCelLValue('S1', "Pembelian \nBahan-Bahan \nuntuk Keperluan \nIndustri atau \nEkspor dari \nPedagang \nPengumpul");
+		$sheet->mergeCells('S1:S2');
+		$sheet->getStyle('S1:S2')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+
+		$sheet->setCellValue('T1', "Pembelian \nBatubara, \nMineral Logam, \ndan Mineral \nBukan Logam, \ndari Badan atau \nOrang Pribadi \nPemegang Izin \nUsaha \nPertambangan \noleh Industri \natau Badan \nUsaha (Rp)");
+		$sheet->mergeCells('T1:T2');
+		$sheet->getStyle('T1:T2')
 			->getAlignment()
 			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
@@ -298,23 +325,25 @@ class Pph22 extends CI_Controller
 				//EoL 2.1
 
 				$sheet->setCellValue('A' . $colCounter, $numCounter);
-				$sheet->setCellValue('B' . $colCounter, $pphData->row()->TRANSACTION_NAME);
-				$sheet->setCellValue('C' . $colCounter, $pphData->row()->TRANSACTION_NPWP);
-				$sheet->setCellValue('D' . $colCounter, $pphData->row()->TRANSACTION_ADDRESS);
-				$sheet->setCellValue('E' . $colCounter, $pphData->row()->PAYMENT_DATE);
-				$sheet->setCellValue('F' . $colCounter, $pphData->row()->TRANSACTION_NOTES);
-				$sheet->setCellValue('G' . $colCounter, $pphData->row()->EMPLOYEE_BRUTO_SEMEN);
-				$sheet->setCellValue('H' . $colCounter, $pphData->row()->EMPLOYEE_BRUTO_KERTAS);
-				$sheet->setCellValue('I' . $colCounter, $pphData->row()->EMPLOYEE_BRUTO_BAJA);
-				$sheet->setCellValue('J' . $colCounter, $pphData->row()->EMPLOYEE_BRUTO_OTOMOTIF);
-				$sheet->setCellValue('K' . $colCounter, $pphData->row()->EMPLOYEE_BRUTO_FARMASI);
-				$sheet->setCellValue('L' . $colCounter, $pphData->row()->PENYALUR_AGEN);
-				$sheet->setCellValue('M' . $colCounter, $pphData->row()->EMPLOYEE_BRUTO_BBM_BBG);
-				$sheet->setCellValue('N' . $colCounter, $pphData->row()->EMPLOYEE_BRUTO_PELUMAS);
-				$sheet->setCellValue('O' . $colCounter, $pphData->row()->PRODUCT_TYPE);
-				$sheet->setCellValue('P' . $colCounter, $pphData->row()->SELLING_PRICE);
-				$sheet->setCellValue('Q' . $colCounter, $pphData->row()->SELLING_INDUSTRI_MATERIALS);
-				$sheet->setCellValue('R' . $colCounter, $pphData->row()->SELLING_BUSINESS_MINING); 
+				$sheet->setCellValue('B' . $colCounter, $employee->NO_FORMULIR);
+				$sheet->setCellValue('C' . $colCounter, $employee->TRANSACTION_NAME);
+				$sheet->setCellValue('D' . $colCounter, $employee->TRANSACTION_NPWP);
+				$sheet->setCellValue('E' . $colCounter, $employee->TRANSACTION_ADDRESS);
+				$sheet->setCellValue('F' . $colCounter, $employee->NO_BUKTI_POTONG);
+				$sheet->setCellValue('G' . $colCounter, $employee->TANGGAL_BUKTI_POTONG);
+				$sheet->setCellValue('H' . $colCounter, $employee->TRANSACTION_NOTES);
+				$sheet->setCellValue('I' . $colCounter, $employee->EMPLOYEE_BRUTO_SEMEN);
+				$sheet->setCellValue('J' . $colCounter, $employee->EMPLOYEE_BRUTO_KERTAS);
+				$sheet->setCellValue('K' . $colCounter, $employee->EMPLOYEE_BRUTO_BAJA);
+				$sheet->setCellValue('L' . $colCounter, $employee->EMPLOYEE_BRUTO_OTOMOTIF);
+				$sheet->setCellValue('M' . $colCounter, $employee->EMPLOYEE_BRUTO_FARMASI);
+				$sheet->setCellValue('N' . $colCounter, $employee->PENYALUR_AGEN);
+				$sheet->setCellValue('O' . $colCounter, $employee->EMPLOYEE_BRUTO_BBM_BBG);
+				$sheet->setCellValue('P' . $colCounter, $employee->EMPLOYEE_BRUTO_PELUMAS);
+				$sheet->setCellValue('Q' . $colCounter, $employee->PRODUCT_TYPE);
+				$sheet->setCellValue('R' . $colCounter, $employee->SELLING_PRICE);
+				$sheet->setCellValue('S' . $colCounter, $employee->SELLING_INDUSTRI_MATERIALS);
+				$sheet->setCellValue('T' . $colCounter, $employee->SELLING_BUSINESS_MINING); 
 
 				$colCounter++;
 				$numCounter++;
@@ -814,15 +843,15 @@ class Pph22 extends CI_Controller
 					$count_bruto_tidakfinal = $employee->EMPLOYEE_BRUTO_BBM_BBG + $employee->EMPLOYEE_BRUTO_PELUMAS;
 				}
 
-				$sheet->setCellValue('A' . $colCounter, 'Nomor Formulir');
+				$sheet->setCellValue('A' . $colCounter, $employee->NO_FORMULIR);
 				$sheet->setCellValue('B' . $colCounter, $monthName);
 				$sheet->setCellValue('C' . $colCounter, $employee->PERIOD_YEAR);
 				$sheet->setCellValue('D' . $colCounter, $pembetulan_r->TOTAL_PEMBETULAN == null ? '0' : $pembetulan_r->TOTAL_PEMBETULAN);
 				$sheet->setCellValue('E' . $colCounter, str_replace('.','',str_replace('-', '',$pphData->row()->TRANSACTION_NPWP)));
 				$sheet->setCellValue('F' . $colCounter, $employee->TRANSACTION_NAME);
 				$sheet->setCellValue('G' . $colCounter, $employee->TRANSACTION_ADDRESS);
-				$sheet->setCellValue('H' . $colCounter, 'Nomor Bukti Potong');
-				$sheet->setCellValue('I' . $colCounter, $employee->INVOICE_DATE);
+				$sheet->setCellValue('H' . $colCounter, $employee->NO_BUKTI_POTONG);
+				$sheet->setCellValue('I' . $colCounter, $employee->TANGGAL_BUKTI_POTONG);
 				$sheet->setCellValue('J' . $colCounter, $employee->EMPLOYEE_BRUTO_SEMEN);
 				$sheet->setCellValue('K' . $colCounter, $employee->BRUTO_SEMEN_RATES);
 				$sheet->setCellValue('L' . $colCounter, $employee->PPH_SEMEN);
@@ -1107,26 +1136,29 @@ class Pph22 extends CI_Controller
 				'INCOME_ID'                 	=> $employeeID,
 				'COMPANY_ID'           			=> $this->input->post('companyID'),
 				'PPH22_ID'						=> $pphID, 
-				'TRANSACTION_NAME'				=> $sheetData['B'],
-				'TRANSACTION_ADDRESS'			=> $sheetData['D'],
-				'TRANSACTION_NOTES'				=> $sheetData['F'],
-				'EMPLOYEE_BRUTO_SEMEN'			=> $sheetData['G'],
+				'NO_FORMULIR'					=> $sheetData['B'],
+				'TRANSACTION_NAME'				=> $sheetData['C'],
+				'TRANSACTION_ADDRESS'			=> $sheetData['E'],
+				'NO_BUKTI_POTONG'				=> $sheetData['F'],
+				'TANGGAL_BUKTI_POTONG'			=> $sheetData['G'],
+				'TRANSACTION_NOTES'				=> $sheetData['H'],
+				'EMPLOYEE_BRUTO_SEMEN'			=> $sheetData['I'],
 				'BRUTO_SEMEN_RATES'				=> 0.25,
-				'EMPLOYEE_BRUTO_KERTAS'			=> $sheetData['H'],
+				'EMPLOYEE_BRUTO_KERTAS'			=> $sheetData['J'],
 				'BRUTO_KERTAS_RATES'			=> 0.10,
-				'EMPLOYEE_BRUTO_BAJA'			=> $sheetData['I'],
+				'EMPLOYEE_BRUTO_BAJA'			=> $sheetData['K'],
 				'BRUTO_BAJA_RATES'				=> 0.30,
-				'EMPLOYEE_BRUTO_OTOMOTIF'		=> $sheetData['J'],
-				'BRUTO_OTOMOTIF_RATES'		=> 0.45,
-				'EMPLOYEE_BRUTO_FARMASI'		=> $sheetData['K'],
+				'EMPLOYEE_BRUTO_OTOMOTIF'		=> $sheetData['L'],
+				'BRUTO_OTOMOTIF_RATES'			=> 0.45,
+				'EMPLOYEE_BRUTO_FARMASI'		=> $sheetData['M'],
 				'BRUTO_FARMASI_RATES'			=> 0.30,
-				'PENYALUR_AGEN'					=> $sheetData['L'],
-				'EMPLOYEE_BRUTO_BBM_BBG'		=> $sheetData['M'],
-				'EMPLOYEE_BRUTO_PELUMAS'		=> $sheetData['N'],
-				'PRODUCT_TYPE'					=> $sheetData['O'],
-				'SELLING_PRICE'					=> $sheetData['P'],
-				'SELLING_INDUSTRI_MATERIALS'	=> $sheetData['Q'],
-				'SELLING_BUSINESS_MINING'		=> $sheetData['R'], 
+				'PENYALUR_AGEN'					=> $sheetData['N'],
+				'EMPLOYEE_BRUTO_BBM_BBG'		=> $sheetData['O'],
+				'EMPLOYEE_BRUTO_PELUMAS'		=> $sheetData['P'],
+				'PRODUCT_TYPE'					=> $sheetData['Q'],
+				'SELLING_PRICE'					=> $sheetData['R'],
+				'SELLING_INDUSTRI_MATERIALS'	=> $sheetData['S'],
+				'SELLING_BUSINESS_MINING'		=> $sheetData['T'], 
 				'CREATED'						=> date('Y-m-d h:i:s'),
 				'STATUS'						=> 'ON PROGRESS', 
 				'PPHCOUNT_METHOD'				=> $companyCheck->row()->PPHCOUNT_METHOD
