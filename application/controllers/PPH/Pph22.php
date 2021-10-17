@@ -917,15 +917,16 @@ class Pph22 extends CI_Controller
 				$colCounter++;
 				$numCounter++;  
 
-				$totaldpp_all = $totaldpp_all + $totaldpp;
-				$totalpph_all = $totalpph_all + $totalpph;
+				$totaldpp_all = $totaldpp_all + $total_dpp;
+				$totalpph_all = $totalpph_all + $total_pphdipungut;
 			}
-			$updatePPH22 = array(
-				'COMPANY_PPHVAL22'	=> $totalpph_all,
-				'COMPANY_DPP'		=> $totaldpp_all
-			);
-			$this->cms->updateGeneralData('g_pph22', $updatePPH22, 'PPH22_ID', $pphID);
+			
 		} 
+		$updatePPH22 = array(
+			'COMPANY_PPHVAL22'	=> $totalpph_all,
+			'COMPANY_DPP'		=> $totaldpp_all
+		);
+		$this->cms->updateGeneralData('g_pph22', $updatePPH22, 'PPH22_ID', $pphID);
 		
 
 		$writer = new Xlsx($phpExcel);
