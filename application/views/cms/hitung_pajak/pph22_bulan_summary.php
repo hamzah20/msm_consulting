@@ -142,8 +142,8 @@
           <!-- <thead class="thead-dark"> -->
             <tr class="thead-dark">
               <th scope="col-">No</th>
-              <th scope="col-">Tgl. Invoice</th> 
-              <th scope="col-">No. Invoice</th>
+              <th scope="col-">Nomor Bukti Potong</th> 
+              <th scope="col-">Tanggal Bukti Potong</th>
               <th scope="col-">Nama Lawan Transaksi</th> 
               <th scope="col-">PPh</th> 
               <th scope="col-">Aksi</th> 
@@ -164,28 +164,70 @@
               $totalPT = 0;
 
             ?>
-              <?php foreach ($employees->result() as $employee) { ?>
+              <?php 
+
+              foreach ($employees->result() as $employee) { 
+                $tarifPresentase=0;
+                $pphVal=0;
+                $totalRatesSemen=0;
+                $totalRatesKertas=0;
+                $totalRatesBaja=0;
+                $totalRatesOtomotif=0;
+                $totalRatesPelumas=0;
+                $totalBarangMewah=0;
+                $totalIndustriMaterial=0;
+                $totalBusinessMining=0;
+                $totalBadan1=0;
+                $totalBadan2=0;
+                if($employee->PRODUCT_TYPE<>''){
+                   $list_rates = $this->cms->getSingularDataDetail('m_rates', 'STATUS', 'TYPE_ID', 'ACTIVE', $employee->PRODUCT_TYPE);
+                  foreach ($list_rates->result() as $rates); 
+                 $tarifPresentase=$rates->PRESENTASE;
+                }
+                $totalRatesSemen=$employee->EMPLOYEE_BRUTO_SEMEN*$employee->BRUTO_SEMEN_RATES;
+                $totalRatesKertas=$employee->EMPLOYEE_BRUTO_KERTAS*$employee->BRUTO_KERTAS_RATES;
+                $totalRatesBaja=$employee->EMPLOYEE_BRUTO_BAJA*$employee->BRUTO_BAJA_RATES;
+                $totalRatesOtomotif=$employee->EMPLOYEE_BRUTO_OTOMOTIF*$employee->BRUTO_OTOMOTIF_RATES;
+                //------------------------------------- Barang Mewah
+                if($employee->TRANSACTION_NPWP<>''){
+                   $totalBarangMewah=(($tarifPresentase*2)/100)*$employee->SELLING_PRICE;
+                }
+                else{
+                   $totalBarangMewah=($tarifPresentase/100)*$employee->SELLING_PRICE;
+                }
+                //--------------------------------------Industri Material
+                if($employee->TRANSACTION_NPWP<>''){
+                   $totalIndustriMaterial=((0.25*2)/100)*$employee->SELLING_INDUSTRI_MATERIALS;
+                }
+                else{
+                   $totalIndustriMaterial=(0.25/100)*$employee->SELLING_INDUSTRI_MATERIALS;
+                }
+                //--------------------------------------- Business Mining
+                if($employee->TRANSACTION_NPWP<>''){
+                   $totalBusinessMining=((1.5*2)/100)*$employee->SELLING_BUSINESS_MINING;
+                }
+                else{
+                   $totalBusinessMining=(1.5/100)*$employee->SELLING_BUSINESS_MINING;
+                }
+
+
+                $pphVal=($totalRatesSemen+$totalRatesKertas+$totalRatesBaja+$totalRatesOtomotif+$employee->BRUTO_FINAL+$employee->BRUTO_TIDAK_FINAL+$totalBarangMewah+$totalIndustriMaterial+$totalBusinessMining+$totalBadan1+$totalBadan2);
+                 
+                ?>
                 <tr>
                   <td><?= $counter++; ?></td>
-                  <td><?= $employee->INVOICE_DATE; ?></td> 
-                  <td><?= $employee->INVOICE_NO; ?></td>
+                  <td><?= $employee->NO_BUKTI_POTONG; ?></td> 
+                  <td><?= $employee->TANGGAL_BUKTI_POTONG; ?></td>
                   <td><?= $employee->TRANSACTION_NAME; ?></td> 
-                  <td><?= number_format($employee->EMPLOYEE_PPHVAL22); ?></td>
+                  <!-- <td><?= number_format($employee->TOTAL_PPHVAL22); ?></td> -->
+                  <td><?php echo $pphVal;?></td>
                   
                   <td>
                     <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_22/bulan/summary/karyawan/detail?eid=' . $employee->INCOME_ID . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH22_ID); ?>"><i class="fa fa-eye"></i></a>
                     <a class="btn btn-sm btn-warning text-white" data-toggle="tooltip" data-placement="top" title="Edit" href="<?= base_url('pph_22/bulan/summary/karyawan/edit?eid=' . $employee->INCOME_ID . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH22_ID. '&mid=' . $employee->PERIOD_MONTH. '&yid=' . $employee->PERIOD_YEAR); ?>"><i class="fa fa-edit"></i></a>
                   </td>
                 </tr>
-              <?php } ?>
-              
-
-              <tr>
-                <td colspan="2" class="font-weight-bold">TOTAL</td>
-                <td></td>
-                <td></td> 
-              </tr>
-
+              <?php } ?>  
             <?php } ?>
 
 

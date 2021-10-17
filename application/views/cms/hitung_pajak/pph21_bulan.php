@@ -39,7 +39,7 @@
   <div class="content mt-3">
     <div class="card">
       <div class="card-body">
-        <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addPPH21PerusahaanBulan">Tambah Data</a>
+        <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addPPH22PerusahaanBulan">Tambah Data</a>
         <a class="btn btn-sm btn-info ml-3" href="#">Lihat History</a>
         <hr>
         <table class="table" id="companyTable">
@@ -81,7 +81,7 @@
     </div>
 
     <!-- Add Modal Perusahaan -->
-    <?php $this->load->view('modal/add_pph21_perusahaan_bulan', $companies); ?>
+    <?php $this->load->view('modal/add_pph22_perusahaan_bulan', $companies); ?>
     <!-- End of Add Modal Perusahaan -->
 
   </div>

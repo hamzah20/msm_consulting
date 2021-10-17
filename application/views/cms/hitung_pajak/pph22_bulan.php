@@ -56,13 +56,67 @@
           <tbody>
 
             <?php if ($companies->num_rows() != 0) { ?>
-              <?php foreach ($correction->result() as $company) { ?>
+              <?php 
+              foreach ($correction->result() as $company) { 
+                $total_pphval=0;
+                $r_employee=$this->cms->getSingularDataTriple('v_g_employee_pph22', 'COMPANY_ID', 'PERIOD_YEAR','PERIOD_MONTH', $company->COMPANY_ID, $company->PERIOD_YEAR,$company->PERIOD_MONTH );
+                foreach ($r_employee->result() as $employee) {
+                  $tarifPresentase=0;
+                  $pphVal=0;
+                  $totalRatesSemen=0;
+                  $totalRatesKertas=0;
+                  $totalRatesBaja=0;
+                  $totalRatesOtomotif=0;
+                  $totalRatesPelumas=0;
+                  $totalBarangMewah=0;
+                  $totalIndustriMaterial=0;
+                  $totalBusinessMining=0;
+                  $totalBadan1=0;
+                  $totalBadan2=0;
+                  if($employee->PRODUCT_TYPE<>''){
+                     $list_rates = $this->cms->getSingularDataDetail('m_rates', 'STATUS', 'TYPE_ID', 'ACTIVE', $employee->PRODUCT_TYPE);
+                    foreach ($list_rates->result() as $rates); 
+                   $tarifPresentase=$rates->PRESENTASE;
+                  }
+                  $totalRatesSemen=$employee->EMPLOYEE_BRUTO_SEMEN*$employee->BRUTO_SEMEN_RATES;
+                  $totalRatesKertas=$employee->EMPLOYEE_BRUTO_KERTAS*$employee->BRUTO_KERTAS_RATES;
+                  $totalRatesBaja=$employee->EMPLOYEE_BRUTO_BAJA*$employee->BRUTO_BAJA_RATES;
+                  $totalRatesOtomotif=$employee->EMPLOYEE_BRUTO_OTOMOTIF*$employee->BRUTO_OTOMOTIF_RATES;
+                  //------------------------------------- Barang Mewah
+                  if($employee->TRANSACTION_NPWP<>''){
+                     $totalBarangMewah=(($tarifPresentase*2)/100)*$employee->SELLING_PRICE;
+                  }
+                  else{
+                     $totalBarangMewah=($tarifPresentase/100)*$employee->SELLING_PRICE;
+                  }
+                  //--------------------------------------Industri Material
+                  if($employee->TRANSACTION_NPWP<>''){
+                     $totalIndustriMaterial=((0.25*2)/100)*$employee->SELLING_INDUSTRI_MATERIALS;
+                  }
+                  else{
+                     $totalIndustriMaterial=(0.25/100)*$employee->SELLING_INDUSTRI_MATERIALS;
+                  }
+                  //--------------------------------------- Business Mining
+                  if($employee->TRANSACTION_NPWP<>''){
+                     $totalBusinessMining=((1.5*2)/100)*$employee->SELLING_BUSINESS_MINING;
+                  }
+                  else{
+                     $totalBusinessMining=(1.5/100)*$employee->SELLING_BUSINESS_MINING;
+                  }
+
+
+                  $pphVal=($totalRatesSemen+$totalRatesKertas+$totalRatesBaja+$totalRatesOtomotif+$employee->BRUTO_FINAL+$employee->BRUTO_TIDAK_FINAL+$totalBarangMewah+$totalIndustriMaterial+$totalBusinessMining+$totalBadan1+$totalBadan2);
+
+                  $total_pphval=$total_pphval+$pphVal;
+                }
+
+                ?>
                 <tr>
                   <th scope="row" class="text-center"><?= $counter++; ?></th>
                   <td><?= $company->COMPANY_NAME; ?></td>
                   <td class="text-center"><?= strtoupper($company->PERIOD_MONTH) . '-' . $company->PERIOD_YEAR; ?></td>
                   <td class="text-center text-danger"><?= $company->TOTAL_PEMBETULAN; ?></td> 
-                  <td class="text-center"><?= ($company->COMPANY_PPHVAL22 == null ? '-' : number_format($company->COMPANY_PPHVAL22)); ?></td>
+                  <td class="text-center"><?= ($company->COMPANY_PPHVAL22 == null ? '-' : number_format($company->COMPANY_PPHVAL22+$total_pphval)); ?></td>
                   <td class="text-center">
                     <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_22/bulan/summary?pid=' . $company->PPH22_ID . '&cid=' . $company->COMPANY_ID . '&mid=' . $company->PERIOD_MONTH . '&yid=' . $company->PERIOD_YEAR); ?>"><i class="fa fa-eye"></i></a>
                     <a class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Approve" href="<?= base_url('pph_22/bulan/approve?pid=' . $company->PPH22_ID . '&cid=' . $company->COMPANY_ID . '&mid=' . $company->PERIOD_MONTH . '&yid=' . $company->PERIOD_YEAR); ?>"><i class="fa fa-check-circle"></i></a>
@@ -77,7 +131,7 @@
     </div>
 
     <!-- Add Modal Perusahaan -->
-    <?php $this->load->view('modal/add_pph21_perusahaan_bulan', $companies); ?>
+    <?php $this->load->view('modal/add_pph22_perusahaan_bulan', $companies); ?>
     <!-- End of Add Modal Perusahaan -->
 
   </div>

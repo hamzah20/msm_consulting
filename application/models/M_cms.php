@@ -32,6 +32,18 @@
 
         return $query;
     }
+     public function getSingularDataTriple($table, $column1, $column2,$column3, $data1, $data2,$data3)
+    {
+        $this->db->select('*')
+            ->from($table)
+            ->where($column1, $data1) /* COMPANY ID */
+            ->where($column2, $data2) /* DOC ID */
+            ->where($column3, $data3); /* DOC ID */
+
+        $query = $this->db->get();
+
+        return $query;
+    }
 
     public function getGeneralData($table, $field, $query)
     {
