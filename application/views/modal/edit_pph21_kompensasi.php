@@ -10,8 +10,8 @@
   					</div>
   					<div class="modal-body">
   						<div class="form-group">
-  							<label for="recipient-name" class="col-form-label">Nilai Kompensasi :</label>
-  							<input type="text" class="form-control form-control-sm" id="nilai_kompensasi" name="nilai_kompensasi" value="0" required>
+  							<label for="editNilaiKompensasi" class="col-form-label">Nilai Kompensasi :</label>
+  							<input type="text" class="form-control form-control-sm" id="editNilaiKompensasi" name="editNilaiKompensasi" value="" placeholder="....." required>
   							<div class="invalid-feedback">
   								Nilai kompensasi tidak boleh kosong
   							</div>

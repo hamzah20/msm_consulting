@@ -28,7 +28,7 @@
             <div class="page-header float-right">
                 <div class="page-title">
                     <ol class="breadcrumb text-right">
-                        <li class="active">Edit Karyawan</li>
+                        <li class="active"><a href="<?php echo base_url('employee'); ?>">Karyawan Perusahaan</a> / <a href="<?php echo base_url('employee/detail'); ?>">Employee</a> / Edit </li>
                     </ol>
                 </div>
             </div>
@@ -135,7 +135,7 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="">No. Telepon</label>
-                                <input type="text" class="form-control form-control-sm" placeholder="+62 882-9337-XXXX" name="employeePhone" value="<?= ($employee->row()->EMPLOYEE_PHONE != null ? $employee->row()->EMPLOYEE_PHONE : '...'); ?>">
+                                <input type="text" class="form-control form-control-sm" placeholder="..." name="employeePhone" value="<?= ($employee->row()->EMPLOYEE_PHONE != null ? $employee->row()->EMPLOYEE_PHONE : '...'); ?>">
                             </div>
                         </div>
                         <div class="col-4">
@@ -149,7 +149,7 @@
                                 <label for="employeeType">Tipe Pekerja</label>
                                 <select class="form-control option-pegawai" id="employeeType" name="employeeType">
                                     <option value="Lokal" <?= ($employee->row()->EMPLOYEE_NATIONALITY_STATUS == 'Lokal' ? 'selected' : ''); ?>>Lokal</option>
-                                    <option value="Ekspatriat" <?= ($employee->row()->EMPLOYEE_NATIONALITY_STATUS == 'EKspatriat' ? 'selected' : ''); ?>>Ekspatriat</option>
+                                    <option value="Ekspatriat" <?= ($employee->row()->EMPLOYEE_NATIONALITY_STATUS == 'Ekspatriat' ? 'selected' : ''); ?>>Ekspatriat</option>
                                 </select>
                             </div>
                         </div>

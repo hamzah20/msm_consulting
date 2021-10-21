@@ -25,9 +25,9 @@ class Employee extends CI_Controller
 
     public function karyawan_perusahaan()
     {
-        $data['company'] = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->get('cid'));
+        $data['company']  = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->get('cid'));
         $data['employee'] = $this->cms->getSingularData('g_employee', 'EMPLOYEE_COMPANY_ID', $this->input->get('cid'));
-        $data['counter']   = 1;
+        $data['counter']  = 1;
 
         if ($data['company']->num_rows() == 0) {
             $this->session->set_flashdata('query', 'invalid');
@@ -128,7 +128,7 @@ class Employee extends CI_Controller
             'EMPLOYEE_EFIN'                 => $this->input->post('employeeEFIN'),
             'EMPLOYEE_NATIONALITY_STATUS'   => $this->input->post('employeeType'),
             'EMPLOYEE_PHONE'                => $this->input->post('employeePhone'),
-            'EMPLOYEE_EMAIL'                => $this->input->post('employeeEmail'),
+            'EMPLOYEE_EMAIL'                => $this->input->post('employeeEmail'), 
             'EMPLOYEE_ADDRESS'              => $this->input->post('employeeAddress'),
             'UPDATED'                       => date('Y-m-d h:i:s'),
         );
@@ -226,7 +226,6 @@ class Employee extends CI_Controller
         $ekspatTest     = [];
 
         foreach ($sheet as $sheetData) {
-
             array_push($npwpTest, $sheetData['D']);
             array_push($ktpTest, $sheetData['E']);
             array_push($ptkpTest, $sheetData['I']);
@@ -307,6 +306,7 @@ class Employee extends CI_Controller
 
             $employeeOrder  = $this->general->generateID('EMPLOYEE');
             $employeeID     = $this->incube->generateID(10);
+            $incomeID       = $this->incube->generateID(10);
 
             $employeeData = array(
                 'EMPLOYEE_COMPANY_ID'           => $this->input->post('companyID'),
@@ -329,7 +329,7 @@ class Employee extends CI_Controller
                 'STATUS'                        => 'ACTIVE',
             );
 
-            $queryEmployee = $this->cms->insertGeneralData('g_employee', $employeeData);
+            $queryEmployee  = $this->cms->insertGeneralData('g_employee', $employeeData);
 
             if ($queryEmployee) {
                 $employeeCounter++;
@@ -502,8 +502,6 @@ class Employee extends CI_Controller
 
         //EoL 1
 
-        echo $employeeData->num_rows();
-
         //2. Isi Excel pake data
         if ($employeeData->num_rows() != 0) {
 
@@ -521,8 +519,8 @@ class Employee extends CI_Controller
                 $sheet->setCellValue('G' . $colCounter, $employee->EMPLOYEE_GENDER);
                 $sheet->setCellValue('H' . $colCounter, $employee->EMPLOYEE_POSITION);
                 $sheet->setCellValue('I' . $colCounter, $employee->EMPLOYEE_PTKP_STATUS);
-                $sheet->setCellValue('J' . $colCounter, $employee->NATIONALITY_STATUS);
-                $sheet->setCellValue('K' . $colCounter, $employee->NATIONALITY);
+                $sheet->setCellValue('J' . $colCounter, $employee->EMPLOYEE_NATIONALITY_STATUS);
+                $sheet->setCellValue('K' . $colCounter, $employee->EMPLOYEE_NATIONALITY);
                 $sheet->setCellValue('L' . $colCounter, $employee->EMPLOYEE_WORK_START);
                 $sheet->setCellValue('M' . $colCounter, $employee->EMPLOYEE_WORK_END);
                 $sheet->setCellValue('N' . $colCounter, $employee->EMPLOYEE_WORK_END);

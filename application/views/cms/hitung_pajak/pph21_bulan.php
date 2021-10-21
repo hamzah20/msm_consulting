@@ -39,61 +39,49 @@
   <div class="content mt-3">
     <div class="card">
       <div class="card-body">
-        <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addPPH21PerusahaanBulan">Tambah Data</a>
+        <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addPPH22PerusahaanBulan">Tambah Data</a>
+        <a class="btn btn-sm btn-info ml-3" href="#">Lihat History</a>
         <hr>
         <table class="table" id="companyTable">
           <thead class="thead-dark">
             <tr>
               <th scope="col-1" class="text-center">No</th>
-              <th scope="col-4">Nama Perusahaan</th> 
+              <th scope="col-4">Nama Perusahaan</th>
               <th scope="col-1" class="text-center">Periode / Masa</th>
               <th scope="col-1" class="text-center">Pembetulan</th>
-              <th scope="col-1" class="text-center">Total Penghasilan Bruto</th> 
-              <th scope="col-1" class="text-center">PPh 21 KB (LB)</th> 
+              <th scope="col-1" class="text-center">Total Penghasilan Bruto</th>
+              <th scope="col-1" class="text-center">PPh 21</th>
+              <th scope="col-1" class="text-center">KB (LB)</th>
               <th scope="col-3" class="text-center">Aksi</th>
             </tr>
           </thead>
-          <tbody>  
+          <tbody>
+
+            <?php if ($companies->num_rows() != 0) { ?>
+              <?php foreach ($correction->result() as $company) { ?>
                 <tr>
-                  <th scope="row" class="text-center">1</th>
-                  <td>PT. Wijaya Karya</td> 
-                  <td class="text-center text-danger">JAN-2021</td>  
-                  <td class="text-center text-danger">1</td>  
-                  <td class="text-center">23,415,223</td> 
-                  <td class="text-center">2,875,773</td> 
+                  <th scope="row" class="text-center"><?= $counter++; ?></th>
+                  <td><?= $company->COMPANY_NAME; ?></td>
+                  <td class="text-center"><?= strtoupper($company->PERIOD_MONTH) . '-' . $company->PERIOD_YEAR; ?></td>
+                  <td class="text-center text-danger"><?= $company->TOTAL_PEMBETULAN; ?></td>
+                  <td class="text-center"><?= ($company->COMPANY_BRUTO == null ? '-' : number_format($company->COMPANY_BRUTO)); ?></td>
+                  <td class="text-center"><?= ($company->COMPANY_PPHVAL == null ? '-' : number_format($company->COMPANY_PPHVAL)); ?></td>
+                  <td class="text-center"><?= ($company->COMPANY_KBLB == null ? '-' : number_format($company->COMPANY_KBLB)); ?></td>
                   <td class="text-center">
-                    <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?php echo base_url('pph_21/bulan/summary'); ?>"><i class="fa fa-eye"></i></a> 
+                    <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_21/bulan/summary?pid=' . $company->PPH_ID . '&cid=' . $company->COMPANY_ID . '&mid=' . $company->PERIOD_MONTH . '&yid=' . $company->PERIOD_YEAR); ?>"><i class="fa fa-eye"></i></a>
+                    <a class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Approve" href="<?= base_url('pph_21/bulan/approve?pid=' . $company->PPH_ID . '&cid=' . $company->COMPANY_ID . '&mid=' . $company->PERIOD_MONTH . '&yid=' . $company->PERIOD_YEAR); ?>"><i class="fa fa-check-circle"></i></a>
                   </td>
-                </tr> 
-                 <tr>
-                  <th scope="row" class="text-center">1</th>
-                  <td>PT. Wijaya Karya</td> 
-                  <td class="text-center text-danger">FEB-2021</td>  
-                  <td class="text-center text-danger">3</td>  
-                  <td class="text-center">34,885,993</td> 
-                  <td class="text-center">1,455,888</td> 
-                  <td class="text-center">
-                    <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?php echo base_url('pph_21/bulan/summary'); ?>"><i class="fa fa-eye"></i></a> 
-                  </td>
-                </tr> 
-                <tr>
-                  <th scope="row" class="text-center">1</th>
-                  <td>PT. Wijaya Karya</td> 
-                  <td class="text-center text-danger">MAR-2021</td>  
-                  <td class="text-center text-danger">0</td>  
-                  <td class="text-center">11,225,263</td> 
-                  <td class="text-center">2,678,963</td> 
-                  <td class="text-center">
-                    <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?php echo base_url('pph_21/bulan/summary'); ?>"><i class="fa fa-eye"></i></a> 
-                  </td>
-                </tr> 
+                </tr>
+              <?php } ?>
+            <?php } ?>
+
           </tbody>
         </table>
       </div>
     </div>
 
     <!-- Add Modal Perusahaan -->
-    <?php $this->load->view('modal/add_pph21_perusahaan_bulan'); ?>
+    <?php $this->load->view('modal/add_pph22_perusahaan_bulan', $companies); ?>
     <!-- End of Add Modal Perusahaan -->
 
   </div>
@@ -111,20 +99,6 @@
     $(function() {
       $('[data-toggle="tooltip"]').tooltip()
     })
-
-    $('#formAddCompany').on('submit', function(evt) {
-      evt.preventDefault();
-
-      let form = $('#formAddCompany');
-      let companyName = $('#nama_perusahaan').val();
-
-      if (companyName == null || companyName.length == 0) {
-        form.addClass('was-validated');
-      } else {
-        form[0].submit();
-      }
-
-    });
 
     $('#companyTable').DataTable();
 
@@ -157,7 +131,7 @@
 
       Swal.fire({
         title: 'Proses Gagal',
-        text: 'ID Perusahaan tidak ditemukan, silahkan coba lagi',
+        text: 'ID Dokumen tidak ditemukan, silahkan coba lagi',
         icon: 'error',
         showCancelButton: false,
         confirmButtonText: 'Tutup'

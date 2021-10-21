@@ -20,7 +20,7 @@
     <div class="col-sm-4">
       <div class="page-header float-left">
         <div class="page-title">
-          <h1>Clients</h1>
+          <h1>Klien</h1>
         </div>
       </div>
     </div>
@@ -28,7 +28,7 @@
       <div class="page-header float-right">
         <div class="page-title">
           <ol class="breadcrumb text-right">
-            <li class="active"><a href="<?php echo base_url('employee'); ?>">Company Employee</a> / Employee</li>
+            <li class="active"><a href="<?php echo base_url('employee'); ?>">Karyawan Perusahaan</a> / Employee</li>
           </ol>
         </div>
       </div>
@@ -59,7 +59,7 @@
                 <tr>
                   <th scope="row" class="text-center"><?= $counter++; ?></th>
                   <td><?= $data->EMPLOYEE_NAME; ?></td>
-                  <td class="text-center"><?= ($data->EMPLOYEE_NPWP_STATUS == 'EXIST' ? $data->EMPLOYEE_NPWP : '...'); ?></td>
+                  <td class="text-center"><?= ($data->EMPLOYEE_NPWP_STATUS == 'true' ? $data->EMPLOYEE_NPWP : '...'); ?></td>
                   <td class="text-center"><?= ($data->EMPLOYEE_PTKP_STATUS == null ? '...' : $data->EMPLOYEE_PTKP_STATUS); ?></td>
                   <td class="text-center"><?= ($data->EMPLOYEE_NATIONALITY_STATUS == null ? '...' : $data->EMPLOYEE_NATIONALITY_STATUS); ?></td>
                   <td class="text-center">

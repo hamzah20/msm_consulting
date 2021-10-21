@@ -2,6 +2,8 @@
 <?php $this->load->view('templates_cms/header'); ?>
 <!-- End of Header -->
 
+
+
 <!-- Sidebar -->
 <?php $this->load->view('templates_cms/sidebar'); ?>
 <!-- End of Sidebar -->
@@ -15,6 +17,15 @@
   <!-- End of Topbar -->
 
   <!-- Header-->
+
+  <!-- CSS Internal for PPH 21 Tahun -->
+  <style type="text/css">
+    div.dataTables_wrapper {
+          width: 900px;
+          margin: 0 auto;
+      }
+  </style>
+  <!-- CSS Internal for PPH 21 Tahun -->
 
   <div class="breadcrumbs">
     <div class="col-sm-4">
@@ -40,7 +51,7 @@
     <div class="card">
       <div class="card-body"> 
         <h5><span class="badge badge-success mb-4">SUMMARY DETAIL (PERIODE 1 TAHUN)</span></h5>  
-        <table class="table" id="companyTable">
+        <table class="table table-tahun" id="PPH21TahunTable">
           <thead class="thead-dark">
             <tr> 
               <th scope="col-" rowspan="2">No</th>  
@@ -50,18 +61,18 @@
               <th scope="col-" rowspan="2">MK* <br> Bulan</th>  
               <th scope="col-" rowspan="2">BK* <br> Bulan</th>  
               <th scope="col-" colspan="8" class="text-center">(JAN-DES)</th>
-              <th scope="col-" colspan="8">JAN</th>   
-              <th scope="col-" colspan="8">FEB</th>   
-              <th scope="col-" colspan="8">MAR</th>   
-              <th scope="col-" colspan="8">APR</th>   
-              <th scope="col-" colspan="8">MEI</th>   
-              <th scope="col-" colspan="8">JUN</th>   
-              <th scope="col-" colspan="8">JUL</th>   
-              <th scope="col-" colspan="8">AUG</th>   
-              <th scope="col-" colspan="8">SEP</th>   
-              <th scope="col-" colspan="8">OCT</th>   
-              <th scope="col-" colspan="8">NOV</th>   
-              <th scope="col-" colspan="8">DES</th>   
+              <th scope="col-" colspan="8" class="text-center">JAN</th>   
+              <th scope="col-" colspan="8" class="text-center">FEB</th>   
+              <th scope="col-" colspan="8" class="text-center">MAR</th>   
+              <th scope="col-" colspan="8" class="text-center">APR</th>   
+              <th scope="col-" colspan="8" class="text-center">MEI</th>   
+              <th scope="col-" colspan="8" class="text-center">JUN</th>   
+              <th scope="col-" colspan="8" class="text-center">JUL</th>   
+              <th scope="col-" colspan="8" class="text-center">AUG</th>   
+              <th scope="col-" colspan="8" class="text-center">SEP</th>   
+              <th scope="col-" colspan="8" class="text-center">OCT</th>   
+              <th scope="col-" colspan="8" class="text-center">NOV</th>   
+              <th scope="col-" colspan="8" class="text-center">DES</th>   
             </tr>
             <tr>          
               <th scope="col-">GP</th>  
@@ -565,17 +576,7 @@
         </table> 
 
       </div>
-    </div> 
-
-    <!-- Add Modal Perusahaan -->
-    <?php $this->load->view('modal/add_pph21_perusahaan_bulan'); ?>
-    <!-- End of Add Modal Perusahaan -->
-    <!-- Add Modal Perusahaan -->
-    <?php $this->load->view('modal/edit_pph21_kompensasi'); ?>
-    <!-- End of Add Modal Perusahaan -->
-    <!-- Add Modal Perusahaan -->
-    <?php $this->load->view('modal/import_pph21'); ?>
-    <!-- End of Add Modal Perusahaan -->
+    </div>  
 
   </div>
   <!-- End of Content -->
@@ -607,7 +608,12 @@
 
     });
 
-    $('#companyTable').DataTable();
+    $(document).ready(function() {
+    $('#PPH21TahunTable').DataTable( {
+        "scrollX": true
+    } );
+} );
+
 
   });
 </script>

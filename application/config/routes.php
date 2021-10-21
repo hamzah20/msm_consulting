@@ -78,28 +78,74 @@ $route['employee/detail']                             = 'General/Employee/karyaw
 $route['employee/edit']                               = 'General/Employee/edit_karyawan_perusahaan';
 
 // UTILITAS - Kantor Pelayanan Pajak
-$route['kantor_pelayanan_pajak']                      = 'Utility/kantor_pelayanan_pajak';
-$route['kantor_pelayanan_pajak/add']                  = 'Utility/add_kantor_pelayanan_pajak';
-$route['kantor_pelayanan_pajak/detail']               = 'Utility/detail_kantor_pelayanan_pajak';
-$route['kantor_pelayanan_pajak/edit']                 = 'Utility/edit_kantor_pelayanan_pajak';
+$route['kantor_pelayanan_pajak']                      = 'General/Tax_office/kantor_pelayanan_pajak';
+$route['kantor_pelayanan_pajak/add']                  = 'General/Tax_office/add_kantor_pelayanan_pajak';
+$route['kantor_pelayanan_pajak/detail']               = 'General/Tax_office/detail_kantor_pelayanan_pajak';
+$route['kantor_pelayanan_pajak/edit']                 = 'General/Tax_office/edit_kantor_pelayanan_pajak';
 
 // UTILITAS - Vendor
-$route['vendors']                                     = 'Utility/vendors';
-$route['vendors/add']                                 = 'Utility/add_vendors';
-$route['vendors/detail']                              = 'Utility/detail_vendors';
-$route['vendors/edit']                                = 'Utility/edit_vendors';
+$route['vendors']                                     = 'General/Vendors/vendors';
+$route['vendors/add']                                 = 'General/Vendors/add_vendors';
+$route['vendors/detail']                              = 'General/Vendors/detail_vendors';
+$route['vendors/edit']                                = 'General/Vendors/edit_vendors';
 
 // UTILITAS - MSM Group
-$route['msm_group']                                   = 'Utility/msm_group';
-$route['msm_group/add']                               = 'Utility/add_msm_group';
-$route['msm_group/detail']                            = 'Utility/detail_msm_group';
-$route['msm_group/edit']                              = 'Utility/edit_msm_group';
+$route['msm_group']                                   = 'General/MSM_group/msm_group';
+$route['msm_group/add']                               = 'General/MSM_group/add_msm_group';
+$route['msm_group/detail']                            = 'General/MSM_group/detail_msm_group';
+$route['msm_group/edit']                              = 'General/MSM_group/edit_msm_group';
 
 // KEBUTUHAN PAJAK - HITUNG PAJAK - PPH 21
-$route['pph_21']									  = 'Kebutuhan_Pajak/pph_21';
-$route['pph_21/bulan']								  = 'Kebutuhan_Pajak/pph_21_bulan';
-$route['pph_21/tahun']								  = 'Kebutuhan_Pajak/pph_21_tahun';
-$route['pph_21/bulan/summary']						  = 'Kebutuhan_Pajak/pph_21_bulan_summary';
-$route['pph_21/bulan/summary/karyawan/detail']		  = 'Kebutuhan_Pajak/pph_21_bulan_summary_karyawan';
-$route['pph_21/bulan/summary/aktifitas_pajak']		  = 'Kebutuhan_Pajak/aktifitas_pajak';
-$route['pph_21/bulan/summary/aktifitas_pajak/edit']	  = 'Kebutuhan_Pajak/edit_aktifitas_pajak';
+$route['pph_21']                                        = 'PPH/Pph21/index';
+$route['pph_21/bulan']                                  = 'PPH/Pph21/pph_21_bulan';
+$route['pph_21/tahun']                                  = 'PPH/Pph21/pph_21_tahun';
+$route['pph_21/bulan/summary']                          = 'PPH/Pph21/pph_21_bulan_summary';
+$route['pph_21/bulan/approve']                          = 'PPH/Pph21/pph_21_bulan_approve';
+$route['pph_21/bulan/summary/karyawan/detail']          = 'PPH/Pph21/pph_21_bulan_summary_karyawan';
+$route['pph_21/bulan/summary/karyawan/edit']          	= 'PPH/Pph21/edit_pph_21_bulan_summary_karyawan';
+$route['pph_21/bulan/summary/aktifitas_pajak']          = 'PPH/Pph21/aktifitas_pajak';
+$route['pph_21/bulan/summary/aktifitas_pajak/edit']     = 'PPH/Pph21/edit_aktifitas_pajak';
+
+// KEBUTUHAN PAJAK - HITUNG PAJAK - PPH 22
+$route['pph_22']                                        = 'PPH/Pph22/index';
+$route['pph_22/bulan']                                  = 'PPH/Pph22/pph_22_bulan';
+$route['pph_22/tahun']                                  = 'PPH/Pph22/pph_22_tahun';
+$route['pph_22/bulan/summary']                          = 'PPH/Pph22/pph_22_bulan_summary';
+$route['pph_22/bulan/approve']                          = 'PPH/Pph22/pph_22_bulan_approve';
+$route['pph_22/bulan/summary/karyawan/detail']          = 'PPH/Pph22/pph_22_bulan_summary_karyawan';
+$route['pph_22/bulan/summary/karyawan/edit']          	= 'PPH/Pph22/edit_pph_22_bulan_summary_karyawan';
+$route['pph_22/bulan/summary/aktifitas_pajak']          = 'PPH/Pph22/aktifitas_pajak';
+$route['pph_22/bulan/summary/aktifitas_pajak/edit']     = 'PPH/Pph22/edit_aktifitas_pajak';
+
+// KEBUTUHAN PAJAK - HITUNG PAJAK - PPH 23
+$route['pph_23']                                        = 'PPH/Pph23/index';
+$route['pph_23/bulan']                                  = 'PPH/Pph23/pph_23_bulan';
+$route['pph_23/tahun']                                  = 'PPH/Pph23/pph_23_tahun';
+$route['pph_23/bulan/summary']                          = 'PPH/Pph23/pph_23_bulan_summary';
+$route['pph_23/bulan/approve']                          = 'PPH/Pph23/pph_23_bulan_approve';
+$route['pph_23/bulan/summary/karyawan/detail']          = 'PPH/Pph23/pph_23_bulan_summary_karyawan';
+$route['pph_23/bulan/summary/karyawan/edit']          	= 'PPH/Pph23/edit_pph_23_bulan_summary_karyawan';
+$route['pph_23/bulan/summary/aktifitas_pajak']          = 'PPH/Pph23/aktifitas_pajak';
+$route['pph_23/bulan/summary/aktifitas_pajak/edit']     = 'PPH/Pph23/edit_aktifitas_pajak';
+
+// KEBUTUHAN PAJAK - HITUNG PAJAK - PPH 25
+$route['pph_25']                                        = 'PPH/Pph25/index';
+$route['pph_25/bulan']                                  = 'PPH/Pph25/pph_25_bulan';
+$route['pph_25/tahun']                                  = 'PPH/Pph25/pph_25_tahun';
+$route['pph_25/bulan/summary']                          = 'PPH/Pph25/pph_25_bulan_summary';
+$route['pph_25/bulan/approve']                          = 'PPH/Pph25/pph_25_bulan_approve';
+$route['pph_25/bulan/summary/karyawan/detail']          = 'PPH/Pph25/pph_25_bulan_summary_karyawan';
+$route['pph_25/bulan/summary/karyawan/edit']          	= 'PPH/Pph25/edit_pph_25_bulan_summary_karyawan';
+$route['pph_25/bulan/summary/aktifitas_pajak']          = 'PPH/Pph25/aktifitas_pajak';
+$route['pph_25/bulan/summary/aktifitas_pajak/edit']     = 'PPH/Pph25/edit_aktifitas_pajak';
+
+// KEBUTUHAN PAJAK - HITUNG PAJAK - PPH 4(2)
+$route['pph_42']                                        = 'PPH/Pph42/index';
+$route['pph_42/bulan']                                  = 'PPH/Pph42/pph_42_bulan';
+$route['pph_42/tahun']                                  = 'PPH/Pph42/pph_42_tahun';
+$route['pph_42/bulan/summary']                          = 'PPH/Pph42/pph_42_bulan_summary';
+$route['pph_42/bulan/approve']                          = 'PPH/Pph42/pph_42_bulan_approve';
+$route['pph_42/bulan/summary/karyawan/detail']          = 'PPH/Pph42/pph_42_bulan_summary_karyawan';
+$route['pph_42/bulan/summary/karyawan/edit']          	= 'PPH/Pph42/edit_pph_42_bulan_summary_karyawan';
+$route['pph_42/bulan/summary/aktifitas_pajak']          = 'PPH/Pph42/aktifitas_pajak';
+$route['pph_42/bulan/summary/aktifitas_pajak/edit']     = 'PPH/Pph42/edit_aktifitas_pajak';

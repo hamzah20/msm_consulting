@@ -161,6 +161,42 @@ class Client extends CI_Controller
 			'DOC_PATH'			=> ''
 		);
 
+		$docsArrSPPKP = array(
+			'COMPANY_ID'		=> $companyID,
+			'DOC_ID'			=> 'SPPKP',
+			'DOC_NAME'			=> 'Surat Pengukuhan Pengusaha Kena Pajak',
+			'DOC_STATUS'		=> '',
+			'DOC_PATH'			=> ''
+		);
+
+		$taxcalculateArr = array(
+			'COMPANY_ID'		=> $companyID,
+			'TAX_21'			=> '', 
+			'TAX_21_1'			=> '', 
+			'TAX_21_2'			=> '', 
+			'TAX_21_3'			=> '', 
+			'TAX_22'			=> '', 
+			'TAX_22_1'			=> '', 
+			'TAX_22_2'			=> '', 
+			'TAX_22_3'			=> '', 
+			'TAX_23'			=> '', 
+			'TAX_23_1'			=> '', 
+			'TAX_23_2'			=> '', 
+			'TAX_23_3'			=> '', 
+			'TAX_42'			=> '', 
+			'TAX_42_1'			=> '', 
+			'TAX_42_2'			=> '', 
+			'TAX_42_3'			=> '', 
+			'TAX_25'			=> '', 
+			'TAX_25_1'			=> '', 
+			'TAX_25_2'			=> '', 
+			'TAX_25_3'			=> '', 
+			'TAX_PPN'			=> '', 
+			'TAX_PPN_1'			=> '', 
+			'TAX_PPN_2'			=> '', 
+			'TAX_PPN_3'			=> '', 
+		);
+
 		$picArr = array(
 			'COMPANY_ID'		=> $companyID,
 			'PIC_NAME'			=> '',
@@ -206,6 +242,7 @@ class Client extends CI_Controller
 			'WP_NAME'			=> '',
 			'WP_NPWP'			=> '',
 			'WP_PHONE'			=> '',
+			'WP_CATEGORY'		=> '',
 			'WP_BUSINESS_TYPE'	=> '',
 			'WP_DJP_EMAIL'		=> '',
 			'WP_ADDRESS'		=> '',
@@ -275,23 +312,117 @@ class Client extends CI_Controller
 
 	public function detail_hitung_pajak()
 	{
-		$this->load->view('cms/detail_hitung_pajak');
+		$data['company'] = $this->cms->getSingularData('g_tax_calculate', 'COMPANY_ID', $this->input->get('cid'));
+
+		if ($data['company']->num_rows() == 0) {
+			$this->session->set_flashdata('query', 'invalid');
+			redirect('company_profile');
+		} else {
+			$this->load->view('cms/detail_hitung_pajak', $data);
+		} 
 	}
+
+	// IDENTITAS WP
 	public function detail_identitas_wp()
-	{
-		$this->load->view('cms/detail_identitas_wp');
+	{ 
+		$data['company'] = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->get('cid'));
+
+		if ($data['company']->num_rows() == 0) {
+			$this->session->set_flashdata('query', 'invalid');
+			redirect('company_profile');
+		} else {
+			$this->load->view('cms/detail_identitas_wp', $data);
+		} 
 	}
+	public function edit_identitas_wp()
+	{
+		$data['company'] = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->get('cid'));
+
+		if ($data['company']->num_rows() == 0) {
+			$this->session->set_flashdata('query', 'invalid');
+			redirect('company_profile');
+		} else {
+			$this->load->view('cms/edit_identitas_wp', $data);
+		} 
+	}
+	public function update_identitas_wp()
+	{
+		//echo $this->input->post('editID');
+
+		$dataUpdate = array(
+            'WP_NAME'           => $this->input->post('editNama'),  
+            'WP_NPWP'           => $this->input->post('editNPWP'),  
+            'WP_PHONE'          => $this->input->post('editPhone'),  
+            'WP_CATEGORY'       => $this->input->post('editCategory'),  
+            'WP_BUSINESS_TYPE'  => $this->input->post('editJenisUsaha'),  
+            'WP_DJP_EMAIL'      => $this->input->post('editDJPOnline'),  
+            'WP_ADDRESS'        => $this->input->post('editAlamat'),  
+        );
+
+        $dataUpdateID = array(
+        	'UPDATED'			=> date('Y-m-d h:i:s'),
+        );
+
+        $queryUpdate   = $this->cms->updateGeneralData('g_wp_identity', $dataUpdate, 'COMPANY_ID', $this->input->post('editID'));
+        $queryUpdateID = $this->cms->updateGeneralData('g_company', $dataUpdateID, 'COMPANY_ID', $this->input->post('editID'));
+
+        if ($queryUpdate && $queryUpdateID) {
+            $this->session->set_flashdata('wp_update', 'success');
+            redirect(base_url('company_profile/edit/identitas_wp?cid=' . $this->input->post('editID')));
+        } else {
+            $this->session->set_flashdata('wp_update', 'error');
+            redirect(base_url('company_profile/edit/identitas_wp?cid=' . $this->input->post('editID')));
+        }
+	}
+
 	public function detail_info_perpajakan()
 	{
-		$this->load->view('cms/detail_info_perpajakan');
+		$data['company'] = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->get('cid'));
+
+		if ($data['company']->num_rows() == 0) {
+			$this->session->set_flashdata('query', 'invalid');
+			redirect('company_profile');
+		} else {
+			$this->load->view('cms/detail_info_perpajakan', $data);
+		}  
 	}
 	public function detail_identitas_pj()
 	{
-		$this->load->view('cms/detail_identitas_pj');
+		$data['company'] = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->get('cid'));
+
+		if ($data['company']->num_rows() == 0) {
+			$this->session->set_flashdata('query', 'invalid');
+			redirect('company_profile');
+		} else {
+			$this->load->view('cms/detail_identitas_pj', $data);
+		} 
 	}
 	public function detail_dokumen_elektronik()
 	{
-		$this->load->view('cms/detail_dokumen_elektronik');
+		$data['company'] = $this->cms->getSingularData('g_company_docs', 'COMPANY_ID', $this->input->get('cid'));
+		$data['npwp']	= $this->cms->getSingularDataDetail('g_company_docs', 'COMPANY_ID', 'DOC_ID', $this->input->get('cid'), 'NPWP');
+		$data['skt'] 	= $this->cms->getSingularDataDetail('g_company_docs', 'COMPANY_ID', 'DOC_ID', $this->input->get('cid'), 'SKT');
+		$data['sppkp'] 	= $this->cms->getSingularDataDetail('g_company_docs', 'COMPANY_ID', 'DOC_ID', $this->input->get('cid'), 'SKT');
+		$data['tdp'] 	= $this->cms->getSingularDataDetail('g_company_docs', 'COMPANY_ID', 'DOC_ID', $this->input->get('cid'), 'TDP'); 
+		$data['siup'] 	= $this->cms->getSingularDataDetail('g_company_docs', 'COMPANY_ID', 'DOC_ID', $this->input->get('cid'), 'SIUP');
+		$data['nib'] 	= $this->cms->getSingularDataDetail('g_company_docs', 'COMPANY_ID', 'DOC_ID', $this->input->get('cid'), 'NIB');
+		$data['app'] 	= $this->cms->getSingularDataDetail('g_company_docs', 'COMPANY_ID', 'DOC_ID', $this->input->get('cid'), 'APP');
+		$data['apbp'] 	= $this->cms->getSingularDataDetail('g_company_docs', 'COMPANY_ID', 'DOC_ID', $this->input->get('cid'), 'APBP');
+		$data['aspp'] 	= $this->cms->getSingularDataDetail('g_company_docs', 'COMPANY_ID', 'DOC_ID', $this->input->get('cid'), 'ASPP');
+		$data['skb'] 	= $this->cms->getSingularDataDetail('g_company_docs', 'COMPANY_ID', 'DOC_ID', $this->input->get('cid'), 'SKB');
+		$data['stl'] 	= $this->cms->getSingularDataDetail('g_company_docs', 'COMPANY_ID', 'DOC_ID', $this->input->get('cid'), 'STL');
+		$data['skdu'] 	= $this->cms->getSingularDataDetail('g_company_docs', 'COMPANY_ID', 'DOC_ID', $this->input->get('cid'), 'SKDU');
+		$data['efin'] 	= $this->cms->getSingularDataDetail('g_company_docs', 'COMPANY_ID', 'DOC_ID', $this->input->get('cid'), 'EFIN');
+		$data['ktp'] 	= $this->cms->getSingularDataDetail('g_company_docs', 'COMPANY_ID', 'DOC_ID', $this->input->get('cid'), 'KTP');
+		$data['npwpd'] 	= $this->cms->getSingularDataDetail('g_company_docs', 'COMPANY_ID', 'DOC_ID', $this->input->get('cid'), 'NPWPD');
+
+		if ($data['npwp']->num_rows() == 0 && $data['skt']->num_rows() == 0 && $data['sppkp']->num_rows() == 0 && $data['tdp']->num_rows() == 0 && $data['siup']->num_rows() == 0 && $data['nib']->num_rows() == 0 && $data['app']->num_rows() == 0 && $data['apbp']->num_rows() == 0 && $data['aspp']->num_rows() == 0 && $data['skb']->num_rows() == 0 && $data['stl']->num_rows() == 0 && $data['skdu']->num_rows() == 0 && $data['efin']->num_rows() == 0 && $data['ktp']->num_rows() == 0 && $data['npwpd']->num_rows() == 0) {
+			
+			$this->session->set_flashdata('query', 'invalid');
+			redirect('company_profile');
+		} else {
+			$this->load->view('cms/detail_dokumen_elektronik', $data);
+		}  
 	}
 
 
@@ -300,10 +431,7 @@ class Client extends CI_Controller
 	{
 		$this->load->view('cms/edit_hitung_pajak');
 	}
-	public function edit_identitas_wp()
-	{
-		$this->load->view('cms/edit_identitas_wp');
-	}
+	
 	public function edit_info_perpajakan()
 	{
 		$this->load->view('cms/edit_info_perpajakan');

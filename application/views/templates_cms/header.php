@@ -25,7 +25,11 @@
 
     <link rel="stylesheet" href="<?= base_url('assets/datatable/datatables.min.css'); ?>">
 
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'> 
+
+    <!-- CSS Filter Tahun --> 
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css"> -->
+
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="<?= base_url('assets/vendors/popper.js/dist/umd/popper.min.js'); ?>"></script>
@@ -33,7 +37,12 @@
     <script src="<?= base_url('assets/js/main.js'); ?>"></script>
 
     <script src="<?= base_url('assets/sweetalert2/sweetalert2.all.min.js'); ?>"></script>
-    <script src="<?= base_url('assets/datatable/datatables.min.js'); ?>"></script> 
+    <script src="<?= base_url('assets/datatable/datatables.min.js'); ?>"></script>  
+ 
+    <!-- JS Date Filte Datatable -->
+    <script type="text/javascript" url="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" url="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
+    
 
     <script>
         //1. BaseURL BUAT Javascript
