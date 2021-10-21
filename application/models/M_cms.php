@@ -231,4 +231,10 @@
         $sql = $this->db->query("SELECT SUM(EMPLOYEE_BRUTO) AS TOTAL_BRUTTO_LAMA,SUM(EMPLOYEE_NETTO) AS TOTAL_NETTO_LAMA, SUM(EMPLOYEE_PPHVAL) AS TOTAL_PPH21_LAMA FROM `g_employee_income` WHERE PPH_ID='".$pid."' AND EMPLOYEE_ID!='".$eid."'");
         return $sql;
     } 
+
+    public function editPPH22($pid){
+        $sql = $this->db->query("SELECT SUM(TOTAL_DPP) AS TOTAL_DPP_ALL,SUM(TOTAL_PPH22) AS TOTAL_PPH22_ALL FROM `g_pph22_detail` WHERE PPH22_ID='".$pid."'");
+        return $sql;
+    } 
+
 }

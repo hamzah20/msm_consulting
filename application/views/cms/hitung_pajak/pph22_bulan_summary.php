@@ -114,6 +114,44 @@
             </div>
           </div> 
         </div> 
+        <div class="row">
+          <div class="col-8">
+            <div class="alert alert-info" role="alert">
+              <h4 class="alert-heading">MORE INFORMATION</h4> <hr>
+              <table> 
+                <?php
+                foreach ($Getpph22->result() as $GetData22) {
+                  ?>
+                  <tr>
+                    <td>PPH 22</td>
+                    <td class="px-2">:</td>
+                    <td><?php echo number_format($GetData22->COMPANY_PPHVAL22);?></td>  
+                  </tr>
+                  <tr>
+                    <td>COMPANY DPP</td>
+                    <td class="px-2">:</td>
+                    <td><?php echo number_format($GetData22->COMPANY_DPP);?></td> 
+                  </tr>
+                  <tr>
+                    <td>PEMBETULAN</td>
+                    <td class="px-2">:</td>
+                    <td>0</td> 
+                  </tr> 
+                  <?php
+                }
+                ?>
+                
+              </table> 
+            </div>
+          </div> 
+          <div class="col-4">
+            <div class="alert alert-success pb-3" role="alert">
+              <h4 class="alert-heading">NOTES :</h4> <hr>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, ut labore et dolore magna aliqua. <br/><br/>
+              <span class="font-weight-bold">Immanuel Titus - 20 Sept 2021 13:51</span>
+            </div>
+          </div>
+        </div> 
       </div>
     </div>
 
@@ -122,21 +160,23 @@
         <div class="row">
           <div class="col-6">
             <a class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Download" href="<?= base_url('PPH/Pph22/generateXLSFile?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-download"></i> Download</a>
-            <a class="btn btn-sm btn-danger" href="#" role="button" data-toggle="modal" title="Import" data-target="#importPPH22"><i class="fa fa-upload"></i> Upload</a>
+            <a class="btn btn-sm btn-danger" href="#" role="button" data-toggle="modal" title="Import" data-target="#importPPH22"><i class="fa fa-upload"></i> Upload</a> 
+             <a class="btn btn-sm btn-info" title="Download" href="<?= base_url('PPH/Pph22/LawanTransaksi'); ?>"><i class="fa fa-plus"></i> Lawan Transaksi </a> <br><br>
           </div>
           <div class="col-6 text-right">
-            <a class="btn btn-sm btn-info mb-1" data-toggle="tooltip" data-placement="top" title="Submit Perhitungan PPh" href="<?= base_url('PPH/Pph21/generateXLSFileLaporPajak?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-check-circle"></i></a> 
+            <!-- <a class="btn btn-sm btn-info mb-1" data-toggle="tooltip" data-placement="top" title="Submit Perhitungan PPh" href="<?= base_url('PPH/Pph21/generateXLSFileLaporPajak?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-check-circle"></i></a> 
             <a class="btn btn-sm btn-primary mb-1" data-toggle="tooltip" data-placement="top" title="Approve Perhitungan" href="<?= base_url('PPH/Pph21/generateXLSFile?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-thumbs-up"></i></a> 
             <a class="btn btn-sm btn-warning text-white mb-1" data-toggle="tooltip" data-placement="top" title="Customer Approval" href="<?= base_url('PPH/Pph21/generateXLSFile?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-user"></i> </a> 
             <a class="btn btn-sm btn-success mb-1" data-toggle="tooltip" data-placement="top" title="Pembayara PPh" href="<?= base_url('PPH/Pph21/generateXLSFile?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-dollar"></i> </a> 
             <a class="btn btn-sm btn-danger mb-1" data-toggle="tooltip" data-placement="top" title="Tax Filing" href="<?= base_url('PPH/Pph21/generateXLSFile?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-file"></i> </a> 
-            <a class="btn btn-sm text-white mb-1" style="background: #672511" data-toggles="tooltip" data-placement="top" title="Lapor Pajak" href="<?= base_url('PPH/Pph21/LaporPajak?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid'). '&mid=' . $this->input->get('mid'). '&yid=' . $this->input->get('yid')); ?>"><i class="fa fa-copy"></i> </a> 
-            <a class="btn btn-sm btn-dark mb-1" data-toggle="tooltip" data-placement="top" title="Harcopy" href="<?= base_url('PPH/Pph22/generateXLSFileLaporPajak?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-envelope"></i> </a> 
+            <a class="btn btn-sm text-white mb-1" style="background: #672511" data-toggles="tooltip" data-placement="top" title="Lapor Pajak" href="<?= base_url('PPH/Pph21/LaporPajak?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid'). '&mid=' . $this->input->get('mid'). '&yid=' . $this->input->get('yid')); ?>"><i class="fa fa-copy"></i> </a>  -->
+            <a class="btn btn-sm btn-dark mb-1" data-toggle="tooltip" data-placement="top" title="Harcopy" href="<?= base_url('PPH/Pph22/generateXLSFileLaporPajak?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-envelope"></i> Lapor Pajak</a> 
           </div>
         </div>
         
-        <hr>
-        <h6><span class="badge badge-success"># Detail / Rincian</span></h6> <br>
+        <hr> 
+        <h6><span class="badge badge-success mb-1"># Detail / Rincian</span></h6> <br> 
+        <a class="btn btn-sm btn-info" title="Tambah" href="<?= base_url('pph_22/transaksi/add?pid='.$employee->PPH22_ID.'&cid='.$employee->COMPANY_ID ); ?>"><i class="fa fa-plus"></i> Transaksi</a>
 
         <table id="companyTable" class="table table-company">
           <!-- <thead class="thead-dark"> -->
@@ -145,7 +185,7 @@
               <th scope="col-">Nomor Bukti Potong</th> 
               <th scope="col-">Tanggal Bukti Potong</th>
               <th scope="col-">Nama Lawan Transaksi</th> 
-              <th scope="col-">PPh</th> 
+              <th scope="col-">PPh 22</th> 
               <th scope="col-">Aksi</th> 
             </tr>
           <!-- </thead> -->
@@ -166,53 +206,7 @@
             ?>
               <?php 
 
-              foreach ($employees->result() as $employee) { 
-                $tarifPresentase=0;
-                $pphVal=0;
-                $totalRatesSemen=0;
-                $totalRatesKertas=0;
-                $totalRatesBaja=0;
-                $totalRatesOtomotif=0;
-                $totalRatesPelumas=0;
-                $totalBarangMewah=0;
-                $totalIndustriMaterial=0;
-                $totalBusinessMining=0;
-                $totalBadan1=0;
-                $totalBadan2=0;
-                if($employee->PRODUCT_TYPE<>''){
-                   $list_rates = $this->cms->getSingularDataDetail('m_rates', 'STATUS', 'TYPE_ID', 'ACTIVE', $employee->PRODUCT_TYPE);
-                  foreach ($list_rates->result() as $rates); 
-                 $tarifPresentase=$rates->PRESENTASE;
-                }
-                $totalRatesSemen=$employee->EMPLOYEE_BRUTO_SEMEN*$employee->BRUTO_SEMEN_RATES;
-                $totalRatesKertas=$employee->EMPLOYEE_BRUTO_KERTAS*$employee->BRUTO_KERTAS_RATES;
-                $totalRatesBaja=$employee->EMPLOYEE_BRUTO_BAJA*$employee->BRUTO_BAJA_RATES;
-                $totalRatesOtomotif=$employee->EMPLOYEE_BRUTO_OTOMOTIF*$employee->BRUTO_OTOMOTIF_RATES;
-                //------------------------------------- Barang Mewah
-                if($employee->TRANSACTION_NPWP<>''){
-                   $totalBarangMewah=(($tarifPresentase*2)/100)*$employee->SELLING_PRICE;
-                }
-                else{
-                   $totalBarangMewah=($tarifPresentase/100)*$employee->SELLING_PRICE;
-                }
-                //--------------------------------------Industri Material
-                if($employee->TRANSACTION_NPWP<>''){
-                   $totalIndustriMaterial=((0.25*2)/100)*$employee->SELLING_INDUSTRI_MATERIALS;
-                }
-                else{
-                   $totalIndustriMaterial=(0.25/100)*$employee->SELLING_INDUSTRI_MATERIALS;
-                }
-                //--------------------------------------- Business Mining
-                if($employee->TRANSACTION_NPWP<>''){
-                   $totalBusinessMining=((1.5*2)/100)*$employee->SELLING_BUSINESS_MINING;
-                }
-                else{
-                   $totalBusinessMining=(1.5/100)*$employee->SELLING_BUSINESS_MINING;
-                }
-
-
-                $pphVal=($totalRatesSemen+$totalRatesKertas+$totalRatesBaja+$totalRatesOtomotif+$employee->BRUTO_FINAL+$employee->BRUTO_TIDAK_FINAL+$totalBarangMewah+$totalIndustriMaterial+$totalBusinessMining+$totalBadan1+$totalBadan2);
-                 
+              foreach ($employees->result() as $employee) {   
                 ?>
                 <tr>
                   <td><?= $counter++; ?></td>
@@ -220,7 +214,7 @@
                   <td><?= $employee->TANGGAL_BUKTI_POTONG; ?></td>
                   <td><?= $employee->TRANSACTION_NAME; ?></td> 
                   <!-- <td><?= number_format($employee->TOTAL_PPHVAL22); ?></td> -->
-                  <td><?php echo $pphVal;?></td>
+                  <td><?= number_format($employee->TOTAL_PPH22);?></td>
                   
                   <td>
                     <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_22/bulan/summary/karyawan/detail?eid=' . $employee->INCOME_ID . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH22_ID); ?>"><i class="fa fa-eye"></i></a>
@@ -242,7 +236,7 @@
 
     <!-- Add Modal Perusahaan -->
     <?php $this->load->view('modal/import_pph22'); ?>
-    <!-- End of Add Modal Perusahaan -->
+    <!-- End of Add Modal Perusahaan --> 
 
   </div>
   <!-- End of Content -->

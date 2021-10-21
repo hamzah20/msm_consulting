@@ -20,7 +20,7 @@
     <div class="col-sm-4">
       <div class="page-header float-left">
         <div class="page-title">
-          <h1>Hitung Pajak</h1>
+          <h1>PPH22 / Tambah Transaksi</h1>
         </div>
       </div>
     </div>
@@ -38,124 +38,109 @@
   <!-- Content -->
   <div class="content mt-3">
     <div class="card">
-      <div class="card-body">
-        <h5><span class="badge badge-success mb-4">PERIODE : <?= $employee->row()->PERIOD_MONTH . ' - ' . $employee->row()->PERIOD_YEAR; ?></span></h5>
-
+      <div class="card-body"> 
         <div class="card mt-3 p-2">
-          <form method="POST" action="<?php echo base_url('PPH/Pph22/update_pph_22_bulan_summary_karyawan'); ?>">
-          <input type="hidden" name="companyID" value="<?php echo $this->input->get('cid') ?>">
-          <input type="hidden" name="pphID" value="<?php echo $this->input->get('pid') ?>">
-          <input type="hidden" name="incomeID" value="<?php echo $this->input->get('eid') ?>">
-          <input type="hidden" name="monthID" value="<?php echo $this->input->get('mid') ?>">
-          <input type="hidden" name="yearID" value="<?php echo $this->input->get('yid') ?>">
-          <div class="row">
-            <input type="hidden" name="editID" value="<?= $employee->row()->TRANSACTION_ID; ?>">
+          <form method="POST" action="<?php echo base_url('PPH/Pph22/insert_transaksi'); ?>"> 
+          <div class="row"> 
+            <input type="hidden" class="form-control" name="pphID" value="<?php echo $this->input->get('pid'); ?>">
+            <input type="hidden" class="form-control" name="companyID" value="<?php echo $this->input->get('cid'); ?>">
             <div class="col-4">
               <h6><span class="badge badge-success mb-4">Data PPH22</span></h6>
               <div class="form-group">
                 <label class="label-utama">Nomor Formulir :</label> 
-                <input type="text" class="form-control" value="<?= $employee->row()->NO_FORMULIR; ?>" name="editNoForm">
+                <input type="text" class="form-control" name="addNoForm">
               </div>
               <div class="form-group">
-                <label class="label-utama">Nama Lawan Transaksi :</label> 
-                <input type="text" class="form-control" value="<?= $employee->row()->TRANSACTION_NAME; ?>" name="editNama">
-              </div>
+                <label class="label-utama">Nama Lawan Transaksi :</label>  
+                <select class="custom-select" name="addNama">
+                  <?php foreach ($NamaTransaksi->result() as $nama) { ?>
+                    <option value="<?= $nama->TRANSACTION_NAME; ?>"><?= $nama->TRANSACTION_NAME; ?></option> 
+                  <?php } ?> 
+                </select>
+              </div> 
               <div class="form-group">
-                <label class="label-utama">NPWP Lawan Transaksi :</label> 
-                <input type="text" class="form-control" value="<?= $employee->row()->TRANSACTION_NPWP; ?>" name="editNPWP">
-              </div>
-               <div class="form-group">
-                <label class="label-utama">Alamat Lawan Transaksi :</label> 
-                <input type="text" class="form-control" value="<?= $employee->row()->TRANSACTION_ADDRESS; ?>" name="editAlamat">
-              </div>
-               <div class="form-group">
                 <label class="label-utama">Nomor Bukti Potong :</label> 
-                <input type="text" class="form-control" value="<?= $employee->row()->NO_BUKTI_POTONG; ?>" name="editNoBuktiPotong">
+                <input type="text" class="form-control" name="addNoBuktiPotong">
               </div>
               <div class="form-group">
                 <label class="label-utama">Tanggal Bukti Potong :</label> 
-                <input type="date" class="form-control" value="<?= $employee->row()->TANGGAL_BUKTI_POTONG; ?>" name="editTglBuktiPotong">
+                <input type="date" class="form-control"  name="addTglBuktiPotong">
               </div>
               <div class="form-group">
                 <label class="label-utama">Keterangan Transaksi :</label>  
-                <input type="text" class="form-control" value="<?= $employee->row()->TRANSACTION_NOTES; ?>" name="editKeterangan">
+                <input type="text" class="form-control"  name="addKeterangan">
               </div> 
             </div>
             <div class="col-4">
               <h6><span class="badge badge-success mb-4">Bidang Industri Tertentu</span></h6>
               <div class="form-group">
                 <label class="label-utama">Penjualan Bruto Semen :</label> 
-                <input type="text" class="form-control" value="<?= number_format($employee->row()->BRUTO_SEMEN); ?>" name="editSemen"> 
+                <input type="text" class="form-control"  name="addSemen"> 
               </div>
               <div class="form-group">
                 <label class="label-utama">Penjualan Bruto Kertas :</label>  
-                <input type="text" class="form-control" value="<?= number_format($employee->row()->BRUTO_KERTAS); ?>" name="editKertas">
+                <input type="text" class="form-control" name="addKertas">
               </div>
               <div class="form-group">
                 <label class="label-utama">Penjualan Bruto Baja :</label>  
-                <input type="text" class="form-control" value="<?= number_format($employee->row()->BRUTO_BAJA); ?>" name="editBaja">
+                <input type="text" class="form-control"  name="addBaja">
               </div>
               <div class="form-group">
                 <label class="label-utama">Penjualan Bruto Otomotif :</label>  
-                <input type="text" class="form-control" value="<?= number_format($employee->row()->BRUTO_OTOMOTIF); ?>" name="editOtomotif">
+                <input type="text" class="form-control"  name="addOtomotif">
               </div>
               <div class="form-group">
                 <label class="label-utama">Penjualan Bruto Farmasi :</label>  
-                <input type="text" class="form-control" value="<?= number_format($employee->row()->BRUTO_FARMASI); ?>" name="editFarmasi">
+                <input type="text" class="form-control" name="addFarmasi">
               </div> <hr>
               <h6><span class="badge badge-success mb-4">BBM, BBG, Pelumas</span></h6>
               <div class="form-group">
                 <label class="label-utama">Penyalur / Agen :</label>  
-                  <select class="custom-select" name="editPenyalur">
-                    <option selected value="<?= $employee->row()->PENYALUR_AGEN; ?>"> <?= $employee->row()->PENYALUR_AGEN;?> </option>
+                <div class="form-group"> 
+                  <select class="custom-select" name="addPenyalur">
                     <option value="Y">YA</option>
                     <option value="N">TIDAK</option> 
                   </select>
+                </div>
               </div>
               <div class="form-group">
                 <label class="label-utama">Penjualan Bruto BBM & BBG :</label>  
-                <input type="text" class="form-control" value="<?= number_format($employee->row()->BRUTO_BBM_BBG); ?>" name="editBBMBBG">
+                <input type="text" class="form-control" name="addBBMBBG">
               </div>
               <div class="form-group">
                 <label class="label-utama">Penjualan Bruto Pelumas :</label>  
-                <input type="text" class="form-control" value="<?= number_format($employee->row()->BRUTO_PELUMAS); ?>" name="editPelumas">
+                <input type="text" class="form-control" name="addPelumas">
               </div>
             </div>
             <div class="col-4">
               <h6><span class="badge badge-success mb-4">Barang yang Tergolong</span></h6>
               <div class="form-group">
-                <label class="label-utama">Jenis :</label>
-                <!-- <input type="text" class="form-control" value="<?= number_format($employee->row()->BRUTO * 12); ?>" readonly> -->
-                <input type="text" class="form-control" value="<?= $employee->row()->PRODUCT_TYPE; ?>" name="editType">
+                <label class="label-utama">Jenis :</label>  
+                <select class="custom-select" name="addType">
+                  <?php foreach ($ProductType->result() as $type) { ?>
+                    <option value="<?= $type->TYPE_ID; ?>"><?= $type->TYPE_ID; ?></option> 
+                  <?php } ?> 
+                </select>
               </div>
               <div class="form-group">
                 <label class="label-utama">Harga Jual :</label> 
-                <input type="text" class="form-control" value="<?= number_format($employee->row()->SELLING_PRICE); ?>" name="editHarga">
+                <input type="text" class="form-control" name="addHarga">
               </div> <hr> 
               <h6><span class="badge badge-success mb-4">Lainnya</span></h6>
               <div class="form-group">
                 <label class="label-utama">Pembelian Bahan untuk Keperluan Industri atau Ekspor dari Pedagang Pengumpul :</label> 
-                <input type="text" class="form-control" value="<?= number_format($employee->row()->SELLING_INDUSTRI_MATERIALS); ?>" name="editIndustri">
+                <input type="text" class="form-control" name="addIndustri">
               </div>
               <div class="form-group">
                 <label class="label-utama">Pembelian Batubara, Mineral Logam, dan Mineral Bukan Logam, dari Badan atau Orang Pribadi Pemegang Izin Usaha Pertambangan oleh Industri atau Badan Usaha (Rp) :</label> 
-                <input type="text" class="form-control" value="<?= number_format($employee->row()->SELLING_BUSINESS_MINING); ?>" name="editMining">
-              </div> <hr> 
-              <h6><span class="badge badge-success mb-4">Hasil Kalkulasi</span></h6>
-              <div class="form-group">
-                <label class="label-utama">TOTAL DPP :</label> 
-                <input type="text" class="form-control" value="<?= number_format($employee->row()->TOTAL_DPP); ?>" name="editIndustri" readonly>
+                <input type="text" class="form-control" name="addMining">
               </div>
-              <div class="form-group">
-                <label class="label-utama">TOTAL PPH22 :</label> 
-                <input type="text" class="form-control" value="<?= number_format($employee->row()->TOTAL_PPH22); ?>" name="editMining" readonly>
-              </div>  
             </div>
           </div>
           <hr>
             <div class="row">
                 <button class="btn btn-sm btn-success col-2 ml-3 mb-3" type="submit">Hitung dan Simpan</button>
-                <a class="btn btn-sm btn-secondary col-2 ml-2 mb-3" type="submit" href="<?php echo base_url('pph_21/bulan/summary/karyawan/edit'); ?>">Kembali</a>
+                <a class="btn btn-sm btn-secondary col-2 ml-2 mb-3" type="submit" href="<?php echo base_url('pph_21/bulan/summary/karyawan/add'); ?>">Kembali</a>
             </div>
           </form>
         </div>
@@ -167,7 +152,7 @@
     <?php $this->load->view('modal/add_pph21_perusahaan_bulan'); ?>
     <!-- End of Add Modal Perusahaan -->
     <!-- Add Modal Perusahaan -->
-    <?php $this->load->view('modal/edit_pph21_kompensasi'); ?>
+    <?php $this->load->view('modal/add_pph21_kompensasi'); ?>
     <!-- End of Add Modal Perusahaan -->
     <!-- Add Modal Perusahaan -->
     <?php $this->load->view('modal/import_pph21'); ?>

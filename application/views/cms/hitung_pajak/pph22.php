@@ -82,10 +82,10 @@
                     foreach ($list_rates->result() as $rates); 
                    $tarifPresentase=$rates->PRESENTASE;
                   }
-                  $totalRatesSemen=$employee->EMPLOYEE_BRUTO_SEMEN*$employee->BRUTO_SEMEN_RATES;
-                  $totalRatesKertas=$employee->EMPLOYEE_BRUTO_KERTAS*$employee->BRUTO_KERTAS_RATES;
-                  $totalRatesBaja=$employee->EMPLOYEE_BRUTO_BAJA*$employee->BRUTO_BAJA_RATES;
-                  $totalRatesOtomotif=$employee->EMPLOYEE_BRUTO_OTOMOTIF*$employee->BRUTO_OTOMOTIF_RATES;
+                  $totalRatesSemen=$employee->BRUTO_SEMEN*$employee->BRUTO_SEMEN_RATES;
+                  $totalRatesKertas=$employee->BRUTO_KERTAS*$employee->BRUTO_KERTAS_RATES;
+                  $totalRatesBaja=$employee->BRUTO_BAJA*$employee->BRUTO_BAJA_RATES;
+                  $totalRatesOtomotif=$employee->BRUTO_OTOMOTIF*$employee->BRUTO_OTOMOTIF_RATES;
                   //------------------------------------- Barang Mewah
                   if($employee->TRANSACTION_NPWP<>''){
                      $totalBarangMewah=(($tarifPresentase*2)/100)*$employee->SELLING_PRICE;

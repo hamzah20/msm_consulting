@@ -85,6 +85,23 @@
         }
     }
 
+    function getTransaksiID()
+    {
+        $this->db->from('g_transaction_profile')
+            ->order_by('TRANSACTION_ID', 'DESC')
+            ->limit(1);
+
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            $ads_id = $query->first_row()->TRANSACTION_ID;
+            return $ads_id;
+        } else {
+            $ads_id = '0';
+            return $ads_id;
+        }
+    }
+
     function generateID($type)
     {
         if ($type == 'EMPLOYEE') {
@@ -147,6 +164,18 @@
             }
 
             $new_ads_id = "MSG" . date("ym") . str_pad(strval($last_ads_id), 6, "0", STR_PAD_LEFT);
+        } else if ($type == 'TRANSACTION') {
+
+            $ads_id = $this->getTransaksiID();
+
+            if ($ads_id == '0') {
+                $last_ads_id = 1;
+            } else {
+
+                $last_ads_id = intval(substr($ads_id, -6)) + 1;
+            }
+
+            $new_ads_id = "TRA" . date("ym") . str_pad(strval($last_ads_id), 6, "0", STR_PAD_LEFT);
         }
 
         return $new_ads_id;
