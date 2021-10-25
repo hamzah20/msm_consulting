@@ -131,6 +131,10 @@ $route['pph_23/bulan/summary/karyawan/detail']          = 'PPH/Pph23/pph_23_bula
 $route['pph_23/bulan/summary/karyawan/edit']          	= 'PPH/Pph23/edit_pph_23_bulan_summary_karyawan';
 $route['pph_23/bulan/summary/aktifitas_pajak']          = 'PPH/Pph23/aktifitas_pajak';
 $route['pph_23/bulan/summary/aktifitas_pajak/edit']     = 'PPH/Pph23/edit_aktifitas_pajak';
+$route['pph_23/lawan_transaksi']     					= 'PPH/Pph23/LawanTransaksi';
+$route['pph_23/lawan_transaksi/delete']     			= 'PPH/Pph23/delete_lawan_transaksi';
+$route['pph_23/lawan_transaksi/edit']     				= 'PPH/Pph23/edit_lawan_transaksi';
+$route['pph_23/transaksi/add']     						= 'PPH/Pph23/add_transaksi';
 
 // KEBUTUHAN PAJAK - HITUNG PAJAK - PPH 25
 $route['pph_25']                                        = 'PPH/Pph25/index';

@@ -49,8 +49,7 @@
               <th scope="col-4">Nama Perusahaan</th>
               <th scope="col-1" class="text-center">Periode / Masa</th>
               <th scope="col-1" class="text-center">Pembetulan</th>
-              <th scope="col-1" class="text-center">Total Penghasilan DPP</th>
-              <th scope="col-1" class="text-center">Tax Rate</th>
+              <th scope="col-1" class="text-center">Total Penghasilan DPP</th> 
               <th scope="col-1" class="text-center">PPH</th>
               <th scope="col-3" class="text-center">Aksi</th>
             </tr>
@@ -64,8 +63,7 @@
                   <td><?= $company->COMPANY_NAME; ?></td>
                   <td class="text-center"><?= strtoupper($company->PERIOD_MONTH) . '-' . $company->PERIOD_YEAR; ?></td>
                   <td class="text-center text-danger"><?= $company->TOTAL_PEMBETULAN; ?></td>
-                  <td class="text-center"><?= ($company->COMPANY_DPP == null ? '-' : number_format($company->COMPANY_DPP)); ?></td>
-                  <td class="text-center"><?= ($company->COMPANY_TAX_RATE == null ? '-' : number_format($company->COMPANY_TAX_RATE)); ?></td>
+                  <td class="text-center"><?= ($company->COMPANY_DPP == null ? '-' : number_format($company->COMPANY_DPP)); ?></td> 
                   <td class="text-center"><?= ($company->COMPANY_PPHVAL23 == null ? '-' : number_format($company->COMPANY_PPHVAL23)); ?></td>
                   <td class="text-center">
                     <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_23/bulan/summary?pid=' . $company->PPH23_ID . '&cid=' . $company->COMPANY_ID . '&mid=' . $company->PERIOD_MONTH . '&yid=' . $company->PERIOD_YEAR); ?>"><i class="fa fa-eye"></i></a>

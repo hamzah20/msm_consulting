@@ -28,7 +28,7 @@
       <div class="page-header float-right">
         <div class="page-title">
           <ol class="breadcrumb text-right">
-            <li class="active"> <a href="<?php echo base_url('pph_21'); ?>"> PPH 22</a> / <a href="<?php echo base_url('pph_22/bulan') ?>">Bulanan</a> / <a href="<?php echo base_url('pph_22/bulan/summary'); ?>">Summary</a> / Lawan Transaksi</li>
+            <li class="active"> <a href="<?php echo base_url('pph_21'); ?>"> PPH 23</a> / <a href="<?php echo base_url('pph_23/bulan') ?>">Bulanan</a> / <a href="<?php echo base_url('pph_22/bulan/summary'); ?>">Summary</a> / Lawan Transaksi</li>
           </ol>
         </div>
       </div>
@@ -39,13 +39,15 @@
   <div class="content mt-3">
     <div class="card">
      <div class="card-body"> 
-        <a class="btn btn-sm btn-primary mb-3" href="#" role="button" data-toggle="modal" title="Tambah" data-target="#addLawanTransaksi">Tambah Lawan Transaksi</a> 
+        <a class="btn btn-sm btn-primary mb-3" href="#" role="button" data-toggle="modal" title="Tambah" data-target="#addLawanTransaksi23">Tambah Lawan Transaksi</a> 
         <table id="lawantransaksiTable" class="table table-company">
           <tr class="thead-dark">
               <th scope="col-">No</th>
               <th scope="col-">Nama Lawan Transaksi</th> 
               <th scope="col-">NPWP Lawan Transaksi</th>
-              <th scope="col-">Alamat Lawan Transaksi</th>  
+              <th scope="col-">NIK Lawan Transaksi</th>
+              <th scope="col-">Kota Lawan Transaksi</th>  
+              <th scope="col-">Profinsi Lawan Transaksi</th>  
               <th scope="col-">Aksi</th> 
             </tr>
             <?php $no = 1; ?>
@@ -53,12 +55,14 @@
               <?php foreach ($data_transaksi->result() as $transaksi) { ?>
                 <tr>
                   <td><?= $no++ ?></td>
-                  <td><?= $transaksi->TRANSACTION_NAME; ?></td>
-                  <td><?= $transaksi->TRANSACTION_NPWP; ?></td>
-                  <td><?= $transaksi->TRANSACTION_ADDRESS; ?></td>
+                  <td><?= $transaksi->TRANSACTION23_NAME; ?></td>
+                  <td><?= $transaksi->TRANSACTION23_NPWP; ?></td>
+                  <td><?= $transaksi->TRANSACTION23_NIK; ?></td>
+                  <td><?= $transaksi->TRANSACTION23_CITY; ?></td>
+                  <td><?= $transaksi->TRANSACTION23_PROVINCE; ?></td>
                   <td>
-                    <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Hapus" href="<?php echo base_url('pph_22/lawan_transaksi/delete?tid='.$transaksi->TRANSACTION_ID) ?>"><i class="fa fa-trash"></i></a> 
-                    <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('pph_22/lawan_transaksi/edit?tid='.$transaksi->TRANSACTION_ID) ?>" title="Edit"><i class="fa fa-edit"></i></a> 
+                    <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Hapus" href="<?php echo base_url('pph_23/lawan_transaksi/delete?tid='.$transaksi->TRANSACTION23_ID) ?>"><i class="fa fa-trash"></i></a> 
+                    <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('pph_23/lawan_transaksi/edit?tid='.$transaksi->TRANSACTION23_ID) ?>" title="Edit"><i class="fa fa-edit"></i></a> 
                   </td>
                 </tr> 
               <?php } ?>
@@ -68,11 +72,11 @@
     </div>
 
     <!-- Add Lawan Transaksi  -->
-    <?php $this->load->view('modal/add_lawan_transaksi'); ?>
+    <?php $this->load->view('modal/add_lawan_transaksi23'); ?>
     <!-- End of Edit Lawan Transaksi --> 
 
     <!-- Edit Lawan Transaksi  -->
-    <?php $this->load->view('modal/edit_lawan_transaksi'); ?>
+    
     <!-- End of Edit Lawan Transaksi --> 
 
   </div>

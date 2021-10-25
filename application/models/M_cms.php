@@ -163,6 +163,11 @@
         return $sql;
     }
 
+    public function cekstatuspph23($pid){
+        $sql = $this->db->query("SELECT STATUS FROM `g_pph23` WHERE PPH23_ID='".$pid."'");
+        return $sql;
+    }
+
     public function count_pembetulan($pid){
         $sql = $this->db->query("SELECT count(*) as TOTAL_PEMBETULAN FROM `g_pph21` WHERE 'STATUS'='ON PROGRESS'");
         return $sql;
@@ -171,8 +176,12 @@
 
     public function count_pembetulan22($pid){
         $sql = $this->db->query("SELECT count(*) as TOTAL_PEMBETULAN FROM `g_pph22` WHERE 'STATUS'='ON PROGRESS' AND PPH22_ID='".$pid."'");
-        return $sql;
-        //var_dump($sql->num_rows());
+        return $sql; 
+    }
+
+    public function count_pembetulan23($pid){
+        $sql = $this->db->query("SELECT count(*) as TOTAL_PEMBETULAN FROM `g_pph23` WHERE 'STATUS'='ON PROGRESS' AND PPH23_ID='".$pid."'");
+        return $sql; 
     }
 
     public function total_bruto_netto($pid){
@@ -234,6 +243,11 @@
 
     public function editPPH22($pid){
         $sql = $this->db->query("SELECT SUM(TOTAL_DPP) AS TOTAL_DPP_ALL,SUM(TOTAL_PPH22) AS TOTAL_PPH22_ALL FROM `g_pph22_detail` WHERE PPH22_ID='".$pid."'");
+        return $sql;
+    } 
+
+    public function editPPH23($pid){
+        $sql = $this->db->query("SELECT SUM(TOTAL_DPP23) AS TOTAL_DPP_ALL,SUM(TOTAL_PPHVAL23) AS TOTAL_PPH23_ALL FROM `g_pph23_detail` WHERE PPH23_ID='".$pid."'");
         return $sql;
     } 
 
