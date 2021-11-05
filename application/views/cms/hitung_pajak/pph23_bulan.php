@@ -39,7 +39,7 @@
   <div class="content mt-3">
     <div class="card">
       <div class="card-body">
-        <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addPPH22PerusahaanBulan">Tambah Data</a>
+        <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addPPH23PerusahaanBulan">Tambah Data</a>
         <a class="btn btn-sm btn-info ml-3" href="#">Lihat History</a>
         <hr>
         <table class="table" id="companyTable">

@@ -45,9 +45,9 @@
           <form method="POST" action="<?php echo base_url('PPH/Pph23/insert_transaksi'); ?>">
           <input type="hidden" name="companyID" value="<?php echo $this->input->get('cid') ?>">
           <input type="hidden" name="pphID" value="<?php echo $this->input->get('pid') ?>"> 
-          <div class="row"> 
+          <h6><span class="badge badge-success mb-4">Data PPH 23 26</span></h6> 
+          <div class="row">
             <div class="col-4">
-              <h6><span class="badge badge-success mb-4">Data PPH 23 26</span></h6> 
               <div class="form-group">
                 <label class="label-utama">Nama Lawan Transaksi :</label> 
                 <select class="custom-select" name="addNama">
@@ -56,26 +56,75 @@
                   <?php } ?> 
                 </select>
               </div> 
-               <div class="form-group">
-                <label class="label-utama">Jenis Pajak :</label> 
-                <select class="custom-select" name="addJenis"> 
-                  <option value="23">23</option>  
-                  <option value="26">26</option>  
-                </select>
-              </div>
-               <div class="form-group">
-                <label class="label-utama">Kode Negara :</label> 
-                <select class="custom-select" name="addNegara">
-                  <?php foreach ($NamaNegara->result() as $negara) { ?>
-                    <option value="<?= $negara->COUNTRY_CODE; ?>"><?= $negara->COUNTRY_DESC; ?></option> 
+              <div class="form-group">
+                <label class="label-utama">No Invoice :</label> 
+                <input type="text" class="form-control" name="addNoInvoice">
+              </div> 
+              <div class="form-group">
+                <label class="label-utama">Kode Objek :</label> 
+                <select class="custom-select" name="addObjek">
+                  <?php foreach ($KodeObjek->result() as $objek) { ?>
+                    <option value="<?= $objek->KODE_OBJEK_PAJAK; ?>"><?= $objek->KODE_OBJEK_PAJAK; ?></option> 
                   <?php } ?> 
                 </select>
               </div>
               <div class="form-group">
-                <label class="label-utama">TIN (dengan format / tanda baca) :</label>  
-                <input type="text" class="form-control" name="addTIN">
+                <label class="label-utama">Mendapatkan Fasilitas :</label> 
+                <select class="custom-select" name="addFasilitas" id="fasilitas_change"> 
+                  <option value="N">Tidak</option>  
+                  <option value="SKD">SKD</option>  
+                  <option value="DTP">DTP</option>  
+                </select>
+              </div>  
+              
+            </div>
+            <div class="col-4">
+               <div class="form-group">
+                <label class="label-utama">Jenis Pajak :</label> 
+                <select class="custom-select" name="addJenis" id="jenis_change"> 
+                  <option value="23">23</option>  
+                  <option value="26">26</option>  
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="label-utama">Jenis Dokumen:</label> 
+                <select class="custom-select" name="addDokumen">
+                  <?php foreach ($JenisDokumen->result() as $dokumen) { ?>
+                    <option value="<?= $dokumen->NAMA_JENIS_DOKUMEN; ?>"><?= $dokumen->NAMA_JENIS_DOKUMEN; ?></option> 
+                  <?php } ?> 
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="label-utama">Tanggal Invoice :</label> 
+                <input type="date" class="form-control" name="addTglInvoice">
+              </div>
+              <div class="form-group">
+                <label class="label-utama">Penghasilan Bruto :</label> 
+                <input type="text" class="form-control" name="addBruto">
               </div> 
-              <h6><span class="badge badge-success mb-4">WP Terpotong</span></h6>
+            </div>
+            <div class="col-4">
+              <div class="form-group">
+                <label class="label-utama">Tanggal Dokumen :</label> 
+                <input type="date" class="form-control" name="addTglDokumen">
+              </div>
+              <div class="form-group">
+                <label class="label-utama">Tanggal Pembayaran :</label> 
+                <input type="date" class="form-control" name="addTglPembayaran">
+              </div>
+               <div class="form-group">
+                <label class="label-utama">No Telpon :</label> 
+                <input type="text" class="form-control" name="addTelpon">
+              </div>
+              <div class="form-group">
+                <label class="label-utama">Keterangan Transaksi :</label> 
+                <input type="text" class="form-control" name="addKetTransaksi">
+              </div>
+            </div>
+          </div> <hr>
+          <h6><span class="badge badge-success mb-4" style="display: none" id="jenis-title">Data PPH 26</span></h6>  
+          <div class="row" style="display: none" id="jenis">
+            <div class="col-4"> 
               <div class="form-group">
                 <label class="label-utama">Tanggal Lahir WP Terpotong :</label>  
                 <input type="date" class="form-control" name="addTanggal">
@@ -92,23 +141,11 @@
                 <label class="label-utama">No Paspor WP Terpotong :</label>  
                 <input type="text" class="form-control" name="addPaspor">
               </div>  
-            </div>
-            <div class="col-4">  
-              <h6><span class="badge badge-success mb-4">Lainnya</span></h6>
+            </div> 
+            <div class="col-4">
               <div class="form-group">
                 <label class="label-utama">Penggunaan Perkiraan Penghasilan Netto  :</label>  
                 <select class="custom-select" name="addNetto"> 
-                  <option value="Y">Iya</option>  
-                  <option value="N">Tidak</option>  
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="label-utama">Perkiraan Hasil Netto (%) :</label>  
-                <input type="text" class="form-control" name="addPerkiraan">
-              </div>
-              <div class="form-group">
-                <label class="label-utama">Memiliki Surat Keterangan Domisili :</label>  
-                <select class="custom-select" name="addDomisili"> 
                   <option value="Y">Iya</option>  
                   <option value="N">Tidak</option>  
                 </select>
@@ -121,93 +158,57 @@
                 </select>
               </div>
               <div class="form-group">
-                <label class="label-utama">Tarif P3B :</label>  
-                <input type="text" class="form-control" name="addP3BTarif">
-              </div>
-               <div class="form-group">
-                <label class="label-utama">Jenis Dokumen:</label> 
-                <select class="custom-select" name="addDokumen">
-                  <?php foreach ($JenisDokumen->result() as $dokumen) { ?>
-                    <option value="<?= $dokumen->NAMA_JENIS_DOKUMEN; ?>"><?= $dokumen->NAMA_JENIS_DOKUMEN; ?></option> 
-                  <?php } ?> 
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="label-utama">Tanggal Dokumen :</label> 
-                <input type="date" class="form-control" name="addTglDokumen">
-              </div>
-              <div class="form-group">
-                <label class="label-utama">Keterangan Transaksi :</label> 
-                <input type="text" class="form-control" name="addKetTransaksi">
-              </div>
-              <div class="form-group">
-                <label class="label-utama">Tanggal Invoice :</label> 
-                <input type="date" class="form-control" name="addTglInvoice">
-              </div>
-              <div class="form-group">
-                <label class="label-utama">No Invoice :</label> 
-                <input type="text" class="form-control" name="addNoInvoice">
-              </div> 
-              <div class="form-group">
-                <label class="label-utama">Tanggal Pembayaran :</label> 
-                <input type="date" class="form-control" name="addTglPembayaran">
-              </div>
-            </div>
-            <div class="col-4">
-              <h6><span class="badge badge-success mb-4">Lainnya</span></h6>
-              <div class="form-group">
-                <label class="label-utama">Penghasilan Bruto :</label> 
-                <input type="text" class="form-control" name="addBruto">
-              </div>
-              <div class="form-group">
-                <label class="label-utama">Kode Objek :</label> 
-                <select class="custom-select" name="addObjek">
-                  <?php foreach ($KodeObjek->result() as $objek) { ?>
-                    <option value="<?= $objek->KODE_OBJEK_PAJAK; ?>"><?= $objek->KODE_OBJEK_PAJAK; ?></option> 
-                  <?php } ?> 
-                </select>
-              </div>
-              <div class="form-group">
-                <label class="label-utama">No Telpon :</label> 
-                <input type="text" class="form-control" name="addTelpon">
-              </div>
-              <div class="form-group">
-                <label class="label-utama">Penanda Tangan BP Pengurus :</label> 
-                <select class="custom-select" name="addBPPengurus"> 
+                <label class="label-utama">Memiliki Surat Keterangan Domisili :</label>  
+                <select class="custom-select" name="addDomisili"> 
                   <option value="Y">Iya</option>  
                   <option value="N">Tidak</option>  
                 </select>
-              </div>  
-              <div class="form-group">
-                <label class="label-utama">Mendapatkan Fasilitas :</label> 
-                <select class="custom-select" name="addFasilitas"> 
-                  <option value="N">Tidak</option>  
-                  <option value="SKD">SKD</option>  
-                  <option value="DTP">DTP</option>  
-                </select>
-              </div>  
-              <div class="form-group">
-                <label class="label-utama">Nomor SKB (23) :</label> 
-                <input type="text" class="form-control" name="addSKB">
-              </div>  
-              <div class="form-group">
-                <label class="label-utama">Nomor SKD (26) :</label> 
-                <input type="text" class="form-control" name="addSKD">
-              </div>  
-              <div class="form-group">
-                <label class="label-utama">Tarif SKD :</label> 
-                <input type="text" class="form-control" name="addTarifSKD">
+              </div>
+               <div class="form-group">
+                <label class="label-utama">TIN (dengan format / tanda baca) :</label>  
+                <input type="text" class="form-control" name="addTIN">
+              </div> 
+            </div>
+            <div class="col-4">
+             <div class="form-group">
+                <label class="label-utama">Perkiraan Hasil Netto (%) :</label>  
+                <input type="text" class="form-control" name="addPerkiraan">
+              </div>
+             <div class="form-group">
+                <label class="label-utama">Tarif P3B :</label>  
+                <input type="text" class="form-control" name="addP3BTarif">
               </div>
               <div class="form-group">
-                <label class="label-utama">No Aturan :</label> 
-                <input type="text" class="form-control" name="addAturan">
-              </div>  
+                <label class="label-utama">Kode Negara :</label> 
+                <select class="custom-select" name="addNegara">
+                  <?php foreach ($NamaNegara->result() as $negara) { ?>
+                    <option value="<?= $negara->COUNTRY_CODE; ?>"><?= $negara->COUNTRY_DESC; ?></option> 
+                  <?php } ?> 
+                </select>
+              </div>
+            </div>
+          </div> <hr>
+           <h6><span class="badge badge-success mb-4" style="display: none" id="fasilitas-title">Fasilitas</span></h6> 
+          <div class="row" style="display: none" id="fasilitas">
+            <div class="col-4">
+              <div class="form-group">
+                <label class="label-utama">Nomor SKB :</label> 
+                <input type="text" class="form-control" name="addSKB">
+              </div>   
+            </div>
+            <div class="col-4">
+               <div class="form-group">
+                <label class="label-utama">Tarif SKB :</label> 
+                <input type="text" class="form-control" name="addTarifSKD">
+              </div>
+            </div>
+            <div class="col-4">
               <div class="form-group">
                 <label class="label-utama">NTPN DTP :</label> 
                 <input type="text" class="form-control" name="addNTPNDTP">
               </div>  
             </div>
-          </div>
+          </div> 
           <hr>
             <div class="row">
                 <button class="btn btn-sm btn-success col-2 ml-3 mb-3" type="submit">Hitung dan Simpan</button>
@@ -218,7 +219,36 @@
 
       </div>
     </div>
+    <script type="text/javascript">
+      jQuery(document).ready(function(){
+          document.getElementById("fasilitas_change").onchange = function() { 
+             var facility= document.getElementById("fasilitas_change").value;
+            // alert(facility);
+             if(facility!='N'){
+              document.getElementById("fasilitas-title").style.display = 'inline-block';
+              document.getElementById("fasilitas").style.display = 'inline-block';
+             }
+             else{
+              document.getElementById("fasilitas-title").style.display = 'none';
+              document.getElementById("fasilitas").style.display = 'none';
+             }
+          };
 
+          document.getElementById("jenis_change").onchange = function() { 
+             var facility= document.getElementById("jenis_change").value;
+            // alert(facility);
+             if(facility!='23'){
+              document.getElementById("jenis-title").style.display = 'inline-block';
+              document.getElementById("jenis").style.display = 'inline-block';
+             }
+             else{
+              document.getElementById("jenis-title").style.display = 'none';
+              document.getElementById("jenis").style.display = 'none';
+             }
+          };
+
+      });
+    </script>
     <!-- Add Modal Perusahaan -->
     <?php $this->load->view('modal/add_pph21_perusahaan_bulan'); ?>
     <!-- End of Add Modal Perusahaan -->
@@ -237,6 +267,7 @@
 <!-- Right Panel -->
 
 <script>
+
   jQuery(document).ready(function($) {
 
     "use strict";
@@ -244,6 +275,7 @@
     $(function() {
       $('[data-toggle="tooltip"]').tooltip()
     })
+
 
     $('#formAddCompany').on('submit', function(evt) {
       evt.preventDefault();

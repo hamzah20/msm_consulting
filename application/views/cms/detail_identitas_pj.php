@@ -86,6 +86,17 @@
                                 <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $company->row()->PIC_NATIONALITY; ?>"> 
                             </div>
                             <div class="form-group">
+                                <label for="" class="label-utama">Penanda Tangan BP Pengurus</label>
+                                <?php  
+                                    if($company->row()->PIC_BP_PENGURUS == 'Y'){
+                                        $bp = 'IYA';
+                                    }else{
+                                        $bp = 'Tidak';
+                                    }
+                                ?>
+                                <input type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....." value="<?= $bp; ?>"> 
+                            </div>
+                            <div class="form-group">
                                 <label for="" class="label-utama">Alamat</label>
                                 <textarea type="text" class="form-control form-control-sm" id="" aria-describedby="" readonly placeholder="....."><?= $company->row()->PIC_ADDRESS; ?> </textarea>
                             </div>

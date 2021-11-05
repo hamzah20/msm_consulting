@@ -72,7 +72,7 @@
                   <td class="text-center"><?= ($company->TOTAL_COMPANY_KBLB == null ? '-' : number_format($company->TOTAL_COMPANY_KBLB)); ?></td>
                   <td class="text-center">
                     <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Summary Bulanan" href="<?= base_url('pph_21/bulan?cid=' . $company->COMPANY_ID . '&yid=' . $company->PERIOD_YEAR); ?>"><i class="fa fa-eye"></i></a>
-                    <a class="btn btn-sm btn-primary text-white" data-toggle="tooltip" data-placement="top" title="Summary Tahunan" href="<?= base_url('pph_21/tahun'); ?>" role="button" role="button"><i class="fa fa-eye"></i></a>
+                    <a class="btn btn-sm btn-primary text-white" data-toggle="tooltip" data-placement="top" title="Summary Tahunan" href="<?= base_url('pph_21/tahun?cid=' . $company->COMPANY_ID . '&yid=' . $company->PERIOD_YEAR); ?>" role="button" role="button"><i class="fa fa-eye"></i></a>
                   </td>
                 </tr>
 

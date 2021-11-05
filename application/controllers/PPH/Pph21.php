@@ -56,6 +56,102 @@ class Pph21 extends CI_Controller
 		$this->load->view('cms/hitung_pajak/pph21_bulan', $data); 
 	}
 
+	public function pph_21_tahun()
+	{
+		$cid=$this->input->get('cid');
+		$yid=$this->input->get('yid');
+
+		$getDataKaryawan = $this->cms->getSingularData('v_g_employee','EMPLOYEE_COMPANY_ID',$cid); 
+
+		$deleteData  = $this->cms->deleteGeneralDataDouble('g_pph21_yearly','COMPANY_ID',$cid,'PERIOD_YEAR',$yid);
+
+		foreach($getDataKaryawan->result() as $data) {
+			$employeeData   = $this->cms->getSingularData('v_g_employee', 'EMPLOYEE_COMPANY_ID', $cid);
+
+			$eid = $data->EMPLOYEE_ID;
+			$data_year	 	= $this->cms->countYear('g_empoloyee_income',$cid,$yid,$eid);
+			$incomeID  		= $this->incube->generateID(10);
+
+			foreach ($data_year->result() as $year);
+			$gaji_pokok    		= $year->EMPLOYEE_GAJI_POKOK_YEAR;
+			$tunjangan_pph 		= $year->EMPLOYEE_TUNJANGAN_PPH_YEAR; 
+			$tunjangan1 		= $year->EMPLOYEE_TUNJANGAN1_YEAR;
+			$tunjangan2 		= $year->EMPLOYEE_TUNJANGAN2_YEAR;
+			$tunjangan3 		= $year->EMPLOYEE_TUNJANGAN3_YEAR;
+			$tunjangan4 		= $year->EMPLOYEE_TUNJANGAN4_YEAR;
+			$tunjangan5 		= $year->EMPLOYEE_TUNJANGAN5_YEAR;
+			$tunjangan6 		= $year->EMPLOYEE_TUNJANGAN6_YEAR;
+			$tunjangan7 		= $year->EMPLOYEE_TUNJANGAN7_YEAR;
+			$tunjangan8 		= $year->EMPLOYEE_TUNJANGAN8_YEAR;
+			$tunjangan9  		= $year->EMPLOYEE_TUNJANGAN9_YEAR;
+			$tunjangan10 		= $year->EMPLOYEE_TUNJANGAN10_YEAR;
+			$tunjangan_lainnya 	= $year->EMPLOYEE_TUNJANGAN_LAINNYA_YEAR;
+			$honarium 			= $year->EMPLOYEE_HONORARIUM_YEAR;
+			$premi_jkk 			= $year->EMPLOYEE_PREMI_JKK_YEAR;
+			$premi_jkm 			= $year->EMPLOYEE_PREMI_JKM_YEAR;
+			$premi_bpjs 		= $year->EMPLOYEE_PREMI_BPJS_YEAR;
+			$premi 				= $year->EMPLOYEE_PREMI_YEAR;
+			$natura 			= $year->EMPLOYEE_NATURA_YEAR;
+			$tantiembonus 		= $year->EMPLOYEE_TANTIEMBONUS_YEAR;
+			$iuran_tht 			= $year->EMPLOYEE_IURAN_THT_YEAR;
+			$iuran_jp 			= $year->EMPLOYEE_IURAN_JP_YEAR;
+			$iuran_pensiun 		= $year->EMPLOYEE_IURAN_PENSIUN_YEAR;
+			$biaya_jabatan 		= $year->EMPLOYEE_BIAYA_JABATAN_YEAR;
+			$total_pengurangan 	= $year->EMPLOYEE_TOTAL_PENGURANGAN_YEAR;
+			$bruto 				= $year->EMPLOYEE_BRUTO_YEAR;
+			$netto 				= $year->EMPLOYEE_NETTO_YEAR; 
+			$pphval 			= $year->EMPLOYEE_PPHVAL_YEAR;
+
+
+			$companyData = array(
+				'INCOME_ID'							=> $incomeID, 
+				'COMPANY_ID'						=> $cid,
+				'PERIOD_YEAR'						=> $yid, 
+				'EMPLOYEE_ID'						=> $data->EMPLOYEE_ID,
+				'EMPLOYEE_GAJI_POKOK_YEAR'			=> $gaji_pokok,
+				'EMPLOYEE_TUNJANGAN_PPH_YEAR'		=> $tunjangan_pph,
+				'EMPLOYEE_TUNJANGAN1_YEAR'			=> $tunjangan1,
+				'EMPLOYEE_TUNJANGAN2_YEAR'			=> $tunjangan2,
+				'EMPLOYEE_TUNJANGAN3_YEAR'			=> $tunjangan3,
+				'EMPLOYEE_TUNJANGAN4_YEAR'			=> $tunjangan4,
+				'EMPLOYEE_TUNJANGAN5_YEAR'			=> $tunjangan5,
+				'EMPLOYEE_TUNJANGAN6_YEAR'			=> $tunjangan6,
+				'EMPLOYEE_TUNJANGAN7_YEAR'			=> $tunjangan7,
+				'EMPLOYEE_TUNJANGAN8_YEAR'			=> $tunjangan8,
+				'EMPLOYEE_TUNJANGAN9_YEAR'			=> $tunjangan9,
+				'EMPLOYEE_TUNJANGAN10_YEAR'			=> $tunjangan10,
+				'EMPLOYEE_TUNJANGAN_LAINNYA_YEAR'	=> $tunjangan_lainnya,
+				'EMPLOYEE_HONARIUM_YEAR'			=> $honarium,
+				'EMPLOYEE_PREMI_JKK_YEAR'			=> $premi_jkk,
+				'EMPLOYEE_PREMI_JKM_YEAR'			=> $premi_jkm,
+				'EMPLOYEE_PREMI_BPJS_YEAR'			=> $premi_bpjs,
+				'EMPLOYEE_PREMI_YEAR'				=> $premi,
+				'EMPLOYEE_NATURA_YEAR'				=> $natura,
+				'EMPLOYEE_TANTIEMBONUS_YEAR'		=> $tantiembonus,
+				'EMPLOYEE_IURAN_THT_YEAR'			=> $iuran_tht,
+				'EMPLOYEE_IURAN_JP_YEAR'			=> $iuran_jp,
+				'EMPLOYEE_IURAN_PENSIUN_YEAR'		=> $iuran_pensiun,
+				'EMPLOYEE_BIAYA_JABATAN_YEAR'		=> $biaya_jabatan,
+				'EMPLOYEE_TOTAL_PENGURANGAN_YEAR'	=> $total_pengurangan,
+				'EMPLOYEE_BRUTO_YEAR'				=> $bruto,
+				'EMPLOYEE_NETTO_YEAR'				=> $netto,  
+				'EMPLOYEE_PPHVAL_YEAR'				=> $pphval,
+				'CREATED'							=> date('Y-m-d h:i:s'),
+				'STATUS'							=> 'ON PROGRESS',
+			);
+
+			$queryInsert = $this->cms->insertGeneralData('g_pph21_yearly', $companyData); 
+		}  
+
+		$this->load->view('cms/hitung_pajak/pph21_tahun',$data);
+	}
+
+	public function hitung_tahunan()
+	{
+		$this->load->view('cms/hitung_pajak/pph21_tahun');
+		redirect('pph_21/tahun?&cid=' . $this->input->post('companyID'). '&yid=' . $this->input->post('yearID')); 
+	}
+
 	public function pph_21_bulan_summary()
 	{ 
 		$cid=$this->input->get('cid');
@@ -1480,10 +1576,7 @@ class Pph21 extends CI_Controller
 		redirect(($this->input->post('pphFlag') == true ? base_url('pph_21/bulan?cid=' . $this->input->post('companyID')) : base_url('pph_21')));
 	} 
 
-	public function pph_21_tahun()
-	{
-		$this->load->view('cms/hitung_pajak/pph21_tahun');
-	}
+	
 
 	public function pph_21_bulan_summary_karyawan()
 	{

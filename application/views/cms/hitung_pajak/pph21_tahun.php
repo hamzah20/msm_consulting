@@ -51,6 +51,11 @@
     <div class="card">
       <div class="card-body"> 
         <h5><span class="badge badge-success mb-4">SUMMARY DETAIL (PERIODE 1 TAHUN)</span></h5>  
+        <?php 
+          $cid=$this->input->get('cid');
+          $yid=$this->input->get('yid');
+        ?>
+        <a class="btn btn-sm btn-info mb-5" title="Tambah" href="<?= base_url('pph_21/tahun?cid=' . $cid . '&yid=' . $yid); ?>"></i> Hitung Ulang</a>
         <table class="table table-tahun" id="PPH21TahunTable">
           <thead class="thead-dark">
             <tr> 
@@ -74,6 +79,7 @@
               <th scope="col-" colspan="8" class="text-center">NOV</th>   
               <th scope="col-" colspan="8" class="text-center">DES</th>   
             </tr>
+
             <tr>          
               <th scope="col-">GP</th>  
               <th scope="col-">TP</th>  
@@ -193,7 +199,8 @@
               <th scope="col-">PB</th>
             </tr>
           </thead>
-          <tbody>  
+          <tbody>   
+
                 <tr>  
                   <td>1</td> 
                   <td>Aris Abdullatif</td> 

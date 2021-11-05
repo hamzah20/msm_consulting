@@ -152,8 +152,17 @@ $route['pph_42']                                        = 'PPH/Pph42/index';
 $route['pph_42/bulan']                                  = 'PPH/Pph42/pph_42_bulan';
 $route['pph_42/tahun']                                  = 'PPH/Pph42/pph_42_tahun';
 $route['pph_42/bulan/summary']                          = 'PPH/Pph42/pph_42_bulan_summary';
+$route['pph_42/bulan/summary/umkm']                     = 'PPH/Pph42/pph_42_bulan_summary_umkm';
 $route['pph_42/bulan/approve']                          = 'PPH/Pph42/pph_42_bulan_approve';
 $route['pph_42/bulan/summary/karyawan/detail']          = 'PPH/Pph42/pph_42_bulan_summary_karyawan';
 $route['pph_42/bulan/summary/karyawan/edit']          	= 'PPH/Pph42/edit_pph_42_bulan_summary_karyawan';
+$route['pph_42/bulan/summary/karyawan/umkm/edit']      	= 'PPH/Pph42/edit_pph_42_bulan_summary_karyawan_umkm';
 $route['pph_42/bulan/summary/aktifitas_pajak']          = 'PPH/Pph42/aktifitas_pajak';
 $route['pph_42/bulan/summary/aktifitas_pajak/edit']     = 'PPH/Pph42/edit_aktifitas_pajak';
+$route['pph_42/transaksi/add']     						= 'PPH/Pph42/add_transaksi';
+$route['pph_42/transaksi/umkm/add']     				= 'PPH/Pph42/add_transaksi_umkm';
+
+// Custom Task
+$route['projecttype']                                    = 'General/ProjectType';
+$route['milestone']                                    = 'General/Milestone';
+$route['project']                                    = 'General/Project';

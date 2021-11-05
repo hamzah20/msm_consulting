@@ -28,7 +28,7 @@
       <div class="page-header float-right">
         <div class="page-title">
           <ol class="breadcrumb text-right">
-            <li class="active"> <a href="<?php echo base_url('pph_22'); ?>"> PPH 25</a> / PPH 25 Bulanan</li>
+            <li class="active"> <a href="<?php echo base_url('pph_22'); ?>"> PPH 42</a> / PPH 42 Bulanan</li>
           </ol>
         </div>
       </div>
@@ -39,7 +39,7 @@
   <div class="content mt-3">
     <div class="card">
       <div class="card-body">
-        <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addPPH25PerusahaanBulan">Tambah Data</a>
+        <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addPPH42PerusahaanBulan">Tambah Data</a>
         <a class="btn btn-sm btn-info ml-3" href="#">Lihat History</a>
         <hr>
         <table class="table" id="companyTable">
@@ -62,10 +62,10 @@
                   <td><?= $company->COMPANY_NAME; ?></td>
                   <td class="text-center"><?= strtoupper($company->PERIOD_MONTH) . '-' . $company->PERIOD_YEAR; ?></td>
                   <td class="text-center text-danger"><?= $company->TOTAL_PEMBETULAN; ?></td> 
-                  <td class="text-center"><?= ($company->COMPANY_PPHVAL25 == null ? '-' : number_format($company->COMPANY_PPHVAL25)); ?></td>
+                  <td class="text-center"><?= ($company->COMPANY_PPHVAL42 == null ? '-' : number_format($company->COMPANY_PPHVAL42)); ?></td>
                   <td class="text-center">
-                    <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_25/bulan/summary?pid=' . $company->PPH25_ID . '&cid=' . $company->COMPANY_ID . '&mid=' . $company->PERIOD_MONTH . '&yid=' . $company->PERIOD_YEAR); ?>"><i class="fa fa-eye"></i></a>
-                    <a class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Approve" href="<?= base_url('pph_25/bulan/approve?pid=' . $company->PPH25_ID . '&cid=' . $company->COMPANY_ID . '&mid=' . $company->PERIOD_MONTH . '&yid=' . $company->PERIOD_YEAR); ?>"><i class="fa fa-check-circle"></i></a>
+                    <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_42/bulan/summary?pid=' . $company->PPH42_ID . '&cid=' . $company->COMPANY_ID . '&mid=' . $company->PERIOD_MONTH . '&yid=' . $company->PERIOD_YEAR); ?>"><i class="fa fa-eye"></i></a>
+                    <a class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Approve" href="<?= base_url('pph_42/bulan/approve?pid=' . $company->PPH42_ID . '&cid=' . $company->COMPANY_ID . '&mid=' . $company->PERIOD_MONTH . '&yid=' . $company->PERIOD_YEAR); ?>"><i class="fa fa-check-circle"></i></a>
                   </td>
                 </tr>
               <?php } ?>
@@ -77,7 +77,7 @@
     </div>
 
     <!-- Add Modal Perusahaan -->
-    <?php $this->load->view('modal/add_pph21_perusahaan_bulan', $companies); ?>
+    <?php $this->load->view('modal/add_pph42_perusahaan_bulan', $companies); ?>
     <!-- End of Add Modal Perusahaan -->
 
   </div>

@@ -64,6 +64,7 @@ class Pph23 extends CI_Controller
 		// $mid=$this->input->get('yid');
 		$data['correction'] = $this->cms->getPembetulanSummary($cid,$mid,$yid);
 		$data['summary'] 	= $this->cms->getGeneralData('v_g_companies_pph23_detail', 'PPH23_ID', $this->input->get('pid'));
+		$data['Getpph23']	= $this->cms->getGeneralData('g_pph23', 'PPH23_ID', $this->input->get('pid'));
 
 		$this->db->select('*')
 			->from('v_g_employee_pph23')
@@ -503,7 +504,7 @@ class Pph23 extends CI_Controller
 		$pphID			= $this->input->get('pid');
 
 		$companyData    = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $companyID);
-		$employeeData   = $this->cms->getSingularData('v_g_employee_pph23', 'PPH23_ID', $pphID);
+		$employeeData   = $this->cms->getSingularDataDetail('v_g_employee_pph23', 'PPH23_ID', 'JENIS_PAJAK', $pphID, '23');
 
 		$sql_pembetulan = $this->cms->count_pembetulan23($pphID); 
 		
@@ -705,13 +706,13 @@ class Pph23 extends CI_Controller
 		$pphID			= $this->input->get('pid');
 
 		$companyData    = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $companyID);
-		$employeeData   = $this->cms->getSingularData('v_g_employee_pph23', 'PPH23_ID', $pphID);
+		$employeeData   = $this->cms->getSingularDataDetail('v_g_employee_pph23', 'PPH23_ID', 'JENIS_PAJAK', $pphID, '26');
 
 		$sql_pembetulan = $this->cms->count_pembetulan23($pphID); 
 		
 
 		// PPH 23
-		$fileName = 'LAPOR_PAJAK_PPH23_' . $companyData->row()->COMPANY_NAME . '_' . date('ymd') . '.csv';
+		$fileName = 'LAPOR_PAJAK_PPH26_' . $companyData->row()->COMPANY_NAME . '_' . date('ymd') . '.csv';
 
 		//1. Format dasar PHPExcel
 		$sheet = $phpExcel->getActiveSheet();
@@ -921,15 +922,213 @@ class Pph23 extends CI_Controller
 				$sheet->setCellValue('I' . $colCounter, $employee->PASPOR_WP_TERPOTONG); 
 				$sheet->setCellValue('J' . $colCounter, $employee->NOKITAS_WP_TERPOTONG); 
 				$sheet->setCellValue('K' . $colCounter, $employee->COUNTRY_CODE); 
-				$sheet->setCellValue('L' . $colCounter, $employee->FASILITAS); 
-				$sheet->setCellValue('M' . $colCounter, $employee->NO_SKB23); 
-				$sheet->setCellValue('N' . $colCounter, $employee->NO_ATURAN_DTP); 
-				$sheet->setCellValue('O' . $colCounter, $employee->NTPN_DTP); 
+				$sheet->setCellValue('L' . $colCounter, $employee->KODE_OBJEK_PAJAK); 
+				$sheet->setCellValue('M' . $colCounter, $employee->PENANDA_TANGAN_BP); 
+				$sheet->setCellValue('N' . $colCounter, $employee->PENGHASILAN_BRUTO); 
+				$sheet->setCellValue('O' . $colCounter, $employee->PERKIRAAN_HASIL_NETO); 
+				$sheet->setCellValue('P' . $colCounter, $employee->FASILITAS); 
+				$sheet->setCellValue('Q' . $colCounter, $employee->NO_SKD26); 
+				$sheet->setCellValue('R' . $colCounter, $employee->TARIF_SKD); 
+				$sheet->setCellValue('S' . $colCounter, $employee->NO_ATURAN_DTP); 
+				$sheet->setCellValue('T' . $colCounter, $employee->NTPN_DTP); 
 
 				$colCounter++;
 				$numCounter++;
 			}
 		} 
+
+		$writer = new Xlsx($phpExcel);
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment; filename="' . urlencode($fileName) . '"');
+		ob_end_clean();
+
+		$output = $writer->save('php://output');
+	}
+
+	public function generateXLSFileLaporPajakPemotongan()
+	{
+		$phpExcel = new Spreadsheet();
+
+		$companyID      = $this->input->get('cid');
+		$pphID			= $this->input->get('pid');
+
+		$companyData    = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $companyID);
+		$employeeData   = $this->cms->getSingularData('v_g_employee_pph23', 'PPH23_ID', $pphID);
+
+		$sql_pembetulan = $this->cms->count_pembetulan23($pphID); 
+		
+
+		$fileName = 'LAPOR_PAJAK_PPH_PEMOTONGAN_' . $companyData->row()->COMPANY_NAME . '_' . date('ymd') . '.csv';
+
+		//1. Format dasar PHPExcel
+		$sheet = $phpExcel->getActiveSheet();
+
+		$sheet->getStyle('A2:E2')
+			->getFont()->getColor()
+			->setRGB('ffffff');
+
+		$phpExcel->getProperties()
+			->setCreator('MSM Consulting')
+			->setLastModifiedBy('MSM Consulting')
+			->setTitle('MSM Consulting PPH23 Lapor Pajak')
+			->setSubject('MSM Consulting PPH23 Lapor Pajak');
+
+		$sheet->getStyle('A2:E2')
+			->getFill()
+			->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+			->getStartColor()
+			->setARGB('000066');
+  
+		$phpExcel->setActiveSheetIndex(0)->setTitle('FormatData PPH23');
+
+		$sheet->setCellValue('A2', "No");
+		$sheet->mergeCells('A2:A2');
+		$sheet->getStyle('A2:A2')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true); 
+
+		$sheet->setCellValue('B2', "Jenis Pajak");
+		$sheet->mergeCells('B2:B2');
+		$sheet->getStyle('B1:B1')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('C2', "Jenis Dokumen");
+		$sheet->mergeCells('C2:C2');
+		$sheet->getStyle('C2:C2')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('D2', "Nomor Dokumen");
+		$sheet->mergeCells('D2:D2');
+		$sheet->getStyle('D2:D2')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCellValue('E2', "Tanggal Dokumen (dd/MM/yy)");
+		$sheet->mergeCells('E2:E2');
+		$sheet->getStyle('E2:E2')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+
+		foreach (range('B', 'E') as $columnID) {
+			$phpExcel->getActiveSheet()->getColumnDimension($columnID)
+				->setAutoSize(true);
+		} 
+
+		if ($employeeData->num_rows() != 0) {
+
+			$colCounter = 3;
+			$numCounter = 1;
+
+			foreach ($employeeData->result() as $employee) {
+				$pphData 		= $this->cms->getSingularData('v_g_employee_pph23', 'PPH23_ID', $pphID);
+				
+				// Convert Tanggal sesuai format, lihat di Libraries/Incube.php
+				$monthName = $this->incube->convertMonthNameLP($pphData->row()->PERIOD_MONTH);
+
+				$sheet->setCellValue('A' . $colCounter, $numCounter);
+				$sheet->setCellValue('B' . $colCounter, $employee->JENIS_PAJAK);
+				$sheet->setCellValue('C' . $colCounter, $employee->NAMA_JENIS_DOKUMEN); 
+				$sheet->setCellValue('D' . $colCounter, $employee->KODE_JENIS_DOKUMEN); 
+				$sheet->setCellValue('E' . $colCounter, $employee->TANGGAL_DOKUMEN);  
+
+				$colCounter++;
+				$numCounter++;
+			}
+		} 
+
+		$writer = new Xlsx($phpExcel);
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment; filename="' . urlencode($fileName) . '"');
+		ob_end_clean();
+
+		$output = $writer->save('php://output');
+	}
+
+	public function generateXLSFileLaporPajakRekap()
+	{
+		$phpExcel = new Spreadsheet();
+
+		$companyID      = $this->input->get('cid');
+		$pphID			= $this->input->get('pid');
+
+		$companyData    = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $companyID);
+		$employeeData   = $this->cms->getSingularData('v_g_employee_pph23', 'PPH23_ID', $pphID);
+
+		$sql_pembetulan = $this->cms->count_pembetulan23($pphID); 
+		
+
+		$fileName = 'LAPOR_PAJAK_PPH_REKAP_' . $companyData->row()->COMPANY_NAME . '_' . date('ymd') . '.csv';
+
+		//1. Format dasar PHPExcel
+		$sheet = $phpExcel->getActiveSheet();
+
+		$sheet->getStyle('B3:B4')
+			->getFont()->getColor()
+			->setRGB('ffffff');
+
+		$phpExcel->getProperties()
+			->setCreator('MSM Consulting')
+			->setLastModifiedBy('MSM Consulting')
+			->setTitle('MSM Consulting PPH23 Lapor Pajak')
+			->setSubject('MSM Consulting PPH23 Lapor Pajak');
+
+		$sheet->getStyle('B3:B4')
+			->getFill()
+			->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+			->getStartColor()
+			->setARGB('000066');
+  
+		$phpExcel->setActiveSheetIndex(0)->setTitle('FormatData PPH23');
+
+		$sheet->setCellValue('B3', "Jumlah Bukti Potong PPH Masa Pasal 23");
+		$sheet->mergeCells('B3:B3');
+		$sheet->getStyle('B3:B3')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true); 
+
+		$sheet->setCellValue('B4', "Jumlah Bukti Potong PPH Masa Pasal 26");
+		$sheet->mergeCells('B4:B4');
+		$sheet->getStyle('B4:B4')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true); 
+
+
+		foreach (range('B', 'C') as $columnID) {
+			$phpExcel->getActiveSheet()->getColumnDimension($columnID)
+				->setAutoSize(true);
+		}   
+
+		$colCounter =4;
+
+		foreach ($employeeData->result() as $employee);
+		$pphData 		= $this->cms->getSingularData('v_g_employee_pph23', 'PPH23_ID', $pphID);
+		$jumlah23 		= $this->cms->rowJenisPajak23('g_pph23_detail',$pphID,'23');
+		foreach($jumlah23->result() as $pph23_row);
+		$jumlah26 		= $this->cms->rowJenisPajak26('g_pph23_detail',$pphID,'26');
+		foreach($jumlah26->result() as $pph26_row);
+		
+		// Convert Tanggal sesuai format, lihat di Libraries/Incube.php
+		$monthName = $this->incube->convertMonthNameLP($pphData->row()->PERIOD_MONTH);
+ 
+		$sheet->setCellValue('C3', $pph23_row->TOTAL_BARIS23); 
+		$sheet->setCellValue('C4', $pph26_row->TOTAL_BARIS26);    
 
 		$writer = new Xlsx($phpExcel);
 		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -1657,7 +1856,7 @@ class Pph23 extends CI_Controller
 		// echo $this->input->post('addPeriodeTahun');
 
 		$companyData = array(
-			'PPH_ID'		=> $this->incube->generateID(10),
+			'PPH23_ID'		=> $this->incube->generateID(10),
 			'COMPANY_ID'	=> $this->input->post('companyID'),
 			'PERIOD_YEAR'	=> $this->input->post('addPeriodeTahun'),
 			'PERIOD_MONTH'	=> $this->input->post('addPeriodeBulan'),
@@ -1718,7 +1917,10 @@ class Pph23 extends CI_Controller
 			->where('PPH23_ID', trim($this->input->get('pid')));
 
 
-		$data['employee'] 	= $this->db->get();
+		$data['employee'] 		= $this->db->get();
+		$data['NamaNegara']		= $this->cms->getGeneralList('m_country');
+		$data['KodeObjek']		= $this->cms->getGeneralList('m_tax_code');
+		$data['JenisDokumen']	= $this->cms->getSingularData('m_document','STATUS','ACTIVE');
 
 		if ($data['employee']->num_rows() == 0) {
 			$this->session->set_flashdata('query', 'invalid');
@@ -1757,10 +1959,10 @@ class Pph23 extends CI_Controller
 		$perkiraan 	= $this->input->post('editPerkiraan');  
 		$domisili 	= $this->input->post('editDomisili');  
 		$p3b 		= $this->input->post('editP3B');  
-		$tarif 		= $this->input->post('editP3BTarif');  
+		$tarif 		= $this->input->post('editTarif');  
 		$dokumen	= $this->input->post('editDokumen');  
 		$tglDok 	= $this->input->post('editTglDokumen');  
-		$transaksi 	= $this->input->post('editKetTransaksi');  
+		$transaksi 	= $this->input->post('editKeterangan');  
 		$tglInvoice	= $this->input->post('editTglInvoice');  
 		$noInvoice	= $this->input->post('editNoInvoice');  
 		$tglBayar	= $this->input->post('editTglPembayaran');
@@ -1768,7 +1970,7 @@ class Pph23 extends CI_Controller
 		$bruto		= $this->input->post('editBruto');  
 		$objek		= $this->input->post('editObjek');  
 		$telpon		= $this->input->post('editTelpon');  
-		$pengurus	= $this->input->post('editBPPengurus');  
+		$pengurus	= $this->input->post('editBPPPengurus');  
 		$fasilitas	= $this->input->post('editFasilitas');  
 		$skb 		= $this->input->post('editSKB');  
 		$skd 		= $this->input->post('editSKD');  
@@ -1807,11 +2009,11 @@ class Pph23 extends CI_Controller
 
 		// ---------------------------------------------- HITUNG TOTAL DPP DAN PPH23
 			// Total DPP
-			if($jenis == '26' AND $sheetData['O'] == 'Y'){
+			if($jenis == '26' AND $netto == 'Y'){
 				$total_dpp = $perkiraan * $bruto;
 			} else{
 				$total_dpp = $bruto;
-			}
+			} 
 
 			// Total PPH23
 			if($fasilitas == 'SKD' OR $fasilitas == 'DTP'){
@@ -1824,7 +2026,7 @@ class Pph23 extends CI_Controller
 				}
 			} else if ($jenis == '26'){
 				$total_pph23 = $tarif_objek_pajak * $total_dpp;
-			} 
+			}  
 			
 		// -------------------------------------------------------------------------   
 
@@ -2132,7 +2334,7 @@ class Pph23 extends CI_Controller
 
 		// ---------------------------------------------- HITUNG TOTAL DPP DAN PPH23
 			// Total DPP
-			if($jenis == '26' AND $sheetData['O'] == 'Y'){
+			if($jenis == '26' AND $netto == 'Y'){
 				$total_dpp = $perkiraan * $bruto;
 			} else{
 				$total_dpp = $bruto;
@@ -2150,6 +2352,7 @@ class Pph23 extends CI_Controller
 			} else if ($jenis == '26'){
 				$total_pph23 = $tarif_objek_pajak * $total_dpp;
 			} 
+
 			
 		// ------------------------------------------------------------------------- 
 

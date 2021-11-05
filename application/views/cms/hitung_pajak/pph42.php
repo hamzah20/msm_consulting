@@ -39,7 +39,7 @@
   <div class="content mt-3">
     <div class="card">
       <div class="card-body">
-        <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addPPH22Perusahaan">Tambah Data</a>
+        <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addPPH42Perusahaan">Tambah Data</a>
         <hr>
         <div class="row"> 
           <div class="col-2">
@@ -55,7 +55,7 @@
               <th scope="col-2">Nama Perusahaan</th>
               <th scope="col-1" class="text-center">NPWP</th>
               <th scope="col-1" class="text-center">Periode (Tahun)</th>
-              <th scope="col-1" class="text-center">Total Penghasilan DPP</th> 
+              <th scope="col-1" class="text-center">Total Penghasilan PPH</th> 
               <th scope="col-4" class="text-center">Aksi</th>
             </tr>
           </thead>
@@ -67,10 +67,10 @@
                   <td><?= $company->COMPANY_NAME; ?></td>
                   <td class="text-center"><?= ($company->COMPANY_NPWP == null ? '-' : $company->COMPANY_NPWP); ?></td>
                   <td class="text-center text-danger"><?= $company->PERIOD_YEAR; ?></td>
-                  <td class="text-center"><?= ($company->TOTAL_COMPANY_DPP == null ? '-' : number_format($company->TOTAL_COMPANY_DPP)); ?></td> 
+                  <td class="text-center"><?= ($company->TOTAL_COMPANY_PPHVAL42 == null ? '-' : number_format($company->TOTAL_COMPANY_PPHVAL42)); ?></td> 
                   <td class="text-center">
-                    <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Summary Bulanan" href="<?= base_url('pph_25/bulan?cid=' . $company->COMPANY_ID . '&yid=' . $company->PERIOD_YEAR); ?>"><i class="fa fa-eye"></i></a>
-                    <a class="btn btn-sm btn-primary text-white" data-toggle="tooltip" data-placement="top" title="Summary Tahunan" href="<?= base_url('pph_25/tahun'); ?>" role="button" role="button"><i class="fa fa-eye"></i></a>
+                    <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Summary Bulanan" href="<?= base_url('pph_42/bulan?cid=' . $company->COMPANY_ID . '&yid=' . $company->PERIOD_YEAR); ?>"><i class="fa fa-eye"></i></a>
+                    <a class="btn btn-sm btn-primary text-white" data-toggle="tooltip" data-placement="top" title="Summary Tahunan" href="<?= base_url('pph_42/tahun'); ?>" role="button" role="button"><i class="fa fa-eye"></i></a>
                   </td>
                 </tr>
 
@@ -82,7 +82,7 @@
     </div>
 
     <!-- Add Modal Perusahaan -->
-    <?php $this->load->view('modal/add_pph22_perusahaan'); ?>
+    <?php $this->load->view('modal/add_pph42_perusahaan'); ?>
     <!-- End of Add Modal Perusahaan -->
 
   </div>
