@@ -65,10 +65,10 @@ class Pph21 extends CI_Controller
 
 		$deleteData  = $this->cms->deleteGeneralDataDouble('g_pph21_yearly','COMPANY_ID',$cid,'PERIOD_YEAR',$yid);
 
-		foreach($getDataKaryawan->result() as $data) {
+		foreach($getDataKaryawan->result() as $data1) {
 			$employeeData   = $this->cms->getSingularData('v_g_employee', 'EMPLOYEE_COMPANY_ID', $cid);
 
-			$eid = $data->EMPLOYEE_ID;
+			$eid = $data1->EMPLOYEE_ID;
 			$data_year	 	= $this->cms->countYear('g_empoloyee_income',$cid,$yid,$eid);
 			$incomeID  		= $this->incube->generateID(10);
 
@@ -107,7 +107,7 @@ class Pph21 extends CI_Controller
 				'INCOME_ID'							=> $incomeID, 
 				'COMPANY_ID'						=> $cid,
 				'PERIOD_YEAR'						=> $yid, 
-				'EMPLOYEE_ID'						=> $data->EMPLOYEE_ID,
+				'EMPLOYEE_ID'						=> $data1->EMPLOYEE_ID,
 				'EMPLOYEE_GAJI_POKOK_YEAR'			=> $gaji_pokok,
 				'EMPLOYEE_TUNJANGAN_PPH_YEAR'		=> $tunjangan_pph,
 				'EMPLOYEE_TUNJANGAN1_YEAR'			=> $tunjangan1,
@@ -142,15 +142,8 @@ class Pph21 extends CI_Controller
 
 			$queryInsert = $this->cms->insertGeneralData('g_pph21_yearly', $companyData); 
 		}  
-
-		$this->load->view('cms/hitung_pajak/pph21_tahun',$data);
-	}
-
-	public function hitung_tahunan()
-	{
 		$this->load->view('cms/hitung_pajak/pph21_tahun');
-		redirect('pph_21/tahun?&cid=' . $this->input->post('companyID'). '&yid=' . $this->input->post('yearID')); 
-	}
+	} 
 
 	public function pph_21_bulan_summary()
 	{ 

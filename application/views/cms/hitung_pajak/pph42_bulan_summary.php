@@ -129,7 +129,7 @@
       <div class="card-body">
         <ul class="nav nav-tabs nav-edit-perusahaan my-3">
           <li class="nav-item">
-              <a class="nav-link active" href="<?= base_url('pph_42/bulan/summary?cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH42_ID . '&mid=' . $employee->PERIOD_MONTH . '&yid=' . $employee->PERIOD_YEAR); ?>"><i class="fa fa-id-card mr-1"></i>PPH 4(2)</a>
+              <a class="nav-link active" href="<?= base_url('pph_42/bulan/summary?cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH42_ID . '&mid=' . $employee->PERIOD_MONTH . '&yid=' . $employee->PERIOD_YEAR); ?>"><i class="fa fa-id-card mr-1"></i>Non UMKM</a>
           </li>
           <li class="nav-item">
               <a class="nav-link" href="<?= base_url('pph_42/bulan/summary/umkm?cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH42_ID . '&mid=' . $employee->PERIOD_MONTH . '&yid=' . $employee->PERIOD_YEAR); ?>"><i class="fa fa-id-card mr-1"></i>UMKM</a>

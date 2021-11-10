@@ -1,4 +1,4 @@
-<!-- Header -->
+<!--Header -->
 <?php $this->load->view('templates_cms/header'); ?>
 <!-- End of Header -->
 <!-- Sidebar -->
@@ -61,7 +61,7 @@
         </div>
 
         <div class="card-body">
-          <!-- <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addProjectType"><i class="fa fa-plus"></i> Project </a> -->
+          <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addProject"><i class="fa fa-plus"></i> Project </a>
            <table class="table table-striped" style="margin-top: 10px;width: 1200px;">
               <thead>
                 <tr>
@@ -115,7 +115,7 @@
                        <i class="fa fa-arrow-right"> </i> Persiapan
                         <ul class="list-unstyled">
                           <li><i class="fa fa-arrow-right"> </i> Alokasi Resource</li>
-                          <li><i class="fa fa-arrow-right"> </i> Cek Inventory & COGS</li>
+                          <li ><i class="fa fa-arrow-right"> </i> Cek Inventory & COGS</li>
                           <li><i class="fa fa-arrow-right"> </i> Cek Mutasi Rekening</li>
                         </ul>
                       </li>
@@ -262,15 +262,15 @@
                     <ul class="list-group">
                       <li class="list-group-item" style="color:#040404; font-weight: bold;">Duration
                         <ul class="list-unstyled" style="color:#807c7c;">
-                          <li>1 Days</li> 
-                          <li>1 Days</li> 
-                          <li>1 Days</li> 
+                          <li>1 Day(s)</li> 
+                          <li>1 Day(s)</li> 
+                          <li>1 Day(s)</li> 
                         </ul>
                       </li>
                       <li class="list-group-item" style="color:#040404; font-weight: bold;">Duration
                         <ul class="list-unstyled" style="color:#807c7c;">
-                          <li>1 Days</li> 
-                          <li>2 Days</li> 
+                          <li>1 Day(s)</li> 
+                          <li>2 Day(s)</li> 
                            <li>&nbsp;</li>
                         </ul>
                       </li>
@@ -296,7 +296,7 @@
         </div>
     </div>
      <!-- Add Modal Perusahaan -->
-    <?php $this->load->view('modal/add_projectType'); ?>
+    <?php $this->load->view('modal/add_project'); ?>
     <!-- End of Add Modal Perusahaan -->
   </div>
   <!-- End of Content -->
@@ -341,4 +341,4 @@
 } ?>
 <!-- Footer -->
 <?php $this->load->view('templates_cms/footer'); ?>
-<!-- End of Footer -->
+<!-- End of Footer

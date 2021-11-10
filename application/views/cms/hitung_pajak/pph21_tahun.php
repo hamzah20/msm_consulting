@@ -80,127 +80,20 @@
               <th scope="col-" colspan="8" class="text-center">DES</th>   
             </tr>
 
-            <tr>          
-              <th scope="col-">GP</th>  
-              <th scope="col-">TP</th>  
-              <th scope="col-">TL</th>  
-              <th scope="col-">HI</th>  
-              <th scope="col-">PA</th>  
-              <th scope="col-">NA</th>  
-              <th scope="col-">TB</th>  
-              <th scope="col-">PB</th>   
-
-              <th scope="col-">GP</th>  
-              <th scope="col-">TP</th>  
-              <th scope="col-">TL</th>  
-              <th scope="col-">HI</th>  
-              <th scope="col-">PA</th>  
-              <th scope="col-">NA</th>  
-              <th scope="col-">TB</th>  
-              <th scope="col-">PB</th>
-
-              <th scope="col-">GP</th>  
-              <th scope="col-">TP</th>  
-              <th scope="col-">TL</th>  
-              <th scope="col-">HI</th>  
-              <th scope="col-">PA</th>  
-              <th scope="col-">NA</th>  
-              <th scope="col-">TB</th>  
-              <th scope="col-">PB</th>
-
-              <th scope="col-">GP</th>  
-              <th scope="col-">TP</th>  
-              <th scope="col-">TL</th>  
-              <th scope="col-">HI</th>  
-              <th scope="col-">PA</th>  
-              <th scope="col-">NA</th>  
-              <th scope="col-">TB</th>  
-              <th scope="col-">PB</th>
-
-              <th scope="col-">GP</th>  
-              <th scope="col-">TP</th>  
-              <th scope="col-">TL</th>  
-              <th scope="col-">HI</th>  
-              <th scope="col-">PA</th>  
-              <th scope="col-">NA</th>  
-              <th scope="col-">TB</th>  
-              <th scope="col-">PB</th>
-
-              <th scope="col-">GP</th>  
-              <th scope="col-">TP</th>  
-              <th scope="col-">TL</th>  
-              <th scope="col-">HI</th>  
-              <th scope="col-">PA</th>  
-              <th scope="col-">NA</th>  
-              <th scope="col-">TB</th>  
-              <th scope="col-">PB</th>
-
-              <th scope="col-">GP</th>  
-              <th scope="col-">TP</th>  
-              <th scope="col-">TL</th>  
-              <th scope="col-">HI</th>  
-              <th scope="col-">PA</th>  
-              <th scope="col-">NA</th>  
-              <th scope="col-">TB</th>  
-              <th scope="col-">PB</th>
-
-              <th scope="col-">GP</th>  
-              <th scope="col-">TP</th>  
-              <th scope="col-">TL</th>  
-              <th scope="col-">HI</th>  
-              <th scope="col-">PA</th>  
-              <th scope="col-">NA</th>  
-              <th scope="col-">TB</th>  
-              <th scope="col-">PB</th>
-
-              <th scope="col-">GP</th>  
-              <th scope="col-">TP</th>  
-              <th scope="col-">TL</th>  
-              <th scope="col-">HI</th>  
-              <th scope="col-">PA</th>  
-              <th scope="col-">NA</th>  
-              <th scope="col-">TB</th>  
-              <th scope="col-">PB</th>
-
-              <th scope="col-">GP</th>  
-              <th scope="col-">TP</th>  
-              <th scope="col-">TL</th>  
-              <th scope="col-">HI</th>  
-              <th scope="col-">PA</th>  
-              <th scope="col-">NA</th>  
-              <th scope="col-">TB</th>  
-              <th scope="col-">PB</th>
-
-              <th scope="col-">GP</th>  
-              <th scope="col-">TP</th>  
-              <th scope="col-">TL</th>  
-              <th scope="col-">HI</th>  
-              <th scope="col-">PA</th>  
-              <th scope="col-">NA</th>  
-              <th scope="col-">TB</th>  
-              <th scope="col-">PB</th>
-
-              <th scope="col-">GP</th>  
-              <th scope="col-">TP</th>  
-              <th scope="col-">TL</th>  
-              <th scope="col-">HI</th>  
-              <th scope="col-">PA</th>  
-              <th scope="col-">NA</th>  
-              <th scope="col-">TB</th>  
-              <th scope="col-">PB</th>
-
-              <th scope="col-">GP</th>  
-              <th scope="col-">TP</th>  
-              <th scope="col-">TL</th>  
-              <th scope="col-">HI</th>  
-              <th scope="col-">PA</th>  
-              <th scope="col-">NA</th>  
-              <th scope="col-">TB</th>  
-              <th scope="col-">PB</th>
+            <tr>   
+              <?php for($i=1; $i<=13; $i++){ ?>
+                <th scope="col-">GP</th>  
+                <th scope="col-">TP</th>  
+                <th scope="col-">TL</th>  
+                <th scope="col-">HI</th>  
+                <th scope="col-">PA</th>  
+                <th scope="col-">NA</th>  
+                <th scope="col-">TB</th>  
+                <th scope="col-">PB</th> 
+              <?php  } ?>        
             </tr>
           </thead>
-          <tbody>   
-
+          <tbody>    
                 <tr>  
                   <td>1</td> 
                   <td>Aris Abdullatif</td> 
