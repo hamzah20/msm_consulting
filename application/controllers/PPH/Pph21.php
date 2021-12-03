@@ -62,87 +62,639 @@ class Pph21 extends CI_Controller
 		$yid=$this->input->get('yid');
 
 		$getDataKaryawan = $this->cms->getSingularData('v_g_employee','EMPLOYEE_COMPANY_ID',$cid); 
+		$companyCheck  = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $cid);
 
-		$deleteData  = $this->cms->deleteGeneralDataDouble('g_pph21_yearly','COMPANY_ID',$cid,'PERIOD_YEAR',$yid);
+		$deleteData  = $this->cms->deleteGeneralDataDouble('g_pph21_yearly_detail','COMPANY_ID',$cid,'PERIOD_YEAR',$yid);
+
 
 		foreach($getDataKaryawan->result() as $data1) {
 			$employeeData   = $this->cms->getSingularData('v_g_employee', 'EMPLOYEE_COMPANY_ID', $cid);
 
 			$eid = $data1->EMPLOYEE_ID;
-			$data_year	 	= $this->cms->countYear('g_empoloyee_income',$cid,$yid,$eid);
+			$data_year	 	= $this->cms->countYear($cid,$yid,$eid);
 			$incomeID  		= $this->incube->generateID(10);
 
 			foreach ($data_year->result() as $year);
-			$gaji_pokok    		= $year->EMPLOYEE_GAJI_POKOK_YEAR;
-			$tunjangan_pph 		= $year->EMPLOYEE_TUNJANGAN_PPH_YEAR; 
-			$tunjangan1 		= $year->EMPLOYEE_TUNJANGAN1_YEAR;
-			$tunjangan2 		= $year->EMPLOYEE_TUNJANGAN2_YEAR;
-			$tunjangan3 		= $year->EMPLOYEE_TUNJANGAN3_YEAR;
-			$tunjangan4 		= $year->EMPLOYEE_TUNJANGAN4_YEAR;
-			$tunjangan5 		= $year->EMPLOYEE_TUNJANGAN5_YEAR;
-			$tunjangan6 		= $year->EMPLOYEE_TUNJANGAN6_YEAR;
-			$tunjangan7 		= $year->EMPLOYEE_TUNJANGAN7_YEAR;
-			$tunjangan8 		= $year->EMPLOYEE_TUNJANGAN8_YEAR;
-			$tunjangan9  		= $year->EMPLOYEE_TUNJANGAN9_YEAR;
-			$tunjangan10 		= $year->EMPLOYEE_TUNJANGAN10_YEAR;
-			$tunjangan_lainnya 	= $year->EMPLOYEE_TUNJANGAN_LAINNYA_YEAR;
-			$honarium 			= $year->EMPLOYEE_HONORARIUM_YEAR;
-			$premi_jkk 			= $year->EMPLOYEE_PREMI_JKK_YEAR;
-			$premi_jkm 			= $year->EMPLOYEE_PREMI_JKM_YEAR;
-			$premi_bpjs 		= $year->EMPLOYEE_PREMI_BPJS_YEAR;
-			$premi 				= $year->EMPLOYEE_PREMI_YEAR;
-			$natura 			= $year->EMPLOYEE_NATURA_YEAR;
-			$tantiembonus 		= $year->EMPLOYEE_TANTIEMBONUS_YEAR;
-			$iuran_tht 			= $year->EMPLOYEE_IURAN_THT_YEAR;
-			$iuran_jp 			= $year->EMPLOYEE_IURAN_JP_YEAR;
-			$iuran_pensiun 		= $year->EMPLOYEE_IURAN_PENSIUN_YEAR;
-			$biaya_jabatan 		= $year->EMPLOYEE_BIAYA_JABATAN_YEAR;
-			$total_pengurangan 	= $year->EMPLOYEE_TOTAL_PENGURANGAN_YEAR;
-			$bruto 				= $year->EMPLOYEE_BRUTO_YEAR;
-			$netto 				= $year->EMPLOYEE_NETTO_YEAR; 
-			$pphval 			= $year->EMPLOYEE_PPHVAL_YEAR;
+			$bijab_year 					= $year->EMPLOYEE_BIAYA_JABATAN_YEAR;
+			$gaji_pokok    					= $year->EMPLOYEE_GAJI_POKOK_YEAR;
+			$tunjangan_pph 					= 0; 
+			$ttl_month						= $year->TTL_MONTH;
+			$tunjangan_lainnya 	= 0;
+			if($year->EMPLOYEE_TUNJANGAN_LAINNYA_YEAR<>'') {
+				$tunjangan_lainnya 				= $year->EMPLOYEE_TUNJANGAN_LAINNYA_YEAR;
+			} 
+			
+			$honarium 						= $year->EMPLOYEE_HONORARIUM_YEAR; 
+			$premi 							= $year->EMPLOYEE_PREMI_YEAR;
+			$natura 						= $year->EMPLOYEE_NATURA_YEAR;
+			$tantiembonus 					= $year->EMPLOYEE_TANTIEMBONUS_YEAR;  
+			// $bruto 							= $year->EMPLOYEE_BRUTO_YEAR; 
+			$tht 							= $year->EMPLOYEE_IURAN_THT_YEAR;
+			$jp 							= $year->EMPLOYEE_IURAN_JP_YEAR;
+			$gaji_pokok_jan    				= $year->EMPLOYEE_GAJI_POKOK_JAN;
+			$tunjangan_pph_jan 				= $year->EMPLOYEE_TUNJANGAN_PPH_JAN; 
 
+			$tunjangan_lainnya_jan = 0;
+			if($year->EMPLOYEE_TUNJANGAN_LAINNYA_JAN<>'') {
+				$tunjangan_lainnya_jan 	= $year->EMPLOYEE_TUNJANGAN_LAINNYA_JAN;
+			} 
+			
+			$honarium_jan 					= $year->EMPLOYEE_HONORARIUM_JAN; 
+
+			$premi_jan = 0;
+			if($year->EMPLOYEE_PREMI_JAN<>'') {
+				$premi_jan 	= $year->EMPLOYEE_PREMI_JAN;
+			} 
+
+			$natura_jan 					= $year->EMPLOYEE_NATURA_JAN;
+			$tantiembonus_jan 				= $year->EMPLOYEE_TANTIEMBONUS_JAN;  
+			$bruto_jan 						= $year->EMPLOYEE_BRUTO_JAN; 
+			$tht_jan 						= $year->EMPLOYEE_IURAN_THT_JAN;
+			$jp_jan 						= $year->EMPLOYEE_IURAN_JP_JAN;
+			$gaji_pokok_feb    				= $year->EMPLOYEE_GAJI_POKOK_FEB;
+			$tunjangan_pph_feb 				= $year->EMPLOYEE_TUNJANGAN_PPH_FEB; 
+
+			$tunjangan_lainnya_feb = 0; 
+			if($year->EMPLOYEE_TUNJANGAN_LAINNYA_FEB<>'') {
+				$tunjangan_lainnya_feb 	= $year->EMPLOYEE_TUNJANGAN_LAINNYA_FEB;
+			} 
+
+			$honarium_feb 					= $year->EMPLOYEE_HONORARIUM_FEB; 
+
+			$premi_feb = 0; 
+			if($year->EMPLOYEE_PREMI_FEB<>'') {
+				$premi_feb 	= $year->EMPLOYEE_PREMI_FEB;
+			} 
+
+			$natura_feb = 0;
+			if($year->EMPLOYEE_NATURA_FEB<>'') {
+				$natura_feb 	= $year->EMPLOYEE_NATURA_FEB;
+			}   
+
+			$tantiembonus_feb 				= $year->EMPLOYEE_TANTIEMBONUS_FEB;  
+			$bruto_feb 						= $year->EMPLOYEE_BRUTO_FEB; 
+			$tht_feb 						= $year->EMPLOYEE_IURAN_THT_FEB;
+			$jp_feb 						= $year->EMPLOYEE_IURAN_JP_FEB;
+			$gaji_pokok_mar    				= $year->EMPLOYEE_GAJI_POKOK_MAR;
+			$tunjangan_pph_mar 				= $year->EMPLOYEE_TUNJANGAN_PPH_MAR; 
+
+			$tunjangan_lainnya_mar = 0;
+			if($year->EMPLOYEE_TUNJANGAN_LAINNYA_MAR<>'') {
+				$tunjangan_lainnya_mar 	= $year->EMPLOYEE_TUNJANGAN_LAINNYA_MAR;
+			}   
+
+			$honarium_mar 					= $year->EMPLOYEE_HONORARIUM_MAR; 
+
+			$premi_mar = 0;
+			if($year->EMPLOYEE_PREMI_MAR<>'') {
+				$premi_mar 	= $year->EMPLOYEE_PREMI_MAR;
+			}   
+
+			$natura_mar = 0; 
+			if($year->EMPLOYEE_NATURA_MAR<>'') {
+				$natura_mar 	= $year->EMPLOYEE_NATURA_MAR;
+			}   
+
+			$tantiembonus_mar 				= $year->EMPLOYEE_TANTIEMBONUS_MAR;  
+			$bruto_mar 						= $year->EMPLOYEE_BRUTO_MAR; 
+			$tht_mar 						= $year->EMPLOYEE_IURAN_THT_MAR;
+			$jp_mar 						= $year->EMPLOYEE_IURAN_JP_MAR;
+			$gaji_pokok_apr    				= $year->EMPLOYEE_GAJI_POKOK_APR;
+			$tunjangan_pph_apr 				= $year->EMPLOYEE_TUNJANGAN_PPH_APR; 
+
+			$tunjangan_lainnya_apr = 0;
+			if($year->EMPLOYEE_TUNJANGAN_LAINNYA_APR<>'') {
+				$tunjangan_lainnya_apr 	= $year->EMPLOYEE_TUNJANGAN_LAINNYA_APR;
+			}    
+
+
+			$honarium_apr 					= $year->EMPLOYEE_HONORARIUM_APR; 
+
+			$premi_apr = 0; 
+			if($year->EMPLOYEE_PREMI_APR<>'') {
+				$premi_apr 	= $year->EMPLOYEE_PREMI_APR;
+			}    
+
+
+			$natura_apr = 0;
+			if($year->EMPLOYEE_NATURA_APR<>'') {
+				$natura_apr 	= $year->EMPLOYEE_NATURA_APR;
+			}    
+
+			$tantiembonus_apr 				= $year->EMPLOYEE_TANTIEMBONUS_APR;  
+			$bruto_apr 						= $year->EMPLOYEE_BRUTO_APR; 
+			$tht_apr 						= $year->EMPLOYEE_IURAN_THT_APR;
+			$jp_apr 						= $year->EMPLOYEE_IURAN_JP_APR;
+			$gaji_pokok_mei    				= $year->EMPLOYEE_GAJI_POKOK_MEI;
+			$tunjangan_pph_mei 				= $year->EMPLOYEE_TUNJANGAN_PPH_MEI; 
+			$tunjangan_lainnya_mei 			= $year->EMPLOYEE_TUNJANGAN_LAINNYA_MEI;
+			$honarium_mei 					= $year->EMPLOYEE_HONORARIUM_MEI; 
+
+			$premi_mei = 0;
+			if($year->EMPLOYEE_PREMI_MEI<>'') {
+				$premi_mei 	= $year->EMPLOYEE_PREMI_MEI;
+			}  
+
+
+			$natura_mei = 0; 
+			if($year->EMPLOYEE_NATURA_MEI<>'') {
+				$natura_mei 	= $year->EMPLOYEE_NATURA_MEI;
+			}   
+
+			$tantiembonus_mei 				= $year->EMPLOYEE_TANTIEMBONUS_MEI;  
+			$bruto_mei 						= $year->EMPLOYEE_BRUTO_MEI; 
+			$tht_mei 						= $year->EMPLOYEE_IURAN_THT_MEI;
+			$jp_mei 						= $year->EMPLOYEE_IURAN_JP_MEI;
+			$gaji_pokok_jun    				= $year->EMPLOYEE_GAJI_POKOK_JUN;
+			$tunjangan_pph_jun 				= $year->EMPLOYEE_TUNJANGAN_PPH_JUN; 
+
+			$tunjangan_lainnya_jun = 0;
+			if($year->EMPLOYEE_TUNJANGAN_LAINNYA_JUN<>'') {
+				$tunjangan_lainnya_jun 	= $year->EMPLOYEE_TUNJANGAN_LAINNYA_JUN;
+			}  
+
+			$honarium_jun 					= $year->EMPLOYEE_HONORARIUM_JUN; 
+
+			$premi_jun = 0;
+			if($year->EMPLOYEE_PREMI_JUN<>'') {
+				$premi_jun 	= $year->EMPLOYEE_PREMI_JUN;
+			}  
+
+
+			$natura_jun = 0;
+			if($year->EMPLOYEE_NATURA_JUN<>'') {
+				$natura_jun 	= $year->EMPLOYEE_NATURA_JUN;
+			}   
+
+			$tantiembonus_jun 				= $year->EMPLOYEE_TANTIEMBONUS_JUN;  
+			$bruto_jun 						= $year->EMPLOYEE_BRUTO_JUN; 
+			$tht_jun 						= $year->EMPLOYEE_IURAN_THT_JUN;
+			$jp_jun 						= $year->EMPLOYEE_IURAN_JP_JUN;
+			$gaji_pokok_jul    				= $year->EMPLOYEE_GAJI_POKOK_JUL;
+			$tunjangan_pph_jul 				= $year->EMPLOYEE_TUNJANGAN_PPH_JUL; 
+
+			$tunjangan_lainnya_jul 	= 0;
+			if($year->EMPLOYEE_TUNJANGAN_LAINNYA_JUL<>'') {
+				$tunjangan_lainnya_jul 	= $year->EMPLOYEE_TUNJANGAN_LAINNYA_JUL;
+			}  
+
+			$honarium_jul 					= $year->EMPLOYEE_HONORARIUM_JUL; 
+
+			$premi_jul 	= 0;
+			if($year->EMPLOYEE_PREMI_JUL<>'') {
+				$premi_jul 	= $year->EMPLOYEE_PREMI_JUL;
+			}  
+
+
+			$natura_jul = 0;
+			if($year->EMPLOYEE_NATURA_JUL<>'') {
+				$natura_jul 	= $year->EMPLOYEE_NATURA_JUL;
+			}   
+
+			$tantiembonus_jul 				= $year->EMPLOYEE_TANTIEMBONUS_JUL;  
+			$bruto_jul 						= $year->EMPLOYEE_BRUTO_JUL; 
+			$tht_jul 						= $year->EMPLOYEE_IURAN_THT_JUL;
+			$jp_jul 						= $year->EMPLOYEE_IURAN_JP_JUL;
+			$gaji_pokok_aug    				= $year->EMPLOYEE_GAJI_POKOK_AUG;
+			$tunjangan_pph_aug 				= $year->EMPLOYEE_TUNJANGAN_PPH_AUG; 
+
+			$tunjangan_lainnya_aug = 0;
+			if($year->EMPLOYEE_TUNJANGAN_LAINNYA_AUG<>'') {
+				$tunjangan_lainnya_aug 	= $year->EMPLOYEE_TUNJANGAN_LAINNYA_AUG;
+			}   
+
+			$honarium_aug 					= $year->EMPLOYEE_HONORARIUM_AUG; 
+
+			$premi_aug 	= 0;
+			if($year->EMPLOYEE_PREMI_AUG<>'') {
+				$premi_aug 	= $year->EMPLOYEE_PREMI_AUG;
+			}  
+
+			$natura_aug = 0; 
+			if($year->EMPLOYEE_NATURA_AUG<>'') {
+				$natura_aug 	= $year->EMPLOYEE_NATURA_AUG;
+			}  
+
+			$tantiembonus_aug 				= $year->EMPLOYEE_TANTIEMBONUS_AUG;  
+			$bruto_aug 						= $year->EMPLOYEE_BRUTO_AUG; 
+			$tht_aug 						= $year->EMPLOYEE_IURAN_THT_AUG;
+			$jp_aug 						= $year->EMPLOYEE_IURAN_JP_AUG;
+			$gaji_pokok_sep    				= $year->EMPLOYEE_GAJI_POKOK_SEP;
+			$tunjangan_pph_sep 				= $year->EMPLOYEE_TUNJANGAN_PPH_SEP;
+
+			$tunjangan_lainnya_sep 	= 0; 
+			if($year->EMPLOYEE_TUNJANGAN_LAINNYA_SEP<>'') {
+				$tunjangan_lainnya_sep 	= $year->EMPLOYEE_TUNJANGAN_LAINNYA_SEP;
+			}  
+
+			$honarium_sep 					= $year->EMPLOYEE_HONORARIUM_SEP; 
+
+			$premi_sep 	= 0;
+			if($year->EMPLOYEE_PREMI_SEP<>'') {
+				$premi_sep 	= $year->EMPLOYEE_PREMI_SEP;
+			}  
+
+			$natura_sep = 0;
+			if($year->EMPLOYEE_NATURA_SEP<>'') {
+				$natura_sep 	= $year->EMPLOYEE_NATURA_SEP;
+			}  
+
+			$tantiembonus_sep 				= $year->EMPLOYEE_TANTIEMBONUS_SEP;  
+			$bruto_sep 						= $year->EMPLOYEE_BRUTO_SEP; 
+			$tht_sep 						= $year->EMPLOYEE_IURAN_THT_SEP;
+			$jp_sep 						= $year->EMPLOYEE_IURAN_JP_SEP;
+			$gaji_pokok_oct    				= $year->EMPLOYEE_GAJI_POKOK_OCT;
+			$tunjangan_pph_oct 				= $year->EMPLOYEE_TUNJANGAN_PPH_OCT;
+
+			$tunjangan_lainnya_oct = 0;
+			if($year->EMPLOYEE_TUNJANGAN_LAINNYA_OCT<>'') {
+				$tunjangan_lainnya_oct 	= $year->EMPLOYEE_TUNJANGAN_LAINNYA_OCT;
+			}  
+
+			$honarium_oct 					= $year->EMPLOYEE_HONORARIUM_OCT; 
+
+			$premi_oct = 0;
+			if($year->EMPLOYEE_PREMI_OCT<>'') {
+				$premi_oct 	= $year->EMPLOYEE_PREMI_OCT;
+			}  
+
+			$natura_oct = 0;
+			if($year->EMPLOYEE_NATURA_OCT<>'') {
+				$natura_oct 	= $year->EMPLOYEE_NATURA_OCT;
+			}   
+
+			$tantiembonus_oct 				= $year->EMPLOYEE_TANTIEMBONUS_OCT;  
+			$bruto_oct 						= $year->EMPLOYEE_BRUTO_OCT; 
+			$tht_oct 						= $year->EMPLOYEE_IURAN_THT_OCT;
+			$jp_oct 						= $year->EMPLOYEE_IURAN_JP_OCT;
+			$gaji_pokok_nov    				= $year->EMPLOYEE_GAJI_POKOK_NOV;
+			$tunjangan_pph_nov 				= $year->EMPLOYEE_TUNJANGAN_PPH_NOV; 
+
+			$tunjangan_lainnya_nov 	= 0;
+			if($year->EMPLOYEE_TUNJANGAN_LAINNYA_NOV<>'') {
+				$tunjangan_lainnya_nov 	= $year->EMPLOYEE_TUNJANGAN_LAINNYA_NOV;
+			}   
+
+			$honarium_nov 					= $year->EMPLOYEE_HONORARIUM_NOV; 
+
+			$premi_nov 	= 0;
+			if($year->EMPLOYEE_PREMI_NOV<>'') {
+				$premi_nov 	= $year->EMPLOYEE_PREMI_NOV;
+			}    
+
+			$natura_nov = 0;
+			if($year->EMPLOYEE_NATURA_NOV<>'') {
+				$natura_nov 	= $year->EMPLOYEE_NATURA_NOV;
+			}  
+
+			$tantiembonus_nov 				= $year->EMPLOYEE_TANTIEMBONUS_NOV;  
+			$bruto_nov 						= $year->EMPLOYEE_BRUTO_NOV; 
+			$tht_nov 						= $year->EMPLOYEE_IURAN_THT_NOV;
+			$jp_nov 						= $year->EMPLOYEE_IURAN_JP_NOV;
+
+			$gaji_pokok_des  = 0;
+			if($year->EMPLOYEE_GAJI_POKOK_DES<>'') {
+				$gaji_pokok_des 	= $year->EMPLOYEE_GAJI_POKOK_DES;
+			}   
+
+			$tunjangan_pph_des 				= $year->EMPLOYEE_TUNJANGAN_PPH_DES; 
+
+			$tunjangan_lainnya_des = 0;
+			if($year->EMPLOYEE_TUNJANGAN_LAINNYA_DES<>'') {
+				$tunjangan_lainnya_des 	= $year->EMPLOYEE_TUNJANGAN_LAINNYA_DES;
+			}   
+
+			$honarium_des 					= $year->EMPLOYEE_HONORARIUM_DES; 
+
+			$premi_des = 0;
+			if($year->EMPLOYEE_PREMI_DES<>'') {
+				$premi_des 	= $year->EMPLOYEE_PREMI_DES;
+			}   
+
+			$natura_des = 0;
+			if($year->EMPLOYEE_NATURA_DES<>'') {
+				$natura_des 	= $year->EMPLOYEE_NATURA_DES;
+			}    
+
+			$tantiembonus_des 				= $year->EMPLOYEE_TANTIEMBONUS_DES;  
+			$bruto_des 						= $year->EMPLOYEE_BRUTO_DES; 
+			$tht_des 						= $year->EMPLOYEE_IURAN_THT_DES;
+			$jp_des 						= $year->EMPLOYEE_IURAN_JP_DES;
+
+			// ------------------------------------ HITUNG ULANG, PROSES TAHUNAN
+			$totalTunjangan_year = 0;
+
+			//Kalkulasi Bruto, Neto & Jumlah Pengurang (TUNJANGAN, IURAN, PREMI, DLL)
+
+			$totalTunjangan_year = $tunjangan_lainnya;
+			$totalPremi_year 	= $premi;
+			$iuran_year 			= $tht + $jp;
+
+			$totalBruto_year 	= $gaji_pokok + $totalTunjangan_year + $honarium + $totalPremi_year + $natura + $tantiembonus;
+
+			// $bijab_year = 0.05 * $totalBruto_year;
+			// if($bijab_year > 500000) {
+			// 	$bijab_year = 500000;
+			// }
+			$totalPengurang_year	= $bijab_year + $iuran_year;
+
+			//Tarif PTKP Pegawai
+			$ptkpTarif_year = $data1->TK_TARIF;
+
+			//Kalkulasi PPH21 Non-Gross Up
+			$empID = $data1->EMPLOYEE_ID;
+			$PPH_ID=$this->input->post('pphID');
+
+			$this->db->select('*')
+			 ->from('g_employee_income')
+			 ->where('EMPLOYEE_ID', $data1->EMPLOYEE_ID)
+			 ->where('PPH_ID', $PPH_ID);
+
+			$CheckBruto = $this->db->get(); 
+
+			foreach ($CheckBruto->result() as $BrutoEmp){
+					$persen=$this->cms->getPersen($BrutoEmp->EMPLOYEE_BRUTO);
+					foreach ($persen->result() as $CheckPersen){
+
+					echo  $BrutoEmp->EMPLOYEE_BRUTO." - ".$CheckPersen->PRESENTASE."<BR>"; 
+					}
+			}
+
+			if($data1->EMPLOYEE_NATIONALITY_STATUS == 'Lokal'){
+				$yearlyNeto_year = ($totalBruto_year - $totalPengurang_year);
+			}elseif ($data1->EMPLOYEE_NATIONALITY_STATUS == 'Ekspatriat') {
+				$yearlyNeto_year = ($totalBruto_year - $totalPengurang_year)*12/$ttl_month;
+			}else {
+				$yearlyNeto_year = ($totalBruto_year - $totalPengurang_year);
+			} 
+			
+			$yearlyPKP_year  = $yearlyNeto_year - $ptkpTarif_year;
+
+			//Dibulatkan biar 3 digit dibelakang jadi 0
+			$yearlyPKP_year = (floor($yearlyPKP_year / 1000)) * 1000;
+
+			//Kalkulasi PPH21 Gross UP
+			if ($companyCheck->row()->PPHCOUNT_METHOD == 'GROSS UP') {
+				$Tunjpph_year=0;
+				switch ($yearlyPKP_year) {
+					case ($yearlyPKP_year <= 47500000):
+						// echo 'lapisan 1';
+						$Tunjpph_year = ($yearlyPKP_year - 0) *  (5 / 95) + 0;
+						break;
+					case (($yearlyPKP_year >= 47500000) && ($yearlyPKP_year <= 217500000)):
+						// echo 'lapisan 2';
+						$Tunjpph_year = ($yearlyPKP_year - 47500000) * (15 / 85) + 2500000;
+						break;
+					case (($yearlyPKP_year >= 217500000) && ($yearlyPKP_year <= 405000000)):
+						// echo 'lapisan 3';
+						$Tunjpph_year = ($yearlyPKP_year - 217500000) * (25 / 75) + 32500000;
+						break;
+					case ($yearlyPKP_year >= 405000000):
+						// echo 'lapisan 4';
+						$Tunjpph_year = ($yearlyPKP_year - 405000000) * (30 / 70) + 95000000;
+						break;
+					default:
+						break;
+				}
+				$Tunjpph_year = 1* $Tunjpph_year; 
+
+				$yearlyPPH_year = 0; 
+				while ($Tunjpph_year != $yearlyPPH_year) { 
+					//HITUNG YearlyPKP (after tunjanganpph)
+					 $totalBruto_year 	= $gaji_pokok + $Tunjpph_year + $totalTunjangan_year + $honarium + $totalPremi_year + $natura + $tantiembonus;  
+
+					$totalPengurang_year	= $bijab_year + $iuran_year;
+							
+					$yearlyNeto_year = ($totalBruto_year - $totalPengurang_year);
+					$yearlyPKP_year  = $yearlyNeto_year - $ptkpTarif_year;
+
+					//Dibulatkan biar 3 digit dibelakang jadi 0
+					$yearlyPKP_year = (floor($yearlyPKP_year / 1000)) * 1000;
+
+
+					if ($yearlyPKP_year > 0) {
+					    if ($yearlyPKP_year > 500000000) {
+					        $tier1 = 0.05 * 50000000;
+					        $tier2 = 0.15 * 200000000;
+					        $tier3 = 0.25 * 250000000;
+					        $tier4 = 0.3 * ($yearlyPKP_year - 500000000);
+					        $yearlyPPH_year = $tier1 + $tier2 + $tier3 + $tier4;
+					    } elseif ($yearlyPKP_year > 250000000) {
+					        $tier1 = 0.05 * 50000000;
+					        $tier2 = 0.15 * 200000000;
+					        $tier3 = 0.25 * ($yearlyPKP_year - 250000000);
+					        $yearlyPPH_year = $tier1 + $tier2 + $tier3;
+					    } elseif ($yearlyPKP_year > 50000000) {
+					        $tier1 = 0.05 * 50000000;
+					        $tier2 = 0.15 * ($yearlyPKP_year - 50000000);
+					        $yearlyPPH_year = $tier1 + $tier2;
+					    } else {
+					        $tier1 = 0.05 * $yearlyPKP_year;
+					        $yearlyPPH_year = $tier1;
+					    }
+					}		
+
+					//$monthlyPPH_year = ($yearlyPPH_year / 12);
+
+					if($Tunjpph_year != $yearlyPPH_year){
+						
+						$Tunjpph_year = $yearlyPPH_year;
+						$yearlyPPH_year = 0;
+
+					}
+
+				} 
+				$tunjangan_pph=$Tunjpph_year;
+			} // end gross up
+
+			if ($yearlyPKP_year > 0) {
+			    if ($yearlyPKP_year > 500000000) {
+			        $tier1 = 0.05 * 50000000;
+			        $tier2 = 0.15 * 200000000;
+			        $tier3 = 0.25 * 250000000;
+			        $tier4 = 0.3 * ($yearlyPKP_year - 500000000);
+			        $yearlyPPH_year = $tier1 + $tier2 + $tier3 + $tier4;
+			    } elseif ($yearlyPKP_year > 250000000) {
+			        $tier1 = 0.05 * 50000000;
+			        $tier2 = 0.15 * 200000000;
+			        $tier3 = 0.25 * ($yearlyPKP_year - 250000000);
+			        $yearlyPPH_year = $tier1 + $tier2 + $tier3;
+			    } elseif ($yearlyPKP_year > 50000000) {
+			        $tier1 = 0.05 * 50000000;
+			        $tier2 = 0.15 * ($yearlyPKP_year - 50000000);
+			        $yearlyPPH_year = $tier1 + $tier2;
+			    } else {
+			        $tier1 = 0.05 * $yearlyPKP_year;
+			        $yearlyPPH_year = $tier1;
+			    }
+			}		
+
+			if (empty($data1->EMPLOYEE_NPWP)) {
+				//Kalau misalnya pegawai ga punya NPWP
+				$yearlyPPH_year = $yearlyPPH_year  * 1.2;
+			} else {
+				//Kalau misalnya pegawai punya NPWP		
+				$yearlyPPH_year = $yearlyPPH_year;
+			} 
+
+			if($data1->EMPLOYEE_NATIONALITY_STATUS == 'Lokal'){
+				$yearlyPPH_terhutang = $yearlyPPH_year;
+			}elseif ($data1->EMPLOYEE_NATIONALITY_STATUS == 'Ekspatriat') {
+				$yearlyPPH_terhutang = ($yearlyPPH_year/12) * $ttl_month;
+			}else {
+				$yearlyPPH_terhutang = $yearlyPPH_year;
+			}
+
+			
+
+			// ------------------------------------------------------------------  
 
 			$companyData = array(
 				'INCOME_ID'							=> $incomeID, 
 				'COMPANY_ID'						=> $cid,
 				'PERIOD_YEAR'						=> $yid, 
 				'EMPLOYEE_ID'						=> $data1->EMPLOYEE_ID,
+				'TOTAL_MONTH'						=> $ttl_month,
 				'EMPLOYEE_GAJI_POKOK_YEAR'			=> $gaji_pokok,
-				'EMPLOYEE_TUNJANGAN_PPH_YEAR'		=> $tunjangan_pph,
-				'EMPLOYEE_TUNJANGAN1_YEAR'			=> $tunjangan1,
-				'EMPLOYEE_TUNJANGAN2_YEAR'			=> $tunjangan2,
-				'EMPLOYEE_TUNJANGAN3_YEAR'			=> $tunjangan3,
-				'EMPLOYEE_TUNJANGAN4_YEAR'			=> $tunjangan4,
-				'EMPLOYEE_TUNJANGAN5_YEAR'			=> $tunjangan5,
-				'EMPLOYEE_TUNJANGAN6_YEAR'			=> $tunjangan6,
-				'EMPLOYEE_TUNJANGAN7_YEAR'			=> $tunjangan7,
-				'EMPLOYEE_TUNJANGAN8_YEAR'			=> $tunjangan8,
-				'EMPLOYEE_TUNJANGAN9_YEAR'			=> $tunjangan9,
-				'EMPLOYEE_TUNJANGAN10_YEAR'			=> $tunjangan10,
+				'EMPLOYEE_TUNJANGAN_PPH_YEAR'		=> $tunjangan_pph, 
 				'EMPLOYEE_TUNJANGAN_LAINNYA_YEAR'	=> $tunjangan_lainnya,
-				'EMPLOYEE_HONARIUM_YEAR'			=> $honarium,
-				'EMPLOYEE_PREMI_JKK_YEAR'			=> $premi_jkk,
-				'EMPLOYEE_PREMI_JKM_YEAR'			=> $premi_jkm,
-				'EMPLOYEE_PREMI_BPJS_YEAR'			=> $premi_bpjs,
+				'EMPLOYEE_HONARIUM_YEAR'			=> $honarium, 
 				'EMPLOYEE_PREMI_YEAR'				=> $premi,
 				'EMPLOYEE_NATURA_YEAR'				=> $natura,
-				'EMPLOYEE_TANTIEMBONUS_YEAR'		=> $tantiembonus,
-				'EMPLOYEE_IURAN_THT_YEAR'			=> $iuran_tht,
-				'EMPLOYEE_IURAN_JP_YEAR'			=> $iuran_jp,
-				'EMPLOYEE_IURAN_PENSIUN_YEAR'		=> $iuran_pensiun,
-				'EMPLOYEE_BIAYA_JABATAN_YEAR'		=> $biaya_jabatan,
-				'EMPLOYEE_TOTAL_PENGURANGAN_YEAR'	=> $total_pengurangan,
-				'EMPLOYEE_BRUTO_YEAR'				=> $bruto,
-				'EMPLOYEE_NETTO_YEAR'				=> $netto,  
-				'EMPLOYEE_PPHVAL_YEAR'				=> $pphval,
+				'EMPLOYEE_TANTIEMBONUS_YEAR'		=> $tantiembonus, 
+				'EMPLOYEE_BRUTO_YEAR'				=> $totalBruto_year, 
+				'EMPLOYEE_DIPOTONG_YEAR'			=> $totalPengurang_year,
+				'EMPLOYEE_NETTO_YEAR'				=> $yearlyNeto_year,
+				'EMPLOYEE_PTKP_YEAR'				=> $ptkpTarif_year,
+				'EMPLOYEE_PPHVAL_YEAR'				=> $yearlyPPH_year,
+				'EMPLOYEE_PPHVAL_TERHUTANG'			=> $yearlyPPH_terhutang,
+
+				'EMPLOYEE_GAJI_POKOK_JAN'			=> $gaji_pokok_jan,
+				'EMPLOYEE_TUNJANGAN_PPH_JAN'		=> $tunjangan_pph_jan, 
+				'EMPLOYEE_TUNJANGAN_LAINNYA_JAN'	=> $tunjangan_lainnya_jan,
+				'EMPLOYEE_HONARIUM_JAN'				=> $honarium_jan, 
+				'EMPLOYEE_PREMI_JAN'				=> $premi_jan,
+				'EMPLOYEE_NATURA_JAN'				=> $natura_jan,
+				'EMPLOYEE_TANTIEMBONUS_JAN'			=> $tantiembonus_jan, 
+				'EMPLOYEE_BRUTO_JAN'				=> $bruto_jan, 
+				// 'EMPLOYEE_PPHVAL_JAN'				=> $monthlyPPHFinal_jan,
+				'EMPLOYEE_GAJI_POKOK_FEB'			=> $gaji_pokok_feb,
+				'EMPLOYEE_TUNJANGAN_PPH_FEB'		=> $tunjangan_pph_feb, 
+				'EMPLOYEE_TUNJANGAN_LAINNYA_FEB'	=> $tunjangan_lainnya_feb,
+				'EMPLOYEE_HONARIUM_FEB'				=> $honarium_feb, 
+				'EMPLOYEE_PREMI_FEB'				=> $premi_feb,
+				'EMPLOYEE_NATURA_FEB'				=> $natura_feb,
+				'EMPLOYEE_TANTIEMBONUS_FEB'			=> $tantiembonus_feb, 
+				'EMPLOYEE_BRUTO_FEB'				=> $bruto_feb, 
+				// 'EMPLOYEE_PPHVAL_FEB'				=> $monthlyPPHFinal_feb,
+				'EMPLOYEE_GAJI_POKOK_MAR'			=> $gaji_pokok_mar,
+				'EMPLOYEE_TUNJANGAN_PPH_MAR'		=> $tunjangan_pph_mar, 
+				'EMPLOYEE_TUNJANGAN_LAINNYA_MAR'	=> $tunjangan_lainnya_mar,
+				'EMPLOYEE_HONARIUM_MAR'				=> $honarium_mar, 
+				'EMPLOYEE_PREMI_MAR'				=> $premi_mar,
+				'EMPLOYEE_NATURA_MAR'				=> $natura_mar,
+				'EMPLOYEE_TANTIEMBONUS_MAR'			=> $tantiembonus_mar, 
+				'EMPLOYEE_BRUTO_MAR'				=> $bruto_mar, 
+				// 'EMPLOYEE_PPHVAL_MAR'				=> $monthlyPPHFinal_mar,
+				'EMPLOYEE_GAJI_POKOK_APR'			=> $gaji_pokok_apr,
+				'EMPLOYEE_TUNJANGAN_PPH_APR'		=> $tunjangan_pph_apr, 
+				'EMPLOYEE_TUNJANGAN_LAINNYA_APR'	=> $tunjangan_lainnya_apr,
+				'EMPLOYEE_HONARIUM_APR'				=> $honarium_apr, 
+				'EMPLOYEE_PREMI_APR'				=> $premi_apr,
+				'EMPLOYEE_NATURA_APR'				=> $natura_apr,
+				'EMPLOYEE_TANTIEMBONUS_APR'			=> $tantiembonus_apr, 
+				'EMPLOYEE_BRUTO_APR'				=> $bruto_apr, 
+				// 'EMPLOYEE_PPHVAL_APR'				=> $monthlyPPHFinal_apr,
+				'EMPLOYEE_GAJI_POKOK_MEI'			=> $gaji_pokok_mei,
+				'EMPLOYEE_TUNJANGAN_PPH_MEI'		=> $tunjangan_pph_mei, 
+				'EMPLOYEE_TUNJANGAN_LAINNYA_MEI'	=> $tunjangan_lainnya_mei,
+				'EMPLOYEE_HONARIUM_MEI'				=> $honarium_mei, 
+				'EMPLOYEE_PREMI_MEI'				=> $premi_mei,
+				'EMPLOYEE_NATURA_MEI'				=> $natura_mei,
+				'EMPLOYEE_TANTIEMBONUS_MEI'			=> $tantiembonus_mei, 
+				'EMPLOYEE_BRUTO_MEI'				=> $bruto_mei, 
+				// 'EMPLOYEE_PPHVAL_MEI'				=> $monthlyPPHFinal_mei,
+				'EMPLOYEE_GAJI_POKOK_JUN'			=> $gaji_pokok_jun,
+				'EMPLOYEE_TUNJANGAN_PPH_JUN'		=> $tunjangan_pph_jun, 
+				'EMPLOYEE_TUNJANGAN_LAINNYA_JUN'	=> $tunjangan_lainnya_jun,
+				'EMPLOYEE_HONARIUM_JUN'				=> $honarium_jun, 
+				'EMPLOYEE_PREMI_JUN'				=> $premi_jun,
+				'EMPLOYEE_NATURA_JUN'				=> $natura_jun,
+				'EMPLOYEE_TANTIEMBONUS_JUN'			=> $tantiembonus_jun, 
+				'EMPLOYEE_BRUTO_JUN'				=> $bruto_jun, 
+				// 'EMPLOYEE_PPHVAL_JUN'				=> $monthlyPPHFinal_jun,
+				'EMPLOYEE_GAJI_POKOK_JUL'			=> $gaji_pokok_jul,
+				'EMPLOYEE_TUNJANGAN_PPH_JUL'		=> $tunjangan_pph_jul, 
+				'EMPLOYEE_TUNJANGAN_LAINNYA_JUL'	=> $tunjangan_lainnya_jul,
+				'EMPLOYEE_HONARIUM_JUL'				=> $honarium_jul, 
+				'EMPLOYEE_PREMI_JUL'				=> $premi_jul,
+				'EMPLOYEE_NATURA_JUL'				=> $natura_jul,
+				'EMPLOYEE_TANTIEMBONUS_JUL'			=> $tantiembonus_jul, 
+				'EMPLOYEE_BRUTO_JUL'				=> $bruto_jul, 
+				// 'EMPLOYEE_PPHVAL_JUL'				=> $monthlyPPHFinal_jul,
+				'EMPLOYEE_GAJI_POKOK_AUG'			=> $gaji_pokok_aug,
+				'EMPLOYEE_TUNJANGAN_PPH_AUG'		=> $tunjangan_pph_aug, 
+				'EMPLOYEE_TUNJANGAN_LAINNYA_AUG'	=> $tunjangan_lainnya_aug,
+				'EMPLOYEE_HONARIUM_AUG'				=> $honarium_aug, 
+				'EMPLOYEE_PREMI_AUG'				=> $premi_aug,
+				'EMPLOYEE_NATURA_AUG'				=> $natura_aug,
+				'EMPLOYEE_TANTIEMBONUS_AUG'			=> $tantiembonus_aug,
+				'EMPLOYEE_BRUTO_AUG'				=> $bruto_aug, 
+				// 'EMPLOYEE_PPHVAL_AUG'				=> $monthlyPPHFinal_aug,
+				'EMPLOYEE_GAJI_POKOK_SEP'			=> $gaji_pokok_sep,
+				'EMPLOYEE_TUNJANGAN_PPH_SEP'		=> $tunjangan_pph_sep, 
+				'EMPLOYEE_TUNJANGAN_LAINNYA_SEP'	=> $tunjangan_lainnya_sep,
+				'EMPLOYEE_HONARIUM_SEP'				=> $honarium_sep, 
+				'EMPLOYEE_PREMI_SEP'				=> $premi_sep,
+				'EMPLOYEE_NATURA_SEP'				=> $natura_sep,
+				'EMPLOYEE_TANTIEMBONUS_SEP'			=> $tantiembonus_sep, 
+				'EMPLOYEE_BRUTO_SEP'				=> $bruto_sep, 
+				// 'EMPLOYEE_PPHVAL_SEP'				=> $monthlyPPHFinal_sep,
+				'EMPLOYEE_GAJI_POKOK_OCT'			=> $gaji_pokok_oct,
+				'EMPLOYEE_TUNJANGAN_PPH_OCT'		=> $tunjangan_pph_oct, 
+				'EMPLOYEE_TUNJANGAN_LAINNYA_OCT'	=> $tunjangan_lainnya_oct,
+				'EMPLOYEE_HONARIUM_OCT'				=> $honarium_oct, 
+				'EMPLOYEE_PREMI_OCT'				=> $premi_oct,
+				'EMPLOYEE_NATURA_OCT'				=> $natura_oct,
+				'EMPLOYEE_TANTIEMBONUS_OCT'			=> $tantiembonus_oct, 
+				'EMPLOYEE_BRUTO_OCT'				=> $bruto_oct, 
+				// 'EMPLOYEE_PPHVAL_OCT'				=> $monthlyPPHFinal_oct,
+				'EMPLOYEE_GAJI_POKOK_NOV'			=> $gaji_pokok_nov,
+				'EMPLOYEE_TUNJANGAN_PPH_NOV'		=> $tunjangan_pph_nov, 
+				'EMPLOYEE_TUNJANGAN_LAINNYA_NOV'	=> $tunjangan_lainnya_nov,
+				'EMPLOYEE_HONARIUM_NOV'				=> $honarium, 
+				'EMPLOYEE_PREMI_NOV'				=> $premi_nov,
+				'EMPLOYEE_NATURA_NOV'				=> $natura_nov,
+				'EMPLOYEE_TANTIEMBONUS_NOV'			=> $tantiembonus_nov, 
+				'EMPLOYEE_BRUTO_NOV'				=> $bruto_nov, 
+				// 'EMPLOYEE_PPHVAL_NOV'				=> $monthlyPPHFinal_nov,
+				'EMPLOYEE_GAJI_POKOK_DES'			=> $gaji_pokok_des,
+				'EMPLOYEE_TUNJANGAN_PPH_DES'		=> $tunjangan_pph_des, 
+				'EMPLOYEE_TUNJANGAN_LAINNYA_DES'	=> $tunjangan_lainnya_des,
+				'EMPLOYEE_HONARIUM_DES'				=> $honarium, 
+				'EMPLOYEE_PREMI_DES'				=> $premi_des,
+				'EMPLOYEE_NATURA_DES'				=> $natura_des,
+				'EMPLOYEE_TANTIEMBONUS_DES'			=> $tantiembonus_des, 
+				'EMPLOYEE_BRUTO_DES'				=> $bruto_des, 
+				// 'EMPLOYEE_PPHVAL_DES'				=> $monthlyPPHFinal_des,
 				'CREATED'							=> date('Y-m-d h:i:s'),
 				'STATUS'							=> 'ON PROGRESS',
 			);
 
-			$queryInsert = $this->cms->insertGeneralData('g_pph21_yearly', $companyData); 
+			$queryInsert = $this->cms->insertGeneralData('g_pph21_yearly_detail', $companyData); 
 		}  
-		$this->load->view('cms/hitung_pajak/pph21_tahun');
+
+		$this->db->select('*')
+			->from('v_g_employee_pph21_yearly')
+			->where('COMPANY_ID', $this->input->get('cid'))
+			->where('PERIOD_YEAR', $this->input->get('yid'));
+			// ->where('STATUS', 'APPROVED');
+
+		$queryGet = $this->db->get();
+		$data['counter'] 	= 1;
+		$data['companies'] 	= $queryGet;
+
+		$this->load->view('cms/hitung_pajak/pph21_tahun',$data);
 	} 
 
 	public function pph_21_bulan_summary()
@@ -667,13 +1219,8 @@ class Pph21 extends CI_Controller
 		$ptkpTarif = 54000000;
 		$total     = 10000000;
 		$totalPengurang = 0.05 * $total;
-
-		// echo $totalPengurang;
-
-		// $pphNon = (((0.05 * ((($total - $totalPengurang) * 12) - $ptkpTarif)) / 12));
-		$pphVal = (((0.05 * (($total - $totalPengurang) * 12) - $ptkpTarif)) * 1.2) / 12;
-
-		// $pphVal = (((0.05 * (($total - $totalPengurang) * 12) - $ptkpTarif)) * 1.2) / 12;
+ 
+		$pphVal = (((0.05 * (($total - $totalPengurang) * 12) - $ptkpTarif)) * 1.2) / 12; 
 
 		echo $pphVal;
 
@@ -697,13 +1244,9 @@ class Pph21 extends CI_Controller
 				// echo 'lapisan 4';
 				$pphVal = ($yearlyBruto - 405000000) * (30 / 70) + 95000000;
 				break;
-			default:
-				// echo 'ga kemana';
+			default: 
 				break;
-		}
-
-		// echo round($pphVal / 12);
-		// 392157
+		} 
 	}
 
 	public function importXLSLFile()
@@ -714,10 +1257,7 @@ class Pph21 extends CI_Controller
 
 		$companyCheck  = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->post('companyID'));
 		$employeeCheck = $this->cms->getSingularData('v_g_employee', 'EMPLOYEE_COMPANY_ID', $this->input->post('companyID'));
-		$pphCheck 	   = $this->cms->getSingularData('g_pph21', 'PPH_ID', $this->input->post('pphID'));
-		
-
-
+		$pphCheck 	   = $this->cms->getSingularData('g_pph21', 'PPH_ID', $this->input->post('pphID')); 
 
 
 		//Deklrasi Variabel awal
@@ -925,12 +1465,8 @@ class Pph21 extends CI_Controller
 				}
 				$Tunjpph = $Tunjpph/12; //579.392
 
-				$monthlyPPH =0;
-
-
-				//while $tunjpph <> $monnthlyPPH
-				while ($Tunjpph != $monthlyPPH) {
-					# code...
+				$monthlyPPH = 0; 
+				while ($Tunjpph != $monthlyPPH) { 
 					//HITUNG YearlyPKP (after tunjanganpph)
 					 $totalBruto 	= $sheetData['E'] + $Tunjpph + $totalTunjangan + $sheetData['Q'] + $totalPremi + $sheetData['U'] + $sheetData['V']; 
 
@@ -1066,7 +1602,7 @@ class Pph21 extends CI_Controller
 				'EMPLOYEE_PPHVAL'				=> round($monthlyPPHFinal),
 				'CREATED'						=> date('Y-m-d h:i:s'),
 				'STATUS'						=> 'ON PROGRESS', 
-				'PPHCOUNT_METHOD'			=> $companyCheck->row()->PPHCOUNT_METHOD
+				'PPHCOUNT_METHOD'				=> $companyCheck->row()->PPHCOUNT_METHOD
 			);
 
 			$companyBruto 	= $companyBruto + $totalBruto;
@@ -1554,7 +2090,7 @@ class Pph21 extends CI_Controller
 			'PERIOD_YEAR'	=> $this->input->post('addPeriodeTahun'),
 			'PERIOD_MONTH'	=> $this->input->post('addPeriodeBulan'),
 			'CREATED'		=> date('Y-m-d h:i:s'),
-			'STATUS'		=> ($queryGet->num_rows() > 0 ? 'HISTORY' : 'ACTIVE'),
+			'STATUS'		=> ($queryGet->num_rows() > 0 ? 'HISTORY' : 'ON PROGRESS'),
 		);
 
 		$queryInsert = $this->cms->insertGeneralData('g_pph21', $companyData);

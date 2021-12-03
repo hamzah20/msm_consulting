@@ -56,7 +56,10 @@
                         <td  scope="row"><?php echo $i?></td>
                         <td  scope="row"><?php echo $GetProject->NAME?></td>
                         <td  scope="row"><?php echo $GetProject->DESCRIPTION?></td>
-                        <td  scope="row"><a href="#" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i></a> <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a></td>
+                        <td  scope="row">
+                          <a href="#" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i></a>
+                          <a class="btn btn-sm btn-danger confirmDelete" data-id="<?= $GetProject->ID ?>"><i class="fa fa-trash"></i></a>
+                        </td>
                       </tr>
                     <?php
                     $i++;
@@ -107,6 +110,46 @@
       });
     });
   </script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(document).on('click', '.confirmDelete', function (e) {
+            var project_id = $(this).GetProject('id');
+            
+             swal.fire({
+                title: "Are you sure?",
+                text: "It will permanently deleted !",
+                type: "warning",
+                showCancelButton: true,
+                confirmCancelText: "Cancel",
+                cancelButtonColor: '#d33',
+                confirmButtonText: "Yes",
+                confirmButtonColor: '#3085d6'
+              }).then((result) => {
+
+                if (result.value) {
+                  $.ajax({
+                    type: 'post',
+                    url: '<?php echo base_url();?>/General/ProjectType/deleteProjectType',
+                    data: {project_id:project_id},
+                    success: function (data) {
+                        
+                        swal.fire(
+                            'Deleted!',
+                            'Your Banner has been deleted.',
+                            'success'
+                          ).then(function(){
+                                location.reload();
+                         });
+
+                    }         
+                    }); 
+                }
+              });
+        });
+    });
+</script>
+
 <?php 
   $this->session->set_userdata('query', '');
 } ?>

@@ -3,7 +3,7 @@
   	    <form class="needs-validation" id="formAddCompany" method="POST" novalidate action="<?= base_url('PPH/Pph22/addCompany'); ?>">
   	      <div class="modal-content">
   	        <div class="modal-header">
-  	          <h5 class="modal-title" id="addPPH21PerusahaanBulan">Tambah Periode - PPH 21</h5>
+  	          <h5 class="modal-title" id="addPPH22PerusahaanBulan">Tambah Periode - PPH 22</h5>
   	          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
   	            <span aria-hidden="true">&times;</span>
   	          </button>

@@ -1747,7 +1747,7 @@ class Pph22 extends CI_Controller
 			'PERIOD_YEAR'	=> $this->input->post('addPeriodeTahun'),
 			'PERIOD_MONTH'	=> $this->input->post('addPeriodeBulan'),
 			'CREATED'		=> date('Y-m-d h:i:s'),
-			'STATUS'		=> ($queryGet->num_rows() > 0 ? 'HISTORY' : 'ACTIVE'),
+			'STATUS'		=> ($queryGet->num_rows() > 0 ? 'HISTORY' : 'ON PROGRESS'),
 		);
 
 		$queryInsert = $this->cms->insertGeneralData('g_pph22', $companyData);

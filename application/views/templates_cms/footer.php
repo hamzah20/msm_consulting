@@ -20,6 +20,7 @@
 		<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap.min.js"></script>  
 
 		<script>
+			
 			jQuery.noConflict();
 
 			(function($) {

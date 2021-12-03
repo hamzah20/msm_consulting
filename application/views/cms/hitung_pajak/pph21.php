@@ -20,7 +20,7 @@
     <div class="col-sm-4">
       <div class="page-header float-left">
         <div class="page-title">
-          <h1>Hitung Pajak</h1>
+          <h1>PPH 21</h1>
         </div>
       </div>
     </div>

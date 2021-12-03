@@ -31,7 +31,7 @@
     <div class="col-sm-4">
       <div class="page-header float-left">
         <div class="page-title">
-          <h1>Hitung Pajak</h1>
+          <h1>PPH 21</h1>
         </div>
       </div>
     </div>
@@ -65,7 +65,8 @@
               <th scope="col-" rowspan="2">SK/T*</th>  
               <th scope="col-" rowspan="2">MK* <br> Bulan</th>  
               <th scope="col-" rowspan="2">BK* <br> Bulan</th>  
-              <th scope="col-" colspan="8" class="text-center">(JAN-DES)</th>
+              <th scope="col-" rowspan="2"> PPH</th>  
+              <th scope="col-" colspan="8" class="text-center">(JAN-DES)</th> 
               <th scope="col-" colspan="8" class="text-center">JAN</th>   
               <th scope="col-" colspan="8" class="text-center">FEB</th>   
               <th scope="col-" colspan="8" class="text-center">MAR</th>   
@@ -93,384 +94,137 @@
               <?php  } ?>        
             </tr>
           </thead>
-          <tbody>    
-                <tr>  
-                  <td>1</td> 
-                  <td>Aris Abdullatif</td> 
-                  <td>00.000.000.0-000.000</td> 
-                  <td>TK/0</td> 
-                  <td>01</td> 
-                  <td>01</td>  
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
+          <tbody>   
+            <?php foreach ($companies->result() as $data) { ?> 
+            <tr>  
+              <td><?= $counter++; ?></td> 
+              <td><?= $data->EMPLOYEE_NAME; ?></td> 
+              <td>00.000.000.0-000.000</td> 
+              <td>TK/0</td> 
+              <td>01</td> 
+              <td>01</td>   
+              <td><?= number_format($data->EMPLOYEE_PPHVAL_YEAR); ?></td>   
 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
+              <td><?= number_format($data->EMPLOYEE_GAJI_POKOK_YEAR); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_PPH_YEAR); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_LAINNYA_YEAR); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_HONARIUM_YEAR); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_PREMI_YEAR); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_NATURA_YEAR); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TANTIEMBONUS_YEAR); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_BRUTO_YEAR); ?></td> 
 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
+              <td><?= number_format($data->EMPLOYEE_GAJI_POKOK_JAN); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_PPH_JAN); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_LAINNYA_JAN); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_HONARIUM_JAN); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_PREMI_JAN); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_NATURA_JAN); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TANTIEMBONUS_JAN); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_BRUTO_JAN); ?></td> 
 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
+              <td><?= number_format($data->EMPLOYEE_GAJI_POKOK_FEB); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_PPH_FEB); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_LAINNYA_FEB); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_HONARIUM_FEB); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_PREMI_FEB); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_NATURA_FEB); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TANTIEMBONUS_FEB); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_BRUTO_FEB); ?></td> 
 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
+              <td><?= number_format($data->EMPLOYEE_GAJI_POKOK_MAR); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_PPH_MAR); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_LAINNYA_MAR); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_HONARIUM_MAR); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_PREMI_MAR); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_NATURA_MAR); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TANTIEMBONUS_MAR); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_BRUTO_MAR); ?></td> 
 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
+              <td><?= number_format($data->EMPLOYEE_GAJI_POKOK_APR); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_PPH_APR); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_LAINNYA_APR); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_HONARIUM_APR); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_PREMI_APR); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_NATURA_APR); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TANTIEMBONUS_APR); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_BRUTO_APR); ?></td> 
 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
+              <td><?= number_format($data->EMPLOYEE_GAJI_POKOK_MEI); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_PPH_MEI); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_LAINNYA_MEI); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_HONARIUM_MEI); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_PREMI_MEI); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_NATURA_MEI); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TANTIEMBONUS_MEI); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_BRUTO_MEI); ?></td> 
 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
+              <td><?= number_format($data->EMPLOYEE_GAJI_POKOK_JUN); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_PPH_JUN); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_LAINNYA_JUN); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_HONARIUM_JUN); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_PREMI_JUN); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_NATURA_JUN); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TANTIEMBONUS_JUN); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_BRUTO_JUN); ?></td> 
 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td>
+              <td><?= number_format($data->EMPLOYEE_GAJI_POKOK_JUL); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_PPH_JUL); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_LAINNYA_JUL); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_HONARIUM_JUL); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_PREMI_JUL); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_NATURA_JUL); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TANTIEMBONUS_JUL); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_BRUTO_JUL); ?></td> 
 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td>
+              <td><?= number_format($data->EMPLOYEE_GAJI_POKOK_AUG); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_PPH_AUG); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_LAINNYA_AUG); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_HONARIUM_AUG); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_PREMI_AUG); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_NATURA_AUG); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TANTIEMBONUS_AUG); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_BRUTO_AUG); ?></td> 
 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td>
+              <td><?= number_format($data->EMPLOYEE_GAJI_POKOK_SEP); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_PPH_SEP); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_LAINNYA_SEP); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_HONARIUM_SEP); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_PREMI_SEP); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_NATURA_SEP); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TANTIEMBONUS_SEP); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_BRUTO_SEP); ?></td> 
 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td>
+              <td><?= number_format($data->EMPLOYEE_GAJI_POKOK_OCT); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_PPH_OCT); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_LAINNYA_OCT); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_HONARIUM_OCT); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_PREMI_OCT); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_NATURA_OCT); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TANTIEMBONUS_OCT); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_BRUTO_OCT); ?></td> 
 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
+              <td><?= number_format($data->EMPLOYEE_GAJI_POKOK_NOV); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_PPH_NOV); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_LAINNYA_NOV); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_HONARIUM_NOV); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_PREMI_NOV); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_NATURA_NOV); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TANTIEMBONUS_NOV); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_BRUTO_NOV); ?></td> 
 
-                   
-                </tr>  
-                <tr>  
-                  <td>1</td> 
-                  <td>Maniartina</td> 
-                  <td>00.000.000.0-000.000</td> 
-                  <td>TK/0</td> 
-                  <td>01</td> 
-                  <td>03</td> 
-                  <td>0</td> 
-                  <td>20,000,000</td> 
-                  <td>87,800</td> 
-                  <td>400,000</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>20,487,800</td> 
+              <td><?= number_format($data->EMPLOYEE_GAJI_POKOK_DES); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_PPH_DES); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TUNJANGAN_LAINNYA_DES); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_HONARIUM_DES); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_PREMI_DES); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_NATURA_DES); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_TANTIEMBONUS_DES); ?></td> 
+              <td><?= number_format($data->EMPLOYEE_BRUTO_DES); ?></td> 
 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-
-                   
-                </tr>  
-                <tr>  
-                  <td>1</td> 
-                  <td>Nathalie</td> 
-                  <td>00.000.000.0-000.000</td> 
-                  <td>K/2</td> 
-                  <td>01</td> 
-                  <td>03</td> 
-                  <td>0</td> 
-                  <td>40,000,000</td> 
-                  <td>1,189,385</td> 
-                  <td>1,000,000</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>42,189,385</td>  
-
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-                  <td>0</td> 
-
-                </tr>  
+               
+            </tr> 
+            <?php } ?>  
                
           </tbody>
         </table> 

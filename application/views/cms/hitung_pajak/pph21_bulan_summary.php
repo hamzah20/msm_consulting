@@ -20,7 +20,7 @@
     <div class="col-sm-4">
       <div class="page-header float-left">
         <div class="page-title">
-          <h1>Hitung Pajak</h1>
+          <h1>PPH 21</h1>
         </div>
       </div>
     </div>
@@ -202,7 +202,15 @@
         </div>
         
         <hr>
-        <h6><span class="badge badge-success"># Detail / Rincian</span></h6> <br>
+        <div class="row">
+          <div class="col-6">
+             <h6><span class="badge badge-success"># Detail / Rincian</span></h6>
+          </div>
+          <div class="col-6 text-right">
+            <a class="btn btn-sm btn-info" href="#" role="button" data-toggle="modal" title="Import" data-target="#importPPH21"><i class="fa fa-download"></i> Download E-SPT</a>
+          </div>
+        </div>
+        <br>
 
         <table id="companyTable" class="table table-company">
           <!-- <thead class="thead-dark"> -->

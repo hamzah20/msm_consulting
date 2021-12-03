@@ -1,7 +1,7 @@
-<div class="modal fade" id="addProject" tabindex="-1" aria-labelledby="addProject" aria-hidden="true" >
-	<div class="modal-dialog" style="padding-left: 0px;">
+<div class="modal fade " id="addProject" tabindex="-1" aria-labelledby="addProject" aria-hidden="true" >
+	<div class="modal-dialog modal-lg" style="padding-left: 0px; width: 1200px;">
 		<form class="needs-validation" id="formAddProjecttype" action="<?= base_url('General/ProjectType/addProjecttype'); ?>" method="POST" novalidate>
-			<div class="modal-content" style="width: 700px;">
+			<div class="modal-content" style="width: 1200px; margin-left: -150px;">
 				<div class="modal-header">
 					<h5 class="modal-title" id="addProject">Tambah Project</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -62,8 +62,12 @@
 					                       			<?php
 					                       			foreach ($task->result() as $GetTask) {
 					                       				?>
-						                        		  <li><input type="checkbox" name=""> <?php echo $GetTask->TASK_NAME?> 
-						                        		  <input type="text" name="" class="form-control form-control-sm" style="float: right; width: 40%;"> <span style="float: right;margin-right: 5px;">PIC : </span>
+						                        		  <li><input type="checkbox" name=""> <?php echo $GetTask->TASK_NAME?>
+						                        		  <input type="text" name="" class="form-control form-control-sm" style="float: right; width: 10%;" placeholder="Total Hours"> 
+						                        		   <input type="datetime-local" name="" class="form-control form-control-sm" style="float: right; width: 20%;" placeholder="End Date"> 
+						                        		  <input type="datetime-local" name="" class="form-control form-control-sm" style="float: right; width: 20%;" placeholder="Start Date"> 
+						                        		   <input type="text" name="" class="form-control form-control-sm" style="float: right; width: 30%;"> <span style="float: right;margin-right: 5px;">PIC : </span>
+						                        		   
 						                        		  
 						                        		</li>
 					                       				<?php

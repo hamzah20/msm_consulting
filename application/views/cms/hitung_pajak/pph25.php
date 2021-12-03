@@ -20,7 +20,7 @@
     <div class="col-sm-4">
       <div class="page-header float-left">
         <div class="page-title">
-          <h1>Hitung Pajak</h1>
+          <h1>PPH 25</h1>
         </div>
       </div>
     </div>
@@ -38,52 +38,78 @@
   <!-- Content -->
   <div class="content mt-3">
     <div class="card">
-      <div class="card-body">
-        <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addPPH22Perusahaan">Tambah Data</a>
+      <div class="card-body"> 
+        <ul class="nav nav-tabs nav-edit-perusahaan my-3"> 
+          <li class="nav-item">
+              <a class="nav-link active" href="<?php echo base_url('pph_25'); ?>"><i class="fa fa-id-card mr-1"></i>Masukan</a>
+          </li> 
+          <li class="nav-item">
+              <a class="nav-link" href="#"><i class="fa fa-id-card mr-1"></i>Keluaran</a>
+          </li> 
+          <li class="nav-item">
+              <a class="nav-link" href="<?php echo base_url('pph_25/fpdl'); ?>"><i class="fa fa-id-card mr-1"></i>FP DL</a>
+          </li>  
+        </ul>
         <hr>
-        <div class="row"> 
-          <div class="col-2">
-            <input type="text" id="FilterTahun" name="FilterTahun" class="form-control form-control-sm" placeholder="Periode" value="<?php echo date('Y'); ?>"> 
-          </div> 
-        </div> <span class="badge badge-info mt-1 mb-3">*Filter by Years</span>
-        <table class="table" id="example" class="display">
-
-          <br>
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col-1" class="text-center">No</th>
-              <th scope="col-2">Nama Perusahaan</th>
-              <th scope="col-1" class="text-center">NPWP</th>
-              <th scope="col-1" class="text-center">Periode (Tahun)</th>
-              <th scope="col-1" class="text-center">Total Penghasilan DTP</th> 
-              <th scope="col-4" class="text-center">Aksi</th>
+         <a class="btn btn-sm btn-danger mb-2" href="#" role="button" data-toggle="modal" title="Import" data-target="#importMasukan"><i class="fa fa-upload"></i> Upload</a>
+        <table id="example" class="table" class="display">
+          <!-- <thead class="thead-dark"> -->
+            <tr class="thead-dark">
+              <th scope="col-">No</th>
+              <th scope="col-">Name</th>  
+              <th scope="col-">DPP</th> 
+              <th scope="col-">PPN</th> 
+              <th scope="col-">PPN bm</th> 
+              <th scope="col-">Creditable</th> 
+              <th scope="col-">Notes</th> 
+              <th scope="col-">Status</th> 
+              <th scope="col-">Aksi</th> 
             </tr>
-          </thead>
-          <tbody>
-            <?php if ($companies->num_rows() != 0) { ?>
-              <?php foreach ($companies->result() as $company) { ?>
-                <tr>
-                  <th scope="row" class="text-center"><?= $counter++; ?></th>
-                  <td><?= $company->COMPANY_NAME; ?></td>
-                  <td class="text-center"><?= ($company->COMPANY_NPWP == null ? '-' : $company->COMPANY_NPWP); ?></td>
-                  <td class="text-center text-danger"><?= $company->PERIOD_YEAR; ?></td>
-                  <td class="text-center"><?= ($company->TOTAL_COMPANY_DTP == null ? '-' : number_format($company->TOTAL_COMPANY_DTP)); ?></td> 
-                  <td class="text-center">
-                    <a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Summary Bulanan" href="<?= base_url('pph_25/bulan?cid=' . $company->COMPANY_ID . '&yid=' . $company->PERIOD_YEAR); ?>"><i class="fa fa-eye"></i></a>
-                    <a class="btn btn-sm btn-primary text-white" data-toggle="tooltip" data-placement="top" title="Summary Tahunan" href="<?= base_url('pph_25/tahun'); ?>" role="button" role="button"><i class="fa fa-eye"></i></a>
-                  </td>
-                </tr>
+          <!-- </thead> -->
+          <tbody> 
+            <?php 
+              foreach ($companies->result() as $data) {
 
-              <?php } ?>
-            <?php } ?>
+            ?>
+              <input type="hidden" value="<?php echo $data->REC_ID; ?>" id="REC_ID">
+              <tr>
+                <td><?php echo $counter++; ?></td>
+                <td><?php echo $data->FACTURE_NAME; ?></td> 
+                <td><?php echo number_format($data->TOTAL_DPP); ?></td>
+                <td><?php echo number_format($data->TOTAL_PPN); ?></td>
+                <td><?php echo number_format($data->TOTAL_PPNBM); ?></td>
+                <td>
+                  <?php 
+                    if($data->CREDITABLE =='1'){
+                      echo "Iya";
+                    } else{
+                      echo "Tidak";
+                    } 
+                  ?>
+                    
+                </td>
+                <td><?php echo $data->NOTES; ?></td>
+                <td><?php echo $data->STATUS; ?></td>
+                <td>
+                  <!-- <a class="btn btn-sm btn-warning text-white editmasukan" href="#" role="button"  data-id="<?php //echo $data->REC_ID; ?>" data-toggle="modal" title="Edit" data-target="#editMasukan"><i class="fa fa-edit"></i> </a>  --> 
+                  <a class="btn btn-sm btn-warning text-white" data-toggle="tooltip" data-placement="top" title="Edit" href="<?= base_url('pph_25/editmasukan?id=' . $data->REC_ID); ?>"><i class="fa fa-edit"></i></a>
+                </td>
+              </tr>
+            <?php
+              }
+            ?> 
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Add Modal Perusahaan -->
-    <?php $this->load->view('modal/add_pph22_perusahaan'); ?>
-    <!-- End of Add Modal Perusahaan -->
+    <!-- Add Modal Masukan -->
+    <?php $this->load->view('modal/import_pph25_masukan'); ?>
+    <!-- End of Add Modal Masukan -->
+
+    <!-- Edit Modal Masukan -->
+    <?php $this->load->view('modal/edit_pph25_masukan'); ?>
+    <!-- End of Edit Modal Masukan -->
 
   </div>
   <!-- End of Content -->
@@ -96,7 +122,8 @@
 <script src="<?= base_url('assets/autocomplete/jquery.autocomplete.js'); ?>"></script>
 <link rel="stylesheet" href="<?= base_url('assets/autocomplete/autocomplete.css'); ?>">
 
-<script>
+
+<script> 
   jQuery(document).ready(function($) {
 
     "use strict";

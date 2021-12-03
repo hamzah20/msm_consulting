@@ -1,3 +1,17 @@
+<style type="text/css">
+  .label-green{
+    background-color: #28a745;color: #fff;
+  }
+  .label-red{
+    background-color: #dc3545;color: #fff;
+  }
+  .label-yellow{
+    background-color: #ffc107;color: #fff;
+  }
+  table{
+    font-size: 8pt;
+  }
+</style>
 <!-- Header -->
 <?php $this->load->view('templates_cms/header'); ?>   
 <!-- End of Header -->
@@ -176,7 +190,7 @@
                             <tr>
                               <th scope="col">NO</th>
                               <th scope="col">KLIEN</th>
-                              <th scope="col">PROJECT STATUST</th>
+                              <th scope="col">PROJECT STATUS</th>
                               <th scope="col">TASK STATUS</th> 
                               <th scope="col">TARGET DATE</th>
                               <th scope="col">PIC</th>
@@ -210,7 +224,8 @@
                               <td>2021-09-20</td>
                               <td>Rafif</td>
                               <td><h6><span class="badge badge-success">6 more days</span></h6></td>
-                            </tr> 
+                            </tr>
+
                           </tbody>
                         </table>
                     </div>
@@ -218,11 +233,134 @@
                 <!-- /# card -->
             </div>
 
+             <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>MY PENDING CUSTOM TASK</h4>
+                    </div>
+                    <div class="card-body">
+                       <table class="table table-dashboard">
+                          <thead>
+                            <tr >
+                              <th scope="col">NO</th>
+                              <th scope="col">PIC</th>
+                              <th scope="col">CUSTOMER</th>
+                              <th scope="col">PROJECT </th>
+                              <th scope="col">TASK</th> 
+                              <!-- <th scope="col">START DATE</th> -->
+                              <th scope="col">TARGET DATE</th>
+                              <th scope="col">PLANDED HOURS</th>
+                              <th scope="col">ACTUAL HOURS</th>
+                              <th scope="col">STATUS</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>Hamzah</td>
+                              <td>PT. PERUSAHAAN YANG SUKSES</td>
+                              <td>AUDIT FINANCIAL STATEMENT</td>
+                              <td>Data COA</td>
+                              <!-- <td>2021-09-17</td> -->
+                              <td>2021-10-01</td>
+                              <td>72</td>
+                              <td>65</td>
+                              <td>Data has been Collected</td>
+                              <!-- <td><button class="btn btn-success"><i class="fa fa-eye"></i></button></td> -->
+                            </tr> 
+                           <tr>
+                              <th scope="row">2</th>
+                              <td>Rafif</td>
+                              <td>PT. PERUSAHAAN YANG SUKSES</td>
+                              <td>AUDIT FINANCIAL STATEMENT</td>
+                              <td>Cek Inventory & COGS</td>
+                              <!-- <td>2021-09-17</td> -->
+                              <td><h6><span class="badge badge-danger">2021-10-26</span></h6></td>
+                              <td><h6><span class="badge badge-danger">72</span></h6></td>
+                              <td><h6><span class="badge badge-danger">70</span></h6></td>
+                              <td><h6><span class="badge badge-danger">Check Inventory & COGS</span></h6></td>
+                              <!-- <td><button class="btn btn-success"><i class="fa fa-eye"></i></button></td> -->
+                            </tr> 
+                            <tr >
+                              <th scope="row">3</th>
+                              <td>Andi</td>
+                              <td>PT. PERUSAHAAN YANG SUKSES</td>
+                              <td>AUDIT FINANCIAL STATEMENT</td>
+                              <td>Data Jurnal</td>
+                              <!-- <td>2021-09-17</td> -->
+                              <td>2021-10-10</td>
+                              <td>72</td>
+                              <td>72</td>
+                              <td>Check Jurnal</td>
+                              <!-- <td><button class="btn btn-success"><i class="fa fa-eye"></i></button></td> -->
+                            </tr> 
+                            <tr>
+                              <th scope="row">4</th>
+                              <td>Hamzah</td>
+                              <td>PT. PERUSAHAAN YANG SUKSES</td>
+                              <td>AUDIT FINANCIAL STATEMENT</td>
+                              <td>Alokasi Resource</td>
+                              <!-- <td>2021-09-17</td> -->
+                              <td><h6><span class="badge badge-danger">2021-10-16</span></h6></td>
+                              <td><h6><span class="badge badge-danger">72</span></h6></td>
+                              <td><h6><span class="badge badge-danger">78</span></h6></td>
+                              <td><h6><span class="badge badge-danger">Resource Gathering</span></h6></td>
+                              <!-- <td><button class="btn btn-success"><i class="fa fa-eye"></i></button></td> -->
+                            </tr> 
+                          </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /# card -->
+            </div>
+             <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>CUSTOM TASK WAITING FOR APPROVAL</h4>
+                    </div>
+                    <div class="card-body">
+                       <table class="table table-dashboard">
+                          <thead>
+                            <tr>
+                              <th scope="col">NO</th>
+                              <th scope="col">CUSTOMER</th>
+                              <th scope="col">PROJECT </th>
+                              <th scope="col">TASK</th>
+                              <th scope="col">TARGET DATE</th>
+                              <th scope="col">TOTAL HOURS</th>
+                              <th scope="col">PIC</th>
+                              <th scope="col"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>PT. PERUSAHAAN YANG SUKSES</td>
+                              <td>AUDIT FINANCIAL STATEMENT</td>
+                              <td>Data COA</td>
+                              <td>2021-09-20</td>
+                              <td>72</td>
+                              <td>Hamzah</td>
+                              <td>
+                                <a class="btn btn-success" href="#" role="button" data-toggle="modal" data-target="#approvalTask"><i class="fa fa-eye"></i></a>
+                              </td>
+                            </tr> 
+                           
+                          </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /# card -->
+            </div>
 
         </div> 
         <!-- .content -->
     </div>
     <!-- /#right-panel -->
+
+    <!-- Add Modal Perusahaan -->
+      <?php $this->load->view('modal/approval_task'); ?>
+    <!-- End of Add Modal Perusahaan -->
 
     <!-- Right Panel -->
 
