@@ -56,6 +56,11 @@ class Pph21 extends CI_Controller
 		$this->load->view('cms/hitung_pajak/pph21_bulan', $data); 
 	}
 
+	public function spt21()
+	{
+		$this->load->view('cms/spt/spt21');
+	}
+
 	public function pph_21_tahun()
 	{
 		$cid=$this->input->get('cid');
