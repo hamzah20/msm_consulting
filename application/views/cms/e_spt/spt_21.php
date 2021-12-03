@@ -2,57 +2,256 @@
 <html>
 <head>
 	<style>
-		table {border-collapse: collapse;}
-		table td {padding: 0px}
+		table tr td {
+			font-style:normal;
+			font-weight:normal;
+			font-size:9pt;
+			font-family:Arial;
+			color:black;
+			text-align: right;
+			width:100in;
+			padding-bottom:0.067in;
+		}
+		table{
+		}
+		.text-div {
+			position:absolute;
+			line-height:0.18in;
+		}
+		.text-span {
+			font-style:normal;
+			font-weight:normal;
+			font-size:9pt;
+			font-family:Arial;
+			color:black;
+		}
+		.text-span2 {
+			font-style:normal;
+			font-weight:normal;
+			font-size:9pt;
+			font-family:Arial;
+			color:black;
+			text-align: right;
+		}
 	</style>
 </head>
 <body>
 <img style="position:absolute;top:0.03in;left:0.03in;width:8.93in;height:13.96in" src="<?php echo base_url('assets/images/spt/spt_21.png'); ?>" />
-<div style="position:absolute;top:1.39in;left:4.30in;width:0.19in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">12</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:1.38in;left:4.88in;width:0.19in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">20</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:1.38in;left:5.48in;width:0.57in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">0000005</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:1.41in;left:7.81in;width:0.19in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">01</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:1.41in;left:8.39in;width:0.19in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">12</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:1.78in;left:1.26in;width:0.72in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">026919126</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:1.78in;left:3.80in;width:0.26in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">712</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:1.78in;left:4.59in;width:0.26in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">000</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:2.10in;left:1.26in;width:1.94in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">PT.GADING SAWIT KENCANA</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:2.93in;left:1.05in;width:0.83in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">00.000.000.0</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:2.93in;left:3.41in;width:0.26in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">000</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:2.93in;left:4.20in;width:0.26in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">000</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:3.25in;left:1.05in;width:1.24in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">0000000000000000</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:3.55in;left:1.05in;width:1.22in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">Cliff Antonio Librato</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:3.87in;left:1.05in;width:0.54in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">SAMPIT</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:4.50in;left:1.62in;width:0.13in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">X</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:3.24in;left:6.52in;width:0.11in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">0</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:3.58in;left:6.48in;width:0.72in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">Trainee FC</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:5.38in;left:1.51in;width:0.13in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">X</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:5.87in;left:8.25in;width:0.72in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">46.460.160</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:6.12in;left:8.32in;width:0.64in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">1.186.500</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:6.35in;left:8.26in;width:0.72in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">26.200.000</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:6.59in;left:8.86in;width:0.11in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">0</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:6.84in;left:8.85in;width:0.11in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">0</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:7.08in;left:8.85in;width:0.11in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">0</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:7.33in;left:8.32in;width:0.64in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">5.121.680</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:7.57in;left:8.25in;width:0.72in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">78.968.340</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:8.06in;left:8.32in;width:0.64in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">3.948.417</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:8.30in;left:8.32in;width:0.64in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">1.244.000</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:8.55in;left:8.32in;width:0.64in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">5.192.417</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:9.02in;left:8.25in;width:0.72in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">73.775.923</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:9.29in;left:8.85in;width:0.11in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">0</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:9.54in;left:8.25in;width:0.72in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">73.775.923</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:9.76in;left:8.25in;width:0.72in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">54.000.000</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:10.00in;left:8.25in;width:0.72in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">19.775.000</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:10.26in;left:8.32in;width:0.64in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">1.186.500</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:10.50in;left:8.85in;width:0.11in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">0</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:10.74in;left:8.32in;width:0.64in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">1.186.500</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:10.98in;left:8.32in;width:0.64in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">1.186.500</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:11.60in;left:1.09in;width:0.83in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">14.148.393.3</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:11.60in;left:3.62in;width:0.26in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">047</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:11.58in;left:4.42in;width:0.26in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">000</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:11.97in;left:1.08in;width:1.09in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">BUDI MARTONO</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:11.98in;left:5.28in;width:0.19in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">30</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:11.98in;left:5.85in;width:0.19in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">12</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
-<div style="position:absolute;top:11.98in;left:6.58in;width:0.34in;line-height:0.18in;"><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000">2020</span><span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Arial;color:#000000"> </span><br/></SPAN></div>
+
+<div style="top:1.39in;left:4.30in;width:0.19in;" class="text-div">
+	<span class="text-span">12</span>
+	<br/>
+</div>
+<div style="top:1.38in;left:4.88in;width:0.19in;" class="text-div">
+	<span class="text-span">20</span>
+	<br/>
+</div>
+<div style="top:1.38in;left:5.48in;width:0.57in;" class="text-div">
+	<span class="text-span">0000005</span><br/>
+</div>
+<div style="top:1.41in;left:7.81in;width:0.19in;" class="text-div">
+	<span class="text-span">01</span><br/>
+</div>
+<div style="top:1.41in;left:8.39in;width:0.19in;" class="text-div">
+	<span class="text-span">12</span><br/>
+</div>
+<div style="top:1.78in;left:1.26in;width:0.72in;" class="text-div">
+	<span class="text-span">026919126</span><br/>
+</div>
+<div style="top:1.78in;left:3.80in;width:0.26in;" class="text-div">
+	<span class="text-span">712</span><br/>
+</div>
+<div style="top:1.78in;left:4.59in;width:0.26in;" class="text-div">
+	<span class="text-span">000</span><br/>
+</div>
+<div style="top:2.10in;left:1.26in;width:1.94in;" class="text-div">
+	<span class="text-span">PT.GADING SAWIT KENCANA</span><br/>
+</div>
+<div style="top:2.93in;left:1.05in;width:0.83in;" class="text-div">
+	<span class="text-span">npwp1</span><br/>
+</div>
+<div style="top:2.93in;left:3.41in;width:0.26in;" class="text-div">
+	<span class="text-span">npwp2</span><br/>
+</div>
+<div style="top:2.93in;left:4.20in;width:0.26in;" class="text-div">
+	<span class="text-span">npwp3</span><br/>
+</div>
+<div style="top:3.25in;left:1.05in;width:1.24in;" class="text-div">
+	<span class="text-span">nik/nopasspor</span><br/>
+</div>
+<div style="top:3.55in;left:1.05in;width:1.22in;" class="text-div">
+	<span class="text-span">nama</span><br/>
+</div>
+<div style="top:3.75in;left:1.05in;width:4in;line-height: 0.35in;" class="text-div">
+	<span class="text-span">alamat Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi esse vel placeat ullam maxime fugiat rerum quis eos quisquam </span><br/>
+</div>
+<div style="top:4.50in;left:1.6in;width:0.13in;" class="text-div">
+	<span class="text-span">X</span><br/>
+</div>
+<div style="top:4.50in;left:2.82in;width:0.13in;" class="text-div">
+	<span class="text-span">X</span><br/>
+</div>
+<div style="top:3.24in;left:5.4in;width:0.11in;" class="text-div">
+	<span class="text-span">k</span><br/>
+</div>
+<div style="top:3.24in;left:6.42in;width:0.11in;" class="text-div">
+	<span class="text-span">tk</span><br/>
+</div>
+<div style="top:3.24in;left:7.45in;width:0.11in;" class="text-div">
+	<span class="text-span">hb</span><br/>
+</div>
+<div style="top:3.58in;left:6.48in;width:0.72in;" class="text-div">
+	<span class="text-span">Trainee FC</span><br/>
+</div>
+<div style="top:3.85in;left:6.94in;width:0.72in;" class="text-div">
+	<span class="text-span">X</span><br/>
+</div>
+<div style="top:4.2in;left:6.94in;width:0.72in;" class="text-div">
+	<span class="text-span">Domisili</span><br/>
+</div>
+<div style="top:5.38in;left:1.48in;width:0.13in;" class="text-div">
+	<span class="text-span">X</span><br/>
+</div>
+<div style="top:5.38in;left:2.43in;width:0.13in;" class="text-div">
+	<span class="text-span">X</span><br/>
+</div>
+<div style="top:5.83in;left:1in;width:7.9in;" class="text-div">
+	<span class="text-span">
+		<table>
+			<tr>
+				<td>
+					1.000.000.000.000
+				</td>
+			</tr>
+			<tr>
+				<td>
+					1.000
+				</td>
+			</tr>
+			<tr>
+				<td>
+					1.000.000.000.000
+				</td>
+			</tr>
+			<tr>
+				<td>
+					1.000.000.000.000
+				</td>
+			</tr>
+			<tr>
+				<td>
+					1.000.000.000.000
+				</td>
+			</tr>
+			<tr>
+				<td>
+					1.000.000.000.00
+				</td>
+			</tr>
+			<tr>
+				<td>
+					1.000.000.000.00
+				</td>
+			</tr>
+			<tr>
+				<td>
+					1.000.000.0
+				</td>
+			</tr>
+			<tr>
+				<td style="visibility: hidden">
+					hiddenpengurangan
+				</td>
+			</tr>
+			<tr>
+				<td>
+					1.000.00
+				</td>
+			</tr>
+			<tr>
+				<td>
+					1.000.000.000.000
+				</td>
+			</tr>
+			<tr>
+				<td>
+					1.000.000.000.000
+				</td>
+			</tr>
+			<tr>
+				<td style="visibility: hidden;">
+					hidden2
+				</td>
+			</tr>
+			<tr>
+				<td>
+					1.000.000.000.000
+				</td>
+			</tr>
+			<tr>
+				<td>
+					1.000.000.000.000
+				</td>
+			</tr>
+			<tr>
+				<td>
+					1.000.000.000.000
+				</td>
+			</tr>
+			<tr>
+				<td>
+					1.000.000.000.000
+				</td>
+			</tr>
+			<tr>
+				<td>
+					1.000.000.000.000
+				</td>
+			</tr>
+			<tr>
+				<td>
+					1.000.000.000.000
+				</td>
+			</tr>
+			<tr>
+				<td>
+					1.000.000.000.000
+				</td>
+			</tr>
+			<tr>
+				<td>
+					1.000.000.000.000
+				</td>
+			</tr>
+			<tr>
+				<td>
+					1.000.000.000.000
+				</td>
+			</tr>
+		</table>
+	</span><br/>
+</div>
+<div style="top:11.60in;left:1.09in;width:0.83in;" class="text-div">
+	<span class="text-span">14.148.393.3</span><br/>
+</div>
+<div style="top:11.60in;left:3.62in;width:0.26in;" class="text-div">
+	<span class="text-span">047</span><br/>
+</div>
+<div style="top:11.58in;left:4.42in;width:0.26in;" class="text-div">
+	<span class="text-span">000</span><br/>
+</div>
+<div style="top:11.97in;left:1.08in;width:1.09in;" class="text-div">
+	<span class="text-span">BUDI MARTONO</span><br/>
+</div>
+<div style="top:11.98in;left:5.28in;width:0.19in;" class="text-div">
+	<span class="text-span">30</span><br/>
+</div>
+<div style="top:11.98in;left:5.85in;width:0.19in;" class="text-div">
+	<span class="text-span">12</span><br/>
+</div>
+<div style="top:11.98in;left:6.58in;width:0.34in;" class="text-div">
+	<span class="text-span">2020</span><br/>
+</div>
+
 </body>
 </html>
