@@ -1,0 +1,85 @@
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
+
+class Milestone extends CI_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        // $this->output->enable_profiler(TRUE);
+    }
+
+    // milestone
+    public function index()
+    {
+
+        $data['project'] = $this->cms->getGeneralList('gm_project_type');
+        $data['slc_project']="";
+        if(!empty($this->input->post('slc_projecttype'))){
+            $data['slc_project']=$this->input->post('slc_projecttype');
+            $data['milestone'] = $this->cms->getSingularData('v_g_milestone','PROJECT_TYPE_ID',$this->input->post('slc_projecttype'));
+        }else{
+             $data['milestone'] = $this->cms->getGeneralList('v_g_milestone');
+        }
+        $this->load->view('cms/milestone/milestone', $data);
+    }
+
+    public function addMilestone(){
+        $project_id=$this->input->post('txt_project_id');
+        $milestone=$this->input->post('txt_milstone');
+        $description=$this->input->post('txt_description');
+        $projectArr = array(
+            'PROJECT_TYPE_ID'=>$project_id,
+            'MILESTONE_NAME'=>$milestone,
+            'DESCRIPTION'=>$description
+        );
+
+        $this->db->trans_begin();
+        $this->cms->insertGeneralData('g_milestone', $projectArr);
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            $this->session->set_flashdata('query', 'error');
+            redirect('milestone');
+        } else {
+            $this->db->trans_commit();
+            $this->session->set_flashdata('query', 'success_milestone');
+            redirect('milestone');
+        }
+    }
+
+    public function addTask(){
+        $milestone_id=$this->input->post('txt_milestone_id');
+        $task=$this->input->post('txt_task');
+        $Gettask=$this->cms->getTasktotal($milestone_id);
+        $total_task=$Gettask->num_rows();
+        $sort_new=1;
+        if($total_task>0){
+            $sort_new=$Gettask->SORT_NO+1;
+        }
+       // echo $sort_new;
+
+        $TaskArr = array(
+            'MILESTONE_ID'=>$milestone_id,
+            'TASK_NAME'=>$task,
+            'SORT_NO'=>$sort_new,
+            'STATUS'=>'NEW'
+        );
+
+        $this->db->trans_begin();
+        $this->cms->insertGeneralData('g_task', $TaskArr);
+        if ($this->db->trans_status() === FALSE) {
+            $this->db->trans_rollback();
+            $this->session->set_flashdata('query', 'error');
+            redirect('milestone');
+        } else {
+            $this->db->trans_commit();
+            $this->session->set_flashdata('query', 'success_task');
+            redirect('milestone');
+        }
+    }
+    
+}
