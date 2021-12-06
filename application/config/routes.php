@@ -106,6 +106,7 @@ $route['pph_21/bulan/summary/karyawan/edit']          	= 'PPH/Pph21/edit_pph_21_
 $route['pph_21/bulan/summary/aktifitas_pajak']          = 'PPH/Pph21/aktifitas_pajak';
 $route['pph_21/bulan/summary/aktifitas_pajak/edit']     = 'PPH/Pph21/edit_aktifitas_pajak';
 $route['pph_21/spt']								    = 'PPH/Pph21/spt21';
+$route['pph_21/spt_tahun']								= 'PPH/Pph21/spt21_tahun';
 
 
 // KEBUTUHAN PAJAK - HITUNG PAJAK - PPH 22
