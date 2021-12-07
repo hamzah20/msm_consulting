@@ -58,12 +58,22 @@ class Pph21 extends CI_Controller
 
 	public function spt21()
 	{
-		$this->load->view('cms/e_spt/spt_21');
+		// Menangkap variabel dari pph 21 bulan summary
+		$cid = $this->input->get('cid');
+		$pid = $this->input->get('pid');
+		$eid = $this->input->get('eid');
+
+		$getDataSPT = $this->cms->getSingularDataTriple('v_g_employee_pph21','COMPANY_ID','PPH_ID','EMPLOYEE_ID',$cid,$pid,$eid); 
+
+		$data['spt']	= $getDataSPT;
+
+		$this->load->view('cms/e_spt/spt_21',$data);
 	}
 	public function spt21_tahun()
 	{
 		$this->load->view('cms/e_spt/spt_21_tahun');
 	}
+	
 
 	public function pph_21_tahun()
 	{
