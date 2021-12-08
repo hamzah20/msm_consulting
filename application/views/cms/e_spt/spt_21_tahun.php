@@ -252,7 +252,7 @@
 				</td>
 				<td>:<sub>A.03</sub></td>
 				<td>
-					<div class="garis-bawah" style="max-width:7in">
+					<div class="garis-bawah f-l" style="max-width:7in">
 						Lorem ipsum, dolor sit amet consectetur, adipisicing elit. Recusandae tempore voluptatum eaque consequatur harum doloribus molestiae aliquam, excepturi qui incidunt laboriosam a, repellat sapiente, id quibusdam quam, aut reprehenderit quaerat. Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi, minima dolor provident eos dicta fugit, quam impedit qui velit cumque dolore ex aliquam reprehenderit dolorum nemo voluptatem veniam maiores nisi?
 					</div>
 				</td>
