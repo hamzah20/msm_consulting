@@ -123,6 +123,7 @@ $route['pph_22/lawan_transaksi']     					= 'PPH/Pph22/LawanTransaksi';
 $route['pph_22/lawan_transaksi/delete']     			= 'PPH/Pph22/delete_lawan_transaksi';
 $route['pph_22/lawan_transaksi/edit']     				= 'PPH/Pph22/edit_lawan_transaksi';
 $route['pph_22/transaksi/add']     						= 'PPH/Pph22/add_transaksi';
+$route['pph_22/spt_tahun']								= 'PPH/Pph22/spt22_tahun';
 
 // KEBUTUHAN PAJAK - HITUNG PAJAK - PPH 23
 $route['pph_23']                                        = 'PPH/Pph23/index';

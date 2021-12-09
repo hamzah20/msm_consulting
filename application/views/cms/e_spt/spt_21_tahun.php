@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>SPT MASA</title>
+	<title>SPT 21 MASA</title>
 	<style>
 		.bg-grey{
 			background-color: #cccccc;
