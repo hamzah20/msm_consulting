@@ -69,9 +69,9 @@ class Pph21 extends CI_Controller
 
 		$this->load->view('cms/e_spt/spt_21',$data);
 	}
-	public function spt21_tahun()
+	public function spt21_masa()
 	{
-		$this->load->view('cms/e_spt/spt_21_tahun');
+		$this->load->view('cms/e_spt/spt_21_masa');
 	}
 	
 

@@ -106,7 +106,7 @@ $route['pph_21/bulan/summary/karyawan/edit']          	= 'PPH/Pph21/edit_pph_21_
 $route['pph_21/bulan/summary/aktifitas_pajak']          = 'PPH/Pph21/aktifitas_pajak';
 $route['pph_21/bulan/summary/aktifitas_pajak/edit']     = 'PPH/Pph21/edit_aktifitas_pajak';
 $route['pph_21/spt']								    = 'PPH/Pph21/spt21';
-$route['pph_21/spt_tahun']								= 'PPH/Pph21/spt21_tahun';
+$route['pph_21/spt_masa']								= 'PPH/Pph21/spt21_masa';
 
 
 // KEBUTUHAN PAJAK - HITUNG PAJAK - PPH 22
@@ -123,7 +123,7 @@ $route['pph_22/lawan_transaksi']     					= 'PPH/Pph22/LawanTransaksi';
 $route['pph_22/lawan_transaksi/delete']     			= 'PPH/Pph22/delete_lawan_transaksi';
 $route['pph_22/lawan_transaksi/edit']     				= 'PPH/Pph22/edit_lawan_transaksi';
 $route['pph_22/transaksi/add']     						= 'PPH/Pph22/add_transaksi';
-$route['pph_22/spt_tahun']								= 'PPH/Pph22/spt22_tahun';
+$route['pph_22/spt_masa']								= 'PPH/Pph22/spt22_masa';
 
 // KEBUTUHAN PAJAK - HITUNG PAJAK - PPH 23
 $route['pph_23']                                        = 'PPH/Pph23/index';
@@ -139,6 +139,7 @@ $route['pph_23/lawan_transaksi']     					= 'PPH/Pph23/LawanTransaksi';
 $route['pph_23/lawan_transaksi/delete']     			= 'PPH/Pph23/delete_lawan_transaksi';
 $route['pph_23/lawan_transaksi/edit']     				= 'PPH/Pph23/edit_lawan_transaksi';
 $route['pph_23/transaksi/add']     						= 'PPH/Pph23/add_transaksi';
+$route['pph_23/spt_masa']								= 'PPH/Pph23/spt23_masa';
 
 // KEBUTUHAN PAJAK - HITUNG PAJAK - PPH 25
 $route['pph_25']                                        = 'PPH/Pph25/index';

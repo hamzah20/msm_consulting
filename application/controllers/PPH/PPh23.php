@@ -26,6 +26,11 @@ class Pph23 extends CI_Controller
 		$this->load->view('cms/hitung_pajak/pph23', $data);
 	}
 
+	public function spt23_masa()
+	{
+		$this->load->view('cms/e_spt/spt_23_masa');
+	}
+
 	public function pph_23_bulan()
 	{
 

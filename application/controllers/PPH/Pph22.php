@@ -25,9 +25,9 @@ class Pph22 extends CI_Controller
 		$this->load->view('cms/hitung_pajak/pph22', $data);
 	}
 
-	public function spt22_tahun()
+	public function spt22_masa()
 	{
-		$this->load->view('cms/e_spt/spt_22_tahun');
+		$this->load->view('cms/e_spt/spt_22_masa');
 	}
 
 	public function pph_22_bulan()
