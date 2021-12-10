@@ -30,6 +30,12 @@ class Pph22 extends CI_Controller
 		$this->load->view('cms/e_spt/spt_22_masa');
 	}
 
+	public function bukti_pungut_22()
+	{
+		$this->load->view('cms/e_spt/bukti_pungut_22');
+	}
+
+
 	public function pph_22_bulan()
 	{ 
 		$this->db->select('*')
