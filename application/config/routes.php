@@ -166,3 +166,7 @@ $route['pph_42/transaksi/umkm/add']     				= 'PPH/Pph42/add_transaksi_umkm';
 $route['projecttype']                                    = 'General/ProjectType';
 $route['milestone']                                    = 'General/Milestone';
 $route['project']                                    = 'General/Project';
+
+//User
+$route['user_msm'] 											= 'General/User';
+$route['USER_MSM'] 											= 'General/User';
