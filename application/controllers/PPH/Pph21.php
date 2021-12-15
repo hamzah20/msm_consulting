@@ -748,6 +748,38 @@ class Pph21 extends CI_Controller
 		$this->load->view('cms/hitung_pajak/pph21_bulan_summary', $data);
 	}
 
+	public function pph_21_bulan_summary_tidak_tetap()
+	{ 
+		$cid=$this->input->get('cid');
+		$mid=$this->input->get('mid');
+		$yid=$this->input->get('yid');
+		// $mid=$this->input->get('yid');
+		$data['correction'] = $this->cms->getPembetulanSummary($cid,$mid,$yid);
+		$data['summary'] 	= $this->cms->getGeneralData('v_g_companies_pph21_detail', 'PPH_ID', $this->input->get('pid'));
+
+		$this->db->select('*')
+			->from('g_pph21_ptt')
+			->where('COMPANY_ID', trim($this->input->get('cid')))
+			->where('PPH_ID', trim($this->input->get('pid')));
+
+
+		// $data['employees'] 	= $this->cms->getGeneralData('v_g_employee_pph21', 'COMPANY_ID', trim($this->input->get('cid')));
+		$data['employees'] 	= $this->db->get();
+		$data['counter']	= 1;
+		$data['payment']    = $this->cms->getSingularData('g_payment', 'PPH_ID', $this->input->get('pid'));
+		$data['statuspph21']= $this->cms->cekstatuspph21($this->input->get('pid'));
+
+		// if ($data['summary']->num_rows() == 0) {
+		// 	$this->session->set_flashdata('query', 'invalid');
+		// 	echo 'ga ada';
+		// 	// redirect(base_url('pph_21/bulan?cid=' . $this->input->get('cid')));
+		// } else {
+		// 	$this->load->view('cms/hitung_pajak/pph21_bulan_summary');
+		// }
+
+		$this->load->view('cms/hitung_pajak/pph21_bulan_summary_tidak_tetap', $data);
+	}
+
 	public function pph_21_bulan_approve()
 	{
 		$pid=$this->input->get('pid');
@@ -999,6 +1031,615 @@ class Pph21 extends CI_Controller
 				$sheet->setCellValue('V' . $colCounter, $pphData->row()->EMPLOYEE_TANTIEMBONUS);
 				$sheet->setCellValue('W' . $colCounter, $pphData->row()->EMPLOYEE_IURAN_THT == null ? '0' : $pphData->row()->EMPLOYEE_IURAN_THT);
 				$sheet->setCellValue('X' . $colCounter, $pphData->row()->EMPLOYEE_IURAN_JP == null ? '0' : $pphData->row()->EMPLOYEE_IURAN_JP);
+
+				$colCounter++;
+				$numCounter++;
+			}
+		}
+		// //EoL 2
+
+
+		$writer = new Xlsx($phpExcel);
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment; filename="' . urlencode($fileName) . '"');
+		ob_end_clean();
+
+		$output = $writer->save('php://output');
+	}
+
+
+public function importXLSLFilePTT()
+	{
+		$this->output->enable_profiler(TRUE); 
+
+		//echo $this->input->post('pphID');
+
+		$companyCheck  = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->post('companyID'));
+		$employeeCheck = $this->cms->getSingularData('g_pph21_ptt', 'COMPANY_ID', $this->input->post('companyID'));
+		$pphCheck 	   = $this->cms->getSingularData('g_pph21_ptt', 'PPH_ID', $this->input->post('pphID'));
+
+
+		//Deklrasi Variabel awal
+		$companyBruto = 0;
+		$companyNeto  = 0;
+		$companyPPH21 = 0;
+
+		if ($companyCheck->num_rows() == 0) {
+			echo 'tidak ada perusahaan';
+			return;
+		}
+
+		if ($employeeCheck->num_rows() == 0) {
+			echo 'tidak ada pegawai aktif';
+			return;
+		}
+
+		$employeeArr = [];
+
+		foreach ($employeeCheck->result() as $employee) {
+
+			$tmpArr = array(
+				'NAME'					=> $employee->NAMA_PEGAWAI,
+				'KTP'					=> $employee->NIK_PASPOR,
+				'NPWP'					=> $employee->NPWP,
+				'ID'					=> $employee->EMPLOYEE_ID_PTT
+			);
+
+			array_push($employeeArr, $tmpArr);
+		}
+
+
+		$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+
+		$config['upload_path']          = './assets/upload/docs/';
+		$config['allowed_types']        = 'xlsx';
+		$config['overwrite']            = true;
+		$config['encrypt_name']         = true;
+		$config['remove_spaces']        = true;
+
+		$this->load->library('upload', $config);
+
+		if (!$this->upload->do_upload('fileImport')) {
+			echo 'ada yang salah';
+			return;
+		}
+
+		$data = $this->upload->data();
+
+		$loadExcel = $reader->load('./assets/upload/docs/' .  $data['file_name']);
+		$sheet = $loadExcel->getActiveSheet()->toArray(null, true, true, true);
+
+		//Hapus data array yang buat header
+		unset($sheet[1]);
+		unset($sheet[2]);
+
+		if (sizeof($sheet) == 0) {
+			echo 'ini file kosong';
+			return;
+		}
+
+		// Mengecek status pada table g_pph21, jika status belum PAID
+		// Maka data lama pada g_employee_income akan dihapus terlebih dahulu, baru diinputkan data terbaru
+		$processType='REVISI';
+		$this->db->select('STATUS')
+				 ->from('g_pph21')
+				 ->where('PPH_ID', $this->input->post('pphID'));
+
+		$status = $this->db->get(); 
+
+		foreach ($status->result() as $key);
+
+		// Jika status bukan Lapor Pajak, hapus terlebih dahulu data lama di g_employee_income
+		if($key->STATUS == "ACTIVE" OR $key->STATUS == "ON PROGRESS" OR $key->STATUS  == "WAITING FOR APPROVAL" OR $key->STATUS  == "WAITING FOR CUSTOMER APPROVAL" OR $key->STATUS  == "WAITING FOR PAYMENT" OR $key->STATUS  == "PAID" OR $key->STATUS  == "TAX FILING" ){
+			//REVISI
+			$this->cms->deleteGeneralData('g_employee_income', 'PPH_ID', $this->input->post('pphID'));
+		} elseif ($key->STATUS == "LAPOR PAJAK" OR $key->STATUS  == "HARDCOPY" ) {
+			//PEMBETULANN
+			$processType='PEMBETULAN';
+			$pembetulanKe = $this->cms->cekpembetulan($this->input->post('companyID'), $this->input->post('monthID'), $this->input->post('yearID'));
+		
+			foreach ($pphCheck->result() as $cekPPH21);
+			$prevPPHVAL = $cekPPH21->COMPANY_PPHVAL;
+			// Ubah dulu status lama jadi HISTORY
+			$updateStatusPPH21 = array(
+				'UPDATED'	=> date('Y-m-d H:i:s'),
+				'STATUS'	=> 'HISTORY'
+			);
+			$this->cms->updateGeneralData('g_pph21', $updateStatusPPH21, 'PPH_ID', $this->input->post('pphID'));
+
+
+		}
+
+		if($processType=="REVISI") {
+			$pphID = $this->input->post('pphID');
+		}else {
+			$pphID = $this->incube->generateID(10);
+			$companyData = array(
+				'PPH_ID'		=> $pphID,
+				'COMPANY_ID'	=> $this->input->post('companyID'),
+				'PERIOD_YEAR'	=> $this->input->post('yearID'),
+				'PERIOD_MONTH'	=> $this->input->post('monthID'),
+				'CREATED'		=> date('Y-m-d h:i:s'),
+				'STATUS'		=> 'RE PROGRESS',
+			);
+
+			$queryInsert = $this->cms->insertGeneralData('g_pph21', $companyData);
+			//EoL 1
+			
+		}
+
+
+		foreach ($sheet as $sheetData) {
+
+			$employeeID     = $this->incube->generateID(10);
+
+			//Cek data pegawai ada atau engga & ambil PKTP Tarif Mereka
+			//Ngeceknya pake array dan bukan pake database, biar lebih cepet dan aman. Kalau misalnya data ada 1000, kalau masing-
+			//masing ngecek ke database, pasti ada error/mysql timeout
+			$employeeIndex = array_search($sheetData['C'], array_column($employeeArr, 'INTERNAL_ID'));
+			//echo $employeeIndex;
+			// Check NPWP
+			$this->db->select('*')
+					 ->from('g_employee')
+					 ->where('EMPLOYEE_INTERNAL_ID', $sheetData['C']);
+
+			$CheckEmpNPWP = $this->db->get(); 
+
+			foreach ($CheckEmpNPWP->result() as $CheckNPWP);  
+
+			$totalTunjangan=0;
+
+			//Kalkulasi Bruto, Neto & Jumlah Pengurang (TUNJANGAN, IURAN, PREMI, DLL)
+
+			$totalTunjangan = $sheetData['G'] + $sheetData['H'] + $sheetData['I'] + $sheetData['J'] + $sheetData['K'] + $sheetData['L'] + $sheetData['M'] + $sheetData['O'] + $sheetData['P'];
+			$totalPremi 	= $sheetData['R'] + $sheetData['S'] + $sheetData['T'];
+			$iuran 			= $sheetData['W'] + $sheetData['X'];
+
+			$totalBruto 	= $sheetData['E'] + $totalTunjangan + $sheetData['Q'] + $totalPremi + $sheetData['U'] + $sheetData['V'];
+
+
+			//Biaya Jabatan Mx 5000000
+
+			$bijab = 0.05 * $totalBruto;
+			if($bijab>500000) {
+				$bijab= 500000;
+			}
+			$totalPengurang	= $bijab + $iuran;
+
+			//Tarif PTKP Pegawai
+			$ptkpTarif = $employeeArr[$employeeIndex]['PTKP_TARIF'];
+			//echo strlen($employeeArr[$employeeIndex]['NPWP'])."<br>";
+			//Kalkulasi PPH21 Non-Gross Up
+			$CheckNPWP->EMPLOYEE_ID;
+			$PPH_ID=$this->input->post('pphID');
+
+			$this->db->select('*')
+			 ->from('g_employee_income')
+			 ->where('EMPLOYEE_ID', $CheckNPWP->EMPLOYEE_ID)
+			 ->where('PPH_ID', $PPH_ID);
+
+			$CheckBruto = $this->db->get(); 
+
+			foreach ($CheckBruto->result() as $BrutoEmp){
+					$persen=$this->cms->getPersen($BrutoEmp->EMPLOYEE_BRUTO);
+					foreach ($persen->result() as $CheckPersen){
+
+					echo  $BrutoEmp->EMPLOYEE_BRUTO." - ".$CheckPersen->PRESENTASE."<BR>"; 
+					}
+			}
+			
+			$yearlyNeto = 12 * ($totalBruto - $totalPengurang);
+			$yearlyPKP  = $yearlyNeto - $ptkpTarif;
+
+			//Dibulatkan biar 3 digit dibelakang jadi 0
+			$yearlyPKP = (floor($yearlyPKP / 1000)) * 1000;
+
+			//Kalkulasi PPH21 Gross UP
+			if ($companyCheck->row()->PPHCOUNT_METHOD == 'GROSS UP') {
+				$Tunjpph=0;
+				switch ($yearlyPKP) {
+					case ($yearlyPKP <= 47500000):
+						// echo 'lapisan 1';
+						$Tunjpph = ($yearlyPKP - 0) *  (5 / 95) + 0;
+						break;
+					case (($yearlyPKP >= 47500000) && ($yearlyPKP <= 217500000)):
+						// echo 'lapisan 2';
+						$Tunjpph = ($yearlyPKP - 47500000) * (15 / 85) + 2500000;
+						break;
+					case (($yearlyPKP >= 217500000) && ($yearlyPKP <= 405000000)):
+						// echo 'lapisan 3';
+						$Tunjpph = ($yearlyPKP - 217500000) * (25 / 75) + 32500000;
+						break;
+					case ($yearlyPKP >= 405000000):
+						// echo 'lapisan 4';
+						$Tunjpph = ($yearlyPKP - 405000000) * (30 / 70) + 95000000;
+						break;
+					default:
+						break;
+				}
+				$Tunjpph = $Tunjpph/12; //579.392
+
+				$monthlyPPH = 0; 
+				while ($Tunjpph != $monthlyPPH) { 
+					//HITUNG YearlyPKP (after tunjanganpph)
+					 $totalBruto 	= $sheetData['E'] + $Tunjpph + $totalTunjangan + $sheetData['Q'] + $totalPremi + $sheetData['U'] + $sheetData['V']; 
+
+
+					// Biaya jabatan max 500 ribu
+					// Biaya jabatan dihitung 5% dari total bruto
+					// Jika setalah dihitung biaya jabatan > 500 ribu, 
+					// Maka akan dibuat sebesar 500 ribu
+					$bijab = 0.05 * $totalBruto;
+					if($bijab>500000) {
+						$bijab= 500000;
+					}
+					$totalPengurang	= $bijab + $iuran;
+							
+					$yearlyNeto = 12 * ($totalBruto - $totalPengurang);
+					$yearlyPKP  = $yearlyNeto - $ptkpTarif;
+
+					//Dibulatkan biar 3 digit dibelakang jadi 0
+					$yearlyPKP = (floor($yearlyPKP / 1000)) * 1000;
+
+
+					if ($yearlyPKP > 0) {
+					    if ($yearlyPKP > 500000000) {
+					        $tier1 = 0.05 * 50000000;
+					        $tier2 = 0.15 * 200000000;
+					        $tier3 = 0.25 * 250000000;
+					        $tier4 = 0.3 * ($yearlyPKP - 500000000);
+					        $yearlyPPH = $tier1 + $tier2 + $tier3 + $tier4;
+					    } elseif ($yearlyPKP > 250000000) {
+					        $tier1 = 0.05 * 50000000;
+					        $tier2 = 0.15 * 200000000;
+					        $tier3 = 0.25 * ($yearlyPKP - 250000000);
+					        $yearlyPPH = $tier1 + $tier2 + $tier3;
+					    } elseif ($yearlyPKP > 50000000) {
+					        $tier1 = 0.05 * 50000000;
+					        $tier2 = 0.15 * ($yearlyPKP - 50000000);
+					        $yearlyPPH = $tier1 + $tier2;
+					    } else {
+					        $tier1 = 0.05 * $yearlyPKP;
+					        $yearlyPPH = $tier1;
+					    }
+					}		
+
+					$monthlyPPH = ($yearlyPPH / 12);
+
+					if($Tunjpph != $monthlyPPH){
+						
+						$Tunjpph = $monthlyPPH;
+						$monthlyPPH = 0;
+
+					}
+
+				} 
+			} 
+
+			if ($yearlyPKP > 0) {
+			    if ($yearlyPKP > 500000000) {
+			        $tier1 = 0.05 * 50000000;
+			        $tier2 = 0.15 * 200000000;
+			        $tier3 = 0.25 * 250000000;
+			        $tier4 = 0.3 * ($yearlyPKP - 500000000);
+			        $yearlyPPH = $tier1 + $tier2 + $tier3 + $tier4;
+			    } elseif ($yearlyPKP > 250000000) {
+			        $tier1 = 0.05 * 50000000;
+			        $tier2 = 0.15 * 200000000;
+			        $tier3 = 0.25 * ($yearlyPKP - 250000000);
+			        $yearlyPPH = $tier1 + $tier2 + $tier3;
+			    } elseif ($yearlyPKP > 50000000) {
+			        $tier1 = 0.05 * 50000000;
+			        $tier2 = 0.15 * ($yearlyPKP - 50000000);
+			        $yearlyPPH = $tier1 + $tier2;
+			    } else {
+			        $tier1 = 0.05 * $yearlyPKP;
+			        $yearlyPPH = $tier1;
+			    }
+			}		
+
+			$monthlyPPH = ($yearlyPPH / 12); 
+
+			if (strlen($employeeArr[$employeeIndex]['NPWP']) == 0) {
+				//Kalau misalnya pegawai ga punya NPWP
+				$monthlyPPHFinal = $monthlyPPH  * 1.2;
+			} else {
+				//Kalau misalnya pegawai punya NPWP		
+				$monthlyPPHFinal = $monthlyPPH;
+			} 
+			
+			// Update data sebelumnya, sebelum di inputkan data baru 
+			$updatePPH21 = array(
+				'UPDATED'	=> date('Y-m-d H:i:s'),
+				'STATUS'	=> 'ON PROGRESS'
+			);
+			$this->cms->updateGeneralData('g_pph21', $updatePPH21, 'PPH_ID', $pphID); 
+
+			//EoL PPH21 Gross Up
+			$employeeData = array(
+				'INCOME_ID'                 	=> $employeeID,
+				'PPH_ID'						=> $pphID,
+				'COMPANY_ID'           			=> $this->input->post('companyID'),
+				'EMPLOYEE_ID'             		=> $employeeArr[$employeeIndex]['ID'],
+				'EMPLOYEE_GAJI_POKOK'			=> $sheetData['E'],
+				'EMPLOYEE_TUNJANGAN_PPH'		=> $Tunjpph,
+				'EMPLOYEE_TUNJANGAN_1'			=> $sheetData['G'],
+				'EMPLOYEE_TUNJANGAN_2'			=> $sheetData['H'],
+				'EMPLOYEE_TUNJANGAN_3'			=> $sheetData['I'],
+				'EMPLOYEE_TUNJANGAN_4'			=> $sheetData['J'],
+				'EMPLOYEE_TUNJANGAN_5'			=> $sheetData['K'],
+				'EMPLOYEE_TUNJANGAN_6'			=> $sheetData['L'],
+				'EMPLOYEE_TUNJANGAN_7'			=> $sheetData['M'],
+				'EMPLOYEE_TUNJANGAN_8'			=> $sheetData['N'],
+				'EMPLOYEE_TUNJANGAN_9'			=> $sheetData['O'],
+				'EMPLOYEE_TUNJANGAN_10'			=> $sheetData['P'],
+				'EMPLOYEE_TUNJANGAN_LAINNYA'	=> $totalTunjangan,
+				'EMPLOYEE_HONORARIUM'			=> $sheetData['Q'],
+				'EMPLOYEE_PREMI_JKK'			=> $sheetData['R'],
+				'EMPLOYEE_PREMI_JKM'			=> $sheetData['S'],
+				'EMPLOYEE_PREMI_BPJS'			=> $sheetData['T'],
+				'EMPLOYEE_PREMI'				=> $totalPremi,
+				'EMPLOYEE_NATURA'				=> $sheetData['U'],
+				'EMPLOYEE_TANTIEMBONUS'			=> $sheetData['V'],
+				'EMPLOYEE_IURAN_THT'			=> $sheetData['W'],
+				'EMPLOYEE_IURAN_JP'				=> $sheetData['X'],
+				'EMPLOYEE_IURAN_PENSIUN'		=> $iuran,
+				'EMPLOYEE_BIAYA_JABATAN'		=> $bijab,
+				'EMPLOYEE_TOTAL_PENGURANGAN'	=> $iuran+$bijab,
+				'EMPLOYEE_BRUTO'				=> $totalBruto,
+				'EMPLOYEE_NETTO'				=> $totalBruto - $totalPengurang,
+				'EMPLOYEE_NETTO_YEAR'			=> (floor($totalBruto) - $totalPengurang)*12,
+				'EMPLOYEE_PTKP'					=> $ptkpTarif,
+				'EMPLOYEE_PKP_YEAR'				=> $yearlyPKP,
+				'EMPLOYEE_PPHVAL_YEAR'			=> round($yearlyPPH),
+				'EMPLOYEE_PPHVAL_MASA'			=> round($monthlyPPH),
+				'EMPLOYEE_PPHVAL'				=> round($monthlyPPHFinal),
+				'CREATED'						=> date('Y-m-d h:i:s'),
+				'STATUS'						=> 'ON PROGRESS', 
+				'PPHCOUNT_METHOD'				=> $companyCheck->row()->PPHCOUNT_METHOD
+			);
+
+			$companyBruto 	= $companyBruto + $totalBruto;
+			$companyNeto  	= $companyNeto + ($totalBruto - $totalPengurang);
+			$companyPPH21   = $companyPPH21 + round($monthlyPPH);
+
+			// DEBUG DATA YANG MAU DIMASUKIN
+			// echo json_encode($employeeData);
+
+			$this->cms->insertGeneralData('g_employee_income', $employeeData);
+
+		}
+
+		if($processType=="REVISI") {
+				$KBLB = 0;
+			}else {
+				$KBLB = $prevPPHVAL - $companyPPH21;
+				
+			} 
+
+		//Tambah data ke NETTO & BRUTO PERUSAHAAN
+		$companyData = array(
+			'COMPANY_BRUTO'		=> $companyBruto,
+			'COMPANY_NETTO'		=> $companyNeto, 
+			'COMPANY_PPHVAL'	=> $companyPPH21,
+			'COMPANY_KBLB'		=> $KBLB
+		);
+
+		//DEBUG DATA YANG MAU DIMASUKIN
+		// echo json_encode($companyData);
+
+		$this->cms->updateGeneralData('g_pph21', $companyData, 'PPH_ID', $pphID);
+
+		redirect('pph_21/bulan/summary?pid=' . $pphID . '&cid=' . $this->input->post('companyID'). '&mid=' . $this->input->post('monthID'). '&yid=' . $this->input->post('yearID'));
+	}
+
+
+	public function generateXLSFilePTT()
+	{
+		$phpExcel = new Spreadsheet();
+
+		$companyID      = $this->input->get('cid');
+		$pphID			= $this->input->get('pid');
+
+		$companyData    = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $companyID);
+		$employeeData   = $this->cms->getSingularData('g_pph21_ptt', 'COMPANY_ID', $companyID);
+		
+
+		$fileName = 'FORMAT_PPH21_PTT' . $companyData->row()->COMPANY_NAME . '_' . date('ymd') . '.xlsx';
+
+		//1. Format dasar PHPExcel
+		$sheet = $phpExcel->getActiveSheet();
+
+		$sheet->getStyle('A1:P2')
+			->getFont()
+			->getColor()
+			->setRGB('ffffff');
+
+		$phpExcel->getProperties()
+			->setCreator('MSM Consulting')
+			->setLastModifiedBy('MSM Consulting')
+			->setTitle('MSM Consulting PPH21 Form')
+			->setSubject('MSM Consulting PPH21 Form');
+
+		$sheet->getStyle('A1:P2')
+			->getFill()
+			->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+			->getStartColor()
+			->setARGB('000066');
+
+
+		$phpExcel->setActiveSheetIndex(0)->setTitle('FormatData PPH21');
+
+		$sheet->setCellValue('A1', "No");
+		$sheet->mergeCells('A1:A2');
+		$sheet->getStyle('A1:A2')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+
+		$sheet->setCellValue('B1', "Nama Pegawai");
+		$sheet->mergeCells('B1:B2');
+		$sheet->getStyle('B1:B2')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+
+		$sheet->setCellValue('C1', "NPWP");
+		$sheet->mergeCells('C1:C2');
+		$sheet->getStyle('C1:C2')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+
+		$sheet->setCellValue('D1', 'NIK/No. Paspor');
+		$sheet->mergeCells('D1:D2');
+		$sheet->getStyle('D1:D2')->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+
+		$sheet->setCellValue('E1', "Alamat");
+		$sheet->mergeCells('E1:E2');
+		$sheet->getStyle('E1:E2')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+
+		$sheet->setCelLValue('F1', 'WP Asing');
+		$sheet->mergeCells('F1:F2');
+		$sheet->getStyle('F1:F2')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+
+		$sheet->setCelLValue('G1', 'Kode Negara');
+		$sheet->mergeCells('G1:G2');
+		$sheet->getStyle('G1:G2')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+
+		$sheet->setCelLValue('H1', 'Nomor Bukti Potong');
+		$sheet->mergeCells('H1:H2');
+		$sheet->getStyle('H1:H2')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCelLValue('I1', 'Tanggal Bukti Potong');
+		$sheet->mergeCells('I1:I2');
+		$sheet->getStyle('I1:I2')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+
+		$sheet->setCelLValue('J1', 'Kode Objek');
+		$sheet->mergeCells('J1:J2');
+		$sheet->getStyle('J1:J2')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCelLValue('K1', 'Status');
+		$sheet->mergeCells('K1:K2');
+		$sheet->getStyle('K1:K2')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCelLValue('L1', 'Metode');
+		$sheet->mergeCells('L1:L2');
+		$sheet->getStyle('L1:L2')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCelLValue('M1', 'Golongan');
+		$sheet->mergeCells('M1:M2');
+		$sheet->getStyle('M1:M2')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);	
+
+		$sheet->setCelLValue('N1', 'Sifat Penghasilan');
+		$sheet->mergeCells('N1:N2');
+		$sheet->getStyle('N1:N2')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCelLValue('O1', 'Penghasilan Lainnya');
+		$sheet->mergeCells('O1:O2');
+		$sheet->getStyle('O1:O2')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCelLValue('P1', 'Penghasilan Bruto');
+		$sheet->mergeCells('P1:P2');
+		$sheet->getStyle('P1:P2')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+
+		foreach (range('B', 'X') as $columnID) {
+			$phpExcel->getActiveSheet()->getColumnDimension($columnID)
+				->setAutoSize(true);
+		}
+		//EoL 1
+
+		//2. Isi Excel pake data
+		if ($employeeData->num_rows() != 0) {
+
+			$colCounter = 3;
+			$numCounter = 1;
+
+			foreach ($employeeData->result() as $employee) {
+				$pphData 		= $this->cms->getSingularDataDetail('g_pph21_ptt', 'PPH_ID', 'COMPANY_ID',$pphID,$companyID);
+				//2.1 Convert Tanggal sesuai format, lihat di Libraries/Incube.php
+				$monthName = $this->incube->convertMonthName($pphData->row()->PERIOD_MONTH);
+				//EoL 2.1
+
+				$sheet->setCellValue('A' . $colCounter, $numCounter);
+				$sheet->setCellValue('B' . $colCounter, $pphData->row()->NAMA_PEGAWAI);
+				$sheet->setCellValue('C' . $colCounter, $pphData->row()->NPWP);
+				$sheet->setCellValue('D' . $colCounter, $pphData->row()->NIK_PASPOR);
+				$sheet->setCellValue('E' . $colCounter, $pphData->row()->ALAMAT);
+				$sheet->setCellValue('F' . $colCounter, $pphData->row()->WP_ASING);
+				$sheet->setCellValue('G' . $colCounter, $pphData->row()->COUNTRY_CODE);
+				$sheet->setCellValue('H' . $colCounter, $pphData->row()->NOMOR_BUKTI_POTONG);
+				$sheet->setCellValue('I' . $colCounter, $pphData->row()->TANGGAL_BUKTI_POTONG);
+				$sheet->setCellValue('J' . $colCounter, $pphData->row()->KODE_OBJEK);
+				$sheet->setCellValue('K' . $colCounter, $pphData->row()->TK_ID);
+				$sheet->setCellValue('L' . $colCounter, $pphData->row()->METODE);
+				$sheet->setCellValue('M' . $colCounter, $pphData->row()->GOLONGAN);
+				$sheet->setCellValue('N' . $colCounter, $pphData->row()->SIFAT_PENGHASILAN);
+				$sheet->setCellValue('O' . $colCounter, $pphData->row()->PENGHASILAN_LAINNYA == null ? '0' : $pphData->row()->PENGHASILAN_LAINNYA); 
+				$sheet->setCellValue('P' . $colCounter, $pphData->row()->PENGHASILAN_BRUTO == null ? '0' : $pphData->row()->PENGHASILAN_BRUTO); 
 
 				$colCounter++;
 				$numCounter++;

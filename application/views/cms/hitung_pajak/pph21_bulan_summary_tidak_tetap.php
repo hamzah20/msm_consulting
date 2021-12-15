@@ -84,7 +84,7 @@
               <div class="col-4">
                 <div class="form-group">
                   <label for="" class="label-utama font-weight-bold text-center">(1) Periode / Masa</label> 
-                  <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtPeriode" value="<?php echo $employee->PERIOD_MONTH."-".$employee->PERIOD_YEAR; ?>" readonly>  
+                  <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtPeriode" value="<?php echo "ON PROGRESS" ?>" readonly>  
                 </div>
               </div>
               <?php
@@ -190,17 +190,17 @@
 
             <?php foreach ($summary->result() as $summary_result)?>
 
-              <a class="nav-link active" href="<?= base_url('pph_21/bulan/summary?cid=' . $summary_result->COMPANY_ID . '&pid=' . $summary_result->PPH_ID . '&mid=' . $summary_result->PERIOD_MONTH . '&yid=' . $summary_result->PERIOD_YEAR); ?>"><i class="fa fa-id-card mr-1"></i>Tetap</a>
+              <a class="nav-link" href="<?= base_url('pph_21/bulan/summary?cid=' . $summary_result->COMPANY_ID . '&pid=' . $summary_result->PPH_ID . '&mid=' . $summary_result->PERIOD_MONTH . '&yid=' . $summary_result->PERIOD_YEAR); ?>"><i class="fa fa-id-card mr-1"></i>Tetap</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="<?= base_url('pph_21/bulan/summary/tidak_tetap?cid=' . $summary_result->COMPANY_ID . '&pid=' . $summary_result->PPH_ID . '&mid=' . $summary_result->PERIOD_MONTH . '&yid=' . $summary_result->PERIOD_YEAR); ?>"><i class="fa fa-id-card mr-1"></i>Tidak Tetap</a>
+              <a class="nav-link active" href="<?= base_url('pph_21/bulan/summary/tidak_tetap?cid=' . $summary_result->COMPANY_ID . '&pid=' . $summary_result->PPH_ID . '&mid=' . $summary_result->PERIOD_MONTH . '&yid=' . $summary_result->PERIOD_YEAR); ?>"><i class="fa fa-id-card mr-1"></i>Tidak Tetap</a>
           </li> 
           </li>
         </ul>
         <div class="row">
           <div class="col-6">
-            <a class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Download" href="<?= base_url('PPH/Pph21/generateXLSFile?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-download"></i> Download</a>
-            <a class="btn btn-sm btn-danger" href="#" role="button" data-toggle="modal" title="Import" data-target="#importPPH21"><i class="fa fa-upload"></i> Upload</a>
+            <a class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Download" href="<?= base_url('PPH/Pph21/generateXLSFilePTT?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-download"></i> Download</a>
+            <a class="btn btn-sm btn-danger" href="#" role="button" data-toggle="modal" title="Import" data-target="#importPPH21PTT"><i class="fa fa-upload"></i> Upload</a>
           </div>
           <div class="col-6 text-right">
             <a class="btn btn-sm btn-info mb-1" data-toggle="tooltip" data-placement="top" title="Submit Perhitungan PPh" href="<?= base_url('PPH/Pph21/generateXLSFileLaporPajak?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-check-circle"></i></a> 
@@ -219,7 +219,7 @@
              <h6><span class="badge badge-success"># Detail / Rincian</span></h6>
           </div>
           <div class="col-6 text-right">
-            <a class="btn btn-sm btn-info" href="#" role="button" data-toggle="modal" title="Import" data-target="#importPPH21"><i class="fa fa-download"></i> Download E-SPT</a>
+            <a class="btn btn-sm btn-info" href="#" role="button" data-toggle="modal" title="Import" data-target="#importPPH21PTT"><i class="fa fa-download"></i> Download E-SPT</a>
           </div>
         </div>
         <br>
@@ -229,90 +229,30 @@
             <tr class="thead-dark">
               <th scope="col-">No</th>
               <th scope="col-">Nama Karyawan</th>
-              <th scope="col-">Status</th>
               <th scope="col-">NPWP</th>
-              <th scope="col-" title="Gaji/Pensiun atau THT/JHT" class="text-center">GP*</th>
-              <th scope="col-" title="Tunjangan PPh" class="text-center">TP*</th>
-              <th scope="col-" title="Tunjangan lainnya, uang lembur dan sebagainya" class="text-center">TL*</th>
-              <th scope="col-" title="Honorarium dan imbalan lain sejenisnya" class="text-center">HI*</th>
-              <th scope="col-" title="Premi asuransi yang diberi pemberi kerja" class="text-center">PA*</th>
-              <th scope="col-" title="Natura dan kenikmatan lainnya" class="text-center">NA*</th>
-              <th scope="col-" title="Tantiem, bonus, gratifikasi, jasa produksi dan THR" class="text-center">TB*</th>
-              <th scope="col-" title="Penghasilan bruto" class="text-center">PB*</th>
-              <th scope="col-" title="Iuran pensiun atau iuran THT/JHT" class="text-center">IU*</th>
-              <th scope="col-" title="PPh 21 Terutang" class="text-center">PT*</th>
+              <th scope="col-" title="Penghasilan Lainnya" class="text-center">Penghasilan Lainnya</th>
+              <th scope="col-" title="Penghasilan Bruto" class="text-center">Penghasilan Bruto</th>
               <th scope="col-">Aksi</th> 
             </tr>
           <!-- </thead> -->
           <tbody>
             <?php if ($employees->num_rows() != 0) {
-
-              $totalGP = 0;
-              $totalTP = 0;
-              $totalTL = 0;
-              $totalHI = 0;
-              $totalPA = 0;
-              $totalNA = 0;
-              $totalTB = 0;
-              $totalPB = 0;
-              $totalIU = 0;
-              $totalPT = 0;
-
             ?>
               <?php foreach ($employees->result() as $employee) { ?>
                 <tr>
                   <td><?= $counter++; ?></td>
-                  <td><?= $employee->EMPLOYEE_NAME; ?></td>
-                  <td><?= $employee->EMPLOYEE_NATIONALITY_STATUS; ?></td>
-                  <td class="<?= (strlen($employee->EMPLOYEE_NPWP) == 0 ? 'text-danger' : ''); ?>"><?= (strlen($employee->EMPLOYEE_NPWP) == 0 ? 'Tidak Ada' : 'Ada'); ?></td>
-                  <td class="text-center"><?= number_format($employee->EMPLOYEE_GAJI_POKOK); ?></td>
-                  <td class="text-center"><?= number_format($employee->EMPLOYEE_TUNJANGAN_PPH); ?></td>
-                  <td class="text-center"><?= number_format($employee->EMPLOYEE_TUNJANGAN_LAINNYA); ?></td>
-                  <td class="text-center"><?= number_format($employee->EMPLOYEE_HONORARIUM); ?></td>
-                  <td class="text-center"><?= number_format($employee->EMPLOYEE_PREMI); ?></td>
-                  <td class="text-center"><?= number_format($employee->EMPLOYEE_NATURA); ?></td>
-                  <td class="text-center"><?= number_format($employee->EMPLOYEE_TANTIEMBONUS); ?></td>
-                  <td class="text-center"><?= number_format($employee->EMPLOYEE_BRUTO); ?></td>
-                  <td class="text-center"><?= number_format($employee->EMPLOYEE_IURAN_PENSIUN); ?></td>
-                  <td class="text-center"><?= number_format($employee->EMPLOYEE_PPHVAL); ?></td>
+                  <td><?= $employee->NAMA_PEGAWAI; ?></td>
+                  <td class="<?= (strlen($employee->NPWP) == 0 ? 'text-danger' : ''); ?>"><?= (strlen($employee->NPWP) == 0 ? 'Tidak Ada' : 'Ada'); ?></td>
+                  <td class="text-center"><?= number_format($employee->PENGHASILAN_LAINNYA); ?></td>
+                  <td class="text-center"><?= number_format($employee->PENGHASILAN_BRUTO); ?></td>
                   <td>
-                    <a class="btn btn-sm btn-danger mb-1" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_21/bulan/summary/karyawan/detail?eid=' . $employee->EMPLOYEE_ID . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID); ?>"><i class="fa fa-eye"></i></a>
-
-                    <a class="btn btn-sm btn-success mb-1" data-toggle="tooltip" data-placement="top" title="SPT" href="<?= base_url('pph_21/spt?eid=' . $employee->EMPLOYEE_ID . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID); ?>"><i class="fa fa-eye"></i></a>
-
-                    <a class="btn btn-sm btn-warning text-white" data-toggle="tooltip" data-placement="top" title="Edit" href="<?= base_url('pph_21/bulan/summary/karyawan/edit?eid=' . $employee->EMPLOYEE_ID . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID. '&mid=' . $employee->PERIOD_MONTH. '&yid=' . $employee->PERIOD_YEAR); ?>"><i class="fa fa-edit"></i></a>
+                    <a class="btn btn-sm btn-danger mb-1" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_21/bulan/summary/karyawan/detail?eid=' . $employee->EMPLOYEE_ID_PTT . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID); ?>"><i class="fa fa-eye"></i></a>
+                    <a class="btn btn-sm btn-success mb-1" data-toggle="tooltip" data-placement="top" title="SPT" href="<?= base_url('pph_21/spt?eid=' . $employee->EMPLOYEE_ID_PTT . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID); ?>"><i class="fa fa-eye"></i></a>
+                    <a class="btn btn-sm btn-warning text-white" data-toggle="tooltip" data-placement="top" title="Edit" href="<?= base_url('pph_21/bulan/summary/karyawan/edit?eid=' . $employee->EMPLOYEE_ID_PTT . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID); ?>"><i class="fa fa-edit"></i></a>
                   </td>
                 </tr>
               <?php
-
-                $totalGP = $totalGP + $employee->EMPLOYEE_GAJI_POKOK;
-                $totalTP = $totalTP + $employee->EMPLOYEE_TUNJANGAN_PPH;
-                $totalTL = $totalTL + $employee->EMPLOYEE_TUNJANGAN_LAINNYA;
-                $totalHI = $totalHI + $employee->EMPLOYEE_HONORARIUM;
-                $totalPA = $totalPA + $employee->EMPLOYEE_PREMI;
-                $totalNA = $totalNA + $employee->EMPLOYEE_NATURA;
-                $totalTB = $totalTB + $employee->EMPLOYEE_TANTIEMBONUS;
-                $totalPB = $totalPB + $employee->EMPLOYEE_BRUTO;
-                $totalIU = $totalIU + $employee->EMPLOYEE_IURAN_PENSIUN;
-                $totalPT = $totalPT + $employee->EMPLOYEE_PPHVAL;
               } ?>
-
-              <tr>
-                <td colspan="2" class="font-weight-bold">TOTAL</td>
-                <td></td>
-                <td></td>
-                <td class="font-weight-bold text-center"><?= number_format($totalGP); ?></td>
-                <td class="font-weight-bold text-center"><?= number_format($totalTP); ?></td>
-                <td class="font-weight-bold text-center"><?= number_format($totalTL); ?></td>
-                <td class="font-weight-bold text-center"><?= number_format($totalHI); ?></td>
-                <td class="font-weight-bold text-center"><?= number_format($totalPA); ?></td>
-                <td class="font-weight-bold text-center"><?= number_format($totalNA); ?></td>
-                <td class="font-weight-bold text-center"><?= number_format($totalTB); ?></td>
-                <td class="font-weight-bold text-center"><?= number_format($totalPB); ?></td>
-                <td class="font-weight-bold text-center"><?= number_format($totalIU); ?></td>
-                <td class="font-weight-bold text-center"><?= number_format($totalPT); ?></td>
-              </tr>
-
             <?php } ?>
 
 
@@ -326,7 +266,7 @@
     <!-- End of Add Modal Perusahaan -->
 
     <!-- Add Modal Perusahaan -->
-    <?php $this->load->view('modal/import_pph21'); ?>
+    <?php $this->load->view('modal/import_pph21_ptt'); ?>
     <!-- End of Add Modal Perusahaan -->
 
   </div>
