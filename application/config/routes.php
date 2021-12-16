@@ -97,12 +97,14 @@ $route['msm_group/edit']                              = 'General/MSM_group/edit_
 
 // KEBUTUHAN PAJAK - HITUNG PAJAK - PPH 21
 $route['pph_21']                                        = 'PPH/Pph21/index';
+$route['pph_21/bulan/summary/tidak_tetap/add']          = 'PPH/Pph21/add_pph21_ptt';
 $route['pph_21/bulan']                                  = 'PPH/Pph21/pph_21_bulan';
 $route['pph_21/tahun']                                  = 'PPH/Pph21/pph_21_tahun';
 $route['pph_21/bulan/summary']                          = 'PPH/Pph21/pph_21_bulan_summary';
 $route['pph_21/bulan/summary/tidak_tetap']              = 'PPH/Pph21/pph_21_bulan_summary_tidak_tetap';
 $route['pph_21/bulan/approve']                          = 'PPH/Pph21/pph_21_bulan_approve';
 $route['pph_21/bulan/summary/karyawan/detail']          = 'PPH/Pph21/pph_21_bulan_summary_karyawan';
+$route['pph_21/bulan/summary/karyawan/tidak_tetap/detail']= 'PPH/Pph21/pph_21_bulan_summary_tidak_tetap';
 $route['pph_21/bulan/summary/karyawan/edit']          	= 'PPH/Pph21/edit_pph_21_bulan_summary_karyawan';
 $route['pph_21/bulan/summary/aktifitas_pajak']          = 'PPH/Pph21/aktifitas_pajak';
 $route['pph_21/bulan/summary/aktifitas_pajak/edit']     = 'PPH/Pph21/edit_aktifitas_pajak';
@@ -125,7 +127,7 @@ $route['pph_22/lawan_transaksi/delete']     			= 'PPH/Pph22/delete_lawan_transak
 $route['pph_22/lawan_transaksi/edit']     				= 'PPH/Pph22/edit_lawan_transaksi';
 $route['pph_22/transaksi/add']     						= 'PPH/Pph22/add_transaksi';
 $route['pph_22/spt_masa']								= 'PPH/Pph22/spt22_masa';
-$route['pph_22/bukti_pungut']								= 'PPH/Pph22/bukti_pungut_22';
+$route['pph_22/bukti_pungut']							= 'PPH/Pph22/bukti_pungut_22';
 
 // KEBUTUHAN PAJAK - HITUNG PAJAK - PPH 23
 $route['pph_23']                                        = 'PPH/Pph23/index';

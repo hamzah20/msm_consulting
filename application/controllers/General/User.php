@@ -31,7 +31,7 @@ class User extends CI_Controller {
             redirect(base_url('user_msm'));
         }else {
             $this->session->set_flashdata('query', 'error');
-            edirect(base_url('user_msm'));
+            redirect(base_url('user_msm'));
         }
     }
 

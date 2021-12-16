@@ -1,4 +1,4 @@
-<!-- Header -->
+Header -->
 <?php $this->load->view('templates_cms/header'); ?>
 <!-- End of Header -->
 
@@ -217,6 +217,8 @@
         <div class="row">
           <div class="col-6">
              <h6><span class="badge badge-success"># Detail / Rincian</span></h6>
+             <br>
+             <a class="btn btn-sm btn-info" title="Tambah" href="<?= base_url('pph_21/bulan/summary/tidak_tetap/add?pid='.$this->input->get('pid').'&cid='.$this->input->get('cid') . '&mid=' . $this->input->get('mid') . '&yid=' . $this->input->get('yid') ); ?>"><i class="fa fa-plus"></i> Tambah</a>
           </div>
           <div class="col-6 text-right">
             <a class="btn btn-sm btn-info" href="#" role="button" data-toggle="modal" title="Import" data-target="#importPPH21PTT"><i class="fa fa-download"></i> Download E-SPT</a>
@@ -246,7 +248,7 @@
                   <td class="text-center"><?= number_format($employee->PENGHASILAN_LAINNYA); ?></td>
                   <td class="text-center"><?= number_format($employee->PENGHASILAN_BRUTO); ?></td>
                   <td>
-                    <a class="btn btn-sm btn-danger mb-1" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_21/bulan/summary/karyawan/detail?eid=' . $employee->EMPLOYEE_ID_PTT . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID); ?>"><i class="fa fa-eye"></i></a>
+                    <a class="btn btn-sm btn-danger mb-1" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_21/bulan/summary/karyawan/tidak_tetap/detail?eid=' . $employee->EMPLOYEE_ID_PTT . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID); ?>"><i class="fa fa-eye"></i></a>
                     <a class="btn btn-sm btn-success mb-1" data-toggle="tooltip" data-placement="top" title="SPT" href="<?= base_url('pph_21/spt?eid=' . $employee->EMPLOYEE_ID_PTT . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID); ?>"><i class="fa fa-eye"></i></a>
                     <a class="btn btn-sm btn-warning text-white" data-toggle="tooltip" data-placement="top" title="Edit" href="<?= base_url('pph_21/bulan/summary/karyawan/edit?eid=' . $employee->EMPLOYEE_ID_PTT . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID); ?>"><i class="fa fa-edit"></i></a>
                   </td>
@@ -339,7 +341,7 @@
 
       Swal.fire({
         title: 'Proses Berhasil',
-        text: 'Data perusahaan berhasil ditambahkan',
+        text: 'Data berhasil ditambahkan',
         icon: 'success',
         showCancelButton: false,
         confirmButtonText: 'Tutup'
@@ -350,4 +352,5 @@
 
 <!-- Footer -->
 <?php $this->load->view('templates_cms/footer'); ?>
-<!-- End of Footer -->
+<?php $this->session->userdata('query') == '' ?>
+<!-- End of Footer
