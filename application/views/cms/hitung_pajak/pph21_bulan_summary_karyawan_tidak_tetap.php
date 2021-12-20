@@ -1,4 +1,4 @@
-<!-- Header -->
+
 <?php $this->load->view('templates_cms/header'); ?>
 <!-- End of Header -->
 
@@ -28,7 +28,8 @@
       <div class="page-header float-right">
         <div class="page-title">
           <ol class="breadcrumb text-right">
-            <li class="active"> <a href="<?php echo base_url('pph_21'); ?>"> PPH 21</a> / <a href="<?php echo base_url('pph_21/bulan') ?>">Bulanan</a> / <a href="<?php echo base_url('pph_21/bulan/summary'); ?>">Summary</a> / Karyawan</li>
+            Work in progress
+            <li class="active"> <a href="<?php echo base_url('pph_21'); ?>"> PPH 21</a> / <a href="<?php echo base_url('pph_21/bulan') ?>">Bulanan</a> / <a href="<?php echo base_url('pph_21/bulan/summary/tidak_tetap'); ?>">Summary</a> / Karyawan Tidak Tetap</li>
           </ol>
         </div>
       </div>
@@ -45,11 +46,7 @@
             <tr>
               <th scope="col-" class="text-center">Kode karyawan</th>
               <th scope="col-" class="text-center">Nama Karyawan</th>
-              <th scope="col-" class="text-center">Tipe Karyawan</th>
-              <th scope="col-" class="text-center">Status Tanggungan</th>
               <th scope="col-" class="text-center">NPWP</th>
-              <th scope="col-" class="text-center">Mulai Kerja</th>
-              <th scope="col-" class="text-center">Berhenti Kerja</th>
               <th scope="col-" class="text-center">Metode</th>
             </tr>
           </thead>
@@ -58,14 +55,10 @@
 
               <?php foreach ($employee->result() as $empData) { ?>
                 <tr>
-                  <td class="text-center"><?= $empData->EMPLOYEE_INTERNAL_ID; ?></td>
-                  <td class="text-center"><?= $empData->EMPLOYEE_NAME; ?></td>
-                  <td class="text-center"><?= $empData->EMPLOYEE_NATIONALITY_STATUS; ?></td>
-                  <td class="text-center"><?= $empData->TK_NAME; ?></td>
-                  <td class="text-center"><?= $empData->EMPLOYEE_NPWP; ?></td>
-                  <td class="text-center"><?= $empData->EMPLOYEE_WORK_START; ?></td>
-                  <td class="text-center"><?= $empData->EMPLOYEE_WORK_END; ?></td>
-                  <td class="text-center"><?= $empData->PPHCOUNT_METHOD; ?></td>
+                  <td class="text-center"><?= $empData->EMPLOYEE_ID_PTT; ?></td>
+                  <td class="text-center"><?= $empData->NAMA_PEGAWAI; ?></td>
+                  <td class="text-center"><?= $empData->NPWP; ?></td>
+                  <td class="text-center"><?= $empData->METODE; ?></td>
                 </tr>
               <?php } ?>
 
@@ -298,4 +291,4 @@
 
 <!-- Footer -->
 <?php $this->load->view('templates_cms/footer'); ?>
-<!-- End of Footer -->
+<!-- End of Footer

@@ -748,7 +748,7 @@ class Pph21 extends CI_Controller
 		$this->load->view('cms/hitung_pajak/pph21_bulan_summary', $data);
 	}
 
-	public function pph_21_bulan_summary_karyawan_tidak_tetap() //WORK IN PROGRESS # PALDI
+	public function pph_21_bulan_summary_karyawan_tidak_tetap() //LIHAT DETAIL KARYAWAN DI BULAN SUMMARY PTT //WORK IN PROGRESS #PALDI
 	{
 		$this->db->select('*')
 			->from('g_pph21_ptt')
@@ -769,7 +769,7 @@ class Pph21 extends CI_Controller
 			redirect(base_url('pph_21/bulan/summary/tidak_tetap?pid=$pid&cid=$cid&mid=$mid&yid=$yid'));
 		}
 
-		$this->load->view('cms/hitung_pajak/pph21_bulan_summary_karyawan', $data);
+		$this->load->view('cms/hitung_pajak/pph21_bulan_summary_karyawan_tidak_tetap', $data);
 	}
 
 	public function pph_21_bulan_summary_tidak_tetap()
@@ -1080,6 +1080,7 @@ class Pph21 extends CI_Controller
 
 	public function insert_pph21_ptt()
 	{
+		
 
 		$incomeID     = $this->incube->generateID(10);
 		$employeeID   = $this->incube->generateID(10);
@@ -1101,7 +1102,9 @@ class Pph21 extends CI_Controller
 			'INCOME_ID'             => $incomeID,
 			'COMPANY_ID'           	=> $this->input->post('companyID'),
 			'PPH_ID'				=> $this->input->post('pphID'),  
-			'EMPLOYEE_ID_PTT'		=> $employeeID,  
+			'EMPLOYEE_ID_PTT'		=> $employeeID,
+			'PERIOD_YEAR'			=> $this->input->post('yearID'), 
+			'PERIOD_MONTH'			=> $this->input->post('monthID'), 
 			'NAMA_PEGAWAI'			=> $this->input->post('NAMA_PEGAWAI'),
 			'NPWP'					=> $this->input->post('NPWP'),
 			'NIK_PASPOR'			=> $this->input->post('NIK_PASPOR'),
@@ -1125,8 +1128,8 @@ class Pph21 extends CI_Controller
 
 		$cid = $this->input->post('companyID');
 		$pid = $this->input->post('pphID');
-		$mid = $this->input->post('mid');
-		$yid = $this->input->post('yid');
+		$mid = $this->input->post('monthID');
+		$yid = $this->input->post('yearID');
 
 		$query_adduser = $this->cms->insertGeneralData('g_pph21_ptt', $dataPTT);
 
@@ -1229,10 +1232,20 @@ class Pph21 extends CI_Controller
 
 				//kalo udah ada datanya, di update
 				$employeeID     = $data_ptt_employee->EMPLOYEE_ID_PTT;
-				$incomeID     = $data_ptt_employee->INCOME_ID;
+				$incomeID     = $this->incube->generateID(10);
 				$created = $data_ptt_employee->CREATED;
 				$update = true;
 				
+			}
+
+			$tk_data = $this->cms->getSingularData('m_ptkp', 'TK_ID', $sheetData['E']);
+			$tk_tarif = (float)$tk_data->row()->TK_TARIF; //ambil tarif dari db m_ptkp
+			$bruto_tahun = (float)$sheetData['R'] * 12; //bruto dikali 12 (bruto per tahun)
+			$pkp = $bruto_tahun - $tk_tarif; //penghasilan kena pajak
+			$total_pphval = $pkp * 5 / 100; // total pajak yang harus dibayar
+
+			if ($total_pphval < 1) {
+				$total_pphval = 0; // kalo kurang dari 1 jadiin 0
 			}
 
 			$employeeData = array(
@@ -1240,23 +1253,26 @@ class Pph21 extends CI_Controller
 				'PPH_ID'						=> $this->input->post('pphID'),
 				'COMPANY_ID'           			=> $this->input->post('companyID'),
 				'EMPLOYEE_ID_PTT'             	=> $employeeID,
-				'NAMA_PEGAWAI'					=> $sheetData['B'],
-				'NPWP'							=> $sheetData['C'],
-				'NIK_PASPOR'					=> $sheetData['D'],
-				'ALAMAT'						=> $sheetData['E'],
-				'WP_ASING'						=> $sheetData['F'],
-				'COUNTRY_CODE'					=> $sheetData['G'],
-				'NOMOR_BUKTI_POTONG'			=> $sheetData['H'],
-				'TANGGAL_BUKTI_POTONG'			=> $sheetData['I'],
-				'KODE_OBJEK'					=> $sheetData['J'],
-				'TK_ID'							=> $sheetData['K'],
-				'METODE'						=> $sheetData['L'],
-				'GOLONGAN'						=> $sheetData['M'],
-				'SIFAT_PENGHASILAN'				=> $sheetData['N'],
-				'PENGHASILAN_LAINNYA'			=> $sheetData['O'],
-				'PENGHASILAN_BRUTO'				=> $sheetData['P'],
-				'PPHVAL_PTT'					=> 'COMING SOON',
-				'PPHCOUNT_METHOD'				=> $companyCheck->row()->PPHCOUNT_METHOD,
+				'PERIOD_MONTH'             		=> $this->input->post('monthID'),
+				'PERIOD_YEAR'             		=> $this->input->post('yearID'),
+				'NAMA_PEGAWAI'					=> $sheetData['C'],
+				'NPWP'							=> $sheetData['D'],
+				'TK_ID'							=> $sheetData['E'],
+				'NIK_PASPOR'					=> $sheetData['F'],
+				'ALAMAT'						=> $sheetData['G'],
+				'WP_ASING'						=> $sheetData['H'],
+				'COUNTRY_CODE'					=> $sheetData['I'],
+				'NOMOR_BUKTI_POTONG'			=> $sheetData['J'],
+				'TANGGAL_BUKTI_POTONG'			=> $sheetData['K'],
+				'KODE_OBJEK'					=> $sheetData['L'],
+				'STATUS'						=> $sheetData['M'],
+				'METODE'						=> $sheetData['N'],
+				'GOLONGAN'						=> $sheetData['O'],
+				'SIFAT_PENGHASILAN'				=> $sheetData['P'],
+				'PENGHASILAN_LAINNYA'			=> $sheetData['Q'],
+				'PENGHASILAN_BRUTO'				=> $sheetData['R'],
+				'PPHVAL_PTT'					=> $total_pphval,
+				'PPHCOUNT_METHOD'				=> 'GROSS UP',//$companyCheck->row()->PPHCOUNT_METHOD,
 				'CREATED'						=> $created,
 				'STATUS'						=> 'ON PROGRESS',
 			);
@@ -1292,7 +1308,7 @@ class Pph21 extends CI_Controller
 		//1. Format dasar PHPExcel
 		$sheet = $phpExcel->getActiveSheet();
 
-		$sheet->getStyle('A1:Q2')
+		$sheet->getStyle('A1:R2')
 			->getFont()
 			->getColor()
 			->setRGB('ffffff');
@@ -1303,7 +1319,7 @@ class Pph21 extends CI_Controller
 			->setTitle('MSM Consulting PPH21 Form')
 			->setSubject('MSM Consulting PPH21 Form');
 
-		$sheet->getStyle('A1:Q2')
+		$sheet->getStyle('A1:R2')
 			->getFill()
 			->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
 			->getStartColor()
@@ -1320,8 +1336,7 @@ class Pph21 extends CI_Controller
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
-
-		$sheet->setCellValue('B1', "Nama Pegawai");
+		$sheet->setCellValue('B1', "ID Pegawai");
 		$sheet->mergeCells('B1:B2');
 		$sheet->getStyle('B1:B2')
 			->getAlignment()
@@ -1329,8 +1344,7 @@ class Pph21 extends CI_Controller
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
-
-		$sheet->setCellValue('C1', "NPWP");
+		$sheet->setCellValue('C1', "Nama Pegawai");
 		$sheet->mergeCells('C1:C2');
 		$sheet->getStyle('C1:C2')
 			->getAlignment()
@@ -1339,15 +1353,15 @@ class Pph21 extends CI_Controller
 			->setWrapText(true);
 
 
-		$sheet->setCellValue('D1', 'NIK/No. Paspor');
+		$sheet->setCellValue('D1', "NPWP");
 		$sheet->mergeCells('D1:D2');
-		$sheet->getStyle('D1:D2')->getAlignment()
+		$sheet->getStyle('D1:D2')
+			->getAlignment()
 			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
-
-		$sheet->setCellValue('E1', "Alamat");
+		$sheet->setCellValue('E1', "TK ID");
 		$sheet->mergeCells('E1:E2');
 		$sheet->getStyle('E1:E2')
 			->getAlignment()
@@ -1355,17 +1369,15 @@ class Pph21 extends CI_Controller
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
-
-		$sheet->setCelLValue('F1', 'WP Asing');
+		$sheet->setCellValue('F1', 'NIK/No. Paspor');
 		$sheet->mergeCells('F1:F2');
-		$sheet->getStyle('F1:F2')
-			->getAlignment()
+		$sheet->getStyle('F1:F2')->getAlignment()
 			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
 
-		$sheet->setCelLValue('G1', 'Kode Negara');
+		$sheet->setCellValue('G1', "Alamat");
 		$sheet->mergeCells('G1:G2');
 		$sheet->getStyle('G1:G2')
 			->getAlignment()
@@ -1374,7 +1386,7 @@ class Pph21 extends CI_Controller
 			->setWrapText(true);
 
 
-		$sheet->setCelLValue('H1', 'Nomor Bukti Potong');
+		$sheet->setCelLValue('H1', 'WP Asing');
 		$sheet->mergeCells('H1:H2');
 		$sheet->getStyle('H1:H2')
 			->getAlignment()
@@ -1382,7 +1394,8 @@ class Pph21 extends CI_Controller
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
-		$sheet->setCelLValue('I1', 'Tanggal Bukti Potong');
+
+		$sheet->setCelLValue('I1', 'Kode Negara');
 		$sheet->mergeCells('I1:I2');
 		$sheet->getStyle('I1:I2')
 			->getAlignment()
@@ -1391,7 +1404,7 @@ class Pph21 extends CI_Controller
 			->setWrapText(true);
 
 
-		$sheet->setCelLValue('J1', 'Kode Objek');
+		$sheet->setCelLValue('J1', 'Nomor Bukti Potong');
 		$sheet->mergeCells('J1:J2');
 		$sheet->getStyle('J1:J2')
 			->getAlignment()
@@ -1399,7 +1412,7 @@ class Pph21 extends CI_Controller
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
-		$sheet->setCelLValue('K1', 'Status');
+		$sheet->setCelLValue('K1', 'Tanggal Bukti Potong');
 		$sheet->mergeCells('K1:K2');
 		$sheet->getStyle('K1:K2')
 			->getAlignment()
@@ -1407,7 +1420,8 @@ class Pph21 extends CI_Controller
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
-		$sheet->setCelLValue('L1', 'Metode');
+
+		$sheet->setCelLValue('L1', 'Kode Objek');
 		$sheet->mergeCells('L1:L2');
 		$sheet->getStyle('L1:L2')
 			->getAlignment()
@@ -1415,15 +1429,15 @@ class Pph21 extends CI_Controller
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
-		$sheet->setCelLValue('M1', 'Golongan');
+		$sheet->setCelLValue('M1', 'Status');
 		$sheet->mergeCells('M1:M2');
 		$sheet->getStyle('M1:M2')
 			->getAlignment()
 			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
-			->setWrapText(true);	
+			->setWrapText(true);
 
-		$sheet->setCelLValue('N1', 'Sifat Penghasilan');
+		$sheet->setCelLValue('N1', 'Metode');
 		$sheet->mergeCells('N1:N2');
 		$sheet->getStyle('N1:N2')
 			->getAlignment()
@@ -1431,15 +1445,15 @@ class Pph21 extends CI_Controller
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
-		$sheet->setCelLValue('O1', 'Penghasilan Lainnya');
+		$sheet->setCelLValue('O1', 'Golongan');
 		$sheet->mergeCells('O1:O2');
 		$sheet->getStyle('O1:O2')
 			->getAlignment()
 			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
-			->setWrapText(true);
+			->setWrapText(true);	
 
-		$sheet->setCelLValue('P1', 'Penghasilan Bruto');
+		$sheet->setCelLValue('P1', 'Sifat Penghasilan');
 		$sheet->mergeCells('P1:P2');
 		$sheet->getStyle('P1:P2')
 			->getAlignment()
@@ -1447,9 +1461,17 @@ class Pph21 extends CI_Controller
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
-		$sheet->setCelLValue('Q1', 'Id Karyawan');
+		$sheet->setCelLValue('Q1', 'Penghasilan Lainnya');
 		$sheet->mergeCells('Q1:Q2');
 		$sheet->getStyle('Q1:Q2')
+			->getAlignment()
+			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
+			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+			->setWrapText(true);
+
+		$sheet->setCelLValue('R1', 'Penghasilan Bruto');
+		$sheet->mergeCells('R1:R2');
+		$sheet->getStyle('R1:R2')
 			->getAlignment()
 			->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER)
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
@@ -1474,22 +1496,23 @@ class Pph21 extends CI_Controller
 				//EoL 2.1
 
 				$sheet->setCellValue('A' . $colCounter, $numCounter);
-				$sheet->setCellValue('B' . $colCounter, $employee->NAMA_PEGAWAI);
-				$sheet->setCellValue('C' . $colCounter, $employee->NPWP);
-				$sheet->setCellValue('D' . $colCounter, $employee->NIK_PASPOR);
-				$sheet->setCellValue('E' . $colCounter, $employee->ALAMAT);
-				$sheet->setCellValue('F' . $colCounter, $employee->WP_ASING);
-				$sheet->setCellValue('G' . $colCounter, $employee->COUNTRY_CODE);
-				$sheet->setCellValue('H' . $colCounter, $employee->NOMOR_BUKTI_POTONG);
-				$sheet->setCellValue('I' . $colCounter, $employee->TANGGAL_BUKTI_POTONG);
-				$sheet->setCellValue('J' . $colCounter, $employee->KODE_OBJEK);
-				$sheet->setCellValue('K' . $colCounter, $employee->TK_ID);
-				$sheet->setCellValue('L' . $colCounter, $employee->METODE);
-				$sheet->setCellValue('M' . $colCounter, $employee->GOLONGAN);
-				$sheet->setCellValue('N' . $colCounter, $employee->SIFAT_PENGHASILAN);
-				$sheet->setCellValue('O' . $colCounter, $employee->PENGHASILAN_LAINNYA == null ? '0' : $employee->PENGHASILAN_LAINNYA); 
-				$sheet->setCellValue('P' . $colCounter, $employee->PENGHASILAN_BRUTO == null ? '0' : $employee->PENGHASILAN_BRUTO); 
-				$sheet->setCellValue('Q' . $colCounter, $employee->EMPLOYEE_ID_PTT);
+				$sheet->setCellValue('B' . $colCounter, $employee->EMPLOYEE_ID_PTT);
+				$sheet->setCellValue('C' . $colCounter, $employee->NAMA_PEGAWAI);
+				$sheet->setCellValue('D' . $colCounter, $employee->NPWP);
+				$sheet->setCellValue('E' . $colCounter, $employee->TK_ID);
+				$sheet->setCellValue('F' . $colCounter, $employee->NIK_PASPOR);
+				$sheet->setCellValue('G' . $colCounter, $employee->ALAMAT);
+				$sheet->setCellValue('H' . $colCounter, $employee->WP_ASING);
+				$sheet->setCellValue('I' . $colCounter, $employee->COUNTRY_CODE);
+				$sheet->setCellValue('J' . $colCounter, $employee->NOMOR_BUKTI_POTONG);
+				$sheet->setCellValue('K' . $colCounter, $employee->TANGGAL_BUKTI_POTONG);
+				$sheet->setCellValue('L' . $colCounter, $employee->KODE_OBJEK);
+				$sheet->setCellValue('M' . $colCounter, $employee->STATUS);
+				$sheet->setCellValue('N' . $colCounter, $employee->METODE);
+				$sheet->setCellValue('O' . $colCounter, $employee->GOLONGAN);
+				$sheet->setCellValue('P' . $colCounter, $employee->SIFAT_PENGHASILAN);
+				$sheet->setCellValue('Q' . $colCounter, $employee->PENGHASILAN_LAINNYA == null ? '0' : $employee->PENGHASILAN_LAINNYA); 
+				$sheet->setCellValue('R' . $colCounter, $employee->PENGHASILAN_BRUTO == null ? '0' : $employee->PENGHASILAN_BRUTO); 
 
 				$colCounter++;
 				$numCounter++;

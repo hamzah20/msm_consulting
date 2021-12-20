@@ -1,4 +1,4 @@
-Header -->
+<!--Header -->
 <?php $this->load->view('templates_cms/header'); ?>
 <!-- End of Header -->
 
@@ -78,13 +78,14 @@ Header -->
         <h6><span class="badge badge-success"># Summary / Ringkasan</span></h6> <br>
         <div class="row mb-3">
           <?php 
-              foreach ($employees->result() as $employee); 
+              foreach ($employees->result() as $employee);
               if(!empty($employee)){
               ?>
               <div class="col-4">
                 <div class="form-group">
                   <label for="" class="label-utama font-weight-bold text-center">(1) Periode / Masa</label> 
-                  <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtPeriode" value="<?php echo "ON PROGRESS" ?>" readonly>  
+                  <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtPeriode" value="<?= $this->input->get('mid') . '-' . $this->input->get('yid') ?>" readonly>
+
                 </div>
               </div>
               <?php
@@ -118,7 +119,7 @@ Header -->
         <div class="row">
           <div class="col-8">
             <div class="alert alert-info" role="alert">
-              <h4 class="alert-heading">MORE INFORMATION</h4> <hr>
+              <h4 class="alert-heading">MORE INFORMATION # WIP</h4> <hr>
               <table>
                 <?php if ($summary->num_rows() != 0) { ?>
                 <tr>
@@ -248,7 +249,7 @@ Header -->
                   <td class="text-center"><?= number_format($employee->PENGHASILAN_LAINNYA); ?></td>
                   <td class="text-center"><?= number_format($employee->PENGHASILAN_BRUTO); ?></td>
                   <td>
-                    <a class="btn btn-sm btn-danger mb-1" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_21/bulan/summary/karyawan/tidak_tetap/detail?eid=' . $employee->EMPLOYEE_ID_PTT . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID); ?>"><i class="fa fa-eye"></i></a>
+                    <a class="btn btn-sm btn-danger mb-1" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_21/bulan/summary/karyawan/tidak_tetap/detail?eid=' . $employee->EMPLOYEE_ID_PTT . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID . '&mid=' . $this->input->get('mid') . '&yid=' . $this->input->get('yid')); ?>"><i class="fa fa-eye"></i></a>
                     <a class="btn btn-sm btn-success mb-1" data-toggle="tooltip" data-placement="top" title="SPT" href="<?= base_url('pph_21/spt?eid=' . $employee->EMPLOYEE_ID_PTT . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID); ?>"><i class="fa fa-eye"></i></a>
                     <a class="btn btn-sm btn-warning text-white" data-toggle="tooltip" data-placement="top" title="Edit" href="<?= base_url('pph_21/bulan/summary/karyawan/edit?eid=' . $employee->EMPLOYEE_ID_PTT . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID); ?>"><i class="fa fa-edit"></i></a>
                   </td>
@@ -352,5 +353,5 @@ Header -->
 
 <!-- Footer -->
 <?php $this->load->view('templates_cms/footer'); ?>
-<?php $this->session->userdata('query') == '' ?>
+<?php $this->session->set_flashdata('query', ''); ?>
 <!-- End of Footer

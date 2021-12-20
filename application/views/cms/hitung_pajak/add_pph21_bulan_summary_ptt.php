@@ -45,8 +45,8 @@
           <form method="POST" action="<?php echo base_url('PPH/Pph21/insert_pph21_ptt'); ?>">
           <input type="hidden" name="companyID" value="<?php echo $this->input->get('cid') ?>">
           <input type="hidden" name="pphID" value="<?php echo $this->input->get('pid') ?>"> 
-          <input type="hidden" name="yid" value="<?php echo $this->input->get('yid') ?>"> 
-          <input type="hidden" name="mid" value="<?php echo $this->input->get('mid') ?>"> 
+          <input type="hidden" name="yearID" value="<?php echo $this->input->get('yid') ?>"> 
+          <input type="hidden" name="monthID" value="<?php echo $this->input->get('mid') ?>"> 
           <h6><span class="badge badge-success mb-4">Data PPH 21 PTT</span></h6> 
           <div class="row">
             <div class="col-4"> 
