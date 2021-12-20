@@ -28,7 +28,13 @@
       <div class="page-header float-right">
         <div class="page-title">
           <ol class="breadcrumb text-right">
-            <li class="active"> <a href="<?php echo base_url('pph_21'); ?>"> PPH 21</a> / <a href="<?php echo base_url('pph_21/bulan?cid=' . $this->input->get('cid')) ?>">Bulanan</a> / Summary</li>
+            <?php 
+              $pid=$this->input->get('pid');
+              $cid=$this->input->get('cid');
+              $mid=$this->input->get('mid');
+              $yid=$this->input->get('yid');
+             ?>
+            <li class="active"> <a href="<?php echo base_url("pph_21"); ?>"> PPH 21</a> / <a href="<?php echo base_url("pph_21/bulan?cid=$cid&yid=$yid") ?>">Bulanan</a> / <a href="<?php echo base_url("pph_21/bulan/summary?pid=$pid&cid=$cid&mid=$mid&yid=$yid"); ?>">Summary</a> / Karyawan Tidak Tetap</li>
           </ol>
         </div>
       </div>
@@ -77,10 +83,6 @@
         <hr>
         <h6><span class="badge badge-success"># Summary / Ringkasan</span></h6> <br>
         <div class="row mb-3">
-          <?php 
-              foreach ($employees->result() as $employee);
-              if(!empty($employee)){
-              ?>
               <div class="col-4">
                 <div class="form-group">
                   <label for="" class="label-utama font-weight-bold text-center">(1) Periode / Masa</label> 
@@ -88,18 +90,7 @@
 
                 </div>
               </div>
-              <?php
-            }else{
-              ?>
-              <div class="col-4">
-                <div class="form-group">
-                  <label for="" class="label-utama font-weight-bold text-center">(1) Periode / Masa</label> 
-                  <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtPeriode" value="...." readonly>  
-                </div>
-              </div>
-              <?php
-            } 
-            foreach($correction->result() as $pembetulan); 
+            <?php foreach($correction->result() as $pembetulan); 
 
           ?>
           
@@ -249,9 +240,9 @@
                   <td class="text-center"><?= number_format($employee->PENGHASILAN_LAINNYA); ?></td>
                   <td class="text-center"><?= number_format($employee->PENGHASILAN_BRUTO); ?></td>
                   <td>
-                    <a class="btn btn-sm btn-danger mb-1" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_21/bulan/summary/karyawan/tidak_tetap/detail?eid=' . $employee->EMPLOYEE_ID_PTT . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID . '&mid=' . $this->input->get('mid') . '&yid=' . $this->input->get('yid')); ?>"><i class="fa fa-eye"></i></a>
-                    <a class="btn btn-sm btn-success mb-1" data-toggle="tooltip" data-placement="top" title="SPT" href="<?= base_url('pph_21/spt?eid=' . $employee->EMPLOYEE_ID_PTT . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID); ?>"><i class="fa fa-eye"></i></a>
-                    <a class="btn btn-sm btn-warning text-white" data-toggle="tooltip" data-placement="top" title="Edit" href="<?= base_url('pph_21/bulan/summary/karyawan/edit?eid=' . $employee->EMPLOYEE_ID_PTT . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID); ?>"><i class="fa fa-edit"></i></a>
+                    <a class="btn btn-sm btn-danger mb-1" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_21/bulan/summary/karyawan/tidak_tetap/detail?eid=' . $employee->EMPLOYEE_ID_PTT . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID_PTT . '&mid=' . $this->input->get('mid') . '&yid=' . $this->input->get('yid')); ?>"><i class="fa fa-eye"></i></a>
+                    <a class="btn btn-sm btn-success mb-1" data-toggle="tooltip" data-placement="top" title="SPT" href="<?= base_url('pph_21/spt?eid=' . $employee->EMPLOYEE_ID_PTT . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID_PTT); ?>"><i class="fa fa-eye"></i></a>
+                    <a class="btn btn-sm btn-warning text-white" data-toggle="tooltip" data-placement="top" title="Edit" href="<?= base_url('pph_21/bulan/summary/karyawan/edit?eid=' . $employee->EMPLOYEE_ID_PTT . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID_PTT); ?>"><i class="fa fa-edit"></i></a>
                   </td>
                 </tr>
               <?php

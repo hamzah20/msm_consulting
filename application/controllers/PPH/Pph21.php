@@ -751,9 +751,9 @@ class Pph21 extends CI_Controller
 	public function pph_21_bulan_summary_karyawan_tidak_tetap() //LIHAT DETAIL KARYAWAN DI BULAN SUMMARY PTT //WORK IN PROGRESS #PALDI
 	{
 		$this->db->select('*')
-			->from('g_pph21_ptt')
+			->from('g_pph21_detail_ptt')
 			->where('EMPLOYEE_ID_PTT', trim($this->input->get('eid')))
-			->where('PPH_ID', trim($this->input->get('pid')));
+			->where('PPH_ID_PTT', trim($this->input->get('pid')));
 
 
 		$data['employee'] 	= $this->db->get();
@@ -769,6 +769,9 @@ class Pph21 extends CI_Controller
 			redirect(base_url('pph_21/bulan/summary/tidak_tetap?pid=$pid&cid=$cid&mid=$mid&yid=$yid'));
 		}
 
+		$tk_id = $data['employee']->row()->TK_ID;
+		$data['ptkp'] = $this->cms->getSingularData('m_ptkp','TK_ID',$tk_id); #aw
+
 		$this->load->view('cms/hitung_pajak/pph21_bulan_summary_karyawan_tidak_tetap', $data);
 	}
 
@@ -782,9 +785,9 @@ class Pph21 extends CI_Controller
 		$data['summary'] 	= $this->cms->getGeneralData('v_g_companies_pph21_detail', 'PPH_ID', $this->input->get('pid'));
 
 		$this->db->select('*')
-			->from('g_pph21_ptt')
+			->from('g_pph21_detail_ptt')
 			->where('COMPANY_ID', trim($this->input->get('cid')))
-			->where('PPH_ID', trim($this->input->get('pid')));
+			->where('PPH_ID_PTT', trim($this->input->get('pid')));
 
 
 		// $data['employees'] 	= $this->cms->getGeneralData('v_g_employee_pph21', 'COMPANY_ID', trim($this->input->get('cid')));
@@ -1101,7 +1104,7 @@ class Pph21 extends CI_Controller
 		$dataPTT = array( 
 			'INCOME_ID'             => $incomeID,
 			'COMPANY_ID'           	=> $this->input->post('companyID'),
-			'PPH_ID'				=> $this->input->post('pphID'),  
+			'PPH_ID_PTT'			=> $this->input->post('pphID'),  
 			'EMPLOYEE_ID_PTT'		=> $employeeID,
 			'PERIOD_YEAR'			=> $this->input->post('yearID'), 
 			'PERIOD_MONTH'			=> $this->input->post('monthID'), 
@@ -1131,7 +1134,7 @@ class Pph21 extends CI_Controller
 		$mid = $this->input->post('monthID');
 		$yid = $this->input->post('yearID');
 
-		$query_adduser = $this->cms->insertGeneralData('g_pph21_ptt', $dataPTT);
+		$query_adduser = $this->cms->insertGeneralData('g_pph21_detail_ptt', $dataPTT);
 
 		if($query_adduser) {
             $this->session->set_flashdata('query', 'success');
@@ -1149,8 +1152,8 @@ class Pph21 extends CI_Controller
 		$pphID = $this->input->post('pphID');
 
 		$companyCheck  = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->post('companyID'));
-		// $employeeCheck = $this->cms->getSingularData('g_pph21_ptt', 'COMPANY_ID', $this->input->post('companyID'));
-		$pphCheck 	   = $this->cms->getSingularData('g_pph21_ptt', 'PPH_ID', $this->input->post('pphID'));
+		// $employeeCheck = $this->cms->getSingularData('g_pph21_detail_ptt', 'COMPANY_ID', $this->input->post('companyID'));
+		$pphCheck 	   = $this->cms->getSingularData('g_pph21_detail_ptt', 'PPH_ID_PTT', $this->input->post('pphID'));
 
 
 		//Deklrasi Variabel awal
@@ -1204,7 +1207,7 @@ class Pph21 extends CI_Controller
 
 		foreach ($sheet as $sheetData) {
 			//Kalo ada
-			$cek_employee_id  = $this->cms->getSingularData('g_pph21_ptt', 'EMPLOYEE_ID_PTT', $sheetData['Q']);
+			$cek_employee_id  = $this->cms->getSingularData('g_pph21_detail_ptt', 'EMPLOYEE_ID_PTT', $sheetData['Q']);
 
 			foreach ($cek_employee_id->result() as $data_ptt_employee);
 
@@ -1250,7 +1253,7 @@ class Pph21 extends CI_Controller
 
 			$employeeData = array(
 				'INCOME_ID'                 	=> $incomeID,
-				'PPH_ID'						=> $this->input->post('pphID'),
+				'PPH_ID_PTT'					=> $this->input->post('pphID'),
 				'COMPANY_ID'           			=> $this->input->post('companyID'),
 				'EMPLOYEE_ID_PTT'             	=> $employeeID,
 				'PERIOD_MONTH'             		=> $this->input->post('monthID'),
@@ -1281,9 +1284,9 @@ class Pph21 extends CI_Controller
 			// echo json_encode($employeeData);
 
 			if ($update == true) {
-				$this->cms->updateGeneralData('g_pph21_ptt', $employeeData, 'EMPLOYEE_ID_PTT', $employeeID );
+				$this->cms->updateGeneralData('g_pph21_detail_ptt', $employeeData, 'EMPLOYEE_ID_PTT', $employeeID );
 			} else {
-				$this->cms->insertGeneralData('g_pph21_ptt', $employeeData);
+				$this->cms->insertGeneralData('g_pph21_detail_ptt', $employeeData);
 			}
 
 		}
@@ -1300,7 +1303,7 @@ class Pph21 extends CI_Controller
 		$pphID			= $this->input->get('pid');
 
 		$companyData    = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $companyID);
-		$employeeData   = $this->cms->getSingularData('g_pph21_ptt', 'COMPANY_ID', $companyID);
+		$employeeData   = $this->cms->getSingularData('g_pph21_detail_ptt', 'COMPANY_ID', $companyID);
 		
 
 		$fileName = 'FORMAT_PPH21_PTT_' . $companyData->row()->COMPANY_NAME . '_' . date('ymd') . '.xlsx';

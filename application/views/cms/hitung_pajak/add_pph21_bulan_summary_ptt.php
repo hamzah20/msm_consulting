@@ -28,7 +28,13 @@
       <div class="page-header float-right">
         <div class="page-title">
           <ol class="breadcrumb text-right">
-            <li class="active"> <a href="<?php echo base_url('pph_21'); ?>"> PPH 21</a> / <a href="<?php echo base_url('pph_21/bulan?cid=' . $this->input->get('cid')) ?>">Bulanan</a> / Summary</li>
+            <?php 
+              $pid=$this->input->get('pid');
+              $cid=$this->input->get('cid');
+              $mid=$this->input->get('mid');
+              $yid=$this->input->get('yid');
+             ?>
+            <li class="active"> <a href="<?php echo base_url("pph_21"); ?>"> PPH 21</a> / <a href="<?php echo base_url("pph_21/bulan?cid=$cid&yid=$yid") ?>">Bulanan</a> / <a href="<?php echo base_url("pph_21/bulan/summary?pid=$pid&cid=$cid&mid=$mid&yid=$yid"); ?>">Summary</a> / <a href="<?php echo base_url("pph_21/bulan/summary/tidak_tetap?pid=$pid&cid=$cid&mid=$mid&yid=$yid"); ?>">Karyawan Tidak Tetap</a> / Tambah</li>
           </ol>
         </div>
       </div>
