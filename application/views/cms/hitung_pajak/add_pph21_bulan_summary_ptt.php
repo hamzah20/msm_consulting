@@ -33,8 +33,9 @@
               $cid=$this->input->get('cid');
               $mid=$this->input->get('mid');
               $yid=$this->input->get('yid');
+              $pid_ptt=$this->input->get('pid_ptt');
              ?>
-            <li class="active"> <a href="<?php echo base_url("pph_21"); ?>"> PPH 21</a> / <a href="<?php echo base_url("pph_21/bulan?cid=$cid&yid=$yid") ?>">Bulanan</a> / <a href="<?php echo base_url("pph_21/bulan/summary?pid=$pid&cid=$cid&mid=$mid&yid=$yid"); ?>">Summary</a> / <a href="<?php echo base_url("pph_21/bulan/summary/tidak_tetap?pid=$pid&cid=$cid&mid=$mid&yid=$yid"); ?>">Karyawan Tidak Tetap</a> / Tambah</li>
+            <li class="active"> <a href="<?php echo base_url("pph_21"); ?>"> PPH 21</a> / <a href="<?php echo base_url("pph_21/bulan?cid=$cid&yid=$yid") ?>">Bulanan</a> / <a href="<?php echo base_url("pph_21/bulan/summary?pid=$pid&cid=$cid&mid=$mid&yid=$yid"); ?>">Summary</a> / <a href="<?php echo base_url("pph_21/bulan/summary/tidak_tetap?pid=$pid&pid_ptt=$pid_ptt&cid=$cid&mid=$mid&yid=$yid"); ?>">Karyawan Tidak Tetap</a> / Tambah</li>
           </ol>
         </div>
       </div>
@@ -51,6 +52,7 @@
           <form method="POST" action="<?php echo base_url('PPH/Pph21/insert_pph21_ptt'); ?>">
           <input type="hidden" name="companyID" value="<?php echo $this->input->get('cid') ?>">
           <input type="hidden" name="pphID" value="<?php echo $this->input->get('pid') ?>"> 
+          <input type="hidden" name="pid_ptt" value="<?php echo $this->input->get('pid_ptt') ?>"> 
           <input type="hidden" name="yearID" value="<?php echo $this->input->get('yid') ?>"> 
           <input type="hidden" name="monthID" value="<?php echo $this->input->get('mid') ?>"> 
           <h6><span class="badge badge-success mb-4">Data PPH 21 PTT</span></h6> 
@@ -67,17 +69,25 @@
                <div class="form-group">
                 <label class="label-utama">NIK / No. Paspor :</label> 
                 <input type="text" class="form-control" name="NIK_PASPOR">
-              </div>   
+              </div>
+              <div class="form-group">
+                <label class="label-utama">TK ID :</label> 
+                <select class="custom-select" name="TK_ID">
+                  <?php foreach ($obj_tk->result() as $objek_tk) { ?>
+                    <option value="<?= $objek_tk->TK_ID; ?>"><?= $objek_tk->TK_NAME; ?></option> 
+                    <?php } ?> 
+                </select>
+              </div> 
               <div class="form-group">
                 <label class="label-utama">Alamat :</label> 
                 <textarea class="form-control" name="ALAMAT"></textarea>
-              </div>  
-               <div class="form-group">
-                <label class="label-utama">WP Asing :</label> 
-                <input type="text" class="form-control" name="WP_ASING">
               </div>      
             </div>
             <div class="col-4">  
+              <div class="form-group">
+                <label class="label-utama">WP Asing :</label> 
+                <input type="text" class="form-control" name="WP_ASING">
+              </div>  
               <div class="form-group">
                 <label class="label-utama">Kode Negara :</label>  
                 <input type="text" class="form-control" name="COUNTRY_CODE">
@@ -99,27 +109,16 @@
                 </select>
               </div>
               <div class="form-group">
-                <label class="label-utama">TK ID :</label> 
-                <select class="custom-select" name="TK_ID">
-                	<?php foreach ($obj_tk->result() as $objek_tk) { ?>
-                    <option value="<?= $objek_tk->TK_ID; ?>"><?= $objek_tk->TK_NAME; ?></option> 
-                  	<?php } ?> 
-                </select>
-              </div> 
-            </div>
-            <div class="col-4">
-              <div class="form-group">
-                <label class="label-utama">Metode :</label> 
-                <input type="text" class="form-control" name="METODE">
-              </div>   
-               <div class="form-group">
                 <label class="label-utama">Golongan :</label> 
                 <input type="text" class="form-control" name="GOLONGAN">
-              </div>     
+              </div>
               <div class="form-group">
                 <label class="label-utama">Sifat Penghasilan :</label> 
                 <input type="text" class="form-control" name="SIFAT_PENGHASILAN">
-              </div>  
+              </div>
+            </div>
+            <div class="col-4">
+                
               <div class="form-group">
                 <label class="label-utama">Penghasilan Lainnya :</label> 
                 <input type="number" class="form-control" name="PENGHASILAN_LAINNYA">
@@ -128,16 +127,12 @@
                 <label class="label-utama">Penghasilan Bruto :</label> 
                 <input type="number" class="form-control" name="PENGHASILAN_BRUTO">
               </div>  
-              <div class="form-group">
-                <label class="label-utama">Status :</label> 
-                <input type="text" class="form-control" name="STATUS" disabled value="ON PROGRESS">
-              </div>  
             </div>
           </div>
           <hr>
           <div class="row">
               <button class="btn btn-sm btn-success col-2 ml-3 mb-3" type="submit">Simpan</button>
-              <a class="btn btn-sm btn-secondary col-2 ml-2 mb-3" type="submit" href="<?= base_url('pph_21/bulan/summary/tidak_tetap?pid='.$this->input->get('pid').'&cid='.$this->input->get('cid') . '&mid=' . $this->input->get('mid') . '&yid=' . $this->input->get('yid') ); ?>">Kembali</a>
+              <a class="btn btn-sm btn-secondary col-2 ml-2 mb-3" type="submit" href="<?php echo base_url("pph_21/bulan/summary/tidak_tetap?pid=$pid&pid_ptt=$pid_ptt&cid=$cid&mid=$mid&yid=$yid"); ?>">Kembali</a>
           </div>
           </form>
         </div>

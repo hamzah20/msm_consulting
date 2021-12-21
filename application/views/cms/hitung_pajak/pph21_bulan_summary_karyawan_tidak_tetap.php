@@ -30,11 +30,12 @@
           <ol class="breadcrumb text-right">
             <?php 
               $pid=$this->input->get('pid');
+              $pid_ptt=$this->input->get('pid_ptt');
               $cid=$this->input->get('cid');
               $mid=$this->input->get('mid');
               $yid=$this->input->get('yid');
              ?>
-            <li class="active"> <a href="<?php echo base_url("pph_21"); ?>"> PPH 21</a> / <a href="<?php echo base_url("pph_21/bulan?cid=$cid&yid=$yid") ?>">Bulanan</a> / <a href="<?php echo base_url("pph_21/bulan/summary?pid=$pid&cid=$cid&mid=$mid&yid=$yid"); ?>">Summary</a> / <a href="<?php echo base_url("pph_21/bulan/summary/tidak_tetap?pid=$pid&cid=$cid&mid=$mid&yid=$yid"); ?>">Karyawan Tidak Tetap</a> / Detail</li>
+            <li class="active"> <a href="<?php echo base_url("pph_21"); ?>"> PPH 21</a> / <a href="<?php echo base_url("pph_21/bulan?cid=$cid&yid=$yid") ?>">Bulanan</a> / <a href="<?php echo base_url("pph_21/bulan/summary?pid=$pid&cid=$cid&mid=$mid&yid=$yid"); ?>">Summary</a> / <a href="<?php echo base_url("pph_21/bulan/summary/tidak_tetap?pid=$pid&pid_ptt=$pid_ptt&cid=$cid&mid=$mid&yid=$yid"); ?>">Karyawan Tidak Tetap</a> / Detail</li>
           </ol>
         </div>
       </div>
@@ -45,7 +46,7 @@
   <div class="content mt-3">
     <div class="card">
       <div class="card-body">
-        <h5><span class="badge badge-success mb-4">PERIODE : <?= $employee->row()->PERIOD_MONTH . ' - ' . $employee->row()->PERIOD_YEAR; ?></span></h5>
+        <h5><span class="badge badge-success mb-4">PERIODE : <?= $this->input->get('mid') . '-' . $this->input->get('yid') ?> </span></h5>
        <!--  <table class="table" id="companyTable">
           <thead class="thead-dark">
             <tr>
@@ -172,7 +173,7 @@
           <hr>
             <div class="row">
                 <!-- <button class="btn btn-sm btn-success col-2 ml-3 mb-3" type="submit">Hitung dan Simpan</button> -->
-                <a class="btn btn-sm btn-secondary col-2 ml-3 mb-3" type="submit" href="<?= base_url('pph_21/bulan/summary/tidak_tetap?pid='.$this->input->get('pid').'&cid='.$this->input->get('cid') . '&mid=' . $this->input->get('mid') . '&yid=' . $this->input->get('yid') ); ?>">Kembali</a>
+                <a class="btn btn-sm btn-secondary col-2 ml-3 mb-3" type="submit" href="<?= base_url('pph_21/bulan/summary/tidak_tetap?pid='.$this->input->get('pid') . '&pid_ptt=' . $this->input->get('pid_ptt') .'&cid='.$this->input->get('cid') . '&mid=' . $this->input->get('mid') . '&yid=' . $this->input->get('yid') ); ?>">Kembali</a>
             </div>
           </form>
         </div>

@@ -33,6 +33,7 @@
               $cid=$this->input->get('cid');
               $mid=$this->input->get('mid');
               $yid=$this->input->get('yid');
+              $pid_ptt=$this->input->get('pid_ptt');
              ?>
             <li class="active"> <a href="<?php echo base_url("pph_21"); ?>"> PPH 21</a> / <a href="<?php echo base_url("pph_21/bulan?cid=$cid&yid=$yid") ?>">Bulanan</a> / <a href="<?php echo base_url("pph_21/bulan/summary?pid=$pid&cid=$cid&mid=$mid&yid=$yid"); ?>">Summary</a> / Karyawan Tidak Tetap</li>
           </ol>
@@ -116,11 +117,11 @@
                 <tr>
                   <td>KODE JENIS SETORAN</td>
                   <td class="px-2">:</td>
-                  <td><?= ($summary->row()->COMPANY_KBLB == 0 ? '' : '411121-100'); ?></td> 
+                  <td></td> 
                   <td class="px-4"></td>
                   <td>TOTAL PPH21</td>
                   <td class="px-2">:</td>
-                  <td><?= number_format($summary->row()->COMPANY_PPHVAL); ?></td>
+                  <td><?= number_format($summary->row()->COMPANY_PPHVAL_PTT); ?></td>
                 </tr>
                 <tr>
                   <td>JUMLAH PEGAWAI</td>
@@ -130,36 +131,24 @@
                   <td>PPH21 TERBAYAR</td>
                   <td class="px-2">:</td>
                   <td>
-                    <?php
-                      foreach ($payment->result() as $key1);
-                      if($payment->num_rows() != 0){ 
-                        $pphTerbayar=$key1->PAID_PPH21;            
-                      }
-                      else{
-                        $pphTerbayar = "0";
-                      } 
-                      echo number_format($pphTerbayar); 
-                    ?> 
+                    
                   </td>
                 </tr>
                 <tr>
                   <td>TOTAL BRUTO</td>
                   <td class="px-2">:</td>
-                  <td><?= number_format($summary->row()->COMPANY_BRUTO); ?></td>
+                  <td><?= number_format($summary->row()->COMPANY_BRUTO_PTT); ?></td>
                   <td class="px-4"></td>
                   <td>PPH21 TERHUTANG</td>
                   <td class="px-2">:</td>
                   <td>
-                    <?php 
-                      $pph_terhutang = $summary->row()->COMPANY_PPHVAL -  $pphTerbayar;
-                      echo number_format($pph_terhutang);
-                    ?>
+                    
                   </td>
                 </tr>
                 <tr>
                   <td>KURANG / LEBIH (BAYAR)</td>
                   <td class="px-2">:</td>
-                  <td><?= number_format($summary->row()->COMPANY_KBLB); ?></td>
+                  <td></td>
                   <?php } ?>
               </table> 
             </div>
@@ -182,10 +171,10 @@
 
             <?php foreach ($summary->result() as $summary_result)?>
 
-              <a class="nav-link" href="<?= base_url('pph_21/bulan/summary?cid=' . $summary_result->COMPANY_ID . '&pid=' . $summary_result->PPH_ID . '&mid=' . $summary_result->PERIOD_MONTH . '&yid=' . $summary_result->PERIOD_YEAR); ?>"><i class="fa fa-id-card mr-1"></i>Tetap</a>
+              <a class="nav-link" href="<?= base_url('pph_21/bulan/summary?cid=' . $summary_result->COMPANY_ID . '&pid=' . $pid . '&mid=' . $summary_result->PERIOD_MONTH . '&yid=' . $summary_result->PERIOD_YEAR); ?>"><i class="fa fa-id-card mr-1"></i>Tetap</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link active" href="<?= base_url('pph_21/bulan/summary/tidak_tetap?cid=' . $summary_result->COMPANY_ID . '&pid=' . $summary_result->PPH_ID . '&mid=' . $summary_result->PERIOD_MONTH . '&yid=' . $summary_result->PERIOD_YEAR); ?>"><i class="fa fa-id-card mr-1"></i>Tidak Tetap</a>
+              <a class="nav-link active" href="<?= base_url('pph_21/bulan/summary/tidak_tetap?cid=' . $summary_result->COMPANY_ID . '&pid=' . $pid . '&pid_ptt=' . $pid_ptt . '&mid=' . $summary_result->PERIOD_MONTH . '&yid=' . $summary_result->PERIOD_YEAR); ?>"><i class="fa fa-id-card mr-1"></i>Tidak Tetap</a>
           </li> 
           </li>
         </ul>
@@ -210,7 +199,7 @@
           <div class="col-6">
              <h6><span class="badge badge-success"># Detail / Rincian</span></h6>
              <br>
-             <a class="btn btn-sm btn-info" title="Tambah" href="<?= base_url('pph_21/bulan/summary/tidak_tetap/add?pid='.$this->input->get('pid').'&cid='.$this->input->get('cid') . '&mid=' . $this->input->get('mid') . '&yid=' . $this->input->get('yid') ); ?>"><i class="fa fa-plus"></i> Tambah</a>
+             <a class="btn btn-sm btn-info" title="Tambah" href="<?= base_url('pph_21/bulan/summary/tidak_tetap/add?pid='.$this->input->get('pid'). '&pid_ptt=' . $this->input->get('pid_ptt') .'&cid='.$this->input->get('cid') . '&mid=' . $this->input->get('mid') . '&yid=' . $this->input->get('yid') ); ?>"><i class="fa fa-plus"></i> Tambah</a>
           </div>
           <div class="col-6 text-right">
             <a class="btn btn-sm btn-info" href="#" role="button" data-toggle="modal" title="Import" data-target="#importPPH21PTT"><i class="fa fa-download"></i> Download E-SPT</a>
@@ -240,7 +229,7 @@
                   <td class="text-center"><?= number_format($employee->PENGHASILAN_LAINNYA); ?></td>
                   <td class="text-center"><?= number_format($employee->PENGHASILAN_BRUTO); ?></td>
                   <td>
-                    <a class="btn btn-sm btn-danger mb-1" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_21/bulan/summary/karyawan/tidak_tetap/detail?eid=' . $employee->EMPLOYEE_ID_PTT . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID_PTT . '&mid=' . $this->input->get('mid') . '&yid=' . $this->input->get('yid')); ?>"><i class="fa fa-eye"></i></a>
+                    <a class="btn btn-sm btn-danger mb-1" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_21/bulan/summary/karyawan/tidak_tetap/detail?eid=' . $employee->EMPLOYEE_ID_PTT . '&cid=' . $employee->COMPANY_ID . '&pid=' . $this->input->get('pid') . '&pid_ptt=' . $pid_ptt . '&mid=' . $this->input->get('mid') . '&yid=' . $this->input->get('yid')); ?>"><i class="fa fa-eye"></i></a>
                     <a class="btn btn-sm btn-success mb-1" data-toggle="tooltip" data-placement="top" title="SPT" href="<?= base_url('pph_21/spt?eid=' . $employee->EMPLOYEE_ID_PTT . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID_PTT); ?>"><i class="fa fa-eye"></i></a>
                     <a class="btn btn-sm btn-warning text-white" data-toggle="tooltip" data-placement="top" title="Edit" href="<?= base_url('pph_21/bulan/summary/karyawan/edit?eid=' . $employee->EMPLOYEE_ID_PTT . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID_PTT); ?>"><i class="fa fa-edit"></i></a>
                   </td>

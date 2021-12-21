@@ -99,6 +99,26 @@
         return $query;
     }
 
+    public function getPidPTT($cid, $mid, $yid, $table)
+    {
+        $this->db->select('*')
+            ->from($table)
+            ->where('PERIOD_YEAR', $yid)
+            ->where('PERIOD_MONTH', $mid)
+            ->order_by('REC_ID', 'DESC')
+            ->limit(1);
+
+        $query = $this->db->get();
+        return $query;
+    }
+
+    public function calculateTotalPTT($pid_ptt)
+    {
+        $query = $this->db->query("SELECT SUM(PENGHASILAN_BRUTO) AS TOTAL_BRUTO,SUM(PENGHASILAN_LAINNYA) AS TOTAL_LAINNYA, SUM(PPHVAL_PTT) AS TOTAL_PPHVAL_PTT FROM `g_pph21_detail_ptt` WHERE PPH_ID_PTT=" . $pid_ptt);
+
+        return $query;
+    }
+
     public function getHeadingSidebar($groupID)
     {
         $this->db->distinct()

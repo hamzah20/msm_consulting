@@ -193,7 +193,7 @@
               <a class="nav-link active" href="<?= base_url('pph_21/bulan/summary?cid=' . $summary_result->COMPANY_ID . '&pid=' . $summary_result->PPH_ID . '&mid=' . $summary_result->PERIOD_MONTH . '&yid=' . $summary_result->PERIOD_YEAR); ?>"><i class="fa fa-id-card mr-1"></i>Tetap</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="<?= base_url('pph_21/bulan/summary/tidak_tetap?cid=' . $summary_result->COMPANY_ID . '&pid=' . $summary_result->PPH_ID . '&mid=' . $summary_result->PERIOD_MONTH . '&yid=' . $summary_result->PERIOD_YEAR); ?>"><i class="fa fa-id-card mr-1"></i>Tidak Tetap</a>
+              <a class="nav-link" href="<?= base_url('pph_21/bulan/summary/tidak_tetap?cid=' . $summary_result->COMPANY_ID . '&pid=' . $summary_result->PPH_ID . '&pid_ptt=' . $pid_ptt . '&mid=' . $summary_result->PERIOD_MONTH . '&yid=' . $summary_result->PERIOD_YEAR); ?>"><i class="fa fa-id-card mr-1"></i>Tidak Tetap</a>
           </li> 
           </li>
         </ul>
