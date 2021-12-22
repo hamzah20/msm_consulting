@@ -57,8 +57,9 @@
                         <td  scope="row"><?php echo $GetProject->NAME?></td>
                         <td  scope="row"><?php echo $GetProject->DESCRIPTION?></td>
                         <td  scope="row">
-                          <a href="#" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i></a>
-                          <a class="btn btn-sm btn-danger confirmDelete" data-id="<?= $GetProject->ID ?>"><i class="fa fa-trash"></i></a>
+                          <a class="btn btn-sm btn-warning edit" data-toggle="modal" data-target="#editprojecttype" data-id="<?= $GetProject->ID; ?>" title="Edit" href="#" role="button"><i class="fa fa-edit"></i></a>
+
+                          <a class="btn btn-sm btn-danger hapus" data-id="<?= $GetProject->ID ?>"><i class="fa fa-trash"></i></a>
                         </td>
                       </tr>
                     <?php
@@ -76,6 +77,98 @@
   <!-- End of Content -->
 </div>
 
+<div class="modal fade" id="editprojecttype" tabindex="-1" aria-labelledby="editprojecttype" aria-hidden="true">
+      <div class="modal-dialog">
+        <form class="needs-validation" id="formAddUser" action="<?= base_url('General/ProjectType/editProjecttype'); ?>" method="POST" novalidate>
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editUser">Edit User</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body modal-edit">
+              Loading
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
+              <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+<script>
+jQuery(document).ready(function($) {
+
+   $(function() {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+
+   $(document).on('click', '.edit', function(event){
+
+
+    var button = $(event.relatedTarget);
+          var id = $(this).data('id');
+          var getAccount = '<?php echo base_url('General/ProjectType/getProjecttype?id='); ?>';
+
+          $('.modal-edit').load(getAccount + id, function() {
+            
+          });
+
+
+   });
+  
+  $(document).on('click', '.hapus', function(event) {
+
+      let ID = $(this).data('id');
+
+      Swal.fire({
+        title: 'Hapus Data',
+        text: 'Apakah Anda yakin ingin menghapus data ini?',
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Batal',
+        confirmButtonText: 'Hapus'
+      }).then((result) => {
+        if (result.value) {
+
+          $.post(baseUrl + 'General/ProjectType/deleteProjecttype', {
+            ID: ID
+          }, function(resp) {
+            if (resp.code == 200) {
+              Swal.fire({
+                title: 'Proses Berhasil',
+                text: 'Data telah dihapus',
+                icon: 'success',
+                confirmButtonText: 'Ok'
+              }).then((result) => {
+                location.reload();
+              });
+            } else {
+
+              Swal.fire({
+                title: 'Proses Gagal',
+                text: 'Proses tidak dapat dilakukan, silahkan coba lagi',
+                icon: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Tutup'
+              });
+            }
+          });
+        }
+      });
+    });
+
+  
+
+
+});
+
+
+</script>
+
 <?php if ($this->session->userdata('query') == 'error') { ?>
   <script>
     jQuery(document).ready(function($) {
@@ -92,9 +185,26 @@
 
     });
   </script>
-<?php
-   $this->session->set_userdata('query', '');
- } ?>
+<?php } ?>
+
+<?php if ($this->session->userdata('query') == 'invalid') { ?>
+  <script>
+    jQuery(document).ready(function($) {
+
+      "use strict";
+
+      Swal.fire({
+        title: 'Proses Gagal',
+        text: 'tidak ditemukan, silahkan coba lagi',
+        icon: 'error',
+        showCancelButton: false,
+        confirmButtonText: 'Tutup'
+      });
+
+    });
+  </script>
+<?php } ?>
+
 <?php if ($this->session->userdata('query') == 'success') { ?>
   <script>
     jQuery(document).ready(function($) {
@@ -103,56 +213,17 @@
 
       Swal.fire({
         title: 'Proses Berhasil',
-        text: 'Data Project Type berhasil ditambahkan',
+        text: 'Proses Berhasil',
         icon: 'success',
         showCancelButton: false,
         confirmButtonText: 'Tutup'
       });
     });
   </script>
-
-<script type="text/javascript">
-    $(document).ready(function(){
-        $(document).on('click', '.confirmDelete', function (e) {
-            var project_id = $(this).GetProject('id');
-            
-             swal.fire({
-                title: "Are you sure?",
-                text: "It will permanently deleted !",
-                type: "warning",
-                showCancelButton: true,
-                confirmCancelText: "Cancel",
-                cancelButtonColor: '#d33',
-                confirmButtonText: "Yes",
-                confirmButtonColor: '#3085d6'
-              }).then((result) => {
-
-                if (result.value) {
-                  $.ajax({
-                    type: 'post',
-                    url: '<?php echo base_url();?>/General/ProjectType/deleteProjectType',
-                    data: {project_id:project_id},
-                    success: function (data) {
-                        
-                        swal.fire(
-                            'Deleted!',
-                            'Your Banner has been deleted.',
-                            'success'
-                          ).then(function(){
-                                location.reload();
-                         });
-
-                    }         
-                    }); 
-                }
-              });
-        });
-    });
-</script>
-
 <?php 
-  $this->session->set_userdata('query', '');
-} ?>
+   $this->session->set_flashdata('query', '');
+}
+ ?>
 <!-- Footer -->
 <?php $this->load->view('templates_cms/footer'); ?>
 <!-- End of Footer -->

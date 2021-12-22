@@ -21,7 +21,7 @@
     <div class="col-sm-4">
       <div class="page-header float-left">
         <div class="page-title">
-          <h1>USER</h1>
+          <h1>Pengaturan PTKP</h1>
         </div>
       </div>
     </div>
@@ -29,7 +29,7 @@
       <div class="page-header float-right">
         <div class="page-title">
           <ol class="breadcrumb text-right">
-            <li class="active">USER</li>
+            <li class="active">Pengaturan PTKP</li>
           </ol>
         </div>
       </div>
@@ -40,7 +40,7 @@
   <div class="content mt-3">
     <div class="card">
       <div class="card-body">
-        <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addUser">Tambah Data</a>
+        <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addPTKP">Tambah Data</a>
         <hr>
         
         <table class="table" id="example" class="display">
@@ -49,30 +49,30 @@
           <thead class="thead-dark">
             <tr>
               <th scope="col-1" class="text-center">No</th>
-              <th scope="col-1" class="text-center">ID</th>
-              <th scope="col-1" class="text-center">NAME</th>
-              <th scope="col-1" class="text-center">GROUP_ID</th>
-              <th scope="col-1" class="text-center">STATUS</th>
-              <!-- <th scope="col-1" class="text-center">ATTEMPTED LOGIN</th> -->
+              <th scope="col-1" class="text-center">PTKP ID</th>
+              <th scope="col-1" class="text-center">PTKP NAME</th>
+              <th scope="col-1" class="text-center">PTKP TARIF</th>
+              <th scope="col-1" class="text-center">PTKP ORDER</th>
+              <th scope="col-1" class="text-center">YEARS</th>
               <th scope="col-1" class="text-center">Aksi</th>
             </tr>
           </thead>
           <tbody>
-            <?php if ($s_user->num_rows() != 0) { ?>
-              <?php foreach ($s_user->result() as $user) { ?>
+            <?php if ($m_ptkp->num_rows() != 0) { ?>
+              <?php foreach ($m_ptkp->result() as $ptkp) { ?>
                 <tr>
                   <th scope="row" class="text-center"><?= $counter++; ?></th>
-                  <td class="text-center"><?= $user->ID; ?></td>
-                  <td class="text-center"><?= $user->NAME; ?></td>
-                  <td class="text-center"><?= $user->GROUP_ID; ?></td>
-                  <td class="text-center"><?= $user->STATUS; ?></td>
-                  <!-- <td class="text-center"><?= $user->ATTEMPTED_LOGIN; ?></td> -->
+                  <td class="text-center"><?= $ptkp->TK_ID; ?></td>
+                  <td class="text-center"><?= $ptkp->TK_NAME; ?></td>
+                  <td class="text-center"><?= $ptkp->TK_TARIF; ?></td>
+                  <td class="text-center"><?= $ptkp->TK_ORDER; ?></td>
+                  <td class="text-center"><?= $ptkp->PERIOD_YEAR; ?></td>
                   <td class="text-center">
-                  	<a class="btn btn-sm btn-warning edit" data-toggle="modal" data-target="#editUser" data-id="<?= $user->ID; ?>" title="Edit User" href="#" role="button">
+                  	<a class="btn btn-sm btn-warning edit" data-toggle="modal" data-target="#editPTKP" data-id="<?= $ptkp->REC_ID; ?>" title="Edit PTKP" href="#" role="button">
                       <i class="fa fa-edit"></i>
 
                     </a>
-                  	<a class="btn btn-sm btn-danger hapus" data-toggle="tooltip" data-placement="top" data-user="<?= $user->ID; ?>" title="Hapus User" href="#" role="button">
+                  	<a class="btn btn-sm btn-danger hapus" data-toggle="tooltip" data-placement="top" data-id="<?= $ptkp->REC_ID; ?>" title="Hapus PTKP" href="#" role="button">
                       <i class="fa fa-trash"></i>
                     </a>
                   </td>
@@ -86,7 +86,7 @@
     </div>
 
     <!-- Add Modal -->
-    <?php $this->load->view('modal/add_user'); ?>
+    <?php $this->load->view('modal/add_ptkp'); ?>
     <!-- End of Add Modal -->
     <!-- End of Add Modal -->
 
@@ -97,12 +97,12 @@
 </div>
 <!-- /#right-panel -->
 
-<div class="modal fade" id="editUser" tabindex="-1" aria-labelledby="addKaryawanPerusahaan" aria-hidden="true">
+<div class="modal fade" id="editPTKP" tabindex="-1" aria-labelledby="editPTKP" aria-hidden="true">
   		<div class="modal-dialog">
-  			<form class="needs-validation" id="formAddUser" action="<?= base_url('General/User/editUser'); ?>" method="POST" novalidate>
+  			<form class="needs-validation" id="formAddUser" action="<?= base_url('Settings/Ptkp/editPTKP'); ?>" method="POST" novalidate>
   				<div class="modal-content">
   					<div class="modal-header">
-  						<h5 class="modal-title" id="editUser">Edit User</h5>
+  						<h5 class="modal-title" id="editUser">Edit PTKP</h5>
   						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
   							<span aria-hidden="true">&times;</span>
   						</button>
@@ -137,7 +137,7 @@ jQuery(document).ready(function($) {
 
 		var button = $(event.relatedTarget);
           var id = $(this).data('id');
-          var getAccount = '<?php echo base_url('General/User/getUser?id='); ?>';
+          var getAccount = '<?php echo base_url('Settings/Ptkp/getPTKP?id='); ?>';
 
           $('.modal-edit').load(getAccount + id, function() {
             
@@ -148,7 +148,7 @@ jQuery(document).ready(function($) {
 	
 	$(document).on('click', '.hapus', function(event) {
 
-      let userID = $(this).data('user');
+      let REC_ID = $(this).data('id');
 
       Swal.fire({
         title: 'Hapus Data',
@@ -160,8 +160,8 @@ jQuery(document).ready(function($) {
       }).then((result) => {
         if (result.value) {
 
-          $.post(baseUrl + 'General/User/deleteUser', {
-            userID: userID
+          $.post(baseUrl + 'Settings/Ptkp/deletePTKP', {
+            REC_ID: REC_ID
           }, function(resp) {
             if (resp.code == 200) {
               Swal.fire({
