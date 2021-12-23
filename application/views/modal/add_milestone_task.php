@@ -1,4 +1,4 @@
-<div class="modal fade" id="addMilstone" tabindex="-1" aria-labelledby="addMilstone" aria-hidden="true">
+<div class="modal fade" id="addMilestone" tabindex="-1" aria-labelledby="addMilstone" aria-hidden="true">
 	<div class="modal-dialog">
 	<?php
 		if($slc_project<>""){
@@ -21,7 +21,7 @@
 					<h6 class="modal-title" id="addMilstone">Project Type : <?php echo $key->NAME?></h6>
 					<div class="form-group">
 						<label for="recipient-name" class="col-form-label">Nama Milestone :</label>
-						<input type="text" class="form-control form-control-sm" id="txt_milstone" name="txt_milstone" required>
+						<input type="text" class="form-control form-control-sm" id="txt_milestone" name="txt_milestone" required>
 						<div class="invalid-feedback">
 							Nama tidak boleh kosong
 						</div>
@@ -78,6 +78,7 @@
 					<div class="form-group">
 						<label for="recipient-name" class="col-form-label">Nama Task :</label>
 						<input type="text" class="form-control form-control-sm" id="txt_task" name="txt_task" required>
+						<input type="text" class="form-control form-control-sm" name="slc_projecttype" required hidden value="<?php echo @$project_id ?>">
 						<div class="invalid-feedback">
 							Nama tidak boleh kosong
 						</div>

@@ -70,7 +70,6 @@
                   <td class="text-center">
                   	<a class="btn btn-sm btn-warning edit" data-toggle="modal" data-target="#editUser" data-id="<?= $user->ID; ?>" title="Edit User" href="#" role="button">
                       <i class="fa fa-edit"></i>
-
                     </a>
                   	<a class="btn btn-sm btn-danger hapus" data-toggle="tooltip" data-placement="top" data-user="<?= $user->ID; ?>" title="Hapus User" href="#" role="button">
                       <i class="fa fa-trash"></i>
@@ -117,7 +116,7 @@
   				</div>
   			</form>
   		</div>
-  	</div>
+</div>
 
 
 <!-- Right Panel --> 
@@ -139,12 +138,14 @@ jQuery(document).ready(function($) {
           var id = $(this).data('id');
           var getAccount = '<?php echo base_url('General/User/getUser?id='); ?>';
 
-          $('.modal-edit').load(getAccount + id, function() {
-            
-          });
+          $('.modal-edit').load(getAccount + id, function() {});
 
 
    });
+
+  $(document).on('hidden.bs.modal', function (e) {
+    $( ".modal-edit" ).empty();
+  });
 	
 	$(document).on('click', '.hapus', function(event) {
 

@@ -145,6 +145,9 @@ jQuery(document).ready(function($) {
 
 
    });
+   $(document).on('hidden.bs.modal', function (e) {
+    $( ".modal-edit" ).empty();
+   });
 	
 	$(document).on('click', '.hapus', function(event) {
 

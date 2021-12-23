@@ -57,7 +57,7 @@
                </form>
             </div>
           </div>
-          <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addMilstone"><i class="fa fa-plus"></i> Milestone</a>
+          <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addMilestone"><i class="fa fa-plus"></i> Milestone</a>
            <table class="table"  id="example" class="display" style="margin-top: 10px;" >
               <thead>
                 <tr>
@@ -90,7 +90,7 @@
                                   ?>
                                   <tr>
                                     <td><?php echo $GetTask->TASK_NAME?></td>
-                                    <td><a href="#" ><i class="fa fa-trash"></i></a></td>
+                                    <td><a href="#" class="hapus_tsk" data-toggle="tooltip" data-placement="top" data-id="<?= $GetTask->REC_ID; ?>" title="Hapus" href="#" role="button"><i class="fa fa-trash"></i></a></td>
                                   </tr>
                                   <?php
                                 }
@@ -101,7 +101,12 @@
                          </table>
                       </td>
                       <td>
-                        <a href="#" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i></a> <a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                        <a class="btn btn-sm btn-warning edit" data-toggle="modal" data-target="#editMilestone" data-id="<?= $GetMilestone->REC_ID; ?>" title="Edit" href="#" role="button">
+                          <i class="fa fa-edit"></i>
+                        </a>
+                        <a class="btn btn-sm btn-danger hapus_ms" data-toggle="tooltip" data-placement="top" data-id="<?= $GetMilestone->REC_ID; ?>" title="Hapus" href="#" role="button">
+                          <i class="fa fa-trash"></i>
+                        </a>
                       </td>
                     </tr>
                   <?php
@@ -113,11 +118,147 @@
         </div>
     </div>
      <!-- Add Modal Perusahaan -->
-    <?php $this->load->view('modal/add_miltonetask'); ?>
+    <?php $this->load->view('modal/add_milestone_task'); ?>
     <!-- End of Add Modal Perusahaan -->
   </div>
   <!-- End of Content -->
 </div>
+
+<div class="modal fade" id="editMilestone" tabindex="-1" aria-labelledby="Edit Milestone" aria-hidden="true">
+      <div class="modal-dialog">
+        <form class="needs-validation" action="<?= base_url('General/Milestone/editMilestone'); ?>" method="POST" novalidate>
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editUser">Edit Milestone</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body modal-edit">
+              Loading
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
+              <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
+            </div>
+          </div>
+        </form>
+      </div>
+</div>
+
+<script>
+jQuery(document).ready(function($) {
+
+   $(function() {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+
+   $(document).on('click', '.edit', function(event){
+
+
+    var button = $(event.relatedTarget);
+          var id = $(this).data('id');
+          var getAccount = '<?php echo base_url('General/Milestone/getMilestone?id='); ?>';
+
+          $('.modal-edit').load(getAccount + id, function() {
+            
+          });
+
+
+   });
+  
+  $(document).on('click', '.hapus_ms', function(event) {
+
+      let ID = $(this).data('id');
+
+      Swal.fire({
+        title: 'Hapus Data',
+        text: 'Apakah Anda yakin ingin menghapus data ini?',
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Batal',
+        confirmButtonText: 'Hapus'
+      }).then((result) => {
+        if (result.value) {
+
+          $.post(baseUrl + 'General/Milestone/deleteMilestone', {
+            REC_ID:ID
+          }, function(resp) {
+            if (resp.code == 200) {
+              Swal.fire({
+                title: 'Proses Berhasil',
+                text: 'Data telah dihapus',
+                icon: 'success',
+                confirmButtonText: 'Ok'
+              }).then((result) => {
+                location.reload();
+              });
+            } else {
+
+              Swal.fire({
+                title: 'Proses Gagal',
+                text: 'Proses tidak dapat dilakukan, silahkan coba lagi',
+                icon: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Tutup'
+              });
+            }
+          });
+        }
+      });
+    });
+
+
+
+  $(document).on('click', '.hapus_tsk', function(event) {
+
+      let ID = $(this).data('id');
+
+      Swal.fire({
+        title: 'Hapus Data',
+        text: 'Apakah Anda yakin ingin menghapus data ini?',
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Batal',
+        confirmButtonText: 'Hapus'
+      }).then((result) => {
+        if (result.value) {
+
+          $.post(baseUrl + 'General/Milestone/deleteTask', {
+            REC_ID:ID
+          }, function(resp) {
+            if (resp.code == 200) {
+              Swal.fire({
+                title: 'Proses Berhasil',
+                text: 'Data telah dihapus',
+                icon: 'success',
+                confirmButtonText: 'Ok'
+              }).then((result) => {
+                location.reload();
+              });
+            } else {
+
+              Swal.fire({
+                title: 'Proses Gagal',
+                text: 'Proses tidak dapat dilakukan, silahkan coba lagi',
+                icon: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Tutup'
+              });
+            }
+          });
+        }
+      });
+    });
+
+  
+
+
+});
+
+
+</script>
+
 <script type="text/javascript">
    jQuery(document).ready(function($) {
     "use strict";

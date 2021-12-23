@@ -22,15 +22,18 @@ class Milestone extends CI_Controller
         if(!empty($this->input->post('slc_projecttype'))){
             $data['slc_project']=$this->input->post('slc_projecttype');
             $data['milestone'] = $this->cms->getSingularData('v_g_milestone','PROJECT_TYPE_ID',$this->input->post('slc_projecttype'));
-        }else{
+        }
+        else{
              $data['milestone'] = $this->cms->getGeneralList('v_g_milestone');
         }
         $this->load->view('cms/milestone/milestone', $data);
     }
 
+// ===================Milestone=========================
+
     public function addMilestone(){
         $project_id=$this->input->post('txt_project_id');
-        $milestone=$this->input->post('txt_milstone');
+        $milestone=$this->input->post('txt_milestone');
         $description=$this->input->post('txt_description');
         $projectArr = array(
             'PROJECT_TYPE_ID'=>$project_id,
@@ -50,6 +53,53 @@ class Milestone extends CI_Controller
             redirect('milestone');
         }
     }
+
+    public function deleteMilestone(){
+        // $this->output->enable_profiler(TRUE);
+        header('Content-Type: application/json');
+
+        $queryDelete = $this->cms->deleteGeneralData('g_milestone', 'REC_ID', $this->input->post('REC_ID'));
+
+        if ($queryDelete) {
+            echo json_encode(array(
+                'code'      => 200,
+                'status'    => 'success',
+            ));
+        } else {
+            echo json_encode(array(
+                'code'      => 204,
+                'status'    => 'error',
+            ));
+        }
+    }
+
+    public function editMilestone(){
+        $editArr = array(
+            'PROJECT_TYPE_ID'      => $this->input->post('txt_project_id'),
+            'MILESTONE_NAME'       => $this->input->post('txt_milestone'),
+            'DESCRIPTION'          => $this->input->post('txt_description')
+        );
+
+        $query_editUser = $this->cms->updateGeneralData('g_milestone', $editArr, 'REC_ID', $this->input->post('REC_ID'));
+
+        if($query_editUser) {
+            $this->session->set_flashdata('query', 'success_milestone');
+            redirect(base_url('milestone'));
+        }else {
+            $this->session->set_flashdata('query', 'error_milestone');
+            redirect(base_url('milestone'));
+        }
+    }
+
+    public function getMilestone(){
+        $id = $this->input->get('id');
+        $data['g_milestone'] = $this->cms->getSingularData('g_milestone', 'REC_ID', $id);
+        $data['gm_project_type'] = $this->cms->getGeneralList('gm_project_type');
+
+        $this->load->view('modal/edit_milestone', $data);
+    }
+
+// ===================Milestone=========================
 
     public function addTask(){
         $milestone_id=$this->input->post('txt_milestone_id');
@@ -79,6 +129,24 @@ class Milestone extends CI_Controller
             $this->db->trans_commit();
             $this->session->set_flashdata('query', 'success_task');
             redirect('milestone');
+        }
+    }
+
+    public function deleteTask(){
+        header('Content-Type: application/json');
+
+        $queryDelete = $this->cms->deleteGeneralData('g_task', 'REC_ID', $this->input->post('REC_ID'));
+
+        if ($queryDelete) {
+            echo json_encode(array(
+                'code'      => 200,
+                'status'    => 'success',
+            ));
+        } else {
+            echo json_encode(array(
+                'code'      => 204,
+                'status'    => 'error',
+            ));
         }
     }
     
