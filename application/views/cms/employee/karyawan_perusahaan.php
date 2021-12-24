@@ -105,8 +105,6 @@
 </div>
 <!-- /#right-panel -->
 
-<!-- Right Panel -->
-
 <script>
   jQuery(document).ready(function($) {
 
@@ -292,7 +290,7 @@
 
       Swal.fire({
         title: 'Proses Berhasil',
-        text: 'Data perusahaan berhasil ditambahkan',
+        text: 'Data berhasil ditambahkan',
         icon: 'success',
         showCancelButton: false,
         confirmButtonText: 'Tutup'

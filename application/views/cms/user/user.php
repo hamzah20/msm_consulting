@@ -248,9 +248,10 @@ jQuery(document).ready(function($) {
     });
   </script>
 <?php 
-	 $this->session->set_flashdata('query', '');
+	 
 }
  ?>
+ <?php $this->session->set_flashdata('query', ''); ?>
 
 <!-- Footer -->
 <?php $this->load->view('templates_cms/footer'); ?>

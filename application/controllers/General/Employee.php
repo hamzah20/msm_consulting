@@ -123,14 +123,24 @@ class Employee extends CI_Controller
     public function editEmployee()
     {
         $dataUpdate = array(
+            'EMPLOYEE_ORDER_NO'             => $this->input->post('employeeOrderNo'),
+            'EMPLOYEE_NAME'                 => $this->input->post('employeeName'),
+            'EMPLOYEE_KTP'                  => $this->input->post('employeeKTP'),
+            'EMPLOYEE_PTKP_STATUS'          => $this->input->post('employeePTKPStatus'),
+            'EMPLOYEE_EFIN'                 => $this->input->post('employeeEFIN'),
+            'EMPLOYEE_NPWP_STATUS'          => $this->input->post('employeeNPWPStatus'),
+            'EMPLOYEE_NPWP'                 => $this->input->post('employeeNPWP'),
+            'EMPLOYEE_INTERNAL_ID'          => $this->input->post('employeeInternalID'),
+            'EMPLOYEE_POSITION'             => $this->input->post('employeePosition'),
             'EMPLOYEE_WORK_START'           => $this->input->post('employeeDateBegin'),
             'EMPLOYEE_WORK_END'             => $this->input->post('employeeDateEnd'),
-            'EMPLOYEE_EFIN'                 => $this->input->post('employeeEFIN'),
+            'EMPLOYEE_NATIONALITY'          => $this->input->post('employeeNationality'),
             'EMPLOYEE_NATIONALITY_STATUS'   => $this->input->post('employeeType'),
+            'EMPLOYEE_GENDER'               => $this->input->post('employeeGender'),
+            'EMPLOYEE_ADDRESS'              => $this->input->post('employeeAddress'),
             'EMPLOYEE_PHONE'                => $this->input->post('employeePhone'),
             'EMPLOYEE_EMAIL'                => $this->input->post('employeeEmail'), 
-            'EMPLOYEE_ADDRESS'              => $this->input->post('employeeAddress'),
-            'UPDATED'                       => date('Y-m-d h:i:s'),
+            'UPDATED'                       => date('Y-m-d h:i:s')
         );
 
         $queryUpdate = $this->cms->updateGeneralData('g_employee', $dataUpdate, 'EMPLOYEE_ID', $this->input->post('employeeID'));
@@ -152,12 +162,15 @@ class Employee extends CI_Controller
         // $this->output->enable_profiler(TRUE);
         header('Content-Type: application/json');
 
+        $cid = $this->cms->getSingularData('g_employee', 'EMPLOYEE_ID', $this->input->post('employeeID'))->row()->EMPLOYEE_COMPANY_ID;
         $queryDelete = $this->cms->deleteGeneralData('g_employee', 'EMPLOYEE_ID', $this->input->post('employeeID'));
+        $redir = 'detail?cid='.$cid;
 
         if ($queryDelete) {
             echo json_encode(array(
                 'code'      => 200,
                 'status'    => 'success',
+                'redir'  => $redir,
             ));
         } else {
             echo json_encode(array(
@@ -304,9 +317,18 @@ class Employee extends CI_Controller
 
         foreach ($sheet as $sheetData) {
 
-            $employeeOrder  = $this->general->generateID('EMPLOYEE');
-            $employeeID     = $this->incube->generateID(10);
-            $incomeID       = $this->incube->generateID(10);
+            $employee_db = $this->cms->getSingularData('g_employee', 'EMPLOYEE_ORDER_NO', $sheetData['B']);
+
+            if ($employee_db->num_rows() == 1) {
+                $employeeOrder  = $employee_db->row()->EMPLOYEE_ORDER_NO;
+                $employeeID  = $employee_db->row()->EMPLOYEE_ID;
+                $update_db = true;
+            }else{
+                $employeeOrder  = $this->general->generateID('EMPLOYEE');
+                $employeeID     = $this->incube->generateID(10);
+                $incomeID       = $this->incube->generateID(10);
+                $update_db = false;
+            }
 
             $employeeData = array(
                 'EMPLOYEE_COMPANY_ID'           => $this->input->post('companyID'),
@@ -329,7 +351,11 @@ class Employee extends CI_Controller
                 'STATUS'                        => 'ACTIVE',
             );
 
-            $queryEmployee  = $this->cms->insertGeneralData('g_employee', $employeeData);
+            if ($update_db == true) {
+                $queryEmployee  = $this->cms->updateGeneralData('g_employee', $employeeData, 'EMPLOYEE_ID', $employeeID);
+            }else{
+                $queryEmployee  = $this->cms->insertGeneralData('g_employee', $employeeData);
+            };
 
             if ($queryEmployee) {
                 $employeeCounter++;
@@ -476,7 +502,7 @@ class Employee extends CI_Controller
             ->setWrapText(true);
 
 
-        $sheet->setCellValue('N1', 'Kode Object Pajak');
+        $sheet->setCellValue('N1', 'Kode Objek Pajak');
         $sheet->mergeCells('N1:N2');
         $sheet->getStyle('N1:N2')
             ->getAlignment()

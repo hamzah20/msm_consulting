@@ -82,14 +82,14 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="" class="label-utama">Alamat</label>
-                                <textarea type="text" class="form-control form-control-sm" id="editAlamat" aria-describedby="" placeholder="....." name="editAlamat"><?= ($tax->row()->OFFICE_ADDRESS != null ? $tax->row()->OFFICE_ADDRESS : '...'); ?> </textarea>
+                                <textarea type="text" class="form-control form-control-sm" id="editAlamat" aria-describedby="" placeholder="....." name="editAlamat"><?= ($tax->row()->OFFICE_ADDRESS != null ? $tax->row()->OFFICE_ADDRESS : '...'); ?></textarea>
                             </div>
                         </div>
                     </div>  
                    <hr>
                     <div class="row">
                         <button class="btn btn-sm btn-success col-2 ml-2 mb-3" type="submit">Simpan Perubahan</button>
-                        <a class="btn btn-sm btn-secondary col-2 ml-2 mb-3" type="submit" href="<?php echo base_url('kantor_pelayanan_pajak'); ?>">Batalkan Perubahan</a>
+                        <a class="btn btn-sm btn-secondary col-2 ml-2 mb-3" href="<?php echo base_url('kantor_pelayanan_pajak'); ?>">Kembali</a>
                     </div>
                 </form>  
             </div>

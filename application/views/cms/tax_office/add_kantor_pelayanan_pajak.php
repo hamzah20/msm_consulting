@@ -77,7 +77,7 @@
                    <hr>
                     <div class="row pl-3">
                         <button class="btn btn-sm btn-success col-2 mb-3" type="submit">Simpan Data</button>
-                        <a class="btn btn-sm btn-secondary col-2 ml-2 mb-3" type="submit" href="<?php echo base_url('kantor_pelayanan_pajak/add'); ?>">Batalkan Perubahan</a>
+                        <a class="btn btn-sm btn-secondary col-2 ml-2 mb-3" type="submit" href="<?php echo base_url('kantor_pelayanan_pajak'); ?>">Kembali</a>
                     </div>
                 </form>  
             </div>

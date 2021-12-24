@@ -26,6 +26,25 @@ class MSM_group extends CI_Controller
 	{
 		$this->load->view('cms/msm_group/add_msm_group');
 	}
+	public function delete_msm_group()
+	{
+		header('Content-Type: application/json');
+
+        $queryDelete = $this->cms->deleteGeneralData('g_msm_group', 'MSMGROUP_ID', $this->input->post('msmID'));
+        $queryDelete2 = $this->cms->deleteGeneralData('g_msm_group_detail', 'MSMGROUP_ID', $this->input->post('msmID'));
+
+        if ($queryDelete) {
+            echo json_encode(array(
+                'code'      => 200,
+                'status'    => 'success',
+            ));
+        } else {
+            echo json_encode(array(
+                'code'      => 204,
+                'status'    => 'error',
+            ));
+        }
+	}
 
 	public function insert_msm_group()
 	{
