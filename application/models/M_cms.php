@@ -112,6 +112,14 @@
         return $query;
     }
 
+    public function getMilestoneProject($table, $project_id )
+    {
+        $proj_id = $this->db->escape_str($project_id);
+
+        $sql = $this->db->query("SELECT * FROM $table WHERE PROJECT_ID = '$proj_id' GROUP BY(MILESTONE_ID)");
+        return $sql;
+    }
+
     public function calculateTotalPTT($pid_ptt)
     {
         $query = $this->db->query("SELECT SUM(PENGHASILAN_BRUTO) AS TOTAL_BRUTO,SUM(PENGHASILAN_LAINNYA) AS TOTAL_LAINNYA, SUM(PPHVAL_PTT) AS TOTAL_PPHVAL_PTT FROM `g_pph21_detail_ptt` WHERE PPH_ID_PTT=" . $pid_ptt);

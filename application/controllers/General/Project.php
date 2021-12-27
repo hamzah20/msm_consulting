@@ -17,7 +17,10 @@ class Project extends CI_Controller
     // KARYAWAN
     public function index()
     {
-        $data['project'] = $this->cms->getGeneralList('gm_project_type');     
+
+        $data['project_list'] = $this->cms->getGeneralList('g_project');
+
+        $data['project_type'] = $this->cms->getGeneralList('gm_project_type');
         $this->load->view('cms/project/project', $data);
     }
 

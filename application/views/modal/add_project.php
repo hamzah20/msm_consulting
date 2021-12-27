@@ -37,7 +37,7 @@
 						<select class="form-control form-control-sm" id="ptid_select" name="project_type_id">
 							<option value="0"></option>
 							<?php
-								foreach($project->result() as $GetProject){
+								foreach($project_type->result() as $GetProject){
 									?>
 									<option class="ptid_l" data-id="<?= $GetProject->ID; ?>" value="<?= $GetProject->ID?>" ><?= $GetProject->NAME?></option>
 									<?php
