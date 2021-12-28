@@ -47,9 +47,9 @@
 					</div>
 					<div class="form-group">
 						<label for="recipient-name" class="col-form-label">Milestone & Task :</label>
-							 <ul class="list-group loadptype">
-							 	Silahkan Pilih Project Type
-			                 </ul>
+						 <ul class="list-group loadptype">
+						 	Silahkan Pilih Project Type
+		                 </ul>
 					
 					</div>
 				</div>

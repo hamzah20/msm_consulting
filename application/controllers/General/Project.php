@@ -18,6 +18,7 @@ class Project extends CI_Controller
     public function index()
     {
 
+        
         $data['project_list'] = $this->cms->getGeneralList('g_project');
 
         $data['project_type'] = $this->cms->getGeneralList('gm_project_type');
@@ -69,12 +70,98 @@ class Project extends CI_Controller
                 
             }
         }
+        $this->session->set_flashdata('query', 'success');
+        redirect(base_url('project'));
     }
 
     public function GetPtype()
     {
         $data['ptid_milestone'] = $this->input->get('ptid_milestone');
         $this->load->view('modal/add_project_getptype', $data);
+    }
+
+    public function getUploadDokumen()
+    {
+        $id = $this->input->get('id_project');
+        $data['project'] = $this->cms->getSingularData('g_project', 'REC_ID', $id);
+        $data['document_type'] = $this->cms->getGeneralList('m_document');
+        $this->load->view('modal/upload_dokumen_project', $data);
+    }
+
+    public function uploadDokumen()
+    {
+        $this->output->enable_profiler(true);
+
+        $config['upload_path']          = './assets/upload/docs/';
+        $config['allowed_types']        = '*';
+        $config['overwrite']            = true;
+        $config['encrypt_name']         = true;
+        $config['remove_spaces']        = true;
+
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('doc_file')) {
+            echo $this->upload->display_errors();
+            echo 'ada yang salahhh';
+            return;
+        }else{
+            $data_upload = $this->upload->data();
+            $g_project_doc = $this->cms->getSingularData('g_project_doc', 'PROJECT_ID', $this->input->post('project_id'));
+
+            if ($g_project_doc->num_rows() > 0) {
+
+                //Kalo udah ada file di project ini, file & recordnya dihapus
+                $path_to_file = './assets/upload/docs/'.$g_project_doc->row()->FILE_ADDRESS;
+                unlink($path_to_file);
+                $this->cms->deleteGeneralData('g_project_doc', 'PROJECT_ID', $this->input->post('project_id'));
+            }
+
+
+            if ($this->input->post('doc_type_select')=='r8keombgxgf82xww9ym') {
+                //Tambah jenis dokumen baru
+                $arr_m_document = array(
+                    'KODE_JENIS_DOKUMEN' => 'xxx',
+                    'NAMA_JENIS_DOKUMEN' => $this->input->post('doc_type_input'),
+                    'STATUS' => 'ACTIVE',
+                ); 
+                $query_add_m_document = $this->cms->insertGeneralData('m_document', $arr_m_document);
+                $id_m_document = $this->db->insert_id();
+
+                if ($query_add_m_document) {
+                    
+                    $editmDocArr = array(
+                        'KODE_JENIS_DOKUMEN' =>  $id_m_document,
+                    );
+                    $query_editmDocArr = $this->cms->updateGeneralData('m_document', $editmDocArr, 'REC_ID', $id_m_document);
+
+                    if ($query_editmDocArr) {
+                        
+                        $arr_project_doc = array(
+                            'KODE_JENIS_DOKUMEN' => $id_m_document,
+                            'PROJECT_ID' => $this->input->post('project_id'),
+                            'FILE_NAME' => $data_upload['orig_name'],
+                            'FILE_ADDRESS' => $data_upload['file_name']
+                        ); 
+                        $query_uploadDokumen = $this->cms->insertGeneralData('g_project_doc', $arr_project_doc);
+
+
+                    }
+
+                }
+
+            }else{
+                //Input aja gk perlu tambah jenis dokumen baru
+                $arr_project_doc = array(
+                    'KODE_JENIS_DOKUMEN' => $this->input->post('doc_type_select'),
+                    'PROJECT_ID' => $this->input->post('project_id'),
+                    'FILE_NAME' => $data_upload['orig_name'],
+                    'FILE_ADDRESS' => $data_upload['file_name']
+                ); 
+                $query_uploadDokumen = $this->cms->insertGeneralData('g_project_doc', $arr_project_doc);
+            }
+
+
+        }
     }
 
     
