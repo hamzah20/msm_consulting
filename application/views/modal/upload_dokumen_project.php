@@ -23,7 +23,7 @@
 
     <div class="form-group">
         <label class="col-form-label">File Dokumen :</label>
-        <input type="file" class="form-control-file form-control-sm" name="doc_file">
+        <input type="file" class="form-control-file form-control-sm" name="doc_file[]" multiple>
     </div>
 
 <script>

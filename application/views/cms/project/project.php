@@ -86,6 +86,16 @@
           <?php
           $no = 0;
           foreach ($project_list->result() as $plist): 
+            $data_task_done = $this->cms->getSingularDataDetail('g_project_detail', 'PROJECT_ID', 'STATUS', $plist->PROJECT_ID, 'DONE');
+            $data_task_onprogress = $this->cms->getSingularDataDetail('g_project_detail', 'PROJECT_ID', 'STATUS', $plist->PROJECT_ID, 'ONPROGRESS');
+            $data_task_pending = $this->cms->getSingularDataDetail('g_project_detail', 'PROJECT_ID', 'STATUS', $plist->PROJECT_ID, 'PENDING');
+
+            if ($data_task_onprogress->num_rows() > 0) {
+              $status_project = "<span class='badge badge-warning' style='font-size: 12px;'>ONPROGRESS</span>";
+            }elseif ($data_task_done->num_rows() > 0) {
+              $status_project = "<span class='badge badge-success' style='font-size: 12px;'>DONE</span>";
+            }
+
             $nbsp = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $project_id = $plist->PROJECT_ID;
             $project_milestone = $this->cms->getMilestoneProject('g_project_detail', $project_id);
@@ -104,7 +114,7 @@
                 <label style="font-weight: bold;font-size: 14px;">INCUBESOLUTIONS</label><br>
               </td>
               <td data-toggle="collapse" data-target="#collapse<?= $plist->REC_ID ?>" style="background: #ebebeb;cursor: pointer;">
-                <h6><span class="badge badge-success">Check Inventory & COGS</span></h6>
+                <h6><?= $status_project ?></h6>
               </td>
               <td data-toggle="collapse" data-target="#collapse<?= $plist->REC_ID ?>" style="background: #ebebeb;cursor: pointer;">
                 <label style="font-size:12px;" class="badge badge-primary"><?= $start_project ?></label>
@@ -120,6 +130,9 @@
               <td style="background: #ebebeb">
                 <a class="btn btn-sm btn-primary text-white uploadDokumen" title="Upload Dokumen" data-toggle="modal" data-target="#uploadDokumen" data-idproject="<?= $plist->REC_ID ?>">
                   <i class="fa fa-file"></i>
+                </a>
+                <a class="btn btn-sm btn-primary text-white lihatDokumen" title="Lihat Dokumen" data-toggle="modal" data-target="#lihatDokumen" data-idproject="<?= $plist->PROJECT_ID ?>">
+                  <i class="fa fa-list"></i>
                 </a>
               </td>
             </tr>
@@ -162,6 +175,15 @@
                           <?php foreach ($project_task->result() as $proj_task) {
                             $task_data = $this->cms->getSingularData('g_task', 'REC_ID', $proj_task->TASK_ID);
                             $duration = $this->incube->hoursToTime($proj_task->TOTAL_HOURS);
+                            $status = "";
+                            if ($proj_task->STATUS == 'DONE') {
+                              $status = "<span class='badge badge-success' style='font-size: 12px;'>DONE</span>";
+                            }elseif($proj_task->STATUS == 'ONPROGRESS'){
+                              $status = "<span class='badge badge-warning' style='font-size: 12px;'>ONPROGRESS</span>";
+                            }elseif($proj_task->STATUS == 'PENDING'){
+                              $status = "<span class='badge badge-danger' style='font-size: 12px;'>PENDING</span>";
+                            }
+
                           ?>
 
                             <tr>
@@ -173,8 +195,7 @@
                                 <?= $proj_task->PIC ?>
                               </td>
                               <td>
-                                <!-- Logic Status Belum -->
-                                <span class="badge badge-success" style="font-size: 12px;">DONE</span>
+                                <?= $status; ?>
                               </td>
                               <td>
                                 <?= $proj_task->START_DATE ?>
@@ -212,7 +233,7 @@
 
     <div class="modal fade" id="uploadDokumen" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog">
-        <form class="needs-validation" action="<?= base_url('General/Project/uploadDokumen'); ?>" method="POST" novalidate enctype='multipart/form-data'>
+        <form class="needs-validation" action="<?= base_url('General/Project/uploadDokumen'); ?>" method="POST" enctype='multipart/form-data'>
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="editUser">Upload Dokumen</h5>
@@ -221,6 +242,29 @@
               </button>
             </div>
             <div class="modal-body modal-uploadDokumen">
+              Loading
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
+              <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+    <div class="modal fade" id="lihatDokumen" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <form class="needs-validation" action="<?= base_url('General/Project/lihatDokumen'); ?>" method="POST" enctype='multipart/form-data'>
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editUser">Lihat Dokumen</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body modal-lihatDokumen">
               Loading
             </div>
             <div class="modal-footer">
@@ -262,8 +306,20 @@ jQuery(document).ready(function($) {
 
    });
 
+   $(document).on('click', '.lihatDokumen', function(event){
+
+    var button = $(event.relatedTarget);
+          var id_project = $(this).data('idproject');
+          var getAccount = '<?php echo base_url('General/Project/lihatDokumen?id_project='); ?>';
+
+          $('.modal-lihatDokumen').load(getAccount + id_project, function() {});
+
+
+   });
+
   $(document).on('hidden.bs.modal', function (e) {
     $( ".modal-uploadDokumen" ).empty();
+    $( ".modal-lihatDokumen" ).empty();
   });
   
   $(document).on('click', '.hapus', function(event) {
@@ -343,7 +399,7 @@ jQuery(document).ready(function($) {
   
     Swal.fire({
       title: 'Proses Berhasil',
-      text: 'Data Project Type berhasil ditambahkan',
+      text: 'Data berhasil ditambahkan',
       icon: 'success',
       showCancelButton: false,
       confirmButtonText: 'Tutup'

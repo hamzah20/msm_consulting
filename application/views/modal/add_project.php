@@ -1,6 +1,6 @@
 <div class="modal fade " id="addProject" tabindex="-1" aria-labelledby="addProject" aria-hidden="true" >
 	<div class="modal-dialog modal-lg" style="padding-left: 0px; width: 1200px;">
-		<form class="needs-validation" id="formAddProjecttype" action="<?= base_url('General/Project/AddProject'); ?>" method="POST" novalidate>
+		<form class="needs-validation" id="formAddProjecttype" action="<?= base_url('General/Project/AddProject'); ?>" method="POST">
 			<div class="modal-content" style="width: 1200px; margin-left: -150px;">
 				<div class="modal-header">
 					<h5 class="modal-title" id="addProject">Tambah Project</h5>
@@ -46,8 +46,8 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="recipient-name" class="col-form-label">Milestone & Task :</label>
-						 <ul class="list-group loadptype">
+						
+						<ul class="list-group loadptype">
 						 	Silahkan Pilih Project Type
 		                 </ul>
 					
@@ -64,6 +64,9 @@
 
 <script>
 	jQuery(document).ready(function($) {
+
+		
+
 		$("#ptid_select").change(function () {
 			var button = $(event.relatedTarget);
 			var id = $('option:selected',this).data("id");

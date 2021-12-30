@@ -1,3 +1,14 @@
+<label for="recipient-name" class="col-form-label" style="float:left;">Milestone & Task :</label> 
+
+<div class="form-check">
+  <input class="form-check-input" type="checkbox" name="select-all" id="select-all">
+  <label class="form-check-label" style="margin-top:5px;">
+    Pilih Semua
+  </label>
+</div>
+
+<br>
+
 <?php
 									
 $milestone=$this->cms->getSingularData('v_g_milestone','PROJECT_TYPE_ID',$ptid_milestone);
@@ -28,10 +39,10 @@ $arr_2 = 0;
 						<input type="text" name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][id_task]" value="<?= $GetTask->REC_ID?>" hidden>
 						<input type="checkbox" name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][checkbox]"> 
 						<?php echo $GetTask->TASK_NAME?>
-						<input type="text" name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][total_hours]" class="form-control form-control-sm" style="float: right; width: 10%;" placeholder="Total Hours"> 
-						<input type="datetime-local" name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][end_date]" class="form-control form-control-sm" style="float: right; width: 20%;" placeholder="End Date"> 
-						<input type="datetime-local" name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][start_date]" class="form-control form-control-sm" style="float: right; width: 20%;" placeholder="Start Date"> 
-						<input type="text" name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][pic]" class="form-control form-control-sm" style="float: right; width: 30%;"> 
+						<input type="text" name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][total_hours]" class="form-control form-control-sm" style="float: right; width: 10%;" placeholder="Total Hours" > 
+						<input type="datetime-local" name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][end_date]" class="form-control form-control-sm" style="float: right; width: 20%;" placeholder="End Date" > 
+						<input type="datetime-local" name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][start_date]" class="form-control form-control-sm" style="float: right; width: 20%;" placeholder="Start Date" > 
+						<input type="text" name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][pic]" class="form-control form-control-sm" style="float: right; width: 30%;" >
 						<span style="float: right;margin-right: 5px;">PIC : </span>
 					</li>
        				<?php
@@ -48,3 +59,23 @@ $arr_2 = 0;
 	echo "Silahkan Pilih Project Type";
 }
 ?>
+
+<script>
+jQuery(document).ready(function($) {	
+	
+
+	$('#select-all').click(function(event) {   
+	    if(this.checked) {
+	        // Iterate each checkbox
+	        $(':checkbox').each(function() {
+	            this.checked = true;                        
+	        });
+	    } else {
+	        $(':checkbox').each(function() {
+	            this.checked = false;                       
+	        });
+	    }
+	}); 
+
+});
+</script>
