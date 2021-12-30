@@ -128,7 +128,7 @@
                 </label>
               </td>
               <td style="background: #ebebeb">
-                <a class="btn btn-sm btn-primary text-white uploadDokumen" title="Upload Dokumen" data-toggle="modal" data-target="#uploadDokumen" data-idproject="<?= $plist->REC_ID ?>">
+                <a class="btn btn-sm btn-primary text-white uploadDokumenProject" title="Upload Dokumen" data-toggle="modal" data-target="#uploadDokumenProject" data-idproject="<?= $plist->REC_ID ?>">
                   <i class="fa fa-file"></i>
                 </a>
                 <a class="btn btn-sm btn-primary text-white lihatDokumen" title="Lihat Dokumen" data-toggle="modal" data-target="#lihatDokumen" data-idproject="<?= $plist->PROJECT_ID ?>">
@@ -167,19 +167,22 @@
                           <th style="width:1.2in">
                             DURATION
                           </th>
-                          <th style="width:0.5in"></th>
+                          <th style="width:0.5in">Action</th>
 
                         </tr>
                         </thead>
 
                           <?php foreach ($project_task->result() as $proj_task) {
                             $task_data = $this->cms->getSingularData('g_task', 'REC_ID', $proj_task->TASK_ID);
+                            $file_num_rows = $this->cms->getSingularDataTriple('g_project_doc', 'PROJECT_ID', 'MILESTONE_ID','TASK_ID', $project_id, $proj_milestone->MILESTONE_ID, $proj_task->TASK_ID)->num_rows();
                             $duration = $this->incube->hoursToTime($proj_task->TOTAL_HOURS);
                             $status = "";
                             if ($proj_task->STATUS == 'DONE') {
                               $status = "<span class='badge badge-success' style='font-size: 12px;'>DONE</span>";
                             }elseif($proj_task->STATUS == 'ONPROGRESS'){
                               $status = "<span class='badge badge-warning' style='font-size: 12px;'>ONPROGRESS</span>";
+                            }elseif($proj_task->STATUS == 'WAITING FOR APPROVAL'){
+                              $status = "<span class='badge badge-warning' style='font-size: 12px;'>WAITING FOR APPROVAL</span>";
                             }elseif($proj_task->STATUS == 'PENDING'){
                               $status = "<span class='badge badge-danger' style='font-size: 12px;'>PENDING</span>";
                             }
@@ -206,7 +209,26 @@
                               <td>
                                 <?= $duration ?>
                               </td>
-                              <td></td>
+                              <td>
+                                
+
+                                <?php if ($proj_task->STATUS != 'WAITING FOR APPROVAL' AND $proj_task->STATUS != 'DONE'): ?>
+                                  <a class="btn btn-sm btn-primary text-white uploadDokumenTask" title="Upload Dokumen" data-toggle="modal" data-target="#uploadDokumenTask" data-idproject="<?= $plist->PROJECT_ID ?>" data-idtask="<?= $proj_task->TASK_ID ?>" data-idmilestone="<?= $milestone_data->row()->REC_ID ?>">
+                                    <i class="fa fa-file"></i>
+                                  </a>
+                                <?php endif ?>
+
+                                <a class="btn btn-sm btn-primary text-white lihatDokumenTask" title="Lihat Dokumen" data-toggle="modal" data-target="#lihatDokumen" data-idproject="<?= $plist->PROJECT_ID ?>" data-idtask="<?= $proj_task->TASK_ID ?>" data-idmilestone="<?= $milestone_data->row()->REC_ID ?>">
+                                  <i class="fa fa-list"></i>
+                                </a>
+
+                                <?php if ($file_num_rows > 0 AND $proj_task->STATUS != 'WAITING FOR APPROVAL' AND $proj_task->STATUS != 'DONE'): ?>
+                                  <a class="btn btn-sm btn-success text-white submitTask" title="Submit Task" data-idprojdetail="<?= $proj_task->REC_ID ?>">
+                                    <i class="fa fa-send"></i>
+                                  </a>
+                                <?php endif ?>
+
+                              </td>
 
                             </tr>
 
@@ -231,17 +253,40 @@
 
 
 
-    <div class="modal fade" id="uploadDokumen" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="uploadDokumenProject" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog">
         <form class="needs-validation" action="<?= base_url('General/Project/uploadDokumen'); ?>" method="POST" enctype='multipart/form-data'>
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="editUser">Upload Dokumen</h5>
+              <h5 class="modal-title" id="editUser">Upload Dokumen Project</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body modal-uploadDokumen">
+            <div class="modal-body modal-uploadDokumenProject">
+              Loading
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
+              <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+    <div class="modal fade" id="uploadDokumenTask" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <form class="needs-validation" action="<?= base_url('General/Project/uploadDokumen'); ?>" method="POST" enctype='multipart/form-data'>
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editUser">Upload Dokumen Task</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body modal-uploadDokumenTask">
               Loading
             </div>
             <div class="modal-footer">
@@ -294,16 +339,22 @@ jQuery(document).ready(function($) {
       $('[data-toggle="tooltip"]').tooltip()
     })
 
-   $(document).on('click', '.uploadDokumen', function(event){
-
-
+   $(document).on('click', '.uploadDokumenProject', function(event){
     var button = $(event.relatedTarget);
           var id_project = $(this).data('idproject');
           var getAccount = '<?php echo base_url('General/Project/getUploadDokumen?id_project='); ?>';
 
-          $('.modal-uploadDokumen').load(getAccount + id_project, function() {});
+          $('.modal-uploadDokumenProject').load(getAccount + id_project, function() {});
+   });
 
+   $(document).on('click', '.uploadDokumenTask', function(event){
+    var button = $(event.relatedTarget);
+          var id_project = $(this).data('idproject');
+          var id_task = $(this).data('idtask');
+          var id_milestone = $(this).data('idmilestone');
+          var getAccount = '<?php echo base_url('General/Project/getUploadDokumen?id_project='); ?>';
 
+          $('.modal-uploadDokumenTask').load(getAccount + id_project + '&id_task=' + id_task + '&id_milestone=' + id_milestone, function() {});
    });
 
    $(document).on('click', '.lihatDokumen', function(event){
@@ -317,10 +368,71 @@ jQuery(document).ready(function($) {
 
    });
 
+   $(document).on('click', '.lihatDokumenTask', function(event){
+
+    var button = $(event.relatedTarget);
+          var id_project = $(this).data('idproject');
+          var id_task = $(this).data('idtask');
+          var id_milestone = $(this).data('idmilestone');
+          var getAccount = '<?php echo base_url('General/Project/lihatDokumen?id_project='); ?>';
+
+          $('.modal-lihatDokumen').load(getAccount + id_project + '&id_task=' + id_task + '&id_milestone=' + id_milestone, function() {});
+
+
+   });
+
   $(document).on('hidden.bs.modal', function (e) {
-    $( ".modal-uploadDokumen" ).empty();
+    $( ".modal-uploadDokumenProject" ).empty();
+    $( ".modal-uploadDokumenTask" ).empty();
     $( ".modal-lihatDokumen" ).empty();
   });
+
+
+
+  $(document).on('click', '.submitTask', function(event) {
+
+      let id_proj_detail = $(this).data('idprojdetail');
+
+      Swal.fire({
+        title: 'Submit Task',
+        text: 'Apakah Anda yakin ingin mengirim task ini untuk di approve ?',
+        icon: 'info',
+        showCancelButton: true,
+        cancelButtonText: 'Batal',
+        confirmButtonText: 'Ya'
+      }).then((result) => {
+        if (result.value) {
+
+          $.post(baseUrl + 'General/Project/submitTask', {
+            id_proj_detail:id_proj_detail
+
+          }, function(resp) {
+            if (resp.code == 200) {
+              Swal.fire({
+                title: 'Proses Berhasil',
+                text: 'Submit Berhasil',
+                icon: 'success',
+                confirmButtonText: 'Ok'
+              }).then((result) => {
+                location.reload();
+              });
+            } else {
+
+              Swal.fire({
+                title: 'Proses Gagal',
+                text: 'Proses tidak dapat dilakukan, silahkan coba lagi',
+                icon: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Tutup'
+              });
+            }
+          });
+        }
+      });
+    });
+
+
+
   
   $(document).on('click', '.hapus', function(event) {
 

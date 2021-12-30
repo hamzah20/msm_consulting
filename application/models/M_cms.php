@@ -116,8 +116,21 @@
     {
         $proj_id = $this->db->escape_str($project_id);
 
-        $sql = $this->db->query("SELECT * FROM $table WHERE PROJECT_ID = '$proj_id' GROUP BY(MILESTONE_ID)");
+        $sql = $this->db->query("SELECT * FROM $table WHERE PROJECT_ID = '$proj_id' AND MILESTONE_ID != 0 GROUP BY(MILESTONE_ID)");
         return $sql;
+    }
+
+    public function getSingularDataDetailTask($table, $column1, $column2, $data1, $data2)
+    {
+        $this->db->select('*')
+            ->from($table)
+            ->where($column1, $data1) 
+            ->where($column2, $data2)
+            ->group_by("TASK_ID");
+
+        $query = $this->db->get();
+
+        return $query;
     }
 
     public function calculateTotalPTT($pid_ptt)

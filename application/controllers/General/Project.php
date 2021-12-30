@@ -24,9 +24,60 @@ class Project extends CI_Controller
         $data['project_type'] = $this->cms->getGeneralList('gm_project_type');
         $this->load->view('cms/project/project', $data);
     }
-    public function testing(){
-        $this->output->enable_profiler(true);
-        $data_task_success = $this->cms->getSingularDataDetail('g_project_detail', 'PROJECT_ID', 'STATUS', 'ac76981ca4', 'SUCCESS');
+    
+    public function submitTask()
+    {
+        header('Content-Type: application/json');
+
+        $editArr = array(
+            'STATUS' => 'WAITING FOR APPROVAL',
+        );
+
+        $querySubmit = $this->cms->updateGeneralData('g_project_detail', $editArr, 'REC_ID', $this->input->post('id_proj_detail'));
+
+        if ($querySubmit) {
+            echo json_encode(array(
+                'code'      => 200,
+                'status'    => 'success',
+            ));
+        } else {
+            echo json_encode(array(
+                'code'      => 204,
+                'status'    => 'error',
+            ));
+        }
+    }
+
+    public function getModalApprovalTask(){
+        //$this->output->enable_profiler(TRUE);
+        $data['rec_id'] = $this->input->get('rec_id');
+        $data['g_project_detail'] = $this->cms->getSingularData('g_project_detail', 'REC_ID', $this->input->get('rec_id'));
+        $data['g_milestone'] = $this->cms->getSingularData('g_milestone', 'REC_ID', $data['g_project_detail']->row()->MILESTONE_ID);
+        $data['g_project'] = $this->cms->getSingularData('g_project', 'PROJECT_ID', $data['g_project_detail']->row()->PROJECT_ID);
+        $data['g_task'] = $this->cms->getSingularData('g_task', 'REC_ID', $data['g_project_detail']->row()->TASK_ID);
+        $this->load->view('modal/approval_task', $data);
+    }
+
+    public function approveTask(){
+
+        $editArr = array(
+            'STATUS' => 'DONE',
+        );
+
+        $queryApprove = $this->cms->updateGeneralData('g_project_detail', $editArr, 'REC_ID', $this->input->post('rec_id'));
+
+        if ($queryApprove) {
+            echo json_encode(array(
+                'code'      => 200,
+                'status'    => 'success',
+            ));
+        } else {
+            echo json_encode(array(
+                'code'      => 204,
+                'status'    => 'error',
+            ));
+        }
+
     }
 
     public function AddProject()
@@ -95,8 +146,12 @@ class Project extends CI_Controller
 
     public function lihatDokumen()
     {
+        //$this->output->enable_profiler(true);
         $id_project = $this->input->get('id_project');
-        $data['dokumen_list']=$this->cms->getSingularData('g_project_doc', 'PROJECT_ID', $id_project);
+        $data['id_project'] = $this->input->get('id_project');
+        $data['dokumen_list_project'] = $this->cms->getSingularDataDetail('g_project_doc', 'PROJECT_ID', 'TASK_ID', $id_project, 0);
+        $data['dokumen_list_milestone'] = $this->cms->getMilestoneProject('g_project_doc', $id_project);
+        $data['g_project'] = $this->cms->getSingularData('g_project', 'PROJECT_ID', $id_project);
         $this->load->view('modal/lihat_dokumen_project', $data);
     }
 
@@ -112,10 +167,10 @@ class Project extends CI_Controller
 
     public function uploadDokumen()
     {
-        $this->output->enable_profiler(true);
+        //$this->output->enable_profiler(true);
 
         $config['upload_path']          = './assets/upload/docs/';
-        $config['allowed_types']        = '*';
+        $config['allowed_types']        = 'xlsx|xls|xlsm|xlt|xltx|xltm|xlsb|xla|xlam|xml|csv|pdf|epub|txt|xps|doc|docm|docx|dot|dotm|dotx|odt|rtf|wps|ods|xlw|odp|pot|potm|potx|ppa|ppam|pps|ppsm|ppsx|ppt|pptm|pptx|thmx';
         $config['overwrite']            = true;
         $config['encrypt_name']         = true;
         $config['remove_spaces']        = true;
@@ -163,15 +218,24 @@ class Project extends CI_Controller
                         $query_editmDocArr = $this->cms->updateGeneralData('m_document', $editmDocArr, 'REC_ID', $id_m_document);
 
                         if ($query_editmDocArr) {
-                            
+                            if (null == $this->input->post('task_id')) {
+                                $miles_id = 0;
+                                $tas_id = 0;
+                            }else{
+                                $miles_id = $this->input->post('milestone_id');
+                                $tas_id = $this->input->post('task_id');
+                            }
                             $arr_project_doc = array(
                                 'KODE_JENIS_DOKUMEN' => $id_m_document,
                                 'PROJECT_ID' => $this->input->post('project_id'),
+                                'MILESTONE_ID' => $miles_id,
+                                'TASK_ID' => $tas_id,
                                 'FILE_NAME' => $data_upload['orig_name'],
                                 'FILE_ADDRESS' => $data_upload['file_name']
                             ); 
                             $query_uploadDokumen = $this->cms->insertGeneralData('g_project_doc', $arr_project_doc);
-
+                            $this->session->set_flashdata('query', 'success');
+                            redirect(base_url('project'));
 
                         }
 
@@ -179,13 +243,26 @@ class Project extends CI_Controller
 
                 }else{
                     //Input aja gk perlu tambah jenis dokumen baru
+
+                    if (null == $this->input->post('task_id')) {
+                        $miles_id = 0;
+                        $tas_id = 0;
+                    }else{
+                        $miles_id = $this->input->post('milestone_id');
+                        $tas_id = $this->input->post('task_id');
+                    }
+
                     $arr_project_doc = array(
                         'KODE_JENIS_DOKUMEN' => $this->input->post('doc_type_select'),
                         'PROJECT_ID' => $this->input->post('project_id'),
+                        'MILESTONE_ID' => $miles_id,
+                        'TASK_ID' => $tas_id,
                         'FILE_NAME' => $data_upload['orig_name'],
                         'FILE_ADDRESS' => $data_upload['file_name']
                     ); 
                     $query_uploadDokumen = $this->cms->insertGeneralData('g_project_doc', $arr_project_doc);
+                    $this->session->set_flashdata('query', 'success');
+                    redirect(base_url('project'));
                 }
 
 

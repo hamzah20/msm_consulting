@@ -160,24 +160,36 @@ class Employee extends CI_Controller
     public function deleteEmployee()
     {
         // $this->output->enable_profiler(TRUE);
-        header('Content-Type: application/json');
 
-        $cid = $this->cms->getSingularData('g_employee', 'EMPLOYEE_ID', $this->input->post('employeeID'))->row()->EMPLOYEE_COMPANY_ID;
-        $queryDelete = $this->cms->deleteGeneralData('g_employee', 'EMPLOYEE_ID', $this->input->post('employeeID'));
-        $redir = 'detail?cid='.$cid;
+        //kalo udah ada employee income gabisa dihapus
+        $getEmployeeIncome = $this->cms->getSingularData('g_employee_income', 'EMPLOYEE_ID', $this->input->post('employeeID'));
+        if ($getEmployeeIncome->num_rows() == 0) {
 
-        if ($queryDelete) {
-            echo json_encode(array(
-                'code'      => 200,
-                'status'    => 'success',
-                'redir'  => $redir,
-            ));
-        } else {
+            header('Content-Type: application/json');
+            $cid = $this->cms->getSingularData('g_employee', 'EMPLOYEE_ID', $this->input->post('employeeID'))->row()->EMPLOYEE_COMPANY_ID;
+            $queryDelete = $this->cms->deleteGeneralData('g_employee', 'EMPLOYEE_ID', $this->input->post('employeeID'));
+            $redir = 'detail?cid='.$cid;
+
+            if ($queryDelete) {
+                echo json_encode(array(
+                    'code'      => 200,
+                    'status'    => 'success',
+                    'redir'  => $redir,
+                ));
+            } else {
+                echo json_encode(array(
+                    'code'      => 204,
+                    'status'    => 'error',
+                ));
+            }
+
+        }else{
             echo json_encode(array(
                 'code'      => 204,
                 'status'    => 'error',
             ));
         }
+        
     }
 
     public function importXLSLFile()

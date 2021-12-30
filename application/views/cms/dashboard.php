@@ -353,13 +353,84 @@
                 <!-- /# card -->
             </div>
 
+
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>CUSTOM TASK WAITING FOR APPROVAL</h4>
+                    </div>
+                    <div class="card-body">
+                       <table class="table table-dashboard">
+                          <thead>
+                            <tr>
+                              <th scope="col">NO</th>
+                              <th scope="col">CUSTOMER</th>
+                              <th scope="col">PROJECT </th>
+                              <th scope="col">TASK</th>
+                              <th scope="col">TARGET DATE</th>
+                              <th scope="col">TOTAL HOURS</th>
+                              <th scope="col">PIC</th>
+                              <th scope="col"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php foreach ($waiting_approval->result() as $waiting_approval_data):
+                                $approval_project = $this->cms->getSingularData('g_project', 'PROJECT_ID', $waiting_approval_data->PROJECT_ID);
+                                $approval_milestone = $this->cms->getSingularData('g_milestone', 'REC_ID', $waiting_approval_data->MILESTONE_ID);
+                                $approval_task = $this->cms->getSingularData('g_task', 'REC_ID', $waiting_approval_data->TASK_ID);
+                             ?>
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>PT. PERUSAHAAN YANG SUKSES</td>
+                              <td><?= $approval_project->row()->PROJECT_NAME  ?></td>
+                              <td><?= $approval_task->row()->TASK_NAME  ?></td>
+                              <td><?= $waiting_approval_data->END_DATE ?></td>
+                              <td><?= $waiting_approval_data->TOTAL_HOURS ?></td>
+                              <td><?= $waiting_approval_data->PIC ?></td>
+                              <td>
+                                <a class="btn btn-success getapproval" href="#" role="button" data-toggle="modal" data-target="#approvalTask" data-recid="<?= $waiting_approval_data->REC_ID ?>"><i class="fa fa-eye"></i></a>
+                              </td>
+                            </tr> 
+                            <?php endforeach ?>
+                           
+                          </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /# card -->
+            </div>
+
+
+
+
         </div> 
         <!-- .content -->
     </div>
     <!-- /#right-panel -->
 
     <!-- Add Modal Perusahaan -->
-      <?php $this->load->view('modal/approval_task'); ?>
+    <div class="modal fade" id="approvalTask" tabindex="-1" aria-labelledby="approvalTask" aria-hidden="true">
+    <div class="modal-dialog">
+        <form class="needs-validation" id="FormApprovalTask" action="<?= base_url('General/Project/approveTask'); ?>" method="POST" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="approvalTask">Approval Task</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="content-TaskApproval">
+                    Loading
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-sm">Approve</button>
+                    <button type="button" class="btn btn-danger btn-sm">Revise</button>
+                    <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal" style="color: #fff;">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
     <!-- End of Add Modal Perusahaan -->
 
     <!-- Right Panel -->
@@ -368,5 +439,26 @@
     <?php $this->load->view('templates_cms/footer'); ?> 
     <!-- End of Footer -->
 
+<script>
+    
+jQuery(document).ready(function($) {
 
+
+    $(document).on('click', '.getapproval', function(event){
+    var button = $(event.relatedTarget);
+          var rec_id = $(this).data('recid');
+          var url = '<?php echo base_url('General/Project/getModalApprovalTask?rec_id='); ?>';
+
+          $('.content-TaskApproval').load(url + rec_id, function() {});
+    });
+
+
+    $(document).on('hidden.bs.modal', function (e) {
+        $( ".content-TaskApproval" ).empty();
+    });
+
+
+});
+
+</script>
 
