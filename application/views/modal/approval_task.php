@@ -38,7 +38,7 @@
                         <tr>
                             <td>NOTES BY PIC</td>
                             <td>&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</td>
-                            <td></td>
+                            <td><?= $g_project_detail->row()->NOTES_PIC ?></td>
                         </tr>
                         <tr>
                             <td>RELATED DOC</td>

@@ -165,6 +165,10 @@ class Project extends CI_Controller
         force_download($file_name, file_get_contents($file_path));
     }
 
+    public function modalSubmitTask(){
+        $this->load->view('modal/submit_task_project');
+    }
+
     public function uploadDokumen()
     {
         //$this->output->enable_profiler(true);

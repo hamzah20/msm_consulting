@@ -223,7 +223,7 @@
                                 </a>
 
                                 <?php if ($file_num_rows > 0 AND $proj_task->STATUS != 'WAITING FOR APPROVAL' AND $proj_task->STATUS != 'DONE'): ?>
-                                  <a class="btn btn-sm btn-success text-white submitTask" title="Submit Task" data-idprojdetail="<?= $proj_task->REC_ID ?>">
+                                  <a class="btn btn-sm btn-success text-white submitTask" title="Submit Task" data-toggle="modal" data-target="#submitTask" data-idprojdetail="<?= $proj_task->REC_ID ?>">
                                     <i class="fa fa-send"></i>
                                   </a>
                                 <?php endif ?>
@@ -321,6 +321,28 @@
       </div>
     </div>
 
+    <div class="modal fade" id="submitTask" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <form class="needs-validation" action="<?= base_url('General/Project/lihatDokumen'); ?>" method="POST" enctype='multipart/form-data'>
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="judul">Submit Task</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body modal-submitTask">
+              Loading
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
+              <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
 
 
 
@@ -342,9 +364,9 @@ jQuery(document).ready(function($) {
    $(document).on('click', '.uploadDokumenProject', function(event){
     var button = $(event.relatedTarget);
           var id_project = $(this).data('idproject');
-          var getAccount = '<?php echo base_url('General/Project/getUploadDokumen?id_project='); ?>';
+          var url = '<?php echo base_url('General/Project/getUploadDokumen?id_project='); ?>';
 
-          $('.modal-uploadDokumenProject').load(getAccount + id_project, function() {});
+          $('.modal-uploadDokumenProject').load(url + id_project, function() {});
    });
 
    $(document).on('click', '.uploadDokumenTask', function(event){
@@ -352,18 +374,29 @@ jQuery(document).ready(function($) {
           var id_project = $(this).data('idproject');
           var id_task = $(this).data('idtask');
           var id_milestone = $(this).data('idmilestone');
-          var getAccount = '<?php echo base_url('General/Project/getUploadDokumen?id_project='); ?>';
+          var url = '<?php echo base_url('General/Project/getUploadDokumen?id_project='); ?>';
 
-          $('.modal-uploadDokumenTask').load(getAccount + id_project + '&id_task=' + id_task + '&id_milestone=' + id_milestone, function() {});
+          $('.modal-uploadDokumenTask').load(url + id_project + '&id_task=' + id_task + '&id_milestone=' + id_milestone, function() {});
    });
 
    $(document).on('click', '.lihatDokumen', function(event){
 
     var button = $(event.relatedTarget);
           var id_project = $(this).data('idproject');
-          var getAccount = '<?php echo base_url('General/Project/lihatDokumen?id_project='); ?>';
+          var url = '<?php echo base_url('General/Project/lihatDokumen?id_project='); ?>';
 
-          $('.modal-lihatDokumen').load(getAccount + id_project, function() {});
+          $('.modal-lihatDokumen').load(url + id_project, function() {});
+
+
+   });
+
+   $(document).on('click', '.submitTask', function(event){
+
+    var button = $(event.relatedTarget);
+          var id = $(this).data('idprojdetail');
+          var url = '<?php echo base_url('General/Project/modalSubmitTask?idprojdetail='); ?>';
+
+          $('.modal-submitTask').load(url + id, function() {});
 
 
    });
@@ -374,9 +407,9 @@ jQuery(document).ready(function($) {
           var id_project = $(this).data('idproject');
           var id_task = $(this).data('idtask');
           var id_milestone = $(this).data('idmilestone');
-          var getAccount = '<?php echo base_url('General/Project/lihatDokumen?id_project='); ?>';
+          var url = '<?php echo base_url('General/Project/lihatDokumen?id_project='); ?>';
 
-          $('.modal-lihatDokumen').load(getAccount + id_project + '&id_task=' + id_task + '&id_milestone=' + id_milestone, function() {});
+          $('.modal-lihatDokumen').load(url + id_project + '&id_task=' + id_task + '&id_milestone=' + id_milestone, function() {});
 
 
    });
@@ -389,7 +422,7 @@ jQuery(document).ready(function($) {
 
 
 
-  $(document).on('click', '.submitTask', function(event) {
+  $(document).on('click', '.submitTaskk', function(event) {
 
       let id_proj_detail = $(this).data('idprojdetail');
 
