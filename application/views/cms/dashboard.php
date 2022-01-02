@@ -411,24 +411,11 @@
     <!-- Add Modal Perusahaan -->
     <div class="modal fade" id="approvalTask" tabindex="-1" aria-labelledby="approvalTask" aria-hidden="true">
     <div class="modal-dialog">
-        <form class="needs-validation" id="FormApprovalTask" action="<?= base_url('General/Project/approveTask'); ?>" method="POST" novalidate>
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="approvalTask">Approval Task</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="content-TaskApproval">
-                    Loading
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success btn-sm">Approve</button>
-                    <button type="button" class="btn btn-danger btn-sm">Revise</button>
-                    <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal" style="color: #fff;">Cancel</button>
-                </div>
+        
+            <div class="modal-content content-TaskApproval">
+                
             </div>
-        </form>
+        
     </div>
 </div>
     <!-- End of Add Modal Perusahaan -->

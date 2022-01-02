@@ -31,6 +31,7 @@ class Project extends CI_Controller
 
         $editArr = array(
             'STATUS' => 'WAITING FOR APPROVAL',
+            'NOTES_PIC' => $this->input->post('notes_pic')
         );
 
         $querySubmit = $this->cms->updateGeneralData('g_project_detail', $editArr, 'REC_ID', $this->input->post('id_proj_detail'));
@@ -59,6 +60,8 @@ class Project extends CI_Controller
     }
 
     public function approveTask(){
+
+        header('Content-Type: application/json');
 
         $editArr = array(
             'STATUS' => 'DONE',
@@ -166,7 +169,11 @@ class Project extends CI_Controller
     }
 
     public function modalSubmitTask(){
-        $this->load->view('modal/submit_task_project');
+        $data['g_project_detail'] = $this->cms->getSingularData('g_project_detail', 'REC_ID', $this->input->get('idprojdetail'));
+        $g_project_detail = $data['g_project_detail'];
+        $data['g_task'] = $this->cms->getSingularData('g_task', 'REC_ID', $g_project_detail->row()->TASK_ID);
+        $data['dokumen_list_task'] = $this->cms->getSingularDataTriple('g_project_doc', 'PROJECT_ID', 'MILESTONE_ID','TASK_ID', $g_project_detail->row()->PROJECT_ID , $g_project_detail->row()->MILESTONE_ID, $g_project_detail->row()->TASK_ID);
+        $this->load->view('modal/submit_task_project', $data);
     }
 
     public function uploadDokumen()
@@ -175,6 +182,7 @@ class Project extends CI_Controller
 
         $config['upload_path']          = './assets/upload/docs/';
         $config['allowed_types']        = 'xlsx|xls|xlsm|xlt|xltx|xltm|xlsb|xla|xlam|xml|csv|pdf|epub|txt|xps|doc|docm|docx|dot|dotm|dotx|odt|rtf|wps|ods|xlw|odp|pot|potm|potx|ppa|ppam|pps|ppsm|ppsx|ppt|pptm|pptx|thmx';
+        $config['max_size']             = 5000;
         $config['overwrite']            = true;
         $config['encrypt_name']         = true;
         $config['remove_spaces']        = true;
@@ -238,8 +246,6 @@ class Project extends CI_Controller
                                 'FILE_ADDRESS' => $data_upload['file_name']
                             ); 
                             $query_uploadDokumen = $this->cms->insertGeneralData('g_project_doc', $arr_project_doc);
-                            $this->session->set_flashdata('query', 'success');
-                            redirect(base_url('project'));
 
                         }
 
@@ -265,8 +271,6 @@ class Project extends CI_Controller
                         'FILE_ADDRESS' => $data_upload['file_name']
                     ); 
                     $query_uploadDokumen = $this->cms->insertGeneralData('g_project_doc', $arr_project_doc);
-                    $this->session->set_flashdata('query', 'success');
-                    redirect(base_url('project'));
                 }
 
 
@@ -274,7 +278,12 @@ class Project extends CI_Controller
                 echo $this->upload->display_errors();
             }
 
+            
+
         }
+
+        $this->session->set_flashdata('query', 'success');
+        redirect(base_url('project'));
 
 
     }

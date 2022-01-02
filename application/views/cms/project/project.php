@@ -323,23 +323,11 @@
 
     <div class="modal fade" id="submitTask" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog modal-lg">
-        <form class="needs-validation" action="<?= base_url('General/Project/lihatDokumen'); ?>" method="POST" enctype='multipart/form-data'>
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="judul">Submit Task</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body modal-submitTask">
-              Loading
-            </div>
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
-              <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
-            </div>
+        
+          <div class="modal-content modal-submitTask">
+            Loading
           </div>
-        </form>
+        
       </div>
     </div>
 
@@ -419,50 +407,6 @@ jQuery(document).ready(function($) {
     $( ".modal-uploadDokumenTask" ).empty();
     $( ".modal-lihatDokumen" ).empty();
   });
-
-
-
-  $(document).on('click', '.submitTaskk', function(event) {
-
-      let id_proj_detail = $(this).data('idprojdetail');
-
-      Swal.fire({
-        title: 'Submit Task',
-        text: 'Apakah Anda yakin ingin mengirim task ini untuk di approve ?',
-        icon: 'info',
-        showCancelButton: true,
-        cancelButtonText: 'Batal',
-        confirmButtonText: 'Ya'
-      }).then((result) => {
-        if (result.value) {
-
-          $.post(baseUrl + 'General/Project/submitTask', {
-            id_proj_detail:id_proj_detail
-
-          }, function(resp) {
-            if (resp.code == 200) {
-              Swal.fire({
-                title: 'Proses Berhasil',
-                text: 'Submit Berhasil',
-                icon: 'success',
-                confirmButtonText: 'Ok'
-              }).then((result) => {
-                location.reload();
-              });
-            } else {
-
-              Swal.fire({
-                title: 'Proses Gagal',
-                text: 'Proses tidak dapat dilakukan, silahkan coba lagi',
-                icon: 'error',
-                showCancelButton: false,
-                confirmButtonText: 'Tutup'
-              });
-            }
-          });
-        }
-      });
-    });
 
 
 
