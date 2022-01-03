@@ -47,13 +47,46 @@
                             <td>&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</td>
                             <td><?= $g_project_detail->row()->NOTES_PIC ?></td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td>RELATED DOC</td>
                             <td>&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</td>
                             <td>
                                 <input type="file" name="uploadDoc" disabled>
                             </td>
-                        </tr>
+                        </tr> -->
+                    </table>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">No.</th>
+                                <th scope="col">Nama File</th>
+                                <th scope="col">Tanggal Upload</th>
+                                <th scope="col">Aksi</th>
+                            </tr>
+                        </thead>
+                        <?php 
+                        $no = 1;
+                        foreach ($dokumen_list_task->result() as $dokumen_task):
+                            $addr = $dokumen_task->FILE_ADDRESS
+                         ?>
+                            <tr>
+                                <td>
+                                    <?php echo $no;$no++; ?>
+                                </td>
+                                <td>
+                                    <?= $dokumen_task->FILE_NAME ?>
+                                </td>
+                                <td>
+                                    <?= $dokumen_task->UPLOAD_DATE ?>
+                                </td>
+                                <td>
+                                    <a class="btn btn-sm btn-primary text-white" title="Download Dokumen" href="<?= base_url('General/Project/Download_doc?addr='.$addr); ?>">
+                                      <i class="fa fa-download"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endforeach ?>
                     </table>
 
 
@@ -62,14 +95,14 @@
                         <label for="recipient-name" class="col-form-label">
                             NOTES &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </label>
-                        <textarea class="form-control" rows="3" readonly></textarea>
+                        <textarea class="form-control" rows="3" name="NOTES_SUPERUSER"></textarea>
                     </div>
             </div>
 
 
         <div class="modal-footer">
-            <button type="submit" class="btn btn-success btn-sm approveTask" data-recid="<?= $rec_id ?>">Approve</button>
-            <button type="button" class="btn btn-danger btn-sm">Revise</button>
+            <button type="submit" class="btn btn-success btn-sm approveTask" data-recid="<?= $rec_id ?>" >Approve</button>
+            <button type="button" class="btn btn-danger btn-sm reviseTask" data-recid="<?= $rec_id ?>" >Revise</button>
             <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal" style="color: #fff;">Cancel</button>
         </div>
 
@@ -80,6 +113,7 @@ jQuery(document).ready(function($) {
     $(document).on('click', '.approveTask', function(event) {
 
           let rec_id = $(this).data('recid');
+          let notes_superuser = $('textarea[name="NOTES_SUPERUSER"]').val();
 
           Swal.fire({
             title: 'Approve Task',
@@ -92,7 +126,8 @@ jQuery(document).ready(function($) {
             if (result.value) {
 
               $.post(baseUrl + 'General/Project/approveTask', {
-                rec_id:rec_id
+                rec_id:rec_id,
+                notes_superuser:notes_superuser
 
               }, function(resp) {
                 if (resp.code == 200) {
@@ -118,6 +153,55 @@ jQuery(document).ready(function($) {
             }
           });
       });
+
+
+
+    $(document).on('click', '.reviseTask', function(event) {
+
+          let rec_id = $(this).data('recid');
+          let notes_superuser = $('textarea[name="NOTES_SUPERUSER"]').val();
+
+          Swal.fire({
+            title: 'Revise Task',
+            text: 'Apakah Anda yakin ingin revise task ini ?',
+            icon: 'info',
+            showCancelButton: true,
+            cancelButtonText: 'Batal',
+            confirmButtonText: 'Ya'
+          }).then((result) => {
+            if (result.value) {
+
+              $.post(baseUrl + 'General/Project/reviseTask', {
+                rec_id:rec_id,
+                notes_superuser:notes_superuser
+
+              }, function(resp) {
+                if (resp.code == 200) {
+                  Swal.fire({
+                    title: 'Proses Berhasil',
+                    text: 'Revise Berhasil',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                  }).then((result) => {
+                    location.reload();
+                  });
+                } else {
+
+                  Swal.fire({
+                    title: 'Proses Gagal',
+                    text: 'Proses tidak dapat dilakukan, silahkan coba lagi',
+                    icon: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Tutup'
+                  });
+                }
+              });
+            }
+          });
+    });
+
+
+
 
 
 });

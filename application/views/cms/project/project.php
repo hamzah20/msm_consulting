@@ -87,12 +87,10 @@
           $no = 0;
           foreach ($project_list->result() as $plist): 
             $data_task_done = $this->cms->getSingularDataDetail('g_project_detail', 'PROJECT_ID', 'STATUS', $plist->PROJECT_ID, 'DONE');
-            $data_task_onprogress = $this->cms->getSingularDataDetail('g_project_detail', 'PROJECT_ID', 'STATUS', $plist->PROJECT_ID, 'ONPROGRESS');
-            $data_task_pending = $this->cms->getSingularDataDetail('g_project_detail', 'PROJECT_ID', 'STATUS', $plist->PROJECT_ID, 'PENDING');
+            $data_task = $this->cms->getSingularData('g_project_detail', 'PROJECT_ID', $plist->PROJECT_ID);
 
-            if ($data_task_onprogress->num_rows() > 0) {
-              $status_project = "<span class='badge badge-warning' style='font-size: 12px;'>ONPROGRESS</span>";
-            }elseif ($data_task_done->num_rows() > 0) {
+            $status_project = "<span class='badge badge-warning' style='font-size: 12px;'>ONPROGRESS</span>";
+            if ($data_task_done->num_rows() == $data_task->num_rows()) {
               $status_project = "<span class='badge badge-success' style='font-size: 12px;'>DONE</span>";
             }
 
@@ -183,6 +181,8 @@
                               $status = "<span class='badge badge-warning' style='font-size: 12px;'>ONPROGRESS</span>";
                             }elseif($proj_task->STATUS == 'WAITING FOR APPROVAL'){
                               $status = "<span class='badge badge-warning' style='font-size: 12px;'>WAITING FOR APPROVAL</span>";
+                            }elseif($proj_task->STATUS == 'REVISE'){
+                              $status = "<span class='badge badge-danger' style='font-size: 12px;'>REVISED</span>";
                             }elseif($proj_task->STATUS == 'PENDING'){
                               $status = "<span class='badge badge-danger' style='font-size: 12px;'>PENDING</span>";
                             }

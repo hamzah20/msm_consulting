@@ -49,22 +49,13 @@ class Project extends CI_Controller
         }
     }
 
-    public function getModalApprovalTask(){
-        //$this->output->enable_profiler(TRUE);
-        $data['rec_id'] = $this->input->get('rec_id');
-        $data['g_project_detail'] = $this->cms->getSingularData('g_project_detail', 'REC_ID', $this->input->get('rec_id'));
-        $data['g_milestone'] = $this->cms->getSingularData('g_milestone', 'REC_ID', $data['g_project_detail']->row()->MILESTONE_ID);
-        $data['g_project'] = $this->cms->getSingularData('g_project', 'PROJECT_ID', $data['g_project_detail']->row()->PROJECT_ID);
-        $data['g_task'] = $this->cms->getSingularData('g_task', 'REC_ID', $data['g_project_detail']->row()->TASK_ID);
-        $this->load->view('modal/approval_task', $data);
-    }
-
     public function approveTask(){
 
         header('Content-Type: application/json');
 
         $editArr = array(
             'STATUS' => 'DONE',
+            'NOTES_SUPERUSER' => $this->input->post('notes_superuser')
         );
 
         $queryApprove = $this->cms->updateGeneralData('g_project_detail', $editArr, 'REC_ID', $this->input->post('rec_id'));
@@ -81,6 +72,43 @@ class Project extends CI_Controller
             ));
         }
 
+    }
+
+    public function reviseTask(){
+
+        header('Content-Type: application/json');
+
+        $editArr = array(
+            'STATUS' => 'REVISE',
+            'NOTES_SUPERUSER' => $this->input->post('notes_superuser')
+        );
+
+        $queryApprove = $this->cms->updateGeneralData('g_project_detail', $editArr, 'REC_ID', $this->input->post('rec_id'));
+
+        if ($queryApprove) {
+            echo json_encode(array(
+                'code'      => 200,
+                'status'    => 'success',
+            ));
+        } else {
+            echo json_encode(array(
+                'code'      => 204,
+                'status'    => 'error',
+            ));
+        }
+
+    }
+
+    public function getModalApprovalTask(){
+        //$this->output->enable_profiler(TRUE);
+        $data['rec_id'] = $this->input->get('rec_id');
+        $data['g_project_detail'] = $this->cms->getSingularData('g_project_detail', 'REC_ID', $this->input->get('rec_id'));
+        $g_project_detail = $data['g_project_detail'];
+        $data['g_milestone'] = $this->cms->getSingularData('g_milestone', 'REC_ID', $data['g_project_detail']->row()->MILESTONE_ID);
+        $data['g_project'] = $this->cms->getSingularData('g_project', 'PROJECT_ID', $data['g_project_detail']->row()->PROJECT_ID);
+        $data['g_task'] = $this->cms->getSingularData('g_task', 'REC_ID', $data['g_project_detail']->row()->TASK_ID);
+        $data['dokumen_list_task'] = $this->cms->getSingularDataTriple('g_project_doc', 'PROJECT_ID', 'MILESTONE_ID' ,'TASK_ID', $g_project_detail->row()->PROJECT_ID, $g_project_detail->row()->MILESTONE_ID, $g_project_detail->row()->TASK_ID);
+        $this->load->view('modal/approval_task', $data);
     }
 
     public function AddProject()
