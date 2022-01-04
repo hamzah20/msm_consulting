@@ -20,7 +20,7 @@
     <div class="col-sm-4">
       <div class="page-header float-left">
         <div class="page-title">
-          <h1>Hitung Pajak</h1>
+          <h1>PPh 4(2)</h1>
         </div>
       </div>
     </div>
@@ -28,7 +28,7 @@
       <div class="page-header float-right">
         <div class="page-title">
           <ol class="breadcrumb text-right">
-            <li class="active"> <a href="<?php echo base_url('pph_21'); ?>"> PPH 42</a> / <a href="<?php echo base_url('pph_42/bulan?cid=' . $this->input->get('cid')) ?>">Bulanan</a> / Summary</li>
+            <li class="active"> <a href="<?php echo base_url('pph_21'); ?>"> PPh 4(2)</a> / <a href="<?php echo base_url('pph_42/bulan?cid=' . $this->input->get('cid')) ?>">Bulanan</a> / Summary</li>
           </ol>
         </div>
       </div>

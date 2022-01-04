@@ -59,12 +59,13 @@
                 </li>
             </ul>
             <hr class="mx-2">
-            <form method="POST" action="#" class="px-3">
+            <form method="POST" action="<?php echo base_url('General/Client/update_profil_perusahaan'); ?>" class="px-3"> 
                 <div class="row">
+                    <input type="hidden" name="editIDCompany" value="<?= $company->row()->COMPANY_ID; ?>" readonly>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">No. Urut Perusahaan</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editNoUrutPerusahaan" value="" readonly>
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editNoUrutPerusahaan" value="<?= $company->row()->COMPANY_NO; ?>" readonly>
                         </div>
                     </div>
                 </div>
@@ -72,39 +73,29 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">NPWP</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editNPWP" value="">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editNPWP" value="<?= $company->row()->COMPANY_NPWP; ?>">
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Nama Perusahaan</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editNamaPerusahaan" value="">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editNamaPerusahaan" value="<?= $company->row()->COMPANY_NAME; ?>">
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Pimpinan Perusahaan</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPimpinanPerusahaan" value="">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPimpinanPerusahaan" value="<?= $company->row()->LEADER_NAME; ?>">
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-4">
-                        <div class="form-group">
-                            <label for="" class="label-utama">No. Telepon</label>
-                            <input type="number" class="form-control form-control-sm" placeholder="....." name="editNoTelpon" value="" >
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="form-group">
-                            <label for="" class="label-utama">No. Faksimile</label>
-                            <input type="number" class="form-control form-control-sm" placeholder="....." name="editNoFaksimile" value="">
-                        </div>
-                    </div>
+                <div class="row"> 
+                    <input type="hidden" class="form-control form-control-sm" placeholder="....." name="editNoTelpon" value="<?= $company->row()->COMPANY_PHONE; ?>" >  
+                    <input type="hidden" class="form-control form-control-sm" placeholder="....." name="editNoFaksimile" value="<?= $company->row()->COMPANY_FAX; ?>">
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Email</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editEmail" value="">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editEmail" value="<?= $company->row()->COMPANY_EMAIL; ?>">
                         </div>
                     </div>
                 </div>
@@ -112,7 +103,7 @@
                     <div class="col-12">
                         <div class="form-group">
                             <label for="" class="label-utama">Alamat</label>
-                            <textarea type="text" class="form-control form-control-sm" placeholder="....." name="editAlamat" value=""></textarea>
+                            <textarea type="text" class="form-control form-control-sm" placeholder="....." name="editAlamat"><?php echo $company->row()->COMPANY_ADDRESS; ?></textarea>
                         </div>
                     </div>
                 </div>
@@ -120,7 +111,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">User E-Faktur</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editUserEFaktur" value="">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editUserEFaktur" value="<?= $company->row()->EFACTURE_USER; ?>">
                         </div>
                     </div>
                 </div>
@@ -128,19 +119,19 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Password E-Faktur</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPassEFaktur" value="">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPassEFaktur" value="<?= $company->row()->EFACTURE_PASS; ?>">
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Kode Aktifasi</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editKodeAktifasi" value="">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editKodeAktifasi" value="<?= $company->row()->EFACTURE_ACTIVATION_CODE; ?>">
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Password Aktifasi</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPassAktifasi" value="">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPassAktifasi" value="<?= $company->row()->EFACTURE_ACTIVATION_PASS; ?>">
                         </div>
                     </div>
                 </div>
@@ -148,13 +139,13 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Email E-Faktur</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editEmailEFaktur" value="">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editEmailEFaktur" value="<?= $company->row()->EFACTURE_EMAIL; ?>">
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Password Email E-Faktur</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPassEmailEFaktur" value="">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPassEmailEFaktur" value="<?= $company->row()->EFACTURE_EMAIL_PASS; ?>">
                         </div>
                     </div>
                 </div>
@@ -162,13 +153,13 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Password E-Nofa</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPassENofa" value="">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPassENofa" value="<?= $company->row()->ENOFA_PASS; ?>">
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Password E-Phrase</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPassEPhrase" value="">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPassEPhrase" value="<?= $company->row()->EPHRASE_PASS; ?>">
                         </div>
                     </div>
                 </div>
@@ -176,13 +167,13 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Email SSE/DJP</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editEmailSSEDJP" value="">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editEmailSSEDJP" value="<?= $company->row()->SSE_EMAIL; ?>">
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Password Email SSE/DJP</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPassEmailSSEDJP" value="">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPassEmailSSEDJP" value="<?= $company->row()->SSE_PASS; ?>">
                         </div>
                     </div>
                 </div>
@@ -190,7 +181,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Email to Client</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editEmailClient" value="">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editEmailClient" value="<?= $company->row()->CLIENT_EMAIL; ?>">
                         </div>
                     </div>
                 </div>
@@ -198,19 +189,19 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Password Email to Client</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPassClient" value="">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPassClient" value="<?= $company->row()->CLIENT_EMAIL_PASS; ?>">
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Person in Charge (PIC)</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPIC" value="">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editPIC" value="<?= $company->row()->CLIENT_PIC; ?>">
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Ditangani Oleh</label>
-                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editDitangani" value="">
+                            <input type="text" class="form-control form-control-sm" placeholder="....." name="editDitangani" value="<?= $company->row()->HANDLED_BY; ?>">
                         </div>
                     </div>
                 </div>
@@ -218,20 +209,20 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label for="" class="label-utama">Metode Perhitungan PPH Pasal 21</label>
-                            <select class="form-control option-pegawai" name="editMetodePerhitungan">
-                                <option value="Gross-Up">Gross-Up</option>
-                                <option value="Non Gross-Up">Non Gross-Up</option>
-                            </select>
+                            <select class="form-control option-pegawai" name="editMetodePerhitungan"> 
+                                <option value="GROSS UP"   <?php if($company->row()->PPHCOUNT_METHOD=="GROSS UP"){echo "selected";}?>>Gross-Up</option>
+                                <option value="NET" <?php if($company->row()->PPHCOUNT_METHOD=="NET"){echo "selected";}?>>Non Gross-Up</option> 
+                            </select> 
                         </div>
                     </div>
                 </div>
-
+                <hr>
+                <div class="row">
+                    <button class="btn btn-sm btn-success col-2 ml-3 mb-3" type="submit">Simpan Perubahan</button>
+                    <a class="btn btn-sm btn-secondary col-2 ml-2 mb-3" type="submit" href="<?php echo base_url('company_profile'); ?>">Batalkan Perubahan</a>
+                </div>
             </form>
-            <hr class="mx-2">
-            <div class="row ml-2">
-                <button class="btn btn-sm btn-success col-2 ml-2 mb-3" type="submit">Simpan Perubahan</button>
-                <a class="btn btn-sm btn-secondary col-2 ml-2 mb-3" type="submit" href="<?php echo base_url('company_profile'); ?>">Batalkan Perubahan</a>
-            </div>
+            
         </div>
 
         <!-- Add Modal Perusahaan -->
@@ -244,6 +235,40 @@
 <!-- /#right-panel -->
 
 <!-- Right Panel -->
+<?php if ($this->session->userdata('profil_perusahaan') == 'success') { ?>
+        <script>
+            jQuery(document).ready(function($) {
+
+                "use strict";
+
+                Swal.fire({
+                    title: 'Proses Berhasil',
+                    text: 'Data Perusahaan berhasil di update',
+                    icon: 'success',
+                    showCancelButton: false,
+                    confirmButtonText: 'Tutup'
+                });
+            });
+        </script>
+    <?php } ?>
+
+    <?php if ($this->session->userdata('profil_perusahaan') == 'error') { ?>
+        <script>
+            jQuery(document).ready(function($) {
+
+                "use strict";
+
+                Swal.fire({
+                    title: 'Proses Gagal',
+                    text: 'Proses tidak dapat dilakukan, silahkan coba lagi',
+                    icon: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Tutup'
+                });
+
+            });
+        </script>
+    <?php } ?>
 
 <!-- Footer -->
 <?php $this->load->view('templates_cms/footer'); ?>

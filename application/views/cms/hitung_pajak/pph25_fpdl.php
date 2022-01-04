@@ -20,7 +20,7 @@
     <div class="col-sm-4">
       <div class="page-header float-left">
         <div class="page-title">
-          <h1>PPH 25</h1>
+          <h1>PPh 25</h1>
         </div>
       </div>
     </div>
@@ -28,7 +28,7 @@
       <div class="page-header float-right">
         <div class="page-title">
           <ol class="breadcrumb text-right">
-            <li class="active">PPH 25</li>
+            <li class="active">PPh 25</li>
           </ol>
         </div>
       </div>

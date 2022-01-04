@@ -20,7 +20,7 @@
     <div class="col-sm-4">
       <div class="page-header float-left">
         <div class="page-title">
-          <h1>PPH 21</h1>
+          <h1>PPh 21</h1>
         </div>
       </div>
     </div>
@@ -28,7 +28,7 @@
       <div class="page-header float-right">
         <div class="page-title">
           <ol class="breadcrumb text-right">
-            <li class="active"> <a href="<?php echo base_url('pph_21'); ?>"> PPH 21</a> / <a href="<?php echo base_url('pph_21/bulan?cid=' . $this->input->get('cid')) ?>">Bulanan</a> / Summary</li>
+            <li class="active"> <a href="<?php echo base_url('pph_21'); ?>"> PPh 21</a> / <a href="<?php echo base_url('pph_21/bulan?cid=' . $this->input->get('cid')) ?>">Bulanan</a> / Summary</li>
           </ol>
         </div>
       </div>
@@ -43,14 +43,13 @@
           <div class="col-6">
           <a class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Download" href="<?= base_url('PPH/Pph21/generateReport?cid=' . $this->input->get('cid') . '&pid=' . $this->input->get('pid')); ?>"><i class="fa fa-download"></i></a>
           <a class="btn btn-sm btn-info" data-toggle="tooltip" data-placement="top" title="Ringkasan" href="<?php echo base_url('pph_21/bulan/summary/aktifitas_pajak') ?>"><i class="fa fa-paperclip"></i></a>
-          <a class="btn btn-sm btn-warning text-white" data-toggle="tooltip" data-placement="top" title="Email" href="#"><i class="fa fa-envelope"></i></a>
-          <a class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top" title="(none)" href="#"><i class="fa fa-asterisk"></i></a>
+          
           </div>
           <div class="col-6 text-right">
             <?php   
               $statuspph21 = $this->cms->cekstatuspph21($this->input->get('pid')); 
               foreach ($statuspph21->result() as $key_status);
-              echo $key_status->STATUS;
+              //echo $key_status->STATUS;
               if($key_status->STATUS == 'ON PROGRESS'){
                echo "<h3><span class='badge badge-info'>ON PROGRESS</span></h3>"; 
               } elseif ($key_status->STATUS == 'WAITING FOR APPROVAL') {
@@ -78,30 +77,15 @@
         <h6><span class="badge badge-success"># Summary / Ringkasan</span></h6> <br>
         <div class="row mb-3">
           <?php 
-              foreach ($employees->result() as $employee); 
-              if(!empty($employee)){
-              ?>
-              <div class="col-4">
-                <div class="form-group">
-                  <label for="" class="label-utama font-weight-bold text-center">(1) Periode / Masa</label> 
-                  <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtPeriode" value="<?php echo $employee->PERIOD_MONTH."-".$employee->PERIOD_YEAR; ?>" readonly>  
-                </div>
-              </div>
-              <?php
-            }else{
-              ?>
-              <div class="col-4">
-                <div class="form-group">
-                  <label for="" class="label-utama font-weight-bold text-center">(1) Periode / Masa</label> 
-                  <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtPeriode" value="...." readonly>  
-                </div>
-              </div>
-              <?php
-            } 
+            foreach($summary->result() as $company);  
             foreach($correction->result() as $pembetulan); 
-
           ?>
-          
+          <div class="col-4">
+            <div class="form-group">
+              <label for="" class="label-utama font-weight-bold text-center">(1) Periode / Masa</label> 
+              <input type="text" class="form-control form-control-sm" id="" aria-describedby="" name="txtPeriode" value="<?php echo $company->PERIOD_MONTH."-".$company->PERIOD_YEAR; ?>" readonly>  
+            </div>
+          </div> 
           <div class="col-4">
             <div class="form-group">
               <label for="" class="label-utama font-weight-bold text-center">(2) Pembetulan / Koreksi</label>
@@ -135,40 +119,52 @@
                   <td class="px-2">:</td>
                   <td><?= $employees->num_rows(); ?></td>
                   <td class="px-4"></td>
-                  <td>PPH21 TERBAYAR</td>
+                  <td>TOTAL SSE</td>
                   <td class="px-2">:</td>
-                  <td>
-                    <?php
-                      foreach ($payment->result() as $key1);
-                      if($payment->num_rows() != 0){ 
-                        $pphTerbayar=$key1->PAID_PPH21;            
-                      }
-                      else{
-                        $pphTerbayar = "0";
-                      } 
-                      echo number_format($pphTerbayar); 
-                    ?> 
-                  </td>
+                  <td><?= number_format($sse_debt->row()->ALL_TOTALDEBT_SSE21); ?></td> 
+                  </td> 
                 </tr>
                 <tr>
                   <td>TOTAL BRUTO</td>
                   <td class="px-2">:</td>
                   <td><?= number_format($summary->row()->COMPANY_BRUTO); ?></td>
                   <td class="px-4"></td>
+                  <td>PPH21 TERBAYAR</td>
+                  <td class="px-2">:</td>
+                  <td><?= number_format($total->row()->PAID_PPH21_TOTAL); ?></td> 
+                  </td> 
+                </tr> 
+
+                <tr>
+                  <td>KURANG (LEBIH) BAYAR</td>
+                  <td class="px-2">:</td>
+                  <td>
+                    <?php 
+                      if(empty($payment->row()->KBLB_PPH21)){
+                        echo "0";
+                      } else{
+                        echo number_format($payment->row()->KBLB_PPH21);
+                      }
+                    ?>
+                  </td>
+                  <?php } ?>
+                  <td class="px-4"></td>
                   <td>PPH21 TERHUTANG</td>
                   <td class="px-2">:</td>
                   <td>
                     <?php 
-                      $pph_terhutang = $summary->row()->COMPANY_PPHVAL -  $pphTerbayar;
-                      echo number_format($pph_terhutang);
+                      if(empty($payment->row()->KBLB_PPH21)){
+                        echo "0";
+                      } else{
+                        if($payment->row()->KBLB_PPH21 < 0){
+                          echo "0";
+                        } else{
+                          echo number_format($payment->row()->KBLB_PPH21);
+                        } 
+                      }
                     ?>
                   </td>
                 </tr>
-                <tr>
-                  <td>KURANG / LEBIH (BAYAR)</td>
-                  <td class="px-2">:</td>
-                  <td><?= number_format($summary->row()->COMPANY_KBLB); ?></td>
-                  <?php } ?>
               </table> 
             </div>
           </div> 
@@ -185,12 +181,32 @@
 
     <div class="card mt-3">
       <div class="card-body">
+        <ul class="nav nav-tabs nav-edit-perusahaan my-3">
+          <li class="nav-item"> 
+            <?php foreach ($summary->result() as $summary_result)?>
+
+              <a class="nav-link active" href="<?= base_url('pph_21/bulan/summary?cid=' . $summary_result->COMPANY_ID . '&pid=' . $summary_result->PPH_ID . '&mid=' . $summary_result->PERIOD_MONTH . '&yid=' . $summary_result->PERIOD_YEAR); ?>"><i class="fa fa-id-card mr-1"></i>Tetap</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="#"><i class="fa fa-id-card mr-1"></i>Tidak Tetap</a>
+          </li> 
+          <li class="nav-item">
+              <a class="nav-link" href="<?= base_url('pph_21/bulan/summary/karyawan/sse?cid=' . $summary_result->COMPANY_ID . '&mid=' . $summary_result->PERIOD_MONTH .'&pid=' . $summary_result->PPH_ID.'&yid=' . $summary_result->PERIOD_YEAR); ?>"><i class="fa fa-id-card mr-1"></i>SSE</a>
+          </li> 
+        </ul>
         <div class="row">
           <div class="col-6">
             <a class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Download" href="<?= base_url('PPH/Pph21/generateXLSFile?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-download"></i> Download</a>
             <a class="btn btn-sm btn-danger" href="#" role="button" data-toggle="modal" title="Import" data-target="#importPPH21"><i class="fa fa-upload"></i> Upload</a>
           </div>
           <div class="col-6 text-right">
+            <?php if($company->STATUS == 'SSE' OR $company->STATUS == 'ON PROGRESS'){ ?>
+                <a class="btn btn-sm btn-primary mb-1" href="#" role="button" data-toggle="modal" data-target="#addPPH21SSE">SSE</a>
+            <?php } ?>
+            <?php if($company->STATUS == 'WAITING OF PAYMENT' OR $company->STATUS == 'PAID'){ ?>
+                <a class="btn btn-sm btn-primary mb-1" href="#" role="button" data-toggle="modal" data-target="#addPPH21Payment">Payment</a>
+            <?php } ?>
+             
             <a class="btn btn-sm btn-info mb-1" data-toggle="tooltip" data-placement="top" title="Submit Perhitungan PPh" href="<?= base_url('PPH/Pph21/generateXLSFileLaporPajak?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-check-circle"></i></a> 
             <a class="btn btn-sm btn-primary mb-1" data-toggle="tooltip" data-placement="top" title="Approve Perhitungan" href="<?= base_url('PPH/Pph21/generateXLSFile?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-thumbs-up"></i></a> 
             <a class="btn btn-sm btn-warning text-white mb-1" data-toggle="tooltip" data-placement="top" title="Customer Approval" href="<?= base_url('PPH/Pph21/generateXLSFile?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')); ?>"><i class="fa fa-user"></i> </a> 
@@ -205,9 +221,9 @@
         <div class="row">
           <div class="col-6">
              <h6><span class="badge badge-success"># Detail / Rincian</span></h6>
-          </div>
+          </div> 
           <div class="col-6 text-right">
-            <a class="btn btn-sm btn-info" href="#" role="button" data-toggle="modal" title="Import" data-target="#importPPH21"><i class="fa fa-download"></i> Download E-SPT</a>
+            <a class="btn btn-sm btn-info" href="<?= base_url('pph_21/spt_tahun?cid=' . $company->COMPANY_ID . '&pid=' . $company->PPH_ID); ?>" role="button" data-toggle="modal" title="spt"><i class="fa fa-download"></i> Download E-SPT</a>
           </div>
         </div>
         <br>
@@ -265,7 +281,8 @@
                   <td class="text-center"><?= number_format($employee->EMPLOYEE_PPHVAL); ?></td>
                   <td>
                     <a class="btn btn-sm btn-danger mb-1" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_21/bulan/summary/karyawan/detail?eid=' . $employee->EMPLOYEE_ID . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID); ?>"><i class="fa fa-eye"></i></a>
-                    <a class="btn btn-sm btn-warning text-white" data-toggle="tooltip" data-placement="top" title="Edit" href="<?= base_url('pph_21/bulan/summary/karyawan/edit?eid=' . $employee->EMPLOYEE_ID . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID. '&mid=' . $employee->PERIOD_MONTH. '&yid=' . $employee->PERIOD_YEAR); ?>"><i class="fa fa-edit"></i></a>
+                    <a class="btn btn-sm btn-warning text-white mb-1" data-toggle="tooltip" data-placement="top" title="Edit" href="<?= base_url('pph_21/bulan/summary/karyawan/edit?eid=' . $employee->EMPLOYEE_ID . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID. '&mid=' . $employee->PERIOD_MONTH. '&yid=' . $employee->PERIOD_YEAR); ?>"><i class="fa fa-edit"></i></a>
+                    <a class="btn btn-sm btn-info mb-1" data-toggle="tooltip" data-placement="top" title="Lihat" href="<?= base_url('pph_21/spt?eid=' . $employee->EMPLOYEE_ID . '&cid=' . $employee->COMPANY_ID . '&pid=' . $employee->PPH_ID); ?>"><i class="fa fa-download"></i></a>
                   </td>
                 </tr>
               <?php
@@ -314,6 +331,14 @@
     <?php $this->load->view('modal/import_pph21'); ?>
     <!-- End of Add Modal Perusahaan -->
 
+    <!-- Add Modal Payment -->
+    <?php $this->load->view('modal/add_pph21_payment'); ?>
+    <!-- End of Add Modal Payment -->
+
+     <!-- Add Modal SSE -->
+    <?php $this->load->view('modal/add_pph21_SSE'); ?>
+    <!-- End of Add Modal SSE -->
+
   </div>
   <!-- End of Content -->
 </div>
@@ -338,6 +363,21 @@
     //   });
     // }); 
   });
+</script>
+<script type="text/javascript">
+  function myFunction(){
+    var sse = document.getElementById("no_sse").value;
+    //alert(sse);
+     jQuery.ajax({
+        type: 'post',
+        url: '<?php echo base_url();?>/PPH/PPh21/getSSE',
+        data: {sse:sse},
+        success: function (data) {
+           // alert(data);
+            document.getElementById("amount_payment").value=data;
+        }         
+        }); 
+  }
 </script>
 
 <?php if ($this->session->userdata('query') == 'error') { ?>
@@ -392,6 +432,41 @@
     });
   </script>
 <?php } ?>
+
+<?php if ($this->session->userdata('sse') == 'success') { ?>
+        <script>
+            jQuery(document).ready(function($) {
+
+                "use strict";
+
+                Swal.fire({
+                    title: 'Insert Data SSE',
+                    text: 'Data SSE berhasil di inputkan',
+                    icon: 'success',
+                    showCancelButton: false,
+                    confirmButtonText: 'Tutup'
+                });
+            });
+        </script>
+    <?php } ?>
+
+    <?php if ($this->session->userdata('sse') == 'error') { ?>
+        <script>
+            jQuery(document).ready(function($) {
+
+                "use strict";
+
+                Swal.fire({
+                    title: 'Proses Gagal',
+                    text: 'Proses tidak dapat dilakukan, silahkan coba lagi',
+                    icon: 'error',
+                    showCancelButton: false,
+                    confirmButtonText: 'Tutup'
+                });
+
+            });
+        </script>
+    <?php } ?>
 
 <!-- Footer -->
 <?php $this->load->view('templates_cms/footer'); ?>

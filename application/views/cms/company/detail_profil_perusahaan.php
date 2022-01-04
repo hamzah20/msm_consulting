@@ -88,19 +88,9 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-4">
-                    <div class="form-group">
-                        <label class="label-utama">No. Telepon</label>
-                        <input type="number" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->COMPANY_PHONE; ?>">
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="form-group">
-                        <label class="label-utama">No. Faksimile</label>
-                        <input type="number" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->COMPANY_FAX; ?>">
-                    </div>
-                </div>
+            <div class="row"> 
+                <input type="hidden" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->COMPANY_PHONE; ?>"> 
+                <input type="hidden" class="form-control form-control-sm" readonly placeholder="....." value="<?= $company->row()->COMPANY_FAX; ?>">
                 <div class="col-4">
                     <div class="form-group">
                         <label class="label-utama">Email</label>

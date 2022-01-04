@@ -270,7 +270,7 @@ class Pph23 extends CI_Controller
 			->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
 			->setWrapText(true);
 
-		$sheet->setCellValue('P1', "Perkiraan Hasil Neto (%)");
+		$sheet->setCellValue('P1', "Perkiraan Penghasilan Neto (%)");
 		$sheet->mergeCells('P1:P2');
 		$sheet->getStyle('P1:P2')
 			->getAlignment()

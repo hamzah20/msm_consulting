@@ -11,11 +11,21 @@
   					<div class="modal-body">
   						<div class="form-group">
   							<label for="recipient-name" class="col-form-label">Nama Karyawan :</label>
-  							<input type="text" class="form-control form-control-sm" id="nama_karyawan" name="nama_karyawan" required>
-  							<div class="invalid-feedback">
-  								Nama tidak boleh kosong
-  							</div>
+  							<input type="text" class="form-control form-control-sm" id="nama_karyawan" name="nama_karyawan" required> 
   						</div>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">NPWP :</label>
+                <input type="text" class="form-control form-control-sm" id="npwp_karyawan" name="npwp_karyawan" value="0" required> 
+              </div>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">PTKP :</label>
+                <!-- <input type="text" class="form-control form-control-sm" id="ptkp_karyawan" name="ptkp_karyawan" required>  -->
+                 <select class="form-control form-control-sm" name="employeePTKPStatus">
+                    <?php foreach ($ptkp->result() as $ptkpdata){?>
+                      <option value="<?= $ptkpdata->TK_ID ?>"><?= $ptkpdata->TK_NAME ?></option> 
+                    <?php } ?>
+                </select>
+              </div>
 
   						<input type="hidden" name="companyID" value="<?= $this->input->get('cid'); ?>">
 

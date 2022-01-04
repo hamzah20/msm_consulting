@@ -71,6 +71,7 @@ $route['company_profile/edit/identitas_wp']           = 'General/Client/edit_ide
 $route['company_profile/edit/info_perpajakan']        = 'General/Client/edit_info_perpajakan';
 $route['company_profile/edit/identitas_pj']           = 'General/Client/edit_identitas_pj';
 $route['company_profile/edit/dokumen_elektronik']     = 'General/Client/edit_dokumen_elektronik';
+$route['company_profile/delete']				      = 'General/Client/delete_profil_perusahaan';
 
 // DATA - Employee
 $route['employee']                                    = 'General/Employee';
@@ -96,15 +97,23 @@ $route['msm_group/detail']                            = 'General/MSM_group/detai
 $route['msm_group/edit']                              = 'General/MSM_group/edit_msm_group';
 
 // KEBUTUHAN PAJAK - HITUNG PAJAK - PPH 21
-$route['pph_21']                                        = 'PPH/Pph21/index';
-$route['pph_21/bulan']                                  = 'PPH/Pph21/pph_21_bulan';
-$route['pph_21/tahun']                                  = 'PPH/Pph21/pph_21_tahun';
-$route['pph_21/bulan/summary']                          = 'PPH/Pph21/pph_21_bulan_summary';
-$route['pph_21/bulan/approve']                          = 'PPH/Pph21/pph_21_bulan_approve';
-$route['pph_21/bulan/summary/karyawan/detail']          = 'PPH/Pph21/pph_21_bulan_summary_karyawan';
-$route['pph_21/bulan/summary/karyawan/edit']          	= 'PPH/Pph21/edit_pph_21_bulan_summary_karyawan';
-$route['pph_21/bulan/summary/aktifitas_pajak']          = 'PPH/Pph21/aktifitas_pajak';
-$route['pph_21/bulan/summary/aktifitas_pajak/edit']     = 'PPH/Pph21/edit_aktifitas_pajak';
+$route['pph_21']                                         	= 'PPH/Pph21/index';
+$route['pph_21/bulan']                                   	= 'PPH/Pph21/pph_21_bulan';
+$route['pph_21/history']                                   	= 'PPH/Pph21/pph_21_history';
+$route['pph_21/tahun']                                   	= 'PPH/Pph21/pph_21_tahun';
+$route['pph_21/bulan/summary']                           	= 'PPH/Pph21/pph_21_bulan_summary';
+$route['pph_21/bulan/approve']                           	= 'PPH/Pph21/pph_21_bulan_approve';
+$route['pph_21/bulan/summary/karyawan/detail']           	= 'PPH/Pph21/pph_21_bulan_summary_karyawan';
+$route['pph_21/bulan/summary/karyawan/edit']          	 	= 'PPH/Pph21/edit_pph_21_bulan_summary_karyawan';
+$route['pph_21/bulan/summary/aktifitas_pajak']           	= 'PPH/Pph21/aktifitas_pajak';
+$route['pph_21/bulan/summary/aktifitas_pajak/edit']      	= 'PPH/Pph21/edit_aktifitas_pajak';
+$route['pph_21/spt']								     	= 'PPH/Pph21/spt21';
+$route['pph_21/spt_tahun']								 	= 'PPH/Pph21/spt21_tahun';
+$route['pph_21/bulan/summary/tidak_tetap']                	= 'PPH/Pph21/pph_21_bulan_summary_tidak_tetap';
+$route['pph_21/bulan/summary/karyawan/tidak_tetap/detail']	= 'PPH/Pph21/pph_21_bulan_summary_tidak_tetap';
+$route['pph_21/bulan/summary/karyawan/sse']					= 'PPH/Pph21/sse';
+$route['pph_21/bulan/summary/karyawan/sse/delete']			= 'PPH/Pph21/delete_sse';
+
 
 // KEBUTUHAN PAJAK - HITUNG PAJAK - PPH 22
 $route['pph_22']                                        = 'PPH/Pph22/index';
@@ -120,6 +129,7 @@ $route['pph_22/lawan_transaksi']     					= 'PPH/Pph22/LawanTransaksi';
 $route['pph_22/lawan_transaksi/delete']     			= 'PPH/Pph22/delete_lawan_transaksi';
 $route['pph_22/lawan_transaksi/edit']     				= 'PPH/Pph22/edit_lawan_transaksi';
 $route['pph_22/transaksi/add']     						= 'PPH/Pph22/add_transaksi';
+$route['pph_22/spt_tahun']								= 'PPH/Pph22/spt22_tahun';
 
 // KEBUTUHAN PAJAK - HITUNG PAJAK - PPH 23
 $route['pph_23']                                        = 'PPH/Pph23/index';
@@ -160,3 +170,7 @@ $route['pph_42/transaksi/umkm/add']     				= 'PPH/Pph42/add_transaksi_umkm';
 $route['projecttype']                                    = 'General/ProjectType';
 $route['milestone']                                    = 'General/Milestone';
 $route['project']                                    = 'General/Project';
+
+//User
+$route['user_msm'] 											= 'General/User';
+$route['USER_MSM'] 											= 'General/User';

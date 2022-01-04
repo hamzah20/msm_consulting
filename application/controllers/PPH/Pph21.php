@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allkblb');
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -10,7 +10,7 @@ class Pph21 extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		//$this->output->enable_profiler(TRUE);
+		// $this->output->enable_profiler(TRUE);
 	}
 
 	public function index()
@@ -54,6 +54,848 @@ class Pph21 extends CI_Controller
 		}
 
 		$this->load->view('cms/hitung_pajak/pph21_bulan', $data); 
+	}
+
+	public function pph_21_history()
+	{ 
+		$data['counter'] 	= 1;
+		$data['companies']	  = $this->cms->getSingularData('v_g_companies_pph21_detail','COMPANY_ID',$this->input->get('cid'));
+		$data['data_history'] = $this->cms->getSingularDataTripleOrder('g_pph21','COMPANY_ID','PERIOD_YEAR','STATUS',$this->input->get('cid'), $this->input->get('yid'),'HISTORY');  
+
+		$this->load->view('cms/hitung_pajak/pph21_history', $data); 
+	}
+
+	public function pph_21_bulan_summary()
+	{ 
+		$cid=$this->input->get('cid');
+		$mid=$this->input->get('mid');
+		$yid=$this->input->get('yid');
+		// $mid=$this->input->get('yid');
+		$data['correction'] = $this->cms->getPembetulanSummary($cid,$mid,$yid);
+		$data['summary'] 	= $this->cms->getGeneralData('v_g_companies_pph21_detail', 'PPH_ID', $this->input->get('pid'));
+
+		$this->db->select('*')
+			->from('v_g_employee_pph21')
+			->where('COMPANY_ID', trim($this->input->get('cid')))
+			->where('PPH_ID', trim($this->input->get('pid')));
+
+
+		// $data['employees'] 	= $this->cms->getGeneralData('v_g_employee_pph21', 'COMPANY_ID', trim($this->input->get('cid')));
+		$data['employees'] 	= $this->db->get();
+		$data['counter']	= 1;
+		$data['payment']    = $this->cms->getSingularDataPayment('g_payment', 'COMPANY_ID', $cid, 'PERIOD_YEAR',$yid,'PERIOD_MONTH', $mid);
+		$data['statuspph21']= $this->cms->cekstatuspph21($this->input->get('pid'));
+		$data['total']	 	= $this->cms->totalPayment($cid,$yid,$mid);
+		$data['sse_active']	= $this->cms->getSingularDataFour('g_payment','COMPANY_ID', 'PERIOD_YEAR', 'PERIOD_MONTH', 'STATUS', $cid, $yid, $mid, 'WAITING OF PAYMENT');
+		$data['sse_debt']	= $this->cms->totalSEEDebt($cid, $yid, $mid);
+
+		$this->load->view('cms/hitung_pajak/pph21_bulan_summary', $data);
+	}
+
+	public function pph_21_bulan_summary_karyawan()
+	{
+		$this->db->select('*')
+			->from('v_g_employee_pph21')
+			->where('EMPLOYEE_ID', trim($this->input->get('eid')))
+			->where('PPH_ID', trim($this->input->get('pid')));
+
+
+		$data['employee'] 	= $this->db->get();
+
+		if ($data['employee']->num_rows() == 0) {
+			$this->session->set_flashdata('query', 'invalid');
+			redirect(base_url('pph_21/bulan/summary?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')));
+		}
+
+		$this->load->view('cms/hitung_pajak/pph21_bulan_summary_karyawan', $data);
+	}
+
+	public function edit_pph_21_bulan_summary_karyawan()
+	{
+		$this->db->select('*')
+			->from('v_g_employee_pph21')
+			->where('EMPLOYEE_ID', trim($this->input->get('eid')))
+			->where('PPH_ID', trim($this->input->get('pid')));
+
+
+		$data['employee'] 	= $this->db->get();
+
+		if ($data['employee']->num_rows() == 0) {
+			$this->session->set_flashdata('query', 'invalid');
+			redirect(base_url('pph_21/bulan/summary?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')));
+		}
+
+		$this->load->view('cms/hitung_pajak/edit_pph21_bulan_summary_karyawan', $data);
+	}
+
+	public function update_pph_21_bulan_summary_karyawan()
+	{
+		$this->output->enable_profiler(TRUE);  
+
+		$companyCheck  = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->post('companyID'));
+		$employeeCheck = $this->cms->getSingularData('v_g_employee', 'EMPLOYEE_ID', $this->input->post('employeeID'));
+		$pphCheck 	   = $this->cms->getSingularData('g_pph21', 'PPH_ID', $this->input->post('pphID'));
+
+		//Deklrasi Variabel awal
+		$companyBruto = 0;
+		$companyNeto  = 0;
+		$companyPPH21 = 0;
+
+		// Cek apakah perusahaan tersedia
+		if ($companyCheck->num_rows() == 0) {
+			echo 'tidak ada perusahaan';
+			return;
+		}
+
+		// Cek apakah karywan terdaftar 
+		if ($employeeCheck->num_rows() == 0) {
+			echo 'tidak ada pegawai aktif';
+			return;
+		} 
+
+		foreach ($employeeCheck->result() as $employee);
+
+		$employeeArr = array(
+			'NAME'					=> $employee->EMPLOYEE_NAME,
+			'KTP'					=> $employee->EMPLOYEE_KTP,
+			'NPWP'					=> $employee->EMPLOYEE_NPWP,
+			'PTKP'					=> $employee->EMPLOYEE_PTKP_STATUS,
+			'PTKP_TARIF'			=> $employee->TK_TARIF,
+			'NATIONALITY'			=> $employee->EMPLOYEE_NATIONALITY,
+			'NATIONALITY_STATUS'	=> $employee->EMPLOYEE_NATIONALITY_STATUS,
+			'INTERNAL_ID'			=> $employee->EMPLOYEE_INTERNAL_ID,
+			'ID'					=> $employee->EMPLOYEE_ID
+		); 
+
+		// nanti taro dibawah sini 
+
+		// Generate baru ID Income
+		$incomeID     = $this->incube->generateID(10);
+
+		// Cek data pegawai ada atau engga & ambil PKTP Tarif Mereka
+		
+		// Check NPWP
+		$this->db->select('*')
+				 ->from('g_employee')
+				 ->where('EMPLOYEE_ID', $this->input->post('employeeID'));
+
+		$CheckEmpNPWP = $this->db->get(); 
+		foreach ($CheckEmpNPWP->result() as $CheckNPWP);  
+
+		// Memberi nilai awal untuk total tunjangan
+		$totalTunjangan = 0;
+
+		// Menangkap value dari form edit
+		$gaji 		 = str_replace(',','',$this->input->post('editGaji'));  
+		$Tunjpph=0;
+		$tunjangan1  = str_replace(',','',$this->input->post('editTunjangan1')); 
+		$tunjangan2  = str_replace(',','',$this->input->post('editTunjangan2')); 
+		$tunjangan3  = str_replace(',','',$this->input->post('editTunjangan3')); 
+		$tunjangan4  = str_replace(',','',$this->input->post('editTunjangan4')); 
+		$tunjangan5  = str_replace(',','',$this->input->post('editTunjangan5')); 
+		$tunjangan6  = str_replace(',','',$this->input->post('editTunjangan6')); 
+		$tunjangan7  = str_replace(',','',$this->input->post('editTunjangan7')); 
+		$tunjangan8  = str_replace(',','',$this->input->post('editTunjangan8')); 
+		$tunjangan9  = str_replace(',','',$this->input->post('editTunjangan9')); 
+		$tunjangan10 = str_replace(',','',$this->input->post('editTunjangan10')); 
+
+		$premijkk  = str_replace(',','',$this->input->post('editJKK')); 
+		$premijkm  = str_replace(',','',$this->input->post('editJKM')); 
+		$premibpjs = str_replace(',','',$this->input->post('editBPJS')); 
+
+		$iuranJHT  = str_replace(',','',$this->input->post('editJHT')); 
+		$iuranJP   = str_replace(',','',$this->input->post('editJP')); 
+
+		$honarium  = str_replace(',','',$this->input->post('editHonarium')); 
+		$natura    = str_replace(',','',$this->input->post('editNatura')); 
+		$tantiem   = str_replace(',','',$this->input->post('editTantiem')); 
+
+		//Kalkulasi Bruto, Neto & Jumlah Pengurang (TUNJANGAN, IURAN, PREMI, DLL) 
+		$totalTunjangan = $tunjangan1 + $tunjangan2 + $tunjangan3 + $tunjangan4 + $tunjangan5 + $tunjangan6 + $tunjangan7 + $tunjangan8 + $tunjangan9 + $tunjangan10;
+		$totalPremi 	= $premijkk + $premijkm + $premibpjs;
+		$iuran 			= $iuranJHT + $iuranJP;
+
+		// Mengambil bulan dan tahun pada PPH21
+		foreach ($pphCheck->result() as $checkPPH21);
+		$cekPPH21Month = $checkPPH21->PERIOD_MONTH;
+		$cekPPH21Years = $checkPPH21->PERIOD_YEAR;
+
+		// Mengambil periode resign karyawan jika ada 
+		foreach ($employeeCheck->result() as $EmpCheck);
+		$cekWorkEnd = $EmpCheck->EMPLOYEE_WORK_END; 
+		if ($cekWorkEnd) {
+			$dataPeriod = explode('-', $cekWorkEnd);
+			$dataPeriodYears = $dataPeriod[0];
+			$dataPeriodMonth = $dataPeriod[1]; 
+		} else{
+			$dataPeriodYears = '0000';
+			$dataPeriodMonth = '00';
+		} 
+
+		// Mengconvert number month menjadi month name
+		$monthName = $this->incube->convertMonthNumber($dataPeriodMonth);
+
+		// Melakukan perhitungan karyawan yang periode resign nya sudah diinputkan
+		// Jika periode bulan dan tahun yang diinputkan sama dengan periode bulan tahun resign
+		// Maka perhitungan PPH tidak akan disetahunkan, melainkan sesuai bulan resign
+
+		if (($dataPeriodYears == $cekPPH21Years) && ($monthName == $cekPPH21Month)) {
+			// Hitung terlebih dahulu bruto sebelumnya
+			$CountBrutoResign = $this->cms->totalBrutoResign($this->input->post('companyID'),$this->input->post('yearID'), $this->input->post('monthID'),$this->input->post('employeeID'));
+			foreach ($CountBrutoResign->result() as $countbruto);
+			$HasilBrutoResign 		= $countbruto->ALL_EMPLOYEE_BRUTO;
+			$HasilBrutoResignNoTHR 	= $countbruto->ALL_EMPLOYEE_BRUTO_NOTHR;
+
+			// Menghitung total bulan ditahun tersebut
+			$totalBulan= $countbruto->TOTAL_BULAN_RESIGN + 1;
+
+			$totalBruto 		= $gaji + $totalTunjangan + $honarium + $totalPremi + $natura + $tantiem;
+			$totalBrutoNoTHR 	= $gaji + $totalTunjangan + $honarium + $totalPremi + $natura;
+
+			// Menghitung biaya Jabatan (Max 500.000)
+			$bijab = 0.05 * $totalBruto;
+			if($bijab>500000) {
+				$bijab= 500000;
+			}
+			$totalPengurang	= $bijab + $iuran;
+
+			//Tarif PTKP Pegawai 
+			foreach ($employeeCheck->result() as $employee);
+			$ptkpTarif = $employee->TK_TARIF;
+
+			//Kalkulasi PPH21 Non-Gross Up
+			$CheckNPWP->EMPLOYEE_ID;
+			$PPH_ID=$this->input->post('pphID');
+
+			$this->db->select('*')
+			 		 ->from('g_employee_income')
+			 		 ->where('EMPLOYEE_ID', $CheckNPWP->EMPLOYEE_ID)
+			 		 ->where('PPH_ID', $PPH_ID);
+
+			$CheckBruto = $this->db->get(); 
+
+			foreach ($CheckBruto->result() as $BrutoEmp){
+				$persen=$this->cms->getPersen($BrutoEmp->EMPLOYEE_BRUTO);
+				foreach ($persen->result() as $CheckPersen){
+					echo  $BrutoEmp->EMPLOYEE_BRUTO." - ".$CheckPersen->PRESENTASE."<br>"; 
+				}
+			}
+				
+			$yearlyNeto = $totalBulan * ($totalBruto - $totalPengurang);
+
+			$yearlyNeto = ( (($totalBruto + $HasilBrutoResign) - $totalPengurang - $tantiem))+$tantiem;
+			$yearlyNetoNoTHR = ((($totalBrutoNoTHR+$HasilBrutoResign) - $totalPengurang ));
+			$yearlyPKP  = $yearlyNeto - $ptkpTarif;
+
+			if($yearlyPKP < 0){
+				$yearlyPKP = 0;
+			}
+
+			//Dibulatkan biar 3 digit dibelakang jadi 0
+			$yearlyPKP = (floor($yearlyPKP / 1000)) * 1000;
+
+			//Kalkulasi PPH21 Gross UP
+			if ($companyCheck->row()->PPHCOUNT_METHOD == 'GROSS UP') {
+				
+				switch ($yearlyPKP) {
+					case ($yearlyPKP <= 47500000):
+						// echo 'lapisan 1';
+						$Tunjpph = ($yearlyPKP - 0) *  (5 / 95) + 0;
+						break;
+					case (($yearlyPKP >= 47500000) && ($yearlyPKP <= 217500000)):
+						// echo 'lapisan 2';
+						$Tunjpph = ($yearlyPKP - 47500000) * (15 / 85) + 2500000;
+						break;
+					case (($yearlyPKP >= 217500000) && ($yearlyPKP <= 405000000)):
+						// echo 'lapisan 3';
+						$Tunjpph = ($yearlyPKP - 217500000) * (25 / 75) + 32500000;
+						break;
+					case ($yearlyPKP >= 405000000):
+						// echo 'lapisan 4';
+						$Tunjpph = ($yearlyPKP - 405000000) * (30 / 70) + 95000000;
+						break;
+					default:
+						break;
+				}
+
+				$Tunjpph = $Tunjpph/$totalBulan; 
+
+				$monthlyPPH = 0;
+
+				//while $tunjpph <> $monnthlyPPH
+				while ($Tunjpph != $monthlyPPH) { 
+					//HITUNG YearlyPKP (after tunjanganpph)
+					 $totalBruto 	= $gaji + $Tunjpph + $totalTunjangan + $honarium + $totalPremi + $natura + $tantiem; 
+
+					// Biaya jabatan max 500 ribu
+					// Biaya jabatan dihitung 5% dari total bruto
+					// Jika setalah dihitung biaya jabatan > 500 ribu, 
+					// Maka akan dibuat sebesar 500 ribu
+					$bijab = 0.05 * $totalBruto;
+					if($bijab>500000) {
+						$bijab= 500000;
+					}
+					$totalPengurang	= $bijab + $iuran;
+							
+					$yearlyNeto = $totalBulan * ($totalBruto - $totalPengurang);
+					$yearlyPKP  = $yearlyNeto - $ptkpTarif;
+
+					//Dibulatkan biar 3 digit dibelakang jadi 0
+					$yearlyPKP = (floor($yearlyPKP / 1000)) * 1000;
+
+
+					if ($yearlyPKP >= 0) {
+					    if ($yearlyPKP > 500000000) {
+					        $tier1 = 0.05 * 50000000;
+					        $tier2 = 0.15 * 200000000;
+					        $tier3 = 0.25 * 250000000;
+					        $tier4 = 0.3 * ($yearlyPKP - 500000000);
+					        $yearlyPPH = $tier1 + $tier2 + $tier3 + $tier4;
+					    } elseif ($yearlyPKP > 250000000) {
+					        $tier1 = 0.05 * 50000000;
+					        $tier2 = 0.15 * 200000000;
+					        $tier3 = 0.25 * ($yearlyPKP - 250000000);
+					        $yearlyPPH = $tier1 + $tier2 + $tier3;
+					    } elseif ($yearlyPKP > 50000000) {
+					        $tier1 = 0.05 * 50000000;
+					        $tier2 = 0.15 * ($yearlyPKP - 50000000);
+					        $yearlyPPH = $tier1 + $tier2;
+					    } else {
+					        $tier1 = 0.05 * $yearlyPKP;
+					        $yearlyPPH = $tier1;
+					    }
+					}		
+
+					$monthlyPPH = ($yearlyPPH / $totalBulan);
+
+					if($Tunjpph != $monthlyPPH){
+						$Tunjpph = $monthlyPPH;
+						$monthlyPPH = 0;
+					}
+
+				}
+			}
+
+			if ($yearlyPKP >= 0) {
+			    if ($yearlyPKP > 500000000) {
+			        $tier1 = 0.05 * 50000000;
+			        $tier2 = 0.15 * 200000000;
+			        $tier3 = 0.25 * 250000000;
+			        $tier4 = 0.3 * ($yearlyPKP - 500000000);
+			        $yearlyPPH = $tier1 + $tier2 + $tier3 + $tier4;
+			    } elseif ($yearlyPKP > 250000000) {
+			        $tier1 = 0.05 * 50000000;
+			        $tier2 = 0.15 * 200000000;
+			        $tier3 = 0.25 * ($yearlyPKP - 250000000);
+			        $yearlyPPH = $tier1 + $tier2 + $tier3;
+			    } elseif ($yearlyPKP > 50000000) {
+			        $tier1 = 0.05 * 50000000;
+			        $tier2 = 0.15 * ($yearlyPKP - 50000000);
+			        $yearlyPPH = $tier1 + $tier2;
+			    } else {
+			        $tier1 = 0.05 * $yearlyPKP;
+			        $yearlyPPH = $tier1;
+			    }
+			}		
+
+			$monthlyPPH = ($yearlyPPH / $totalBulan);
+
+			if (empty($CheckNPWP)) {
+				//Kalau misalnya pegawai ga punya NPWP
+				$monthlyPPHFinal = $monthlyPPH  * 1.2;
+			} else {
+				//Kalau misalnya pegawai punya NPWP		
+				$monthlyPPHFinal = $monthlyPPH;
+			} 
+		} else{ 
+			$totalBruto 		= $gaji + $totalTunjangan + $honarium + $totalPremi + $natura + $tantiem;
+			$totalBrutoNoTHR 	= $gaji + $totalTunjangan + $honarium + $totalPremi + $natura;
+
+			// Menghitung total bulan ditahun tersebut
+			$totalBulan= 12;
+
+			// echo $totalBruto;
+			// exit();
+
+			// Menghitung biaya Jabatan (Max 500.000)
+			$bijab = 0.05 * $totalBruto;
+			if($bijab>500000) {
+				$bijab= 500000;
+			}
+			$totalPengurang	= $bijab + $iuran;
+
+			//Tarif PTKP Pegawai 
+			foreach ($employeeCheck->result() as $employee);
+			$ptkpTarif = $employee->TK_TARIF;
+
+			//Kalkulasi PPH21 Non-Gross Up
+			$CheckNPWP->EMPLOYEE_ID;
+			$PPH_ID=$this->input->post('pphID');
+
+			$this->db->select('*')
+			 		 ->from('g_employee_income')
+			 		 ->where('EMPLOYEE_ID', $CheckNPWP->EMPLOYEE_ID)
+			 		 ->where('PPH_ID', $PPH_ID);
+
+			$CheckBruto = $this->db->get(); 
+
+			foreach ($CheckBruto->result() as $BrutoEmp){
+				$persen=$this->cms->getPersen($BrutoEmp->EMPLOYEE_BRUTO);
+				foreach ($persen->result() as $CheckPersen){
+					echo  $BrutoEmp->EMPLOYEE_BRUTO." - ".$CheckPersen->PRESENTASE."<br>"; 
+				}
+			}
+				
+			$yearlyNeto = ($totalBulan * ($totalBruto - $totalPengurang - $tantiem))+$tantiem;
+			$yearlyNetoNoTHR = ($totalBulan * ($totalBrutoNoTHR - $totalPengurang));
+			$yearlyPKP  = $yearlyNeto - $ptkpTarif; 
+
+			if($yearlyPKP < 0){
+				$yearlyPKP = 0;
+			}
+
+			//Dibulatkan biar 3 digit dibelakang jadi 0
+			$yearlyPKP = (floor($yearlyPKP / 1000)) * 1000;
+
+			//Kalkulasi PPH21 Gross UP
+			if ($companyCheck->row()->PPHCOUNT_METHOD == 'GROSS UP') {
+				
+				switch ($yearlyPKP) {
+					case ($yearlyPKP <= 47500000):
+						// echo 'lapisan 1';
+						$Tunjpph = ($yearlyPKP - 0) *  (5 / 95) + 0;
+						break;
+					case (($yearlyPKP >= 47500000) && ($yearlyPKP <= 217500000)):
+						// echo 'lapisan 2';
+						$Tunjpph = ($yearlyPKP - 47500000) * (15 / 85) + 2500000;
+						break;
+					case (($yearlyPKP >= 217500000) && ($yearlyPKP <= 405000000)):
+						// echo 'lapisan 3';
+						$Tunjpph = ($yearlyPKP - 217500000) * (25 / 75) + 32500000;
+						break;
+					case ($yearlyPKP >= 405000000):
+						// echo 'lapisan 4';
+						$Tunjpph = ($yearlyPKP - 405000000) * (30 / 70) + 95000000;
+						break;
+					default:
+						break;
+				}
+
+				$Tunjpph = $Tunjpph/$totalBulan; 
+
+				$monthlyPPH = 0;
+
+				//while $tunjpph <> $monnthlyPPH
+				while ($Tunjpph != $monthlyPPH) { 
+					//HITUNG YearlyPKP (after tunjanganpph)
+					 $totalBruto 	= $gaji + $Tunjpph + $totalTunjangan + $honarium + $totalPremi + $natura + $tantiem; 
+
+					// Biaya jabatan max 500 ribu
+					// Biaya jabatan dihitung 5% dari total bruto
+					// Jika setalah dihitung biaya jabatan > 500 ribu, 
+					// Maka akan dibuat sebesar 500 ribu
+					$bijab = 0.05 * $totalBruto;
+					if($bijab>500000) {
+						$bijab= 500000;
+					}
+					$totalPengurang	= $bijab + $iuran;
+							
+					$yearlyNeto = $totalBulan * ($totalBruto - $totalPengurang);
+					$yearlyPKP  = $yearlyNeto - $ptkpTarif;
+
+					//Dibulatkan biar 3 digit dibelakang jadi 0
+					$yearlyPKP = (floor($yearlyPKP / 1000)) * 1000;
+
+
+					if ($yearlyPKP >= 0) {
+					    if ($yearlyPKP > 500000000) {
+					        $tier1 = 0.05 * 50000000;
+					        $tier2 = 0.15 * 200000000;
+					        $tier3 = 0.25 * 250000000;
+					        $tier4 = 0.3 * ($yearlyPKP - 500000000);
+					        $yearlyPPH = $tier1 + $tier2 + $tier3 + $tier4;
+					    } elseif ($yearlyPKP > 250000000) {
+					        $tier1 = 0.05 * 50000000;
+					        $tier2 = 0.15 * 200000000;
+					        $tier3 = 0.25 * ($yearlyPKP - 250000000);
+					        $yearlyPPH = $tier1 + $tier2 + $tier3;
+					    } elseif ($yearlyPKP > 50000000) {
+					        $tier1 = 0.05 * 50000000;
+					        $tier2 = 0.15 * ($yearlyPKP - 50000000);
+					        $yearlyPPH = $tier1 + $tier2;
+					    } else {
+					        $tier1 = 0.05 * $yearlyPKP;
+					        $yearlyPPH = $tier1;
+					    }
+					}		
+
+					$monthlyPPH = ($yearlyPPH / $totalBulan);
+
+					if($Tunjpph != $monthlyPPH){
+						$Tunjpph = $monthlyPPH;
+						$monthlyPPH = 0;
+					}
+
+				}
+			}
+
+
+			if ($yearlyPKP >= 0) {
+			    if ($yearlyPKP > 500000000) {
+			        $tier1 = 0.05 * 50000000;
+			        $tier2 = 0.15 * 200000000;
+			        $tier3 = 0.25 * 250000000;
+			        $tier4 = 0.3 * ($yearlyPKP - 500000000);
+			        $yearlyPPH = $tier1 + $tier2 + $tier3 + $tier4;
+			    } elseif ($yearlyPKP > 250000000) {
+			        $tier1 = 0.05 * 50000000;
+			        $tier2 = 0.15 * 200000000;
+			        $tier3 = 0.25 * ($yearlyPKP - 250000000);
+			        $yearlyPPH = $tier1 + $tier2 + $tier3;
+			    } elseif ($yearlyPKP > 50000000) {
+			        $tier1 = 0.05 * 50000000;
+			        $tier2 = 0.15 * ($yearlyPKP - 50000000);
+			        $yearlyPPH = $tier1 + $tier2;
+			    } else {
+			        $tier1 = 0.05 * $yearlyPKP;
+			        $yearlyPPH = $tier1;
+			    }
+			}		
+
+			$monthlyPPH = ($yearlyPPH / $totalBulan);
+
+			if (empty($CheckNPWP)) {
+				//Kalau misalnya pegawai ga punya NPWP
+				$monthlyPPHFinal = $monthlyPPH  * 1.2;
+			} else {
+				//Kalau misalnya pegawai punya NPWP		
+				$monthlyPPHFinal = $monthlyPPH;
+			} 
+		} 
+
+		// echo "Monthly PPH Final :".$monthlyPPHFinal."<br>";
+		// echo "Monthly PPH  :".$monthlyPPH."<br>";
+		// echo "Yearly PPH Final :".$yearlyPPH."<br>";
+		// echo "Total Bulan :".$totalBulan."<br>";
+		// echo "Yearly PKP :".$yearlyPKP."<br>";
+		// echo "Tunjangan PPh :".$Tunjpph."<br>";
+
+		// exit();
+
+		// Mengecek status pada table g_pph21, jika status belum LAPOR PAJAK
+		// Maka data lama pada g_employee_income akan dihapus terlebih dahulu, baru diinputkan data terbaru
+		$this->db->select('STATUS')
+				 ->from('g_pph21')
+				 ->where('PPH_ID', $this->input->post('pphID'));
+
+		$status = $this->db->get(); 
+
+		foreach ($status->result() as $key); 
+
+		// Jika status bukan lapor pajak, hapus terlebih dahulu data lama di g_employee_income
+		if($key->STATUS == "ON PROGRESS" OR $key->STATUS  == "WAITING FOR APPROVAL" OR $key->STATUS  == "WAITING FOR CUSTOMER APPROVAL" OR $key->STATUS  == "WAITING FOR PAYMENT" OR $key->STATUS  == "PAID" OR $key->STATUS  == "TAX FILING"){
+			
+			$processType='REVISI';
+
+			// Ngehapus data di g_employee_income berdasarkan PPH ID dan Employee ID
+			$this->cms->deleteGeneralDataDouble('g_employee_income', 'PPH_ID', $this->input->post('pphID'), 'EMPLOYEE_ID', $this->input->post('employeeID'));
+
+			// Update status di g_pph21 dan g_employee_income menjadi ON PROGRESS
+			$updatePPH21 = array(
+				'UPDATED'	=> date('Y-m-d H:i:s'),
+				'STATUS'	=> 'ON PROGRESS'
+			);
+			$this->cms->updateGeneralData('g_pph21', $updatePPH21, 'PPH_ID', $this->input->post('pphID')); 
+		} elseif ($key->STATUS == "LAPOR PAJAK" OR $key->STATUS  == "HARDCOPY" ) {
+			
+			//PEMBETULANN
+			$processType='PEMBETULAN'; 
+
+			foreach ($pphCheck->result() as $cekPPH21);
+			$monthCheck = $cekPPH21->PERIOD_MONTH;
+			$yearCheck = $cekPPH21->PERIOD_YEAR;
+			$prevPPHVAL = $cekPPH21->COMPANY_PPHVAL;
+
+			$pembetulanKe = $this->cms->cekpembetulan($this->input->post('companyID'), $monthCheck, $yearCheck); 
+
+			// Ubah dulu status lama jadi HISTORY
+			$updateStatusPPH21 = array(
+				'UPDATED'	=> date('Y-m-d H:i:s'),
+				'STATUS'	=> 'HISTORY'
+			);
+			$this->cms->updateGeneralData('g_pph21', $updateStatusPPH21, 'PPH_ID', $this->input->post('pphID')); 
+		}
+
+		if($processType=="REVISI") {
+			$pphID = $this->input->post('pphID');
+		}else {
+			// Generate PPH ID baru
+			$pphID = $this->incube->generateID(10);
+
+			// Ambil data bulan dan tahun 
+			foreach ($pphCheck->result() as $cekPPH21);
+			$monthCheck = $cekPPH21->PERIOD_MONTH;
+			$yearCheck = $cekPPH21->PERIOD_YEAR;
+
+			$companyData = array(
+				'PPH_ID'		=> $pphID,
+				'COMPANY_ID'	=> $this->input->post('companyID'),
+				'PERIOD_YEAR'	=> $yearCheck,
+				'PERIOD_MONTH'	=> $monthCheck,
+				'CREATED'		=> date('Y-m-d h:i:s'),
+				'STATUS'		=> 'ON PROGRESS'
+			);
+			$queryInsert = $this->cms->insertGeneralData('g_pph21', $companyData);
+		}
+
+
+
+		//EoL PPH21 Gross Up
+		$employeeData = array(
+			'INCOME_ID'                 	=> $incomeID,
+			'PPH_ID'						=> $pphID,
+			'COMPANY_ID'           			=> $this->input->post('companyID'),
+			'EMPLOYEE_ID'             		=> $this->input->post('employeeID'),
+			'EMPLOYEE_GAJI_POKOK'			=> $gaji,
+			'EMPLOYEE_TUNJANGAN_PPH'		=> $Tunjpph,
+			'EMPLOYEE_TUNJANGAN_1'			=> $tunjangan1,
+			'EMPLOYEE_TUNJANGAN_2'			=> $tunjangan2,
+			'EMPLOYEE_TUNJANGAN_3'			=> $tunjangan3,
+			'EMPLOYEE_TUNJANGAN_4'			=> $tunjangan4,
+			'EMPLOYEE_TUNJANGAN_5'			=> $tunjangan5,
+			'EMPLOYEE_TUNJANGAN_6'			=> $tunjangan6,
+			'EMPLOYEE_TUNJANGAN_7'			=> $tunjangan7,
+			'EMPLOYEE_TUNJANGAN_8'			=> $tunjangan8,
+			'EMPLOYEE_TUNJANGAN_9'			=> $tunjangan9,
+			'EMPLOYEE_TUNJANGAN_10'			=> $tunjangan10,
+			'EMPLOYEE_TUNJANGAN_LAINNYA'	=> $totalTunjangan,
+			'EMPLOYEE_HONORARIUM'			=> $honarium,
+			'EMPLOYEE_PREMI_JKK'			=> $premijkk,
+			'EMPLOYEE_PREMI_JKM'			=> $premijkm,
+			'EMPLOYEE_PREMI_BPJS'			=> $premibpjs,
+			'EMPLOYEE_PREMI'				=> $totalPremi,
+			'EMPLOYEE_NATURA'				=> $natura,
+			'EMPLOYEE_TANTIEMBONUS'			=> $tantiem,
+			'EMPLOYEE_IURAN_THT'			=> $iuranJHT,
+			'EMPLOYEE_IURAN_JP'				=> $iuranJP,
+			'EMPLOYEE_IURAN_PENSIUN'		=> $iuran,
+			'EMPLOYEE_BIAYA_JABATAN'		=> $bijab,
+			'EMPLOYEE_TOTAL_PENGURANGAN'	=> $iuran+$bijab,
+			'EMPLOYEE_BRUTO'				=> $totalBruto,
+			'EMPLOYEE_NETTO'				=> $totalBruto - $totalPengurang,
+			'EMPLOYEE_NETTO_YEAR'			=> (floor($totalBruto) - $totalPengurang)*$totalBulan,
+			'EMPLOYEE_PTKP'					=> $ptkpTarif,
+			'EMPLOYEE_PKP_YEAR'				=> $yearlyPKP,
+			'EMPLOYEE_PPHVAL_YEAR'			=> round($yearlyPPH),
+			'EMPLOYEE_PPHVAL_MASA'			=> round($monthlyPPH),
+			'EMPLOYEE_PPHVAL'				=> round($monthlyPPHFinal),
+			'CREATED'						=> date('Y-m-d h:i:s'),
+			'STATUS'						=> 'ON PROGRESS', 
+			'PPHCOUNT_METHOD'				=> $companyCheck->row()->PPHCOUNT_METHOD
+		);
+
+		$this->cms->insertGeneralData('g_employee_income', $employeeData);
+
+
+		if($processType=="PEMBETULAN") {
+			$this->cms->getCountDataKaryawanNoEdit($this->input->post('pphID'), $this->input->post('employeeID')); 
+
+			$employeeNoEditData = $this->cms->getDataKaryawanNoEdit($this->input->post('pphID'), $this->input->post('employeeID'));
+			foreach ($employeeNoEditData->result() as $employeeNoEdit) {
+				$incomeID     = $this->incube->generateID(10);
+				$databaru = array(
+					'INCOME_ID'								=> $incomeID,
+					'PPH_ID'								=> $pphID,
+					'COMPANY_ID'							=> $employeeNoEdit->COMPANY_ID,
+					'EMPLOYEE_ID'							=> $employeeNoEdit->EMPLOYEE_ID,
+					'EMPLOYEE_GAJI_POKOK'					=> $employeeNoEdit->EMPLOYEE_GAJI_POKOK,
+					'EMPLOYEE_TUNJANGAN_PPH'				=> $employeeNoEdit->EMPLOYEE_TUNJANGAN_PPH,
+					'EMPLOYEE_TUNJANGAN_1'					=> $employeeNoEdit->EMPLOYEE_TUNJANGAN_1,
+					'EMPLOYEE_TUNJANGAN_2'					=> $employeeNoEdit->EMPLOYEE_TUNJANGAN_2,
+					'EMPLOYEE_TUNJANGAN_3'					=> $employeeNoEdit->EMPLOYEE_TUNJANGAN_3,
+					'EMPLOYEE_TUNJANGAN_4'					=> $employeeNoEdit->EMPLOYEE_TUNJANGAN_4,
+					'EMPLOYEE_TUNJANGAN_5'					=> $employeeNoEdit->EMPLOYEE_TUNJANGAN_5,
+					'EMPLOYEE_TUNJANGAN_6'					=> $employeeNoEdit->EMPLOYEE_TUNJANGAN_6,
+					'EMPLOYEE_TUNJANGAN_7'					=> $employeeNoEdit->EMPLOYEE_TUNJANGAN_7,
+					'EMPLOYEE_TUNJANGAN_8'					=> $employeeNoEdit->EMPLOYEE_TUNJANGAN_8,
+					'EMPLOYEE_TUNJANGAN_9'					=> $employeeNoEdit->EMPLOYEE_TUNJANGAN_9,
+					'EMPLOYEE_TUNJANGAN_10'					=> $employeeNoEdit->EMPLOYEE_TUNJANGAN_10,
+					'EMPLOYEE_TUNJANGAN_LAINNYA'			=> $employeeNoEdit->EMPLOYEE_TUNJANGAN_LAINNYA,
+					'EMPLOYEE_HONORARIUM'					=> $employeeNoEdit->EMPLOYEE_HONORARIUM,
+					'EMPLOYEE_PREMI_JKK'					=> $employeeNoEdit->EMPLOYEE_PREMI_JKM,
+					'EMPLOYEE_PREMI_JKM'					=> $employeeNoEdit->EMPLOYEE_PREMI_JKK,
+					'EMPLOYEE_PREMI_BPJS'					=> $employeeNoEdit->EMPLOYEE_PREMI_BPJS,
+					'EMPLOYEE_PREMI'						=> $employeeNoEdit->EMPLOYEE_PREMI,
+					'EMPLOYEE_NATURA'						=> $employeeNoEdit->EMPLOYEE_NATURA,
+					'EMPLOYEE_TANTIEMBONUS'					=> $employeeNoEdit->EMPLOYEE_TANTIEMBONUS,
+					'EMPLOYEE_IURAN_THT'					=> $employeeNoEdit->EMPLOYEE_IURAN_THT,
+					'EMPLOYEE_IURAN_JP'						=> $employeeNoEdit->EMPLOYEE_IURAN_JP,
+					'EMPLOYEE_IURAN_PENSIUN'				=> $employeeNoEdit->EMPLOYEE_IURAN_PENSIUN,
+					'EMPLOYEE_BIAYA_JABATAN'				=> $employeeNoEdit->EMPLOYEE_BIAYA_JABATAN,
+					'EMPLOYEE_TOTAL_PENGURANGAN'			=> $employeeNoEdit->EMPLOYEE_TOTAL_PENGURANGAN,
+					'EMPLOYEE_BRUTO'						=> $employeeNoEdit->EMPLOYEE_BRUTO,
+					'EMPLOYEE_NETTO'						=> $employeeNoEdit->EMPLOYEE_NETTO,
+					'EMPLOYEE_NETTO_YEAR'					=> $employeeNoEdit->EMPLOYEE_NETTO_YEAR,
+					'EMPLOYEE_NETTO_YEAR_AGO'				=> $employeeNoEdit->EMPLOYEE_NETTO_YEAR_AGO,
+					'EMPLOYEE_PTKP'							=> $employeeNoEdit->EMPLOYEE_PTKP,
+					'EMPLOYEE_PKP_YEAR'						=> $employeeNoEdit->EMPLOYEE_PKP_YEAR,
+					'EMPLOYEE_PKP_YEAR_TERATUR'				=> $employeeNoEdit->EMPLOYEE_PKP_YEAR_TERATUR,
+					'EMPLOYEE_PPH21_YEAR_TERATUR'			=> $employeeNoEdit->EMPLOYEE_PPH21_YEAR_TERATUR,
+					'EMPLOYEE_PPH21_YEAR_TIDAK_TERATUR'		=> $employeeNoEdit->EMPLOYEE_PPH21_YEAR_TIDAK_TERATUR,
+					'EMPLOYEE_PPH21_YEAR_KESELURUHAN'		=> $employeeNoEdit->EMPLOYEE_PPH21_YEAR_KESELURUHAN,
+					'EMPLOYEE_PPH21_DIPOTONG_YEAR_AGO'		=> $employeeNoEdit->EMPLOYEE_PPH21_DIPOTONG_YEAR_AGO,
+					'EMPLOYEE_PPHVAL_YEAR'					=> $employeeNoEdit->EMPLOYEE_YEAR,
+					'EMPLOYEE_PPHVAL_MASA'					=> $employeeNoEdit->EMPLOYEE_MASA,
+					'EMPLOYEE_PPHVAL'						=> $employeeNoEdit->EMPLOYEE_PPHVAL,
+					'PPHCOUNT_METHOD'						=> $employeeNoEdit->PPHCOUNT_METHOD,
+					'CREATED'								=> date('Y-m-d H:i:s'),
+					'STATUS'								=> "ON PROGRESS"
+				);
+				$this->cms->insertGeneralData('g_employee_income', $databaru);
+			}
+
+			// Update status karyawan dengan pph lama yang tidak di edit menjadi history
+			foreach ($employeeNoEditData as $employeeNoEditUpdate) {
+				$datalamaupdate = array(
+					'STATUS'	=> 'HISTORY'
+				);
+				$this->cms->updateGeneralData('g_pph21', $datalamaupdate, 'PPH_ID', $this->input->post('pphID')); 
+			}
+			// Cek Company Bruto kembali yang sudah diubah
+			$this->update_g_pph21($pphID); 
+		}
+
+		if($processType == 'REVISI'){
+			$pphID = $this->input->post('pphID');
+
+			// Cek Company Bruto kembali yang sudah diubah
+			$this->update_g_pph21($pphID); 
+		} 
+		redirect('pph_21/bulan/summary?pid='. $pphID . '&cid=' . $this->input->post('companyID'). '&mid=' . $this->input->post('monthID'). '&yid=' . $this->input->post('yearID'));
+	}
+
+	public function add_pph21_ptt()
+	{
+		$data['obj_tk'] 		= $this->cms->getGeneralList('m_ptkp');
+		$data['obj_pajak']		= $this->cms->getGeneralList('m_tax_code');
+		$this->load->view('cms/hitung_pajak/add_pph21_bulan_summary_ptt', $data);
+	}
+
+	public function insert_pph21_ptt()
+	{
+
+		$incomeID     = $this->incube->generateID(10);
+		$employeeID   = $this->incube->generateID(10);
+
+		//hitung PPHVAL_PTT rumus : pastebin.com/1yZd7Deh
+
+		$tk_data = $this->cms->getSingularData('m_ptkp', 'TK_ID', $this->input->post('TK_ID'));
+		$tk_tarif = (float)$tk_data->row()->TK_TARIF; //ambil tarif dari db m_ptkp
+		$bruto_tahun = (float)$this->input->post('PENGHASILAN_BRUTO') * 12; //bruto dikali 12 (bruto per tahun)
+		$pkp = $bruto_tahun - $tk_tarif; //penghasilan kena pajak
+		$total_pphval = $pkp * 5 / 100; // total pajak yang harus dibayar
+
+		if ($total_pphval < 1) {
+			$total_pphval = 0; // kalo kurang dari 1 jadiin 0
+		}
+
+
+		$dataPTT = array( 
+			'INCOME_ID'             => $incomeID,
+			'COMPANY_ID'           	=> $this->input->post('companyID'),
+			'PPH_ID'				=> $this->input->post('pphID'),  
+			'EMPLOYEE_ID_PTT'		=> $employeeID,  
+			'NAMA_PEGAWAI'			=> $this->input->post('NAMA_PEGAWAI'),
+			'NPWP'					=> $this->input->post('NPWP'),
+			'NIK_PASPOR'			=> $this->input->post('NIK_PASPOR'),
+			'ALAMAT'				=> $this->input->post('ALAMAT'),
+			'WP_ASING'				=> $this->input->post('WP_ASING'),
+			'COUNTRY_CODE'			=> $this->input->post('COUNTRY_CODE'),
+			'NOMOR_BUKTI_POTONG'	=> $this->input->post('NOMOR_BUKTI_POTONG'),
+			'TANGGAL_BUKTI_POTONG'	=> $this->input->post('TANGGAL_BUKTI_POTONG'),
+			'KODE_OBJEK'			=> $this->input->post('KODE_OBJEK'),
+			'TK_ID'					=> $this->input->post('TK_ID'),
+			'METODE'				=> $this->input->post('METODE'),
+			'GOLONGAN'				=> $this->input->post('GOLONGAN'),
+			'SIFAT_PENGHASILAN'		=> $this->input->post('SIFAT_PENGHASILAN'),
+			'PENGHASILAN_LAINNYA'	=> $this->input->post('PENGHASILAN_LAINNYA'),
+			'PENGHASILAN_BRUTO'		=> $this->input->post('PENGHASILAN_BRUTO'),
+			'PPHVAL_PTT'			=> $total_pphval, 
+			'PPHCOUNT_METHOD'		=> 'GROSS UP', 
+			'CREATED'				=> date('Y-m-d h:i:s'),
+			'STATUS'				=> $this->input->post('STATUS')
+		);
+
+		$cid = $this->input->post('companyID');
+		$pid = $this->input->post('pphID');
+		$mid = $this->input->post('mid');
+		$yid = $this->input->post('yid');
+
+		$query_adduser = $this->cms->insertGeneralData('g_pph21_ptt', $dataPTT);
+
+		if($query_adduser) {
+            $this->session->set_flashdata('query', 'success');
+            redirect(base_url("pph_21/bulan/summary/tidak_tetap?pid=$pid&cid=$cid&mid=$mid&yid=$yid"));
+        }else {
+            $this->session->set_flashdata('query', 'error');
+            redirect(base_url("pph_21/bulan/summary/tidak_tetap?pid=$pid&cid=$cid&mid=$mid&yid=$yid"));
+        }
+	}
+
+	public function pph_21_bulan_summary_tidak_tetap()
+	{ 
+		$cid=$this->input->get('cid');
+		$mid=$this->input->get('mid');
+		$yid=$this->input->get('yid');
+		// $mid=$this->input->get('yid');
+		$data['correction'] = $this->cms->getPembetulanSummary($cid,$mid,$yid);
+		$data['summary'] 	= $this->cms->getGeneralData('v_g_companies_pph21_detail', 'PPH_ID', $this->input->get('pid'));
+
+		$this->db->select('*')
+			->from('g_pph21_ptt')
+			->where('COMPANY_ID', trim($this->input->get('cid')))
+			->where('PPH_ID', trim($this->input->get('pid')));
+
+
+		// $data['employees'] 	= $this->cms->getGeneralData('v_g_employee_pph21', 'COMPANY_ID', trim($this->input->get('cid')));
+		$data['employees'] 	= $this->db->get();
+		$data['counter']	= 1;
+		$data['payment']    = $this->cms->getSingularData('g_payment', 'PPH_ID', $this->input->get('pid'));
+		$data['statuspph21']= $this->cms->cekstatuspph21($this->input->get('pid'));
+
+		// if ($data['summary']->num_rows() == 0) {
+		// 	$this->session->set_flashdata('query', 'invalid');
+		// 	echo 'ga ada';
+		// 	// redirect(base_url('pph_21/bulan?cid=' . $this->input->get('cid')));
+		// } else {
+		// 	$this->load->view('cms/hitung_pajak/pph21_bulan_summary');
+		// }
+
+		$this->load->view('cms/hitung_pajak/pph21_bulan_summary_tidak_tetap', $data);
+	}
+
+	public function pph_21_bulan_summary_karyawan_tidak_tetap() //WORK IN PROGRESS # PALDI
+	{
+		$this->db->select('*')
+			->from('g_pph21_ptt')
+			->where('EMPLOYEE_ID_PTT', trim($this->input->get('eid')))
+			->where('PPH_ID', trim($this->input->get('pid')));
+
+
+		$data['employee'] 	= $this->db->get();
+
+		if ($data['employee']->num_rows() == 0) {
+			$this->session->set_flashdata('query', 'invalid');
+			
+			$cid = $this->input->get('companyID');
+			$pid = $this->input->get('pphID');
+			$mid = $this->input->get('mid');
+			$yid = $this->input->get('yid');
+
+			redirect(base_url('pph_21/bulan/summary/tidak_tetap?pid=$pid&cid=$cid&mid=$mid&yid=$yid'));
+		}
+
+		$this->load->view('cms/hitung_pajak/pph21_bulan_summary_karyawan', $data);
 	}
 
 	public function pph_21_tahun()
@@ -385,17 +1227,12 @@ class Pph21 extends CI_Controller
 			$totalTunjangan_year = 0;
 
 			//Kalkulasi Bruto, Neto & Jumlah Pengurang (TUNJANGAN, IURAN, PREMI, DLL)
-
 			$totalTunjangan_year = $tunjangan_lainnya;
 			$totalPremi_year 	= $premi;
 			$iuran_year 			= $tht + $jp;
 
 			$totalBruto_year 	= $gaji_pokok + $totalTunjangan_year + $honarium + $totalPremi_year + $natura + $tantiembonus;
 
-			// $bijab_year = 0.05 * $totalBruto_year;
-			// if($bijab_year > 500000) {
-			// 	$bijab_year = 500000;
-			// }
 			$totalPengurang_year	= $bijab_year + $iuran_year;
 
 			//Tarif PTKP Pegawai
@@ -413,11 +1250,11 @@ class Pph21 extends CI_Controller
 			$CheckBruto = $this->db->get(); 
 
 			foreach ($CheckBruto->result() as $BrutoEmp){
-					$persen=$this->cms->getPersen($BrutoEmp->EMPLOYEE_BRUTO);
-					foreach ($persen->result() as $CheckPersen){
+				$persen=$this->cms->getPersen($BrutoEmp->EMPLOYEE_BRUTO);
+				foreach ($persen->result() as $CheckPersen){
 
-					echo  $BrutoEmp->EMPLOYEE_BRUTO." - ".$CheckPersen->PRESENTASE."<BR>"; 
-					}
+				echo  $BrutoEmp->EMPLOYEE_BRUTO." - ".$CheckPersen->PRESENTASE."<BR>"; 
+				}
 			}
 
 			if($data1->EMPLOYEE_NATIONALITY_STATUS == 'Lokal'){
@@ -697,52 +1534,821 @@ class Pph21 extends CI_Controller
 		$this->load->view('cms/hitung_pajak/pph21_tahun',$data);
 	} 
 
-	public function pph_21_bulan_summary()
-	{ 
+	// CONTROLLERS FOR SSE
+	public function sse()
+	{
 		$cid=$this->input->get('cid');
 		$mid=$this->input->get('mid');
-		$yid=$this->input->get('yid');
-		// $mid=$this->input->get('yid');
-		$data['correction'] = $this->cms->getPembetulanSummary($cid,$mid,$yid);
+		$yid=$this->input->get('yid'); 
+		$pid=$this->input->get('pid'); 
+
 		$data['summary'] 	= $this->cms->getGeneralData('v_g_companies_pph21_detail', 'PPH_ID', $this->input->get('pid'));
-
+		$data['sse_debt']	= $this->cms->totalSEEDebt($cid, $yid, $mid);
 		$this->db->select('*')
-			->from('v_g_employee_pph21')
+			->from('g_payment')
 			->where('COMPANY_ID', trim($this->input->get('cid')))
-			->where('PPH_ID', trim($this->input->get('pid')));
+			->where('PERIOD_YEAR', trim($this->input->get('yid')))
+			->where('PERIOD_MONTH', trim($this->input->get('mid')));
 
+		$data['payment_sse'] 	= $this->db->get();
+		$data['counter']		= 1;  
 
-		// $data['employees'] 	= $this->cms->getGeneralData('v_g_employee_pph21', 'COMPANY_ID', trim($this->input->get('cid')));
-		$data['employees'] 	= $this->db->get();
-		$data['counter']	= 1;
-		$data['payment']    = $this->cms->getSingularData('g_payment', 'PPH_ID', $this->input->get('pid'));
-		$data['statuspph21']= $this->cms->cekstatuspph21($this->input->get('pid'));
-
-		// if ($data['summary']->num_rows() == 0) {
-		// 	$this->session->set_flashdata('query', 'invalid');
-		// 	echo 'ga ada';
-		// 	// redirect(base_url('pph_21/bulan?cid=' . $this->input->get('cid')));
-		// } else {
-		// 	$this->load->view('cms/hitung_pajak/pph21_bulan_summary');
-		// }
-
-		$this->load->view('cms/hitung_pajak/pph21_bulan_summary', $data);
+		$this->load->view('cms/hitung_pajak/pph21_bulan_summary_sse', $data);
 	}
 
-	public function pph_21_bulan_approve()
+	public function delete_sse()
 	{
-		$pid=$this->input->get('pid');
 		$cid=$this->input->get('cid');
-		$yid=$this->input->get('yid');
+		$mid=$this->input->get('mid');
+		$yid=$this->input->get('yid'); 
+		$sid=$this->input->get('sid');  
+		$pid=$this->input->get('pid');  
 
-		$statusApprove = array(
-			'STATUS'  => 'WAITING FOR APPROVAL'
+		$queryDeleteSSE = $this->cms->deleteGeneralDataFour('g_payment','COMPANY_ID','PERIOD_YEAR','PERIOD_MONTH','NO_SSE_21',$cid,$yid,$mid,$sid);
+
+		if($queryDeleteSSE){
+			// Kirim ke halaman SSE
+			$this->session->set_flashdata('sse_delete', 'success');
+			redirect(base_url('pph_21/bulan/summary/karyawan/sse?pid='.$pid.'&cid='.$cid.'&mid='.$mid.'&yid='.$yid.''));
+		} else{
+			$this->session->set_flashdata('sse_delete', 'error');
+			redirect(base_url('pph_21/bulan/summary/karyawan/sse?pid='.$pid.'&cid='.$cid.'&mid='.$mid.'&yid='.$yid.''));
+		}
+	} 
+
+	public function insert_sse()
+	{ 
+		// Get data from modal SSE
+		$pphID  = $this->input->post('pph_id');
+		$comID  = $this->input->post('company_id');
+		$years  = $this->input->post('years');
+		$month  = $this->input->post('month');
+		$SSENo  = $this->input->post('no_sse'); 
+		$amount = str_replace(",", "", $this->input->post('amount_sse'));
+		$date   = $this->input->post('date_sse');  
+		$pph    = str_replace(",", "", $this->input->post('pph'));
+
+		//Update status g_pph21
+		$updateApproval = array(
+			'UPDATED'	=> date('Y-m-d H:i:s'),
+			'STATUS'	=> 'WAITING OF PAYMENT'
+		);
+		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $pphID);
+
+		//Update status g_employee_income
+		$updateApprovalEmployee = array( 
+			'STATUS'	=> 'WAITING OF PAYMENT'
+		);
+		$this->cms->updateGeneralData('g_employee_income', $updateApprovalEmployee, 'PPH_ID', $pphID);
+		
+		$insertSSE = array(  
+			'COMPANY_ID'  	=> $this->input->post('company_id'), 
+			'PERIOD_YEAR'	=> $this->input->post('years'),
+			'PERIOD_MONTH'	=> $this->input->post('month'),
+			'NO_SSE_21'  	=> $this->input->post('no_sse'), 
+			'TOTAL_PPH21' 	=> str_replace(",", "", $this->input->post('pph')),
+			'TOTAL_SSE21' 	=> str_replace(",", "", $this->input->post('amount_sse')),
+			'PAID_PPH21' 	=> 0,
+			'DATE_SSE'  	=> $this->input->post('date_sse'),
+			'CREATED'  		=> date('Y-m-d H:i:s'),
+			'STATUS'  		=> 'WAITING OF PAYMENT'
 		);
 
-		$this->cms->updateGeneralData('g_pph21', $statusApprove, 'PPH_ID', $this->input->get('pid'));
-		$this->cms->updateGeneralData('g_employee_income', $statusApprove, 'PPH_ID', $this->input->get('pid'));
+		$queryInsertSSE = $this->cms->insertGeneralData('g_payment', $insertSSE);
 
-		redirect('PPH/Pph21/pph_21_bulan?cid='.$cid.'&pid='.$yid.'');		
+		// Hitung jumlah total SSE
+		$count_sse = $this->cms->totalSSE($comID,$years,$month);
+		foreach($count_sse->result() as $sse); 
+
+		// Check SSE lebih besar dari atau sama dengan PPH21
+		if($sse->ALL_TOTAL_SSE21 >= $pph){
+			// Jika iya, ubah status menjadi "Waiting of Payment"
+
+			//Update status g_pph21
+			$updateApprovalWOP = array( 
+				'STATUS'	=> 'WAITING OF PAYMENT'
+			);
+			$this->cms->updateGeneralData('g_pph21', $updateApprovalWOP, 'PPH_ID', $pphID);
+
+			//Update status g_employee_income
+			$updateApprovalEmployeeWOP = array( 
+				'STATUS'	=> 'WAITING OF PAYMENT'
+			);
+			$this->cms->updateGeneralData('g_employee_income', $updateApprovalEmployeeWOP, 'PPH_ID', $pphID);
+
+			$updateStatusPaymentWOP = array( 
+				'STATUS'	=> 'WAITING OF PAYMENT'
+			);
+			$this->cms->updateGeneralData('g_payment', $updateStatusPaymentWOP, 'COMPANY_ID','PERIOD_YEAR', 'PERIOD_MONTH', $comID, $years, $month);
+		} 
+
+		if($queryInsertSSE){
+			// Kirim ke halaman pph 21 bulan 
+			$this->session->set_flashdata('sse', 'success');
+			redirect(base_url('pph_21/bulan/summary?pid='.$pphID.'&cid='.$comID.'&mid='.$month.'&yid='.$years.''));
+		} else{
+			$this->session->set_flashdata('sse', 'error');
+			redirect(base_url('pph_21/bulan/summary?pid='.$pphID.'&cid='.$comID.'&mid='.$month.'&yid='.$years.''));
+		}
+	} 
+
+	public function getEditSSE()
+	{
+		$noSSEOld = $this->input->post('id');
+		$pphID    = $this->input->post('pphid');
+		// echo $pphID;
+
+		$getSSE   = $this->cms->getSingularData('g_payment', 'NO_SSE_21', $noSSEOld);
+		foreach($getSSE->result() as $sse);
+		$noSSENew = $sse->NO_SSE_21;
+		$comID    = $sse->COMPANY_ID;
+		$years    = $sse->PERIOD_YEAR;
+		$month    = $sse->PERIOD_MONTH;
+		$totalSSE = number_format($sse->TOTAL_SSE21);
+		$tglSSE   = $sse->DATE_SSE;
+
+		$pph21    = $this->cms->getSingularData('g_pph21', 'PPH_ID', $pphID);
+		foreach($pph21->result() as $pph);
+		$pphval   = number_format($pph->COMPANY_PPHVAL);
+
+		echo'<input type="hidden" class="form-control form-control-sm" id="pph_id" name="pph_id" value="'.$pphID.'"> 
+              <input type="hidden" class="form-control form-control-sm" id="old_id_sse" name="old_id_sse" value="'.$noSSEOld.'"> 
+              <input type="hidden" class="form-control form-control-sm" id="company_id" name="company_id" value="'.$comID.'"> 
+              <input type="hidden" class="form-control form-control-sm" id="years" name="years" value="'.$years.'"> 
+              <input type="hidden" class="form-control form-control-sm" id="month" name="month" value="'.$month.'">   
+             
+              <div class="row"> 
+                <div class="col-12">
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Nomor SSE :</label>
+                    <input type="text" class="form-control form-control-sm" id="no_sse" name="no_sse" required value="'.$noSSENew.'"> 
+                  </div>
+                </div>  
+              </div> 
+
+              <div class="row"> 
+                <div class="col-12">
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">PPH 21 :</label>
+                    <input type="text" class="form-control form-control-sm" id="total_payment" name="total_payment" value="'.$pphval.'" readonly> 
+                  </div>
+                </div>  
+              </div> 
+
+              <div class="row"> 
+                <div class="col-12">
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Total SSE :</label>
+                    <input type="text" class="form-control form-control-sm" id="amount_sse" name="amount_sse" value="'.$totalSSE.'"> 
+                  </div>
+                </div>  
+              </div>
+
+              <div class="row"> 
+                <div class="col-12">
+                  <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Tanggal SSE :</label>
+                    <input type="datetime" class="form-control form-control-sm" id="date_sse" name="date_sse" value="'.$tglSSE.'"> 
+                  </div>
+                </div>  
+              </div> ';
+	}
+
+	public function edit_sse()
+	{
+		// Get data from modal SSE
+		$pphID  = $this->input->post('pph_id');
+		$sseold = $this->input->post('old_id_sse');
+		$comID  = $this->input->post('company_id');
+		$years  = $this->input->post('years');
+		$month  = $this->input->post('month');
+		$SSENo  = $this->input->post('no_sse'); 
+		$amount = str_replace(",", "", $this->input->post('amount_sse'));
+		$date   = $this->input->post('date_sse');   
+
+		$updateSSE = array(    
+			'NO_SSE_21'  	=> $this->input->post('no_sse'),  
+			'TOTAL_SSE21' 	=> str_replace(",", "", $this->input->post('amount_sse')), 
+			'DATE_SSE'  	=> $this->input->post('date_sse'),
+			'UPDATED'  		=> date('Y-m-d H:i:s')
+		);
+
+		$queryupdateSSE = $this->cms->updateGeneralData('g_payment', $updateSSE, 'NO_SSE_21', $sseold);
+
+		if($queryupdateSSE){
+			// Kirim ke halaman SSE
+			$this->session->set_flashdata('sse_update', 'success');
+			redirect(base_url('pph_21/bulan/summary/karyawan/sse?pid='.$pphID.'&cid='.$comID.'&mid='.$month.'&yid='.$years.''));
+		} else{
+			$this->session->set_flashdata('sse_update', 'error');
+			redirect(base_url('pph_21/bulan/summary/karyawan/sse?pid='.$pphID.'&cid='.$comID.'&mid='.$month.'&yid='.$years.''));
+		} 
+	}
+	// END CONTROLLERS FOR SSE
+	
+
+	// CONTROLLERS FOR SPT
+	public function spt21()
+	{
+		// Menangkap variabel dari pph 21 bulan summary
+		$cid = $this->input->get('cid');
+		$pid = $this->input->get('pid');
+		$eid = $this->input->get('eid');
+
+		$getDataSPT = $this->cms->getSingularDataTriple('v_g_employee_pph21','COMPANY_ID','PPH_ID','EMPLOYEE_ID',$cid,$pid,$eid); 
+
+		$data['spt']	= $getDataSPT;
+
+		$this->load->view('cms/e_spt/spt_21',$data);
+	}
+
+	public function spt21_tahun()
+	{
+		$this->load->view('cms/e_spt/spt_21_tahun');
+	}
+	// END CONTROLLERS FOR SPT
+
+	
+	// CONTROLLERS FOR EXCEL
+	public function importXLSLFile() 
+	{
+		$this->output->enable_profiler(TRUE); 
+
+		//echo $this->input->post('pphID');
+
+		$companyCheck  = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->post('companyID'));
+		$employeeCheck = $this->cms->getSingularData('v_g_employee', 'EMPLOYEE_COMPANY_ID', $this->input->post('companyID'));
+		$pphCheck 	   = $this->cms->getSingularData('g_pph21', 'PPH_ID', $this->input->post('pphID')); 
+
+
+		//Deklrasi Variabel awal
+		$companyBruto = 0;
+		$companyNeto  = 0;
+		$companyPPH21 = 0;
+
+		if ($companyCheck->num_rows() == 0) {
+			echo 'tidak ada perusahaan';
+			return;
+		}
+
+		if ($employeeCheck->num_rows() == 0) {
+			echo 'tidak ada pegawai aktif';
+			return;
+		}
+
+		$employeeArr = [];
+
+		foreach ($employeeCheck->result() as $employee) {
+
+			$tmpArr = array(
+				'NAME'					=> $employee->EMPLOYEE_NAME,
+				'KTP'					=> $employee->EMPLOYEE_KTP,
+				'NPWP'					=> $employee->EMPLOYEE_NPWP,
+				'PTKP'					=> $employee->EMPLOYEE_PTKP_STATUS,
+				'PTKP_TARIF'			=> $employee->TK_TARIF,
+				'NATIONALITY'			=> $employee->EMPLOYEE_NATIONALITY,
+				'NATIONALITY_STATUS'	=> $employee->EMPLOYEE_NATIONALITY_STATUS,
+				'INTERNAL_ID'			=> $employee->EMPLOYEE_INTERNAL_ID,
+				'ID'					=> $employee->EMPLOYEE_ID, 
+				'EMPLOYEE_WORK_END'		=> $employee->EMPLOYEE_WORK_END, 
+			);
+
+			array_push($employeeArr, $tmpArr);
+		}
+
+
+		$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+
+		$config['upload_path']          = './assets/upload/docs/';
+		$config['allowed_types']        = 'xlsx';
+		$config['overwrite']            = true;
+		$config['encrypt_name']         = true;
+		$config['remove_spaces']        = true;
+
+		$this->load->library('upload', $config);
+
+		if (!$this->upload->do_upload('fileImport')) {
+			echo 'ada yang salah';
+			return;
+		}
+
+		$data = $this->upload->data();
+
+		$loadExcel = $reader->load('assets/upload/docs/' .  $data['file_name']);
+		$sheet = $loadExcel->getActiveSheet()->toArray(null, true, true, true);
+
+		//Hapus data array yang buat header
+		unset($sheet[1]);
+		unset($sheet[2]);
+
+		if (sizeof($sheet) == 0) {
+			echo 'ini file kosong';
+			return;
+		}
+
+		// Mengecek status pada table g_pph21, jika status belum PAID
+		// Maka data lama pada g_employee_income akan dihapus terlebih dahulu, baru diinputkan data terbaru
+		$processType='REVISI';
+		$this->db->select('STATUS')
+				 ->from('g_pph21')
+				 ->where('PPH_ID', $this->input->post('pphID'));
+
+		$status = $this->db->get(); 
+
+		foreach ($status->result() as $key);
+
+		// Jika status bukan Lapor Pajak, hapus terlebih dahulu data lama di g_employee_income
+		if($key->STATUS == "ACTIVE" OR $key->STATUS == "ON PROGRESS" OR $key->STATUS  == "WAITING FOR APPROVAL" OR $key->STATUS  == "WAITING FOR CUSTOMER APPROVAL" OR $key->STATUS  == "WAITING FOR PAYMENT" OR $key->STATUS  == "PAID" OR $key->STATUS  == "TAX FILING" ){
+			//REVISI
+			$this->cms->deleteGeneralData('g_employee_income', 'PPH_ID', $this->input->post('pphID'));
+		} elseif ($key->STATUS == "LAPOR PAJAK" OR $key->STATUS  == "HARDCOPY" ) {
+			//PEMBETULANN
+			$processType='PEMBETULAN';
+			$pembetulanKe = $this->cms->cekpembetulan($this->input->post('companyID'), $this->input->post('monthID'), $this->input->post('yearID'));
+		
+			foreach ($pphCheck->result() as $cekPPH21);
+			$prevPPHVAL = $cekPPH21->COMPANY_PPHVAL;
+			// Ubah dulu status lama jadi HISTORY
+			$updateStatusPPH21 = array(
+				'UPDATED'	=> date('Y-m-d H:i:s'),
+				'STATUS'	=> 'HISTORY'
+			);
+			$this->cms->updateGeneralData('g_pph21', $updateStatusPPH21, 'PPH_ID', $this->input->post('pphID'));
+		}
+
+		if($processType=="REVISI") {
+			$pphID = $this->input->post('pphID');
+		}else {
+			$pphID = $this->incube->generateID(10);
+			$companyData = array(
+				'PPH_ID'		=> $pphID,
+				'COMPANY_ID'	=> $this->input->post('companyID'),
+				'PERIOD_YEAR'	=> $this->input->post('yearID'),
+				'PERIOD_MONTH'	=> $this->input->post('monthID'),
+				'CREATED'		=> date('Y-m-d h:i:s'),
+				'STATUS'		=> 'RE PROGRESS',
+			);
+			$queryInsert = $this->cms->insertGeneralData('g_pph21', $companyData); 
+		}
+
+		foreach ($sheet as $sheetData) {
+
+			$employeeID     = $this->incube->generateID(10);
+
+			//Cek data pegawai ada atau engga & ambil PKTP Tarif Mereka
+			//Ngeceknya pake array dan bukan pake database, biar lebih cepet dan aman. Kalau misalnya data ada 1000, kalau masing-
+			//masing ngecek ke database, pasti ada error/mysql timeout
+			$employeeIndex = array_search($sheetData['C'], array_column($employeeArr, 'INTERNAL_ID')); 
+
+			// Check NPWP
+			$this->db->select('*')
+					 ->from('g_employee')
+					 ->where('EMPLOYEE_INTERNAL_ID', $sheetData['C']);
+
+			$CheckEmpNPWP = $this->db->get(); 
+
+			foreach ($CheckEmpNPWP->result() as $CheckNPWP);  
+
+			$totalTunjangan=0;
+
+			//Kalkulasi Bruto, Neto & Jumlah Pengurang (TUNJANGAN, IURAN, PREMI, DLL)
+			$totalTunjangan = $sheetData['G'] + $sheetData['H'] + $sheetData['I'] + $sheetData['J'] + $sheetData['K'] + $sheetData['L'] + $sheetData['M'] + $sheetData['O'] + $sheetData['P'];
+			$totalPremi 	= $sheetData['R'] + $sheetData['S'] + $sheetData['T'];
+			$iuran 			= $sheetData['W'] + $sheetData['X'];
+
+			// Mengambil bulan dan tahun pada PPH21
+			foreach ($pphCheck->result() as $checkPPH21);
+			$cekPPH21Month = $checkPPH21->PERIOD_MONTH;
+			$cekPPH21Years = $checkPPH21->PERIOD_YEAR;
+
+			// Mengambil periode resign karyawan jika ada 
+			$cekWorkEnd = $employeeArr[$employeeIndex]['EMPLOYEE_WORK_END']; 
+			if ($cekWorkEnd) {
+				$dataPeriod = explode('-', $cekWorkEnd);
+				$dataPeriodYears = $dataPeriod[0];
+				$dataPeriodMonth = $dataPeriod[1]; 
+			} else{
+				$dataPeriodYears = '0000';
+				$dataPeriodMonth = '00';
+			} 
+
+			// Mengconvert number month menjadi month name
+			$monthName = $this->incube->convertMonthNumber($dataPeriodMonth);
+			
+			// Melakukan perhitungan karyawan yang periode resign nya sudah diinputkan
+			// Jika periode bulan dan tahun yang diinputkan sama dengan periode bulan tahun resign
+			// Maka perhitungan PPH tidak akan disetahunkan, melainkan sesuai bulan resign
+
+			if (($dataPeriodYears == $cekPPH21Years) && ($monthName == $cekPPH21Month)) {
+
+				// Hitung terlebih dahulu bruto sebelumnya
+				$CountBrutoResign = $this->cms->totalBrutoResign($this->input->post('companyID'),$this->input->post('yearID'), $this->input->post('monthID'),$employeeArr[$employeeIndex]['ID']);
+				foreach ($CountBrutoResign->result() as $countbruto);
+				$HasilBrutoResign 		= $countbruto->ALL_EMPLOYEE_BRUTO;
+				$HasilBrutoResignNoTHR 	= $countbruto->ALL_EMPLOYEE_BRUTO_NOTHR;
+
+				// Menghitung total bulan ditahun tersebut
+				$totalBulan= $countbruto->TOTAL_BULAN_RESIGN + 1;
+
+				$totalBruto 	= $sheetData['E'] + $totalTunjangan + $sheetData['Q'] + $totalPremi + $sheetData['U'] + $sheetData['V'];
+				$totalBrutoNoTHR 	= $sheetData['E'] + $totalTunjangan + $sheetData['Q'] + $totalPremi + $sheetData['U'];
+
+				//Biaya Jabatan Mx 5000000
+				$bijab = 0.05 * $totalBruto;
+				if($bijab>500000) {
+					$bijab= 500000;
+				}
+				$totalPengurang	= $bijab + $iuran;
+
+				//Tarif PTKP Pegawai
+				$ptkpTarif = $employeeArr[$employeeIndex]['PTKP_TARIF']; 
+
+				//Kalkulasi PPH21 Non-Gross Up
+				$CheckNPWP->EMPLOYEE_ID;
+				$PPH_ID=$this->input->post('pphID');
+
+				$this->db->select('*')
+				 ->from('g_employee_income')
+				 ->where('EMPLOYEE_ID', $CheckNPWP->EMPLOYEE_ID)
+				 ->where('PPH_ID', $PPH_ID);
+
+				$CheckBruto = $this->db->get(); 
+
+				foreach ($CheckBruto->result() as $BrutoEmp){
+					$persen=$this->cms->getPersen($BrutoEmp->EMPLOYEE_BRUTO);
+					foreach ($persen->result() as $CheckPersen){
+						//echo  $BrutoEmp->EMPLOYEE_BRUTO." - ".$CheckPersen->PRESENTASE."<BR>"; 
+					}
+				}
+
+				$yearlyNeto = ( (($totalBruto + $HasilBrutoResign) - $totalPengurang - $sheetData['V']))+$sheetData['V'];
+				$yearlyNetoNoTHR = ((($totalBrutoNoTHR+$HasilBrutoResign) - $totalPengurang ));
+				$yearlyPKP  = $yearlyNeto - $ptkpTarif;
+				if($yearlyPKP <0){$yearlyPKP=0;}
+				//Dibulatkan biar 3 digit dibelakang jadi 0
+				$yearlyPKP = (floor($yearlyPKP / 1000)) * 1000;
+
+				//Kalkulasi PPH21 Gross UP
+				if ($companyCheck->row()->PPHCOUNT_METHOD == 'GROSS UP') {
+					$Tunjpph=0;
+					switch ($yearlyPKP) {
+						case ($yearlyPKP <= 47500000):
+							// echo 'lapisan 1';
+							$Tunjpph = ($yearlyPKP - 0) *  (5 / 95) + 0;
+							break;
+						case (($yearlyPKP >= 47500000) && ($yearlyPKP <= 217500000)):
+							// echo 'lapisan 2';
+							$Tunjpph = ($yearlyPKP - 47500000) * (15 / 85) + 2500000;
+							break;
+						case (($yearlyPKP >= 217500000) && ($yearlyPKP <= 405000000)):
+							// echo 'lapisan 3';
+							$Tunjpph = ($yearlyPKP - 217500000) * (25 / 75) + 32500000;
+							break;
+						case ($yearlyPKP >= 405000000):
+							// echo 'lapisan 4';
+							$Tunjpph = ($yearlyPKP - 405000000) * (30 / 70) + 95000000;
+							break;
+						default:
+							break;
+					}
+					$Tunjpph = $Tunjpph/$totalBulan; //579.392
+
+					$monthlyPPH = 0; 
+					while ($Tunjpph != $monthlyPPH) { 
+						//HITUNG YearlyPKP (after tunjanganpph)
+						 $totalBruto 	= $sheetData['E'] + $Tunjpph + $totalTunjangan + $sheetData['Q'] + $totalPremi + $sheetData['U'] + $sheetData['V'] ; 
+
+						// Biaya jabatan max 500 ribu
+						// Biaya jabatan dihitung 5% dari total bruto
+						// Jika setalah dihitung biaya jabatan > 500 ribu, 
+						// Maka akan dibuat sebesar 500 ribu
+						$bijab = 0.05 * $totalBruto;
+						if($bijab>500000) {
+							$bijab= 500000;
+						}
+						$totalPengurang	= $bijab + $iuran;
+								
+						$yearlyNeto = $totalBulan * ($totalBruto - $totalPengurang);
+						$yearlyPKP  = $yearlyNeto - $ptkpTarif;
+						
+						if($yearlyPKP < 0){
+							$yearlyPKP = 0;
+						}
+
+						//Dibulatkan biar 3 digit dibelakang jadi 0
+						$yearlyPKP = (floor($yearlyPKP / 1000)) * 1000;
+						if($yearlyPKP <0){$yearlyPKP=0;}
+
+						if ($yearlyPKP >= 0) {
+						    if ($yearlyPKP > 500000000) {
+						        $tier1 = 0.05 * 50000000;
+						        $tier2 = 0.15 * 200000000;
+						        $tier3 = 0.25 * 250000000;
+						        $tier4 = 0.3 * ($yearlyPKP - 500000000);
+						        $yearlyPPH = $tier1 + $tier2 + $tier3 + $tier4;
+						    } elseif ($yearlyPKP > 250000000) {
+						        $tier1 = 0.05 * 50000000;
+						        $tier2 = 0.15 * 200000000;
+						        $tier3 = 0.25 * ($yearlyPKP - 250000000);
+						        $yearlyPPH = $tier1 + $tier2 + $tier3;
+						    } elseif ($yearlyPKP > 50000000) {
+						        $tier1 = 0.05 * 50000000;
+						        $tier2 = 0.15 * ($yearlyPKP - 50000000);
+						        $yearlyPPH = $tier1 + $tier2;
+						    } else {
+						        $tier1 = 0.05 * $yearlyPKP;
+						        $yearlyPPH = $tier1;
+						    }
+						}
+
+						$monthlyPPH = ($yearlyPPH / $totalBulan);
+
+						if($Tunjpph != $monthlyPPH){ 
+							$Tunjpph = $monthlyPPH;
+							$monthlyPPH = 0; 
+						} 
+					} 
+				} 
+
+				if ($yearlyPKP >= 0) {
+				    if ($yearlyPKP > 500000000) {
+				        $tier1 = 0.05 * 50000000;
+				        $tier2 = 0.15 * 200000000;
+				        $tier3 = 0.25 * 250000000;
+				        $tier4 = 0.3 * ($yearlyPKP - 500000000);
+				        $yearlyPPH = $tier1 + $tier2 + $tier3 + $tier4;
+				    } elseif ($yearlyPKP > 250000000) {
+				        $tier1 = 0.05 * 50000000;
+				        $tier2 = 0.15 * 200000000;
+				        $tier3 = 0.25 * ($yearlyPKP - 250000000);
+				        $yearlyPPH = $tier1 + $tier2 + $tier3;
+				    } elseif ($yearlyPKP > 50000000) {
+				        $tier1 = 0.05 * 50000000;
+				        $tier2 = 0.15 * ($yearlyPKP - 50000000);
+				        $yearlyPPH = $tier1 + $tier2;
+				    } else {
+				        $tier1 = 0.05 * $yearlyPKP;
+				        $yearlyPPH = $tier1;
+				    }
+				}		
+
+				$monthlyPPH = ($yearlyPPH / $totalBulan); 
+
+				if (strlen($employeeArr[$employeeIndex]['NPWP']) == 0) {
+					//Kalau misalnya pegawai ga punya NPWP
+					$monthlyPPHFinal = $monthlyPPH  * 1.2;
+				} else {
+					//Kalau misalnya pegawai punya NPWP		
+					$monthlyPPHFinal = $monthlyPPH;
+				} 
+			} else{ //Jika belum resign
+				$totalBruto 	= $sheetData['E'] + $totalTunjangan + $sheetData['Q'] + $totalPremi + $sheetData['U'] + $sheetData['V'];
+				$totalBrutoNoTHR 	= $sheetData['E'] + $totalTunjangan + $sheetData['Q'] + $totalPremi + $sheetData['U'];
+
+				// Total bulan
+				$totalBulan = 12;
+
+				//Biaya Jabatan Mx 5000000
+				$bijab = 0.05 * $totalBruto;
+				if($bijab>500000) {
+					$bijab= 500000;
+				}
+				$totalPengurang	= $bijab + $iuran;
+
+				//Tarif PTKP Pegawai
+				$ptkpTarif = $employeeArr[$employeeIndex]['PTKP_TARIF']; 
+
+				//Kalkulasi PPH21 Non-Gross Up
+				$CheckNPWP->EMPLOYEE_ID;
+				$PPH_ID=$this->input->post('pphID');
+
+				$this->db->select('*')
+				 ->from('g_employee_income')
+				 ->where('EMPLOYEE_ID', $CheckNPWP->EMPLOYEE_ID)
+				 ->where('PPH_ID', $PPH_ID);
+
+				$CheckBruto = $this->db->get(); 
+
+				foreach ($CheckBruto->result() as $BrutoEmp){
+					$persen=$this->cms->getPersen($BrutoEmp->EMPLOYEE_BRUTO);
+					foreach ($persen->result() as $CheckPersen){
+						//echo  $BrutoEmp->EMPLOYEE_BRUTO." - ".$CheckPersen->PRESENTASE."<BR>"; 
+					}
+				}
+
+				$yearlyNeto = ($totalBulan * ($totalBruto - $totalPengurang - $sheetData['V']))+$sheetData['V'];
+				$yearlyNetoNoTHR = ($totalBulan * ($totalBrutoNoTHR - $totalPengurang ));
+				$yearlyPKP  = $yearlyNeto - $ptkpTarif;
+
+				//Dibulatkan biar 3 digit dibelakang jadi 0
+				$yearlyPKP = (floor($yearlyPKP / 1000)) * 1000;
+
+				//Kalkulasi PPH21 Gross UP
+				if ($companyCheck->row()->PPHCOUNT_METHOD == 'GROSS UP') {
+					$Tunjpph=0;
+					switch ($yearlyPKP) {
+						case ($yearlyPKP <= 47500000):
+							// echo 'lapisan 1';
+							$Tunjpph = ($yearlyPKP - 0) *  (5 / 95) + 0;
+							break;
+						case (($yearlyPKP >= 47500000) && ($yearlyPKP <= 217500000)):
+							// echo 'lapisan 2';
+							$Tunjpph = ($yearlyPKP - 47500000) * (15 / 85) + 2500000;
+							break;
+						case (($yearlyPKP >= 217500000) && ($yearlyPKP <= 405000000)):
+							// echo 'lapisan 3';
+							$Tunjpph = ($yearlyPKP - 217500000) * (25 / 75) + 32500000;
+							break;
+						case ($yearlyPKP >= 405000000):
+							// echo 'lapisan 4';
+							$Tunjpph = ($yearlyPKP - 405000000) * (30 / 70) + 95000000;
+							break;
+						default:
+							break;
+					}
+					$Tunjpph = $Tunjpph/$totalBulan; //579.392
+
+					$monthlyPPH = 0; 
+					while ($Tunjpph != $monthlyPPH) { 
+						//HITUNG YearlyPKP (after tunjanganpph)
+						 $totalBruto 	= $sheetData['E'] + $Tunjpph + $totalTunjangan + $sheetData['Q'] + $totalPremi + $sheetData['U'] + $sheetData['V']; 
+
+
+						// Biaya jabatan max 500 ribu
+						// Biaya jabatan dihitung 5% dari total bruto
+						// Jika setalah dihitung biaya jabatan > 500 ribu, 
+						// Maka akan dibuat sebesar 500 ribu
+						$bijab = 0.05 * $totalBruto;
+						if($bijab>500000) {
+							$bijab= 500000;
+						}
+						$totalPengurang	= $bijab + $iuran;
+								
+						$yearlyNeto = $totalBulan * ($totalBruto - $totalPengurang);
+						$yearlyPKP  = $yearlyNeto - $ptkpTarif;
+
+						//Dibulatkan biar 3 digit dibelakang jadi 0
+						$yearlyPKP = (floor($yearlyPKP / 1000)) * 1000;
+
+
+						if ($yearlyPKP >= 0) {
+						    if ($yearlyPKP > 500000000) {
+						        $tier1 = 0.05 * 50000000;
+						        $tier2 = 0.15 * 200000000;
+						        $tier3 = 0.25 * 250000000;
+						        $tier4 = 0.3 * ($yearlyPKP - 500000000);
+						        $yearlyPPH = $tier1 + $tier2 + $tier3 + $tier4;
+						    } elseif ($yearlyPKP > 250000000) {
+						        $tier1 = 0.05 * 50000000;
+						        $tier2 = 0.15 * 200000000;
+						        $tier3 = 0.25 * ($yearlyPKP - 250000000);
+						        $yearlyPPH = $tier1 + $tier2 + $tier3;
+						    } elseif ($yearlyPKP > 50000000) {
+						        $tier1 = 0.05 * 50000000;
+						        $tier2 = 0.15 * ($yearlyPKP - 50000000);
+						        $yearlyPPH = $tier1 + $tier2;
+						    } else {
+						        $tier1 = 0.05 * $yearlyPKP;
+						        $yearlyPPH = $tier1;
+						    }
+						}		
+
+						$monthlyPPH = ($yearlyPPH / $totalBulan);
+
+						if($Tunjpph != $monthlyPPH){ 
+							$Tunjpph = $monthlyPPH;
+							$monthlyPPH = 0; 
+						} 
+					} 
+				} 
+
+				if ($yearlyPKP >= 0) {
+				    if ($yearlyPKP > 500000000) {
+				        $tier1 = 0.05 * 50000000;
+				        $tier2 = 0.15 * 200000000;
+				        $tier3 = 0.25 * 250000000;
+				        $tier4 = 0.3 * ($yearlyPKP - 500000000);
+				        $yearlyPPH = $tier1 + $tier2 + $tier3 + $tier4;
+				    } elseif ($yearlyPKP > 250000000) {
+				        $tier1 = 0.05 * 50000000;
+				        $tier2 = 0.15 * 200000000;
+				        $tier3 = 0.25 * ($yearlyPKP - 250000000);
+				        $yearlyPPH = $tier1 + $tier2 + $tier3;
+				    } elseif ($yearlyPKP > 50000000) {
+				        $tier1 = 0.05 * 50000000;
+				        $tier2 = 0.15 * ($yearlyPKP - 50000000);
+				        $yearlyPPH = $tier1 + $tier2;
+				    } else {
+				        $tier1 = 0.05 * $yearlyPKP;
+				        $yearlyPPH = $tier1;
+				    }
+				}		
+
+				$monthlyPPH = ($yearlyPPH / $totalBulan); 
+
+				if (strlen($employeeArr[$employeeIndex]['NPWP']) == 0) {
+					//Kalau misalnya pegawai ga punya NPWP
+					$monthlyPPHFinal = $monthlyPPH  * 1.2;
+				} else {
+					//Kalau misalnya pegawai punya NPWP		
+					$monthlyPPHFinal = $monthlyPPH;
+				} 
+			} 
+
+			// echo "NPWP :".$employeeArr[$employeeIndex]['NPWP'];
+			// echo "<br>";
+			// echo "Employee :".$employeeArr[$employeeIndex]['ID'];
+			// echo "<br>";
+			// echo "Monthly PPH Final :".round($monthlyPPHFinal);
+			// echo "<br>";
+			// echo "Monthly PPH :".$monthlyPPH;
+			// echo "<br>";
+			// echo "Yearly PPH :".$yearlyPPH;
+			// echo "<br>";
+			// echo "Total Bulan :".$totalBulan;
+			// echo "<br>";
+			// echo "Year PKP :".$yearlyPKP;
+			// echo "<br>";
+			// echo "Yearly Neto :".$yearlyNeto;
+			// echo "<br>";
+			// echo "Jabatan :".$bijab;
+			// echo "<br>";
+			// exit();
+
+			// Update data sebelumnya, sebelum di inputkan data baru 
+			$updatePPH21 = array(
+				'UPDATED'	=> date('Y-m-d H:i:s'),
+				'STATUS'	=> 'ON PROGRESS'
+			);
+			$this->cms->updateGeneralData('g_pph21', $updatePPH21, 'PPH_ID', $pphID); 
+
+			$employeeData = array(
+				'INCOME_ID'                 	=> $employeeID,
+				'PPH_ID'						=> $pphID,
+				'COMPANY_ID'           			=> $this->input->post('companyID'),
+				'EMPLOYEE_ID'             		=> $employeeArr[$employeeIndex]['ID'],
+				'EMPLOYEE_GAJI_POKOK'			=> $sheetData['E'],
+				'EMPLOYEE_TUNJANGAN_PPH'		=> $Tunjpph,
+				'EMPLOYEE_TUNJANGAN_1'			=> $sheetData['G'],
+				'EMPLOYEE_TUNJANGAN_2'			=> $sheetData['H'],
+				'EMPLOYEE_TUNJANGAN_3'			=> $sheetData['I'],
+				'EMPLOYEE_TUNJANGAN_4'			=> $sheetData['J'],
+				'EMPLOYEE_TUNJANGAN_5'			=> $sheetData['K'],
+				'EMPLOYEE_TUNJANGAN_6'			=> $sheetData['L'],
+				'EMPLOYEE_TUNJANGAN_7'			=> $sheetData['M'],
+				'EMPLOYEE_TUNJANGAN_8'			=> $sheetData['N'],
+				'EMPLOYEE_TUNJANGAN_9'			=> $sheetData['O'],
+				'EMPLOYEE_TUNJANGAN_10'			=> $sheetData['P'],
+				'EMPLOYEE_TUNJANGAN_LAINNYA'	=> $totalTunjangan,
+				'EMPLOYEE_HONORARIUM'			=> $sheetData['Q'],
+				'EMPLOYEE_PREMI_JKK'			=> $sheetData['R'],
+				'EMPLOYEE_PREMI_JKM'			=> $sheetData['S'],
+				'EMPLOYEE_PREMI_BPJS'			=> $sheetData['T'],
+				'EMPLOYEE_PREMI'				=> $totalPremi,
+				'EMPLOYEE_NATURA'				=> $sheetData['U'],
+				'EMPLOYEE_TANTIEMBONUS'			=> $sheetData['V'],
+				'EMPLOYEE_IURAN_THT'			=> $sheetData['W'],
+				'EMPLOYEE_IURAN_JP'				=> $sheetData['X'],
+				'EMPLOYEE_IURAN_PENSIUN'		=> $iuran,
+				'EMPLOYEE_BIAYA_JABATAN'		=> $bijab,
+				'EMPLOYEE_TOTAL_PENGURANGAN'	=> $iuran+$bijab,
+				'EMPLOYEE_BRUTO'				=> $totalBruto,
+				'EMPLOYEE_NETTO'				=> $totalBruto - $totalPengurang,
+				'EMPLOYEE_NETTO_YEAR'			=> (floor($totalBruto) - $totalPengurang)*$totalBulan,
+				'EMPLOYEE_PTKP'					=> $ptkpTarif,
+				'EMPLOYEE_PKP_YEAR'				=> $yearlyPKP,
+				'EMPLOYEE_PPHVAL_YEAR'			=> round($yearlyPPH),
+				'EMPLOYEE_PPHVAL_MASA'			=> round($monthlyPPH),
+				'EMPLOYEE_PPHVAL'				=> round($monthlyPPHFinal),
+				'CREATED'						=> date('Y-m-d h:i:s'),
+				'STATUS'						=> 'ON PROGRESS', 
+				'PPHCOUNT_METHOD'				=> $companyCheck->row()->PPHCOUNT_METHOD
+			);
+
+			$companyBruto 	= $companyBruto + $totalBruto;
+			$companyNeto  	= $companyNeto + ($totalBruto - $totalPengurang);
+			$companyPPH21   = $companyPPH21 + round($monthlyPPH);
+
+			$this->cms->insertGeneralData('g_employee_income', $employeeData);
+		}
+
+		if($processType=="REVISI") {
+			$KBLB = 0;
+		} else{
+			$KBLB = $prevPPHVAL - $companyPPH21;
+		} 
+
+		//Tambah data ke NETTO & BRUTO PERUSAHAAN
+		$companyData = array(
+			'COMPANY_BRUTO'		=> $companyBruto,
+			'COMPANY_NETTO'		=> $companyNeto, 
+			'COMPANY_PPHVAL'	=> $companyPPH21,
+			'COMPANY_KBLB'		=> $KBLB
+		);
+
+		$this->cms->updateGeneralData('g_pph21', $companyData, 'PPH_ID', $pphID);
+
+		redirect('pph_21/bulan/summary?pid=' . $pphID . '&cid=' . $this->input->post('companyID'). '&mid=' . $this->input->post('monthID'). '&yid=' . $this->input->post('yearID'));
 	}
 
 	public function generateXLSFile()
@@ -952,37 +2558,70 @@ class Pph21 extends CI_Controller
 
 			foreach ($employeeData->result() as $employee) {
 				$pphData 		= $this->cms->getSingularDataDetail('v_g_employee_pph21', 'PPH_ID', 'EMPLOYEE_ID',$pphID,$employee->EMPLOYEE_ID);
+				$pphDataInti	= $this->cms->getSingularData('g_pph21', 'PPH_ID',$pphID);
 				//2.1 Convert Tanggal sesuai format, lihat di Libraries/Incube.php
 				$monthName = $this->incube->convertMonthName($pphData->row()->PERIOD_MONTH);
 				//EoL 2.1
 
-				$sheet->setCellValue('A' . $colCounter, $numCounter);
-				$sheet->setCellValue('B' . $colCounter, $pphData->row()->PERIOD_YEAR . '-' . $monthName);
-				$sheet->setCellValue('C' . $colCounter, $employee->EMPLOYEE_INTERNAL_ID);
-				$sheet->setCellValue('D' . $colCounter, $employee->EMPLOYEE_NAME);
-				$sheet->setCellValue('E' . $colCounter, $pphData->row()->EMPLOYEE_GAJI_POKOK);
-				$sheet->setCellValue('F' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_PPH);
-				$sheet->setCellValue('G' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_1 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_1); 
-				$sheet->setCellValue('H' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_2 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_2);
-				$sheet->setCellValue('I' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_3 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_3);
-				$sheet->setCellValue('J' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_4 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_4);
-				$sheet->setCellValue('K' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_5 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_5);
-				$sheet->setCellValue('L' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_6 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_6);
-				$sheet->setCellValue('M' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_7 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_7);
-				$sheet->setCellValue('N' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_8 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_8);
-				$sheet->setCellValue('O' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_9 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_9);
-				$sheet->setCellValue('P' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_10 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_10);
-				$sheet->setCellValue('Q' . $colCounter, $pphData->row()->EMPLOYEE_HONORARIUM);
-				$sheet->setCellValue('R' . $colCounter, $pphData->row()->EMPLOYEE_PREMI_JKK == null ? '0' : $pphData->row()->EMPLOYEE_PREMI_JKK);
-				$sheet->setCellValue('S' . $colCounter, $pphData->row()->EMPLOYEE_PREMI_JKM == null ? '0' : $pphData->row()->EMPLOYEE_PREMI_JKM);
-				$sheet->setCellValue('T' . $colCounter, $pphData->row()->EMPLOYEE_PREMI_BPJS == null ? '0' : $pphData->row()->EMPLOYEE_PREMI_BPJS);
-				$sheet->setCellValue('U' . $colCounter, $pphData->row()->EMPLOYEE_NATURA);
-				$sheet->setCellValue('V' . $colCounter, $pphData->row()->EMPLOYEE_TANTIEMBONUS);
-				$sheet->setCellValue('W' . $colCounter, $pphData->row()->EMPLOYEE_IURAN_THT == null ? '0' : $pphData->row()->EMPLOYEE_IURAN_THT);
-				$sheet->setCellValue('X' . $colCounter, $pphData->row()->EMPLOYEE_IURAN_JP == null ? '0' : $pphData->row()->EMPLOYEE_IURAN_JP);
+				if ($pphData->num_rows() <= 0) {
+					$sheet->setCellValue('A' . $colCounter, $numCounter);
+					$sheet->setCellValue('B' . $colCounter, $pphDataInti->row()->PERIOD_YEAR . '-' . $pphDataInti->row()->PERIOD_MONTH);
+					$sheet->setCellValue('C' . $colCounter, $employee->EMPLOYEE_INTERNAL_ID);
+					$sheet->setCellValue('D' . $colCounter, $employee->EMPLOYEE_NAME);
+					$sheet->setCellValue('E' . $colCounter, '0');
+					$sheet->setCellValue('F' . $colCounter, '0');
+					$sheet->setCellValue('G' . $colCounter, '0'); 
+					$sheet->setCellValue('H' . $colCounter, '0');
+					$sheet->setCellValue('I' . $colCounter, '0');
+					$sheet->setCellValue('J' . $colCounter, '0');
+					$sheet->setCellValue('K' . $colCounter, '0');
+					$sheet->setCellValue('L' . $colCounter, '0');
+					$sheet->setCellValue('M' . $colCounter, '0');
+					$sheet->setCellValue('N' . $colCounter, '0');
+					$sheet->setCellValue('O' . $colCounter, '0');
+					$sheet->setCellValue('P' . $colCounter, '0');
+					$sheet->setCellValue('Q' . $colCounter, '0');
+					$sheet->setCellValue('R' . $colCounter, '0');
+					$sheet->setCellValue('S' . $colCounter, '0');
+					$sheet->setCellValue('T' . $colCounter, '0');
+					$sheet->setCellValue('U' . $colCounter, '0');
+					$sheet->setCellValue('V' . $colCounter, '0');
+					$sheet->setCellValue('W' . $colCounter, '0');
+					$sheet->setCellValue('X' . $colCounter, '0');
 
-				$colCounter++;
-				$numCounter++;
+					$colCounter++;
+					$numCounter++;
+				} else{
+					$sheet->setCellValue('A' . $colCounter, $numCounter);
+					$sheet->setCellValue('B' . $colCounter, $pphData->row()->PERIOD_YEAR . '-' . $monthName);
+					$sheet->setCellValue('C' . $colCounter, $employee->EMPLOYEE_INTERNAL_ID);
+					$sheet->setCellValue('D' . $colCounter, $employee->EMPLOYEE_NAME);
+					$sheet->setCellValue('E' . $colCounter, $pphData->row()->EMPLOYEE_GAJI_POKOK);
+					$sheet->setCellValue('F' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_PPH);
+					$sheet->setCellValue('G' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_1 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_1); 
+					$sheet->setCellValue('H' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_2 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_2);
+					$sheet->setCellValue('I' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_3 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_3);
+					$sheet->setCellValue('J' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_4 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_4);
+					$sheet->setCellValue('K' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_5 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_5);
+					$sheet->setCellValue('L' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_6 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_6);
+					$sheet->setCellValue('M' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_7 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_7);
+					$sheet->setCellValue('N' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_8 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_8);
+					$sheet->setCellValue('O' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_9 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_9);
+					$sheet->setCellValue('P' . $colCounter, $pphData->row()->EMPLOYEE_TUNJANGAN_10 == null ? '0' : $pphData->row()->EMPLOYEE_TUNJANGAN_10);
+					$sheet->setCellValue('Q' . $colCounter, $pphData->row()->EMPLOYEE_HONORARIUM);
+					$sheet->setCellValue('R' . $colCounter, $pphData->row()->EMPLOYEE_PREMI_JKK == null ? '0' : $pphData->row()->EMPLOYEE_PREMI_JKK);
+					$sheet->setCellValue('S' . $colCounter, $pphData->row()->EMPLOYEE_PREMI_JKM == null ? '0' : $pphData->row()->EMPLOYEE_PREMI_JKM);
+					$sheet->setCellValue('T' . $colCounter, $pphData->row()->EMPLOYEE_PREMI_BPJS == null ? '0' : $pphData->row()->EMPLOYEE_PREMI_BPJS);
+					$sheet->setCellValue('U' . $colCounter, $pphData->row()->EMPLOYEE_NATURA);
+					$sheet->setCellValue('V' . $colCounter, $pphData->row()->EMPLOYEE_TANTIEMBONUS);
+					$sheet->setCellValue('W' . $colCounter, $pphData->row()->EMPLOYEE_IURAN_THT == null ? '0' : $pphData->row()->EMPLOYEE_IURAN_THT);
+					$sheet->setCellValue('X' . $colCounter, $pphData->row()->EMPLOYEE_IURAN_JP == null ? '0' : $pphData->row()->EMPLOYEE_IURAN_JP);
+
+					$colCounter++;
+					$numCounter++;
+				}
+
+				
 			}
 		}
 		// //EoL 2
@@ -1201,666 +2840,6 @@ class Pph21 extends CI_Controller
 		$output = $writer->save('php://output');
 	}
 
-	public function nett()
-	{
-		$this->db->select('EMPLOYEE_BRUTO')
-				 ->from('g_employee_income')
-				 ->where('PPH_ID', $this->input->post('pphID'))
-				 ->where('EMPLOYEE_ID', $this->input->post('empID'));
-
-		$EmpBrutoCheck = $this->db->get(); 
-
-		foreach ($EmpBrutoCheck->result() as $EmpBruto); 	
-
-	}
-
-	public function testGrossUp()
-	{
-		$ptkpTarif = 54000000;
-		$total     = 10000000;
-		$totalPengurang = 0.05 * $total;
- 
-		$pphVal = (((0.05 * (($total - $totalPengurang) * 12) - $ptkpTarif)) * 1.2) / 12; 
-
-		echo $pphVal;
-
-
-		$yearlyBruto = (((12 * $total) - (12 * $totalPengurang)) - $ptkpTarif);
-
-		switch ($yearlyBruto) {
-			case ($yearlyBruto <= 47500000):
-				// echo 'lapisan 1';
-				$pphVal = ($yearlyBruto - 0) *  (5 / 95) + 0;
-				break;
-			case (($yearlyBruto >= 47500000) && ($yearlyBruto <= 217500000)):
-				// echo 'lapisan 2';
-				$pphVal = ($yearlyBruto - 47500000) * (15 / 85) + 2500000;
-				break;
-			case (($yearlyBruto >= 217500000) && ($yearlyBruto <= 405000000)):
-				// echo 'lapisan 3';
-				$pphVal = ($yearlyBruto - 217500000) * (25 / 75) + 32500000;
-				break;
-			case ($yearlyBruto >= 405000000):
-				// echo 'lapisan 4';
-				$pphVal = ($yearlyBruto - 405000000) * (30 / 70) + 95000000;
-				break;
-			default: 
-				break;
-		} 
-	}
-
-	public function importXLSLFile()
-	{
-		$this->output->enable_profiler(TRUE); 
-
-		//echo $this->input->post('pphID');
-
-		$companyCheck  = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->post('companyID'));
-		$employeeCheck = $this->cms->getSingularData('v_g_employee', 'EMPLOYEE_COMPANY_ID', $this->input->post('companyID'));
-		$pphCheck 	   = $this->cms->getSingularData('g_pph21', 'PPH_ID', $this->input->post('pphID')); 
-
-
-		//Deklrasi Variabel awal
-		$companyBruto = 0;
-		$companyNeto  = 0;
-		$companyPPH21 = 0;
-
-		if ($companyCheck->num_rows() == 0) {
-			echo 'tidak ada perusahaan';
-			return;
-		}
-
-		if ($employeeCheck->num_rows() == 0) {
-			echo 'tidak ada pegawai aktif';
-			return;
-		}
-
-		$employeeArr = [];
-
-		foreach ($employeeCheck->result() as $employee) {
-
-			$tmpArr = array(
-				'NAME'					=> $employee->EMPLOYEE_NAME,
-				'KTP'					=> $employee->EMPLOYEE_KTP,
-				'NPWP'					=> $employee->EMPLOYEE_NPWP,
-				'PTKP'					=> $employee->EMPLOYEE_PTKP_STATUS,
-				'PTKP_TARIF'			=> $employee->TK_TARIF,
-				'NATIONALITY'			=> $employee->EMPLOYEE_NATIONALITY,
-				'NATIONALITY_STATUS'	=> $employee->EMPLOYEE_NATIONALITY_STATUS,
-				'INTERNAL_ID'			=> $employee->EMPLOYEE_INTERNAL_ID,
-				'ID'					=> $employee->EMPLOYEE_ID
-			);
-
-			array_push($employeeArr, $tmpArr);
-		}
-
-
-		$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-
-		$config['upload_path']          = './assets/upload/docs/';
-		$config['allowed_types']        = 'xlsx';
-		$config['overwrite']            = true;
-		$config['encrypt_name']         = true;
-		$config['remove_spaces']        = true;
-
-		$this->load->library('upload', $config);
-
-		if (!$this->upload->do_upload('fileImport')) {
-			echo 'ada yang salah';
-			return;
-		}
-
-		$data = $this->upload->data();
-
-		$loadExcel = $reader->load('assets/upload/docs/' .  $data['file_name']);
-		$sheet = $loadExcel->getActiveSheet()->toArray(null, true, true, true);
-
-		//Hapus data array yang buat header
-		unset($sheet[1]);
-		unset($sheet[2]);
-
-		if (sizeof($sheet) == 0) {
-			echo 'ini file kosong';
-			return;
-		}
-
-		// Mengecek status pada table g_pph21, jika status belum PAID
-		// Maka data lama pada g_employee_income akan dihapus terlebih dahulu, baru diinputkan data terbaru
-		$processType='REVISI';
-		$this->db->select('STATUS')
-				 ->from('g_pph21')
-				 ->where('PPH_ID', $this->input->post('pphID'));
-
-		$status = $this->db->get(); 
-
-		foreach ($status->result() as $key);
-
-		// Jika status bukan Lapor Pajak, hapus terlebih dahulu data lama di g_employee_income
-		if($key->STATUS == "ACTIVE" OR $key->STATUS == "ON PROGRESS" OR $key->STATUS  == "WAITING FOR APPROVAL" OR $key->STATUS  == "WAITING FOR CUSTOMER APPROVAL" OR $key->STATUS  == "WAITING FOR PAYMENT" OR $key->STATUS  == "PAID" OR $key->STATUS  == "TAX FILING" ){
-			//REVISI
-			$this->cms->deleteGeneralData('g_employee_income', 'PPH_ID', $this->input->post('pphID'));
-		} elseif ($key->STATUS == "LAPOR PAJAK" OR $key->STATUS  == "HARDCOPY" ) {
-			//PEMBETULANN
-			$processType='PEMBETULAN';
-			$pembetulanKe = $this->cms->cekpembetulan($this->input->post('companyID'), $this->input->post('monthID'), $this->input->post('yearID'));
-		
-			foreach ($pphCheck->result() as $cekPPH21);
-			$prevPPHVAL = $cekPPH21->COMPANY_PPHVAL;
-			// Ubah dulu status lama jadi HISTORY
-			$updateStatusPPH21 = array(
-				'UPDATED'	=> date('Y-m-d H:i:s'),
-				'STATUS'	=> 'HISTORY'
-			);
-			$this->cms->updateGeneralData('g_pph21', $updateStatusPPH21, 'PPH_ID', $this->input->post('pphID'));
-
-
-		}
-
-		if($processType=="REVISI") {
-			$pphID = $this->input->post('pphID');
-		}else {
-			$pphID = $this->incube->generateID(10);
-			$companyData = array(
-				'PPH_ID'		=> $pphID,
-				'COMPANY_ID'	=> $this->input->post('companyID'),
-				'PERIOD_YEAR'	=> $this->input->post('yearID'),
-				'PERIOD_MONTH'	=> $this->input->post('monthID'),
-				'CREATED'		=> date('Y-m-d h:i:s'),
-				'STATUS'		=> 'RE PROGRESS',
-			);
-
-			$queryInsert = $this->cms->insertGeneralData('g_pph21', $companyData);
-			//EoL 1
-			
-		}
-
-
-		foreach ($sheet as $sheetData) {
-
-			$employeeID     = $this->incube->generateID(10);
-
-			//Cek data pegawai ada atau engga & ambil PKTP Tarif Mereka
-			//Ngeceknya pake array dan bukan pake database, biar lebih cepet dan aman. Kalau misalnya data ada 1000, kalau masing-
-			//masing ngecek ke database, pasti ada error/mysql timeout
-			$employeeIndex = array_search($sheetData['C'], array_column($employeeArr, 'INTERNAL_ID'));
-			//echo $employeeIndex;
-			// Check NPWP
-			$this->db->select('*')
-					 ->from('g_employee')
-					 ->where('EMPLOYEE_INTERNAL_ID', $sheetData['C']);
-
-			$CheckEmpNPWP = $this->db->get(); 
-
-			foreach ($CheckEmpNPWP->result() as $CheckNPWP);  
-
-			$totalTunjangan=0;
-
-			//Kalkulasi Bruto, Neto & Jumlah Pengurang (TUNJANGAN, IURAN, PREMI, DLL)
-
-			$totalTunjangan = $sheetData['G'] + $sheetData['H'] + $sheetData['I'] + $sheetData['J'] + $sheetData['K'] + $sheetData['L'] + $sheetData['M'] + $sheetData['O'] + $sheetData['P'];
-			$totalPremi 	= $sheetData['R'] + $sheetData['S'] + $sheetData['T'];
-			$iuran 			= $sheetData['W'] + $sheetData['X'];
-
-			$totalBruto 	= $sheetData['E'] + $totalTunjangan + $sheetData['Q'] + $totalPremi + $sheetData['U'] + $sheetData['V'];
-
-
-			//Biaya Jabatan Mx 5000000
-
-			$bijab = 0.05 * $totalBruto;
-			if($bijab>500000) {
-				$bijab= 500000;
-			}
-			$totalPengurang	= $bijab + $iuran;
-
-			//Tarif PTKP Pegawai
-			$ptkpTarif = $employeeArr[$employeeIndex]['PTKP_TARIF'];
-			//echo strlen($employeeArr[$employeeIndex]['NPWP'])."<br>";
-			//Kalkulasi PPH21 Non-Gross Up
-			$CheckNPWP->EMPLOYEE_ID;
-			$PPH_ID=$this->input->post('pphID');
-
-			$this->db->select('*')
-			 ->from('g_employee_income')
-			 ->where('EMPLOYEE_ID', $CheckNPWP->EMPLOYEE_ID)
-			 ->where('PPH_ID', $PPH_ID);
-
-			$CheckBruto = $this->db->get(); 
-
-			foreach ($CheckBruto->result() as $BrutoEmp){
-					$persen=$this->cms->getPersen($BrutoEmp->EMPLOYEE_BRUTO);
-					foreach ($persen->result() as $CheckPersen){
-
-					echo  $BrutoEmp->EMPLOYEE_BRUTO." - ".$CheckPersen->PRESENTASE."<BR>"; 
-					}
-			}
-			
-			$yearlyNeto = 12 * ($totalBruto - $totalPengurang);
-			$yearlyPKP  = $yearlyNeto - $ptkpTarif;
-
-			//Dibulatkan biar 3 digit dibelakang jadi 0
-			$yearlyPKP = (floor($yearlyPKP / 1000)) * 1000;
-
-			//Kalkulasi PPH21 Gross UP
-			if ($companyCheck->row()->PPHCOUNT_METHOD == 'GROSS UP') {
-				$Tunjpph=0;
-				switch ($yearlyPKP) {
-					case ($yearlyPKP <= 47500000):
-						// echo 'lapisan 1';
-						$Tunjpph = ($yearlyPKP - 0) *  (5 / 95) + 0;
-						break;
-					case (($yearlyPKP >= 47500000) && ($yearlyPKP <= 217500000)):
-						// echo 'lapisan 2';
-						$Tunjpph = ($yearlyPKP - 47500000) * (15 / 85) + 2500000;
-						break;
-					case (($yearlyPKP >= 217500000) && ($yearlyPKP <= 405000000)):
-						// echo 'lapisan 3';
-						$Tunjpph = ($yearlyPKP - 217500000) * (25 / 75) + 32500000;
-						break;
-					case ($yearlyPKP >= 405000000):
-						// echo 'lapisan 4';
-						$Tunjpph = ($yearlyPKP - 405000000) * (30 / 70) + 95000000;
-						break;
-					default:
-						break;
-				}
-				$Tunjpph = $Tunjpph/12; //579.392
-
-				$monthlyPPH = 0; 
-				while ($Tunjpph != $monthlyPPH) { 
-					//HITUNG YearlyPKP (after tunjanganpph)
-					 $totalBruto 	= $sheetData['E'] + $Tunjpph + $totalTunjangan + $sheetData['Q'] + $totalPremi + $sheetData['U'] + $sheetData['V']; 
-
-
-					// Biaya jabatan max 500 ribu
-					// Biaya jabatan dihitung 5% dari total bruto
-					// Jika setalah dihitung biaya jabatan > 500 ribu, 
-					// Maka akan dibuat sebesar 500 ribu
-					$bijab = 0.05 * $totalBruto;
-					if($bijab>500000) {
-						$bijab= 500000;
-					}
-					$totalPengurang	= $bijab + $iuran;
-							
-					$yearlyNeto = 12 * ($totalBruto - $totalPengurang);
-					$yearlyPKP  = $yearlyNeto - $ptkpTarif;
-
-					//Dibulatkan biar 3 digit dibelakang jadi 0
-					$yearlyPKP = (floor($yearlyPKP / 1000)) * 1000;
-
-
-					if ($yearlyPKP > 0) {
-					    if ($yearlyPKP > 500000000) {
-					        $tier1 = 0.05 * 50000000;
-					        $tier2 = 0.15 * 200000000;
-					        $tier3 = 0.25 * 250000000;
-					        $tier4 = 0.3 * ($yearlyPKP - 500000000);
-					        $yearlyPPH = $tier1 + $tier2 + $tier3 + $tier4;
-					    } elseif ($yearlyPKP > 250000000) {
-					        $tier1 = 0.05 * 50000000;
-					        $tier2 = 0.15 * 200000000;
-					        $tier3 = 0.25 * ($yearlyPKP - 250000000);
-					        $yearlyPPH = $tier1 + $tier2 + $tier3;
-					    } elseif ($yearlyPKP > 50000000) {
-					        $tier1 = 0.05 * 50000000;
-					        $tier2 = 0.15 * ($yearlyPKP - 50000000);
-					        $yearlyPPH = $tier1 + $tier2;
-					    } else {
-					        $tier1 = 0.05 * $yearlyPKP;
-					        $yearlyPPH = $tier1;
-					    }
-					}		
-
-					$monthlyPPH = ($yearlyPPH / 12);
-
-					if($Tunjpph != $monthlyPPH){
-						
-						$Tunjpph = $monthlyPPH;
-						$monthlyPPH = 0;
-
-					}
-
-				} 
-			} 
-
-			if ($yearlyPKP > 0) {
-			    if ($yearlyPKP > 500000000) {
-			        $tier1 = 0.05 * 50000000;
-			        $tier2 = 0.15 * 200000000;
-			        $tier3 = 0.25 * 250000000;
-			        $tier4 = 0.3 * ($yearlyPKP - 500000000);
-			        $yearlyPPH = $tier1 + $tier2 + $tier3 + $tier4;
-			    } elseif ($yearlyPKP > 250000000) {
-			        $tier1 = 0.05 * 50000000;
-			        $tier2 = 0.15 * 200000000;
-			        $tier3 = 0.25 * ($yearlyPKP - 250000000);
-			        $yearlyPPH = $tier1 + $tier2 + $tier3;
-			    } elseif ($yearlyPKP > 50000000) {
-			        $tier1 = 0.05 * 50000000;
-			        $tier2 = 0.15 * ($yearlyPKP - 50000000);
-			        $yearlyPPH = $tier1 + $tier2;
-			    } else {
-			        $tier1 = 0.05 * $yearlyPKP;
-			        $yearlyPPH = $tier1;
-			    }
-			}		
-
-			$monthlyPPH = ($yearlyPPH / 12); 
-
-			if (strlen($employeeArr[$employeeIndex]['NPWP']) == 0) {
-				//Kalau misalnya pegawai ga punya NPWP
-				$monthlyPPHFinal = $monthlyPPH  * 1.2;
-			} else {
-				//Kalau misalnya pegawai punya NPWP		
-				$monthlyPPHFinal = $monthlyPPH;
-			} 
-			
-			// Update data sebelumnya, sebelum di inputkan data baru 
-			$updatePPH21 = array(
-				'UPDATED'	=> date('Y-m-d H:i:s'),
-				'STATUS'	=> 'ON PROGRESS'
-			);
-			$this->cms->updateGeneralData('g_pph21', $updatePPH21, 'PPH_ID', $pphID); 
-
-			//EoL PPH21 Gross Up
-			$employeeData = array(
-				'INCOME_ID'                 	=> $employeeID,
-				'PPH_ID'						=> $pphID,
-				'COMPANY_ID'           			=> $this->input->post('companyID'),
-				'EMPLOYEE_ID'             		=> $employeeArr[$employeeIndex]['ID'],
-				'EMPLOYEE_GAJI_POKOK'			=> $sheetData['E'],
-				'EMPLOYEE_TUNJANGAN_PPH'		=> $Tunjpph,
-				'EMPLOYEE_TUNJANGAN_1'			=> $sheetData['G'],
-				'EMPLOYEE_TUNJANGAN_2'			=> $sheetData['H'],
-				'EMPLOYEE_TUNJANGAN_3'			=> $sheetData['I'],
-				'EMPLOYEE_TUNJANGAN_4'			=> $sheetData['J'],
-				'EMPLOYEE_TUNJANGAN_5'			=> $sheetData['K'],
-				'EMPLOYEE_TUNJANGAN_6'			=> $sheetData['L'],
-				'EMPLOYEE_TUNJANGAN_7'			=> $sheetData['M'],
-				'EMPLOYEE_TUNJANGAN_8'			=> $sheetData['N'],
-				'EMPLOYEE_TUNJANGAN_9'			=> $sheetData['O'],
-				'EMPLOYEE_TUNJANGAN_10'			=> $sheetData['P'],
-				'EMPLOYEE_TUNJANGAN_LAINNYA'	=> $totalTunjangan,
-				'EMPLOYEE_HONORARIUM'			=> $sheetData['Q'],
-				'EMPLOYEE_PREMI_JKK'			=> $sheetData['R'],
-				'EMPLOYEE_PREMI_JKM'			=> $sheetData['S'],
-				'EMPLOYEE_PREMI_BPJS'			=> $sheetData['T'],
-				'EMPLOYEE_PREMI'				=> $totalPremi,
-				'EMPLOYEE_NATURA'				=> $sheetData['U'],
-				'EMPLOYEE_TANTIEMBONUS'			=> $sheetData['V'],
-				'EMPLOYEE_IURAN_THT'			=> $sheetData['W'],
-				'EMPLOYEE_IURAN_JP'				=> $sheetData['X'],
-				'EMPLOYEE_IURAN_PENSIUN'		=> $iuran,
-				'EMPLOYEE_BIAYA_JABATAN'		=> $bijab,
-				'EMPLOYEE_TOTAL_PENGURANGAN'	=> $iuran+$bijab,
-				'EMPLOYEE_BRUTO'				=> $totalBruto,
-				'EMPLOYEE_NETTO'				=> $totalBruto - $totalPengurang,
-				'EMPLOYEE_NETTO_YEAR'			=> (floor($totalBruto) - $totalPengurang)*12,
-				'EMPLOYEE_PTKP'					=> $ptkpTarif,
-				'EMPLOYEE_PKP_YEAR'				=> $yearlyPKP,
-				'EMPLOYEE_PPHVAL_YEAR'			=> round($yearlyPPH),
-				'EMPLOYEE_PPHVAL_MASA'			=> round($monthlyPPH),
-				'EMPLOYEE_PPHVAL'				=> round($monthlyPPHFinal),
-				'CREATED'						=> date('Y-m-d h:i:s'),
-				'STATUS'						=> 'ON PROGRESS', 
-				'PPHCOUNT_METHOD'				=> $companyCheck->row()->PPHCOUNT_METHOD
-			);
-
-			$companyBruto 	= $companyBruto + $totalBruto;
-			$companyNeto  	= $companyNeto + ($totalBruto - $totalPengurang);
-			$companyPPH21   = $companyPPH21 + round($monthlyPPH);
-
-			// DEBUG DATA YANG MAU DIMASUKIN
-			// echo json_encode($employeeData);
-
-			$this->cms->insertGeneralData('g_employee_income', $employeeData);
-
-		}
-
-		if($processType=="REVISI") {
-				$KBLB = 0;
-			}else {
-				$KBLB = $prevPPHVAL - $companyPPH21;
-				
-			} 
-
-		//Tambah data ke NETTO & BRUTO PERUSAHAAN
-		$companyData = array(
-			'COMPANY_BRUTO'		=> $companyBruto,
-			'COMPANY_NETTO'		=> $companyNeto, 
-			'COMPANY_PPHVAL'	=> $companyPPH21,
-			'COMPANY_KBLB'		=> $KBLB
-		);
-
-		//DEBUG DATA YANG MAU DIMASUKIN
-		// echo json_encode($companyData);
-
-		$this->cms->updateGeneralData('g_pph21', $companyData, 'PPH_ID', $pphID);
-
-		redirect('pph_21/bulan/summary?pid=' . $pphID . '&cid=' . $this->input->post('companyID'). '&mid=' . $this->input->post('monthID'). '&yid=' . $this->input->post('yearID'));
-	}
-
-	// Waiting Approve by Customer
-	public function approveCustomer()
-	{
-		// Update status g_pph21
-		$updateApproval = array(
-			'UPDATED'	=> date('Y-m-d H:i:s'),
-			'STATUS'	=> 'WAITING FOR APPROVAL BY CUSTOMER'
-		);
-		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
-
-		// Update status g_employee_income
-		$updateApprovalEmployee = array( 
-			'STATUS'	=> 'WAITING FOR APPROVAL BY CUSTOMER'
-		);
-		$this->cms->updateGeneralData('g_employee_income', $updateApprovalEmployee, 'PPH_ID', $this->input->get('pphID'));
-
-		// INSERT LOG
-		$insertLog = array(
-			'LOG_DATE' 	=> date('Y-m-d H:i:s'),
-			'ACTION'	=> 'APPROVED',
-			'USER_ID'	=> 'ADMIN',
-			'REF_NO'	=> '00000',
-			'SQLSYNTAX'	=> '..........'
-		);
-		$queryInsert = $this->cms->insertGeneralData('s_log', $insertLog);
-	}
-
-	// Waiting for Payment
-	public function waitingPayment()
-	{
-		// Update status g_pph21
-		$updateApproval = array(
-			'UPDATED'	=> date('Y-m-d H:i:s'),
-			'STATUS'	=> 'WAITING FOR PAYMENT'
-		);
-		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
-
-		// Update status g_employee_income
-		$updateApprovalEmployee = array( 
-			'STATUS'	=> 'WAITING FOR PAYMENT'
-		);
-		$this->cms->updateGeneralData('g_employee_income', $updateApprovalEmployee, 'PPH_ID', $this->input->get('pphID'));
-
-		// INSERT LOG
-		$insertLog = array(
-			'LOG_DATE' 	=> date('Y-m-d H:i:s'),
-			'ACTION'	=> 'APPROVED',
-			'USER_ID'	=> 'ADMIN',
-			'REF_NO'	=> '00000',
-			'SQLSYNTAX'	=> '..........'
-		);
-		$queryInsert = $this->cms->insertGeneralData('s_log', $insertLog);
-	}
-
-	// Payment
-	public function Payment()
-	{
-		// Update status g_pph21
-		$updateApproval = array(
-			'UPDATED'	=> date('Y-m-d H:i:s'),
-			'STATUS'	=> 'PAID'
-		);
-		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
-
-		// Update status g_employee_income
-		$updateApprovalEmployee = array( 
-			'STATUS'	=> 'PAID'
-		);
-		$this->cms->updateGeneralData('g_employee_income', $updateApprovalEmployee, 'PPH_ID', $this->input->get('pphID'));
-
-		// Cek sudah pernah melakukan pembayaran atau belum
-		$this->db->select('PAID_PPH21')
-				 ->from('g_payment')
-				 ->where('PPH_ID', $this->input->post('pphID'));
-
-		$cekstatuspayment = $this->db->get(); 
-
-		foreach ($cekstatuspayment->result() as $statuspayment);
-
-		// if(null($statuspayment)){
-		// 	// Insert Payment
-		// 	$insertPayment = array(
-		// 		'PPH_ID'		=> $this->input->get('pphID'),
-		// 		'COMPANY_ID' 	=> $this->input->get('cid'), 
-		// 		'TOTAL_PPH21'	=> ,
-		// 		'PAID_PPH21'	=> ,
-		// 		'OWED_PPH21'	=> ,
-		// 		'CREATED'		=> date('Y-m-d H:i:s')
-		// 	);
-		// 	$queryInsertPay = $this->cms->insertGeneralData('s_log', $insertLog);	
-		// } else{
-		// 	$updatePayment = array(
-		// 		'TOTAL_PPH21'	=> ,
-		// 		'PAID_PPH21'	=> ,
-		// 		'OWED_PPH21'	=> ,
-		// 		'UPDATED'		=> date('Y-m-d H:i:s')
-		// 	);
-		// 	$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
-		// } 
-
-		// INSERT LOG
-		$insertLog = array(
-			'LOG_DATE' 	=> date('Y-m-d H:i:s'),
-			'ACTION'	=> 'PAYMENT',
-			'USER_ID'	=> 'ADMIN',
-			'REF_NO'	=> '00000',
-			'SQLSYNTAX'	=> '..........'
-		);
-		$queryInsert = $this->cms->insertGeneralData('s_log', $insertLog);
-	}
-
-	// Tax Filing
-	public function TaxFiling()
-	{
-		// Update status g_pph21
-		$updateApproval = array(
-			'UPDATED'	=> date('Y-m-d H:i:s'),
-			'STATUS'	=> 'TAX FILING'
-		);
-		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
-
-		// Update status g_employee_income
-		$updateApprovalEmployee = array( 
-			'STATUS'	=> 'TAX FILING'
-		);
-		$this->cms->updateGeneralData('g_employee_income', $updateApprovalEmployee, 'PPH_ID', $this->input->get('pphID'));
-
-		// INSERT LOG
-		$insertLog = array(
-			'LOG_DATE' 	=> date('Y-m-d H:i:s'),
-			'ACTION'	=> 'TAX FILING',
-			'USER_ID'	=> 'ADMIN',
-			'REF_NO'	=> '00000',
-			'SQLSYNTAX'	=> '..........'
-		);
-		$queryInsert = $this->cms->insertGeneralData('s_log', $insertLog);
-	}
-
-	// HardCopy
-	public function Hardcopy()
-	{
-		// Update status g_pph21
-		$updateApproval = array(
-			'UPDATED'	=> date('Y-m-d H:i:s'),
-			'STATUS'	=> 'HARDCOPY'
-		);
-		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
-
-		// Update status g_employee_income
-		$updateApprovalEmployee = array( 
-			'STATUS'	=> 'HARDCOPY'
-		);
-		$this->cms->updateGeneralData('g_employee_income', $updateApprovalEmployee, 'PPH_ID', $this->input->get('pphID'));
-
-		// INSERT LOG
-		$insertLog = array(
-			'LOG_DATE' 	=> date('Y-m-d H:i:s'),
-			'ACTION'	=> 'HARDCOPY',
-			'USER_ID'	=> 'ADMIN',
-			'REF_NO'	=> '00000',
-			'SQLSYNTAX'	=> '..........'
-		);
-		$queryInsert = $this->cms->insertGeneralData('s_log', $insertLog);
-	}
-
-	// Lapor Pajak
-	public function LaporPajak()
-	{
-		// Update status g_pph21
-		$updateApproval = array(
-			'UPDATED'	=> date('Y-m-d H:i:s'),
-			'STATUS'	=> 'LAPOR PAJAK'
-		);
-		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pid'));
-
-		// Update status g_employee_income
-		$updateApprovalEmployee = array( 
-			'STATUS'	=> 'LAPOR PAJAK'
-		);
-		$this->cms->updateGeneralData('g_employee_income', $updateApprovalEmployee, 'PPH_ID', $this->input->get('pid'));
-
-		// INSERT LOG
-		$insertLog = array(
-			'LOG_DATE' 	=> date('Y-m-d H:i:s'),
-			'ACTION'	=> 'LAPOR PAJAK',
-			'USER_ID'	=> 'ADMIN',
-			'REF_NO'	=> '00000',
-			'SQLSYNTAX'	=> '..........'
-		);
-		$queryInsert = $this->cms->insertGeneralData('s_log', $insertLog);
-
-		redirect('pph_21/bulan/summary?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid'). '&mid=' . $this->input->get('mid'). '&yid=' . $this->input->get('yid'));
-	}
-
-	// Closed
-	public function Closed()
-	{
-		// Update status g_pph21
-		$updateApproval = array(
-			'UPDATED'	=> date('Y-m-d H:i:s'),
-			'STATUS'	=> 'CLOSED'
-		);
-		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
-
-		// Update status g_employee_income
-		$updateApprovalEmployee = array( 
-			'STATUS'	=> 'CLOSED'
-		);
-		$this->cms->updateGeneralData('g_employee_income', $updateApprovalEmployee, 'PPH_ID', $this->input->get('pphID'));
-
-		// INSERT LOG
-		$insertLog = array(
-			'LOG_DATE' 	=> date('Y-m-d H:i:s'),
-			'ACTION'	=> 'CLOSED',
-			'USER_ID'	=> 'ADMIN',
-			'REF_NO'	=> '00000',
-			'SQLSYNTAX'	=> '..........'
-		);
-		$queryInsert = $this->cms->insertGeneralData('s_log', $insertLog);
-	}
-
-
 	public function generateReport()
 	{
 		$phpExcel = new Spreadsheet();
@@ -2071,6 +3050,315 @@ class Pph21 extends CI_Controller
 		$_objWriter->save('php://output');
 	}
 
+	public function pph_21_bulan_approve()
+	{
+		$pid=$this->input->get('pid');
+		$cid=$this->input->get('cid');
+		$yid=$this->input->get('yid');
+
+		$statusApprove = array(
+			'STATUS'  => 'WAITING FOR APPROVAL'
+		);
+
+		$this->cms->updateGeneralData('g_pph21', $statusApprove, 'PPH_ID', $this->input->get('pid'));
+		$this->cms->updateGeneralData('g_employee_income', $statusApprove, 'PPH_ID', $this->input->get('pid'));
+
+		redirect('PPH/Pph21/pph_21_bulan?cid='.$cid.'&pid='.$yid.'');		
+	}
+
+	public function nett()
+	{
+		$this->db->select('EMPLOYEE_BRUTO')
+				 ->from('g_employee_income')
+				 ->where('PPH_ID', $this->input->post('pphID'))
+				 ->where('EMPLOYEE_ID', $this->input->post('empID'));
+
+		$EmpBrutoCheck = $this->db->get(); 
+
+		foreach ($EmpBrutoCheck->result() as $EmpBruto); 	
+
+	}
+
+	public function testGrossUp()
+	{
+		$ptkpTarif = 54000000;
+		$total     = 10000000;
+		$totalPengurang = 0.05 * $total;
+ 
+		$pphVal = (((0.05 * (($total - $totalPengurang) * 12) - $ptkpTarif)) * 1.2) / 12; 
+
+		echo $pphVal;
+
+
+		$yearlyBruto = (((12 * $total) - (12 * $totalPengurang)) - $ptkpTarif);
+
+		switch ($yearlyBruto) {
+			case ($yearlyBruto <= 47500000):
+				// echo 'lapisan 1';
+				$pphVal = ($yearlyBruto - 0) *  (5 / 95) + 0;
+				break;
+			case (($yearlyBruto >= 47500000) && ($yearlyBruto <= 217500000)):
+				// echo 'lapisan 2';
+				$pphVal = ($yearlyBruto - 47500000) * (15 / 85) + 2500000;
+				break;
+			case (($yearlyBruto >= 217500000) && ($yearlyBruto <= 405000000)):
+				// echo 'lapisan 3';
+				$pphVal = ($yearlyBruto - 217500000) * (25 / 75) + 32500000;
+				break;
+			case ($yearlyBruto >= 405000000):
+				// echo 'lapisan 4';
+				$pphVal = ($yearlyBruto - 405000000) * (30 / 70) + 95000000;
+				break;
+			default: 
+				break;
+		} 
+	}
+
+	
+
+	// Waiting Approve by Customer
+	public function approveCustomer()
+	{
+		// Update status g_pph21
+		$updateApproval = array(
+			'UPDATED'	=> date('Y-m-d H:i:s'),
+			'STATUS'	=> 'WAITING FOR APPROVAL BY CUSTOMER'
+		);
+		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
+
+		// Update status g_employee_income
+		$updateApprovalEmployee = array( 
+			'STATUS'	=> 'WAITING FOR APPROVAL BY CUSTOMER'
+		);
+		$this->cms->updateGeneralData('g_employee_income', $updateApprovalEmployee, 'PPH_ID', $this->input->get('pphID'));
+
+		// INSERT LOG
+		$insertLog = array(
+			'LOG_DATE' 	=> date('Y-m-d H:i:s'),
+			'ACTION'	=> 'APPROVED',
+			'USER_ID'	=> 'ADMIN',
+			'REF_NO'	=> '00000',
+			'SQLSYNTAX'	=> '..........'
+		);
+		$queryInsert = $this->cms->insertGeneralData('s_log', $insertLog);
+	}
+
+	// Waiting for Payment
+	public function waitingPayment()
+	{
+		// Update status g_pph21
+		$updateApproval = array(
+			'UPDATED'	=> date('Y-m-d H:i:s'),
+			'STATUS'	=> 'WAITING FOR PAYMENT'
+		);
+		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
+
+		// Update status g_employee_income
+		$updateApprovalEmployee = array( 
+			'STATUS'	=> 'WAITING FOR PAYMENT'
+		);
+		$this->cms->updateGeneralData('g_employee_income', $updateApprovalEmployee, 'PPH_ID', $this->input->get('pphID'));
+
+		// INSERT LOG
+		$insertLog = array(
+			'LOG_DATE' 	=> date('Y-m-d H:i:s'),
+			'ACTION'	=> 'APPROVED',
+			'USER_ID'	=> 'ADMIN',
+			'REF_NO'	=> '00000',
+			'SQLSYNTAX'	=> '..........'
+		);
+		$queryInsert = $this->cms->insertGeneralData('s_log', $insertLog);
+	}
+
+	// Payment
+	public function Payment()
+	{ 
+		$pphID = $this->input->post('id_pph');
+		$sseID = $this->input->post('no_sse');
+		$payID = $this->input->post('no_payment');
+		$comID = $this->input->post('company_id');
+		$years = $this->input->post('years');
+		$month = $this->input->post('month');
+		$payNo = $this->input->post('no_payment');
+		$total = str_replace(",", "", $this->input->post('total_payment')); 
+		$pay   = str_replace(",", "", $this->input->post('amount_payment'));
+		$date  = $this->input->post('date_payment');  
+
+		//Update status g_pph21
+		$updateApproval = array(
+			'UPDATED'	=> date('Y-m-d H:i:s'),
+			'STATUS'	=> 'WAITING OF PAYMENT'
+		);
+		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $pphID);
+
+		//Update status g_employee_income
+		$updateApprovalEmployee = array( 
+			'STATUS'	=> 'WAITING OF PAYMENT'
+		);
+		$this->cms->updateGeneralData('g_employee_income', $updateApprovalEmployee, 'PPH_ID', $pphID);
+
+		// Menghitung kurang (lebih) bayar
+		// Hitung semua total yang sudah dibayarkan, sebelum transaksi
+		$total_pay = $this->cms->totalPayment($comID,$years,$month);
+		foreach($total_pay->result() as $payment); 
+
+		// Hitung semua total yang sudah dibayarkan, sesudah transaksi
+		$total_new_payment = $payment->PAID_PPH21_TOTAL + $this->input->post('amount_payment');    
+
+		// Rumus : Total PPH - Total Payment
+		$kblb = $total-$total_new_payment; 
+
+		$updatePayment = array( 
+			'NO_PAYMENT'	=> $payNo,
+			'TOTAL_PPH21'	=> $total,
+			'PAID_PPH21'	=> $pay,
+			'KBLB_PPH21'	=> $kblb,
+			'DATE_PAYMENT'	=> date('Y-m-d H:i:s'),
+			'UPDATED'		=> date('Y-m-d H:i:s'),
+			'STATUS'		=> 'PAID'
+		);
+		$queryUpdatePay = $this->cms->updateGeneralDataFour('g_payment', $updatePayment, 'NO_SSE_21', $sseID, 'COMPANY_ID', $comID, 'PERIOD_YEAR', $years, 'PERIOD_MONTH', $month);	 
+
+		if($kblb <= 0){
+			//Update status g_pph21
+			$updateApprovalPaid = array( 
+				'STATUS'	=> 'PAID'
+			);
+			$this->cms->updateGeneralData('g_pph21', $updateApprovalPaid, 'PPH_ID', $pphID);
+
+			//Update status g_employee_income
+			$updateApprovalEmployeePaid = array( 
+				'STATUS'	=> 'PAID'
+			);
+			$this->cms->updateGeneralData('g_employee_income', $updateApprovalEmployeePaid, 'PPH_ID', $pphID);	
+		}
+
+		// INSERT LOG
+		$insertLog = array(
+			'LOG_DATE' 	=> date('Y-m-d H:i:s'),
+			'ACTION'	=> 'PAYMENT',
+			'USER_ID'	=> 'ADMIN',
+			'REF_NO'	=> '00000',
+			'SQLSYNTAX'	=> '..........'
+		);
+		$queryInsert = $this->cms->insertGeneralData('s_log', $insertLog);
+
+		redirect('PPH/Pph21/pph_21_bulan_summary?pid='.$pphID.'&cid='.$comID.'&mid='.$month.'&yid='.$years);	 
+	}
+
+	// Tax Filing
+	public function TaxFiling()
+	{
+		// Update status g_pph21
+		$updateApproval = array(
+			'UPDATED'	=> date('Y-m-d H:i:s'),
+			'STATUS'	=> 'TAX FILING'
+		);
+		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
+
+		// Update status g_employee_income
+		$updateApprovalEmployee = array( 
+			'STATUS'	=> 'TAX FILING'
+		);
+		$this->cms->updateGeneralData('g_employee_income', $updateApprovalEmployee, 'PPH_ID', $this->input->get('pphID'));
+
+		// INSERT LOG
+		$insertLog = array(
+			'LOG_DATE' 	=> date('Y-m-d H:i:s'),
+			'ACTION'	=> 'TAX FILING',
+			'USER_ID'	=> 'ADMIN',
+			'REF_NO'	=> '00000',
+			'SQLSYNTAX'	=> '..........'
+		);
+		$queryInsert = $this->cms->insertGeneralData('s_log', $insertLog);
+	}
+
+	// HardCopy
+	public function Hardcopy()
+	{
+		// Update status g_pph21
+		$updateApproval = array(
+			'UPDATED'	=> date('Y-m-d H:i:s'),
+			'STATUS'	=> 'HARDCOPY'
+		);
+		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
+
+		// Update status g_employee_income
+		$updateApprovalEmployee = array( 
+			'STATUS'	=> 'HARDCOPY'
+		);
+		$this->cms->updateGeneralData('g_employee_income', $updateApprovalEmployee, 'PPH_ID', $this->input->get('pphID'));
+
+		// INSERT LOG
+		$insertLog = array(
+			'LOG_DATE' 	=> date('Y-m-d H:i:s'),
+			'ACTION'	=> 'HARDCOPY',
+			'USER_ID'	=> 'ADMIN',
+			'REF_NO'	=> '00000',
+			'SQLSYNTAX'	=> '..........'
+		);
+		$queryInsert = $this->cms->insertGeneralData('s_log', $insertLog);
+	}
+
+	// Lapor Pajak
+	public function LaporPajak()
+	{
+		// Update status g_pph21
+		$updateApproval = array(
+			'UPDATED'	=> date('Y-m-d H:i:s'),
+			'STATUS'	=> 'LAPOR PAJAK'
+		);
+		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pid'));
+
+		// Update status g_employee_income
+		$updateApprovalEmployee = array( 
+			'STATUS'	=> 'LAPOR PAJAK'
+		);
+		$this->cms->updateGeneralData('g_employee_income', $updateApprovalEmployee, 'PPH_ID', $this->input->get('pid'));
+
+		// INSERT LOG
+		$insertLog = array(
+			'LOG_DATE' 	=> date('Y-m-d H:i:s'),
+			'ACTION'	=> 'LAPOR PAJAK',
+			'USER_ID'	=> 'ADMIN',
+			'REF_NO'	=> '00000',
+			'SQLSYNTAX'	=> '..........'
+		);
+		$queryInsert = $this->cms->insertGeneralData('s_log', $insertLog);
+
+		redirect('pph_21/bulan/summary?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid'). '&mid=' . $this->input->get('mid'). '&yid=' . $this->input->get('yid'));
+	}
+
+	// Closed
+	public function Closed()
+	{
+		// Update status g_pph21
+		$updateApproval = array(
+			'UPDATED'	=> date('Y-m-d H:i:s'),
+			'STATUS'	=> 'CLOSED'
+		);
+		$this->cms->updateGeneralData('g_pph21', $updateApproval, 'PPH_ID', $this->input->get('pphID'));
+
+		// Update status g_employee_income
+		$updateApprovalEmployee = array( 
+			'STATUS'	=> 'CLOSED'
+		);
+		$this->cms->updateGeneralData('g_employee_income', $updateApprovalEmployee, 'PPH_ID', $this->input->get('pphID'));
+
+		// INSERT LOG
+		$insertLog = array(
+			'LOG_DATE' 	=> date('Y-m-d H:i:s'),
+			'ACTION'	=> 'CLOSED',
+			'USER_ID'	=> 'ADMIN',
+			'REF_NO'	=> '00000',
+			'SQLSYNTAX'	=> '..........'
+		);
+		$queryInsert = $this->cms->insertGeneralData('s_log', $insertLog);
+	}
+
+
+	
+
 	public function addCompany()
 	{
 		//1. Cek data yang ditambah termasuk ke PEMBETULAN atau DATA BARU
@@ -2107,489 +3395,6 @@ class Pph21 extends CI_Controller
 
 	
 
-	public function pph_21_bulan_summary_karyawan()
-	{
-		$this->db->select('*')
-			->from('v_g_employee_pph21')
-			->where('EMPLOYEE_ID', trim($this->input->get('eid')))
-			->where('PPH_ID', trim($this->input->get('pid')));
-
-
-		$data['employee'] 	= $this->db->get();
-
-		if ($data['employee']->num_rows() == 0) {
-			$this->session->set_flashdata('query', 'invalid');
-			redirect(base_url('pph_21/bulan/summary?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')));
-		}
-
-		$this->load->view('cms/hitung_pajak/pph21_bulan_summary_karyawan', $data);
-	}
-
-	public function edit_pph_21_bulan_summary_karyawan()
-	{
-		$this->db->select('*')
-			->from('v_g_employee_pph21')
-			->where('EMPLOYEE_ID', trim($this->input->get('eid')))
-			->where('PPH_ID', trim($this->input->get('pid')));
-
-
-		$data['employee'] 	= $this->db->get();
-
-		if ($data['employee']->num_rows() == 0) {
-			$this->session->set_flashdata('query', 'invalid');
-			redirect(base_url('pph_21/bulan/summary?pid=' . $this->input->get('pid') . '&cid=' . $this->input->get('cid')));
-		}
-
-		$this->load->view('cms/hitung_pajak/edit_pph21_bulan_summary_karyawan', $data);
-	}
-
-	public function update_pph_21_bulan_summary_karyawan()
-	{
-		$this->output->enable_profiler(TRUE);  
-
-		$companyCheck  = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->post('companyID'));
-		$employeeCheck = $this->cms->getSingularData('v_g_employee', 'EMPLOYEE_ID', $this->input->post('employeeID'));
-		$pphCheck 	   = $this->cms->getSingularData('g_pph21', 'PPH_ID', $this->input->post('pphID'));
-
-		//Deklrasi Variabel awal
-		$companyBruto = 0;
-		$companyNeto  = 0;
-		$companyPPH21 = 0;
-
-		// Cek apakah perusahaan tersedia
-		if ($companyCheck->num_rows() == 0) {
-			echo 'tidak ada perusahaan';
-			return;
-		}
-
-		// Cek apakah karywan terdaftar 
-		if ($employeeCheck->num_rows() == 0) {
-			echo 'tidak ada pegawai aktif';
-			return;
-		} 
-
-		foreach ($employeeCheck->result() as $employee);
-
-		$employeeArr = array(
-			'NAME'					=> $employee->EMPLOYEE_NAME,
-			'KTP'					=> $employee->EMPLOYEE_KTP,
-			'NPWP'					=> $employee->EMPLOYEE_NPWP,
-			'PTKP'					=> $employee->EMPLOYEE_PTKP_STATUS,
-			'PTKP_TARIF'			=> $employee->TK_TARIF,
-			'NATIONALITY'			=> $employee->EMPLOYEE_NATIONALITY,
-			'NATIONALITY_STATUS'	=> $employee->EMPLOYEE_NATIONALITY_STATUS,
-			'INTERNAL_ID'			=> $employee->EMPLOYEE_INTERNAL_ID,
-			'ID'					=> $employee->EMPLOYEE_ID
-		); 
-
-		// nanti taro dibawah sini 
-
-		// Generate baru ID Income
-		$incomeID     = $this->incube->generateID(10);
-
-		// Cek data pegawai ada atau engga & ambil PKTP Tarif Mereka
-		
-		// Check NPWP
-		$this->db->select('*')
-				 ->from('g_employee')
-				 ->where('EMPLOYEE_ID', $this->input->post('employeeID'));
-
-		$CheckEmpNPWP = $this->db->get(); 
-		foreach ($CheckEmpNPWP->result() as $CheckNPWP);  
-
-		// Memberi nilai awal untuk total tunjangan
-		$totalTunjangan = 0;
-
-		// Menangkap value dari form edit
-		$gaji 		 = str_replace(',','',$this->input->post('editGaji'));  
-		$Tunjpph=0;
-		$tunjangan1  = str_replace(',','',$this->input->post('editTunjangan1')); 
-		$tunjangan2  = str_replace(',','',$this->input->post('editTunjangan2')); 
-		$tunjangan3  = str_replace(',','',$this->input->post('editTunjangan3')); 
-		$tunjangan4  = str_replace(',','',$this->input->post('editTunjangan4')); 
-		$tunjangan5  = str_replace(',','',$this->input->post('editTunjangan5')); 
-		$tunjangan6  = str_replace(',','',$this->input->post('editTunjangan6')); 
-		$tunjangan7  = str_replace(',','',$this->input->post('editTunjangan7')); 
-		$tunjangan8  = str_replace(',','',$this->input->post('editTunjangan8')); 
-		$tunjangan9  = str_replace(',','',$this->input->post('editTunjangan9')); 
-		$tunjangan10 = str_replace(',','',$this->input->post('editTunjangan10')); 
-
-		$premijkk  = str_replace(',','',$this->input->post('editJKK')); 
-		$premijkm  = str_replace(',','',$this->input->post('editJKM')); 
-		$premibpjs = str_replace(',','',$this->input->post('editBPJS')); 
-
-		$iuranJHT  = str_replace(',','',$this->input->post('editJHT')); 
-		$iuranJP   = str_replace(',','',$this->input->post('editJP')); 
-
-		$honarium  = str_replace(',','',$this->input->post('editHonarium')); 
-		$natura    = str_replace(',','',$this->input->post('editNatura')); 
-		$tantiem   = str_replace(',','',$this->input->post('editTantiem')); 
-
-		//Kalkulasi Bruto, Neto & Jumlah Pengurang (TUNJANGAN, IURAN, PREMI, DLL) 
-		$totalTunjangan = $tunjangan1 + $tunjangan2 + $tunjangan3 + $tunjangan4 + $tunjangan5 + $tunjangan6 + $tunjangan7 + $tunjangan8 + $tunjangan9 + $tunjangan10;
-		$totalPremi 	= $premijkk + $premijkm + $premibpjs;
-		$iuran 			= $iuranJHT + $iuranJP;
-
-		$totalBruto 	= $gaji + $totalTunjangan + $honarium + $totalPremi + $natura + $tantiem;
-
-		// Menghitung biaya Jabatan (Max 500.000)
-		$bijab = 0.05 * $totalBruto;
-		if($bijab>500000) {
-			$bijab= 500000;
-		}
-		$totalPengurang	= $bijab + $iuran;
-
-		//Tarif PTKP Pegawai 
-		foreach ($employeeCheck->result() as $employee);
-		$ptkpTarif = $employee->TK_TARIF;
-
-		//Kalkulasi PPH21 Non-Gross Up
-		$CheckNPWP->EMPLOYEE_ID;
-		$PPH_ID=$this->input->post('pphID');
-
-		$this->db->select('*')
-		 		 ->from('g_employee_income')
-		 		 ->where('EMPLOYEE_ID', $CheckNPWP->EMPLOYEE_ID)
-		 		 ->where('PPH_ID', $PPH_ID);
-
-		$CheckBruto = $this->db->get(); 
-
-		foreach ($CheckBruto->result() as $BrutoEmp){
-			$persen=$this->cms->getPersen($BrutoEmp->EMPLOYEE_BRUTO);
-			foreach ($persen->result() as $CheckPersen){
-				echo  $BrutoEmp->EMPLOYEE_BRUTO." - ".$CheckPersen->PRESENTASE."<br>"; 
-			}
-		}
-			
-		$yearlyNeto = 12 * ($totalBruto - $totalPengurang);
-		$yearlyPKP  = $yearlyNeto - $ptkpTarif;
-
-		//Dibulatkan biar 3 digit dibelakang jadi 0
-		$yearlyPKP = (floor($yearlyPKP / 1000)) * 1000;
-
-		//Kalkulasi PPH21 Gross UP
-		if ($companyCheck->row()->PPHCOUNT_METHOD == 'GROSS UP') {
-			
-			switch ($yearlyPKP) {
-				case ($yearlyPKP <= 47500000):
-					// echo 'lapisan 1';
-					$Tunjpph = ($yearlyPKP - 0) *  (5 / 95) + 0;
-					break;
-				case (($yearlyPKP >= 47500000) && ($yearlyPKP <= 217500000)):
-					// echo 'lapisan 2';
-					$Tunjpph = ($yearlyPKP - 47500000) * (15 / 85) + 2500000;
-					break;
-				case (($yearlyPKP >= 217500000) && ($yearlyPKP <= 405000000)):
-					// echo 'lapisan 3';
-					$Tunjpph = ($yearlyPKP - 217500000) * (25 / 75) + 32500000;
-					break;
-				case ($yearlyPKP >= 405000000):
-					// echo 'lapisan 4';
-					$Tunjpph = ($yearlyPKP - 405000000) * (30 / 70) + 95000000;
-					break;
-				default:
-					break;
-			}
-
-			$Tunjpph = $Tunjpph/12; 
-
-			$monthlyPPH = 0;
-
-			//while $tunjpph <> $monnthlyPPH
-			while ($Tunjpph != $monthlyPPH) { 
-				//HITUNG YearlyPKP (after tunjanganpph)
-				 $totalBruto 	= $gaji + $Tunjpph + $totalTunjangan + $honarium + $totalPremi + $natura + $tantiem; 
-
-
-				// Biaya jabatan max 500 ribu
-				// Biaya jabatan dihitung 5% dari total bruto
-				// Jika setalah dihitung biaya jabatan > 500 ribu, 
-				// Maka akan dibuat sebesar 500 ribu
-				$bijab = 0.05 * $totalBruto;
-				if($bijab>500000) {
-					$bijab= 500000;
-				}
-				$totalPengurang	= $bijab + $iuran;
-						
-				$yearlyNeto = 12 * ($totalBruto - $totalPengurang);
-				$yearlyPKP  = $yearlyNeto - $ptkpTarif;
-
-				//Dibulatkan biar 3 digit dibelakang jadi 0
-				$yearlyPKP = (floor($yearlyPKP / 1000)) * 1000;
-
-
-				if ($yearlyPKP > 0) {
-				    if ($yearlyPKP > 500000000) {
-				        $tier1 = 0.05 * 50000000;
-				        $tier2 = 0.15 * 200000000;
-				        $tier3 = 0.25 * 250000000;
-				        $tier4 = 0.3 * ($yearlyPKP - 500000000);
-				        $yearlyPPH = $tier1 + $tier2 + $tier3 + $tier4;
-				    } elseif ($yearlyPKP > 250000000) {
-				        $tier1 = 0.05 * 50000000;
-				        $tier2 = 0.15 * 200000000;
-				        $tier3 = 0.25 * ($yearlyPKP - 250000000);
-				        $yearlyPPH = $tier1 + $tier2 + $tier3;
-				    } elseif ($yearlyPKP > 50000000) {
-				        $tier1 = 0.05 * 50000000;
-				        $tier2 = 0.15 * ($yearlyPKP - 50000000);
-				        $yearlyPPH = $tier1 + $tier2;
-				    } else {
-				        $tier1 = 0.05 * $yearlyPKP;
-				        $yearlyPPH = $tier1;
-				    }
-				}		
-
-				$monthlyPPH = ($yearlyPPH / 12);
-
-				if($Tunjpph != $monthlyPPH){
-					
-					$Tunjpph = $monthlyPPH;
-					$monthlyPPH = 0;
-				}
-
-			}
-		}
-
-
-		if ($yearlyPKP > 0) {
-		    if ($yearlyPKP > 500000000) {
-		        $tier1 = 0.05 * 50000000;
-		        $tier2 = 0.15 * 200000000;
-		        $tier3 = 0.25 * 250000000;
-		        $tier4 = 0.3 * ($yearlyPKP - 500000000);
-		        $yearlyPPH = $tier1 + $tier2 + $tier3 + $tier4;
-		    } elseif ($yearlyPKP > 250000000) {
-		        $tier1 = 0.05 * 50000000;
-		        $tier2 = 0.15 * 200000000;
-		        $tier3 = 0.25 * ($yearlyPKP - 250000000);
-		        $yearlyPPH = $tier1 + $tier2 + $tier3;
-		    } elseif ($yearlyPKP > 50000000) {
-		        $tier1 = 0.05 * 50000000;
-		        $tier2 = 0.15 * ($yearlyPKP - 50000000);
-		        $yearlyPPH = $tier1 + $tier2;
-		    } else {
-		        $tier1 = 0.05 * $yearlyPKP;
-		        $yearlyPPH = $tier1;
-		    }
-		}		
-
-		$monthlyPPH = ($yearlyPPH / 12);
-
-		if (empty($CheckNPWP)) {
-			//Kalau misalnya pegawai ga punya NPWP
-			$monthlyPPHFinal = $monthlyPPH  * 1.2;
-		} else {
-			//Kalau misalnya pegawai punya NPWP		
-			$monthlyPPHFinal = $monthlyPPH;
-		} 
-			
-		
-
-		// Mengecek status pada table g_pph21, jika status belum LAPOR PAJAK
-		// Maka data lama pada g_employee_income akan dihapus terlebih dahulu, baru diinputkan data terbaru
-		$this->db->select('STATUS')
-				 ->from('g_pph21')
-				 ->where('PPH_ID', $this->input->post('pphID'));
-
-		$status = $this->db->get(); 
-
-		foreach ($status->result() as $key); 
-
-		// Jika status bukan lapor pajak, hapus terlebih dahulu data lama di g_employee_income
-		if($key->STATUS == "ON PROGRESS" OR $key->STATUS  == "WAITING FOR APPROVAL" OR $key->STATUS  == "WAITING FOR CUSTOMER APPROVAL" OR $key->STATUS  == "WAITING FOR PAYMENT" OR $key->STATUS  == "PAID" OR $key->STATUS  == "TAX FILING"){
-			
-			$processType='REVISI';
-
-			// Ngehapus data di g_employee_income berdasarkan PPH ID dan Employee ID
-			$this->cms->deleteGeneralDataDouble('g_employee_income', 'PPH_ID', $this->input->post('pphID'), 'EMPLOYEE_ID', $this->input->post('employeeID'));
-
-			// Update status di g_pph21 dan g_employee_income menjadi ON PROGRESS
-			$updatePPH21 = array(
-				'UPDATED'	=> date('Y-m-d H:i:s'),
-				'STATUS'	=> 'ON PROGRESS'
-			);
-			$this->cms->updateGeneralData('g_pph21', $updatePPH21, 'PPH_ID', $this->input->post('pphID')); 
-		} elseif ($key->STATUS == "LAPOR PAJAK" OR $key->STATUS  == "HARDCOPY" ) {
-			//PEMBETULANN
-			$processType='PEMBETULAN';
-
-			// // Update data sebelumnya, sebelum di inputkan data baru
-			// $updatePPH21 = array(
-			// 	'UPDATED'	=> date('Y-m-d H:i:s'),
-			// 	'STATUS'	=> 'ON PROGRESS'
-			// );
-			// $this->cms->updateGeneralData('g_pph21', $updatePPH21, 'PPH_ID', $this->input->post('pphID')); 
-
-			foreach ($pphCheck->result() as $cekPPH21);
-			$monthCheck = $cekPPH21->PERIOD_MONTH;
-			$yearCheck = $cekPPH21->PERIOD_YEAR;
-			$prevPPHVAL = $cekPPH21->COMPANY_PPHVAL;
-
-			$pembetulanKe = $this->cms->cekpembetulan($this->input->post('companyID'), $monthCheck, $yearCheck); 
-
-			// Ubah dulu status lama jadi HISTORY
-			$updateStatusPPH21 = array(
-				'UPDATED'	=> date('Y-m-d H:i:s'),
-				'STATUS'	=> 'HISTORY'
-			);
-			$this->cms->updateGeneralData('g_pph21', $updateStatusPPH21, 'PPH_ID', $this->input->post('pphID')); 
-		}
-
-		if($processType=="REVISI") {
-			$pphID = $this->input->post('pphID');
-		}else {
-			// Generate PPH ID baru
-			$pphID = $this->incube->generateID(10);
-
-			// Ambil data bulan dan tahun 
-			foreach ($pphCheck->result() as $cekPPH21);
-			$monthCheck = $cekPPH21->PERIOD_MONTH;
-			$yearCheck = $cekPPH21->PERIOD_YEAR;
-
-			$companyData = array(
-				'PPH_ID'		=> $pphID,
-				'COMPANY_ID'	=> $this->input->post('companyID'),
-				'PERIOD_YEAR'	=> $yearCheck,
-				'PERIOD_MONTH'	=> $monthCheck,
-				'CREATED'		=> date('Y-m-d h:i:s'),
-				'STATUS'		=> 'ON PROGRESS'
-			);
-
-			$queryInsert = $this->cms->insertGeneralData('g_pph21', $companyData);
-			//EoL 1
-			
-		}
-
-		//EoL PPH21 Gross Up
-		$employeeData = array(
-			'INCOME_ID'                 	=> $incomeID,
-			'PPH_ID'						=> $pphID,
-			'COMPANY_ID'           			=> $this->input->post('companyID'),
-			'EMPLOYEE_ID'             		=> $this->input->post('employeeID'),
-			'EMPLOYEE_GAJI_POKOK'			=> $gaji,
-			'EMPLOYEE_TUNJANGAN_PPH'		=> $Tunjpph,
-			'EMPLOYEE_TUNJANGAN_1'			=> $tunjangan1,
-			'EMPLOYEE_TUNJANGAN_2'			=> $tunjangan2,
-			'EMPLOYEE_TUNJANGAN_3'			=> $tunjangan3,
-			'EMPLOYEE_TUNJANGAN_4'			=> $tunjangan4,
-			'EMPLOYEE_TUNJANGAN_5'			=> $tunjangan5,
-			'EMPLOYEE_TUNJANGAN_6'			=> $tunjangan6,
-			'EMPLOYEE_TUNJANGAN_7'			=> $tunjangan7,
-			'EMPLOYEE_TUNJANGAN_8'			=> $tunjangan8,
-			'EMPLOYEE_TUNJANGAN_9'			=> $tunjangan9,
-			'EMPLOYEE_TUNJANGAN_10'			=> $tunjangan10,
-			'EMPLOYEE_TUNJANGAN_LAINNYA'	=> $totalTunjangan,
-			'EMPLOYEE_HONORARIUM'			=> $honarium,
-			'EMPLOYEE_PREMI_JKK'			=> $premijkk,
-			'EMPLOYEE_PREMI_JKM'			=> $premijkm,
-			'EMPLOYEE_PREMI_BPJS'			=> $premibpjs,
-			'EMPLOYEE_PREMI'				=> $totalPremi,
-			'EMPLOYEE_NATURA'				=> $natura,
-			'EMPLOYEE_TANTIEMBONUS'			=> $tantiem,
-			'EMPLOYEE_IURAN_THT'			=> $iuranJHT,
-			'EMPLOYEE_IURAN_JP'				=> $iuranJP,
-			'EMPLOYEE_IURAN_PENSIUN'		=> $iuran,
-			'EMPLOYEE_BIAYA_JABATAN'		=> $bijab,
-			'EMPLOYEE_TOTAL_PENGURANGAN'	=> $iuran+$bijab,
-			'EMPLOYEE_BRUTO'				=> $totalBruto,
-			'EMPLOYEE_NETTO'				=> $totalBruto - $totalPengurang,
-			'EMPLOYEE_NETTO_YEAR'			=> (floor($totalBruto) - $totalPengurang)*12,
-			'EMPLOYEE_PTKP'					=> $ptkpTarif,
-			'EMPLOYEE_PKP_YEAR'				=> $yearlyPKP,
-			'EMPLOYEE_PPHVAL_YEAR'			=> round($yearlyPPH),
-			'EMPLOYEE_PPHVAL_MASA'			=> round($monthlyPPH),
-			'EMPLOYEE_PPHVAL'				=> round($monthlyPPHFinal),
-			'CREATED'						=> date('Y-m-d h:i:s'),
-			'STATUS'						=> 'ON PROGRESS', 
-			'PPHCOUNT_METHOD'				=> $companyCheck->row()->PPHCOUNT_METHOD
-		);
-
-		$this->cms->insertGeneralData('g_employee_income', $employeeData);
-
-
-		if($processType=="PEMBETULAN") {
-			$this->cms->getCountDataKaryawanNoEdit($this->input->post('pphID'), $this->input->post('employeeID'));
-			//ECHO $this->input->post('pphID');
-			//ECHO "<BR>";
-			//ECHO $this->input->post('employeeID');
-
-			$employeeNoEditData = $this->cms->getDataKaryawanNoEdit($this->input->post('pphID'), $this->input->post('employeeID'));
-			foreach ($employeeNoEditData->result() as $employeeNoEdit) {
-				$incomeID     = $this->incube->generateID(10);
-				$databaru = array(
-					'INCOME_ID'								=> $incomeID,
-					'PPH_ID'								=> $pphID,
-					'COMPANY_ID'							=> $employeeNoEdit->COMPANY_ID,
-					'EMPLOYEE_ID'							=> $employeeNoEdit->EMPLOYEE_ID,
-					'EMPLOYEE_GAJI_POKOK'					=> $employeeNoEdit->EMPLOYEE_GAJI_POKOK,
-					'EMPLOYEE_TUNJANGAN_PPH'				=> $employeeNoEdit->EMPLOYEE_TUNJANGAN_PPH,
-					'EMPLOYEE_TUNJANGAN_1'					=> $employeeNoEdit->EMPLOYEE_TUNJANGAN_1,
-					'EMPLOYEE_TUNJANGAN_2'					=> $employeeNoEdit->EMPLOYEE_TUNJANGAN_2,
-					'EMPLOYEE_TUNJANGAN_3'					=> $employeeNoEdit->EMPLOYEE_TUNJANGAN_3,
-					'EMPLOYEE_TUNJANGAN_4'					=> $employeeNoEdit->EMPLOYEE_TUNJANGAN_4,
-					'EMPLOYEE_TUNJANGAN_5'					=> $employeeNoEdit->EMPLOYEE_TUNJANGAN_5,
-					'EMPLOYEE_TUNJANGAN_6'					=> $employeeNoEdit->EMPLOYEE_TUNJANGAN_6,
-					'EMPLOYEE_TUNJANGAN_7'					=> $employeeNoEdit->EMPLOYEE_TUNJANGAN_7,
-					'EMPLOYEE_TUNJANGAN_8'					=> $employeeNoEdit->EMPLOYEE_TUNJANGAN_8,
-					'EMPLOYEE_TUNJANGAN_9'					=> $employeeNoEdit->EMPLOYEE_TUNJANGAN_9,
-					'EMPLOYEE_TUNJANGAN_10'					=> $employeeNoEdit->EMPLOYEE_TUNJANGAN_10,
-					'EMPLOYEE_TUNJANGAN_LAINNYA'			=> $employeeNoEdit->EMPLOYEE_TUNJANGAN_LAINNYA,
-					'EMPLOYEE_HONORARIUM'					=> $employeeNoEdit->EMPLOYEE_HONORARIUM,
-					'EMPLOYEE_PREMI_JKK'					=> $employeeNoEdit->EMPLOYEE_PREMI_JKM,
-					'EMPLOYEE_PREMI_JKM'					=> $employeeNoEdit->EMPLOYEE_PREMI_JKK,
-					'EMPLOYEE_PREMI_BPJS'					=> $employeeNoEdit->EMPLOYEE_PREMI_BPJS,
-					'EMPLOYEE_PREMI'						=> $employeeNoEdit->EMPLOYEE_PREMI,
-					'EMPLOYEE_NATURA'						=> $employeeNoEdit->EMPLOYEE_NATURA,
-					'EMPLOYEE_TANTIEMBONUS'					=> $employeeNoEdit->EMPLOYEE_TANTIEMBONUS,
-					'EMPLOYEE_IURAN_THT'					=> $employeeNoEdit->EMPLOYEE_IURAN_THT,
-					'EMPLOYEE_IURAN_JP'						=> $employeeNoEdit->EMPLOYEE_IURAN_JP,
-					'EMPLOYEE_IURAN_PENSIUN'				=> $employeeNoEdit->EMPLOYEE_IURAN_PENSIUN,
-					'EMPLOYEE_BIAYA_JABATAN'				=> $employeeNoEdit->EMPLOYEE_BIAYA_JABATAN,
-					'EMPLOYEE_TOTAL_PENGURANGAN'			=> $employeeNoEdit->EMPLOYEE_TOTAL_PENGURANGAN,
-					'EMPLOYEE_BRUTO'						=> $employeeNoEdit->EMPLOYEE_BRUTO,
-					'EMPLOYEE_NETTO'						=> $employeeNoEdit->EMPLOYEE_NETTO,
-					'EMPLOYEE_NETTO_YEAR'					=> $employeeNoEdit->EMPLOYEE_NETTO_YEAR,
-					'EMPLOYEE_NETTO_YEAR_AGO'				=> $employeeNoEdit->EMPLOYEE_NETTO_YEAR_AGO,
-					'EMPLOYEE_PTKP'							=> $employeeNoEdit->EMPLOYEE_PTKP,
-					'EMPLOYEE_PKP_YEAR'						=> $employeeNoEdit->EMPLOYEE_PKP_YEAR,
-					'EMPLOYEE_PKP_YEAR_TERATUR'				=> $employeeNoEdit->EMPLOYEE_PKP_YEAR_TERATUR,
-					'EMPLOYEE_PPH21_YEAR_TERATUR'			=> $employeeNoEdit->EMPLOYEE_PPH21_YEAR_TERATUR,
-					'EMPLOYEE_PPH21_YEAR_TIDAK_TERATUR'		=> $employeeNoEdit->EMPLOYEE_PPH21_YEAR_TIDAK_TERATUR,
-					'EMPLOYEE_PPH21_YEAR_KESELURUHAN'		=> $employeeNoEdit->EMPLOYEE_PPH21_YEAR_KESELURUHAN,
-					'EMPLOYEE_PPH21_DIPOTONG_YEAR_AGO'		=> $employeeNoEdit->EMPLOYEE_PPH21_DIPOTONG_YEAR_AGO,
-					'EMPLOYEE_PPHVAL_YEAR'					=> $employeeNoEdit->EMPLOYEE_YEAR,
-					'EMPLOYEE_PPHVAL_MASA'					=> $employeeNoEdit->EMPLOYEE_MASA,
-					'EMPLOYEE_PPHVAL'						=> $employeeNoEdit->EMPLOYEE_PPHVAL,
-					'PPHCOUNT_METHOD'						=> $employeeNoEdit->PPHCOUNT_METHOD,
-					'CREATED'								=> date('Y-m-d H:i:s'),
-					'STATUS'								=> "ON PROGRESS"
-				);
-				$this->cms->insertGeneralData('g_employee_income', $databaru);
-			}
-
-			// Update status karyawan dengan pph lama yang tidak di edit menjadi history
-			foreach ($employeeNoEditData as $employeeNoEditUpdate) {
-				$datalamaupdate = array(
-					'STATUS'	=> 'HISTORY'
-				);
-				$this->cms->updateGeneralData('g_pph21', $datalamaupdate, 'PPH_ID', $this->input->post('pphID')); 
-			}
-			// Cek Company Bruto kembali yang sudah diubah
-			$this->update_g_pph21($pphID); 
-		}
-
-		if($processType == 'REVISI'){
-			$pphID = $this->input->post('pphID');
-
-			// Cek Company Bruto kembali yang sudah diubah
-			$this->update_g_pph21($pphID); 
-		}
-		
-
-		redirect('pph_21/bulan/summary?pid='. $pphID . '&cid=' . $this->input->post('companyID'). '&mid=' . $this->input->post('monthID'). '&yid=' . $this->input->post('yearID'));
-	}
-
 
 	public function update_g_pph21($pphid)
 	{ 
@@ -2611,6 +3416,8 @@ class Pph21 extends CI_Controller
 		$this->cms->updateGeneralData('g_pph21', $UpdateCompanyData, 'PPH_ID', $pphid);
 	}
 
+	
+
 	public function aktifitas_pajak()
 	{
 		$this->load->view('cms/hitung_pajak/pph21_aktifitas_pajak');
@@ -2620,4 +3427,16 @@ class Pph21 extends CI_Controller
 	{
 		$this->load->view('cms/hitung_pajak/edit_status_aktifitas_pajak');
 	}
+	public function getSSE(){
+		//echo"disini SSE";
+		$sse=$this->input->post("sse",true);
+		//echo $sse;
+		$totalSSE = 0;
+		if($sse<>""){
+			$sql_get=$this->cms->getSingularData('g_payment', 'NO_SSE_21', $sse);
+			foreach ($sql_get->result() as $key);
+			 $totalSSE=@$key->TOTAL_SSE21;
+		}
+		echo $totalSSE;
+	} 
 }

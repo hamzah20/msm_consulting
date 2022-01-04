@@ -268,6 +268,7 @@ class Client extends CI_Controller
 		$this->cms->insertGeneralData('g_company_docs', $docsArrEff);
 		$this->cms->insertGeneralData('g_company_docs', $docsArrDir1);
 		$this->cms->insertGeneralData('g_company_docs', $docsArrDir2);
+		$this->cms->insertGeneralData('g_tax_calculate', $taxcalculateArr);
 		$this->cms->insertGeneralData('g_efacture', $efacArr);
 		$this->cms->insertGeneralData('g_pic_info', $picArr);
 		$this->cms->insertGeneralData('g_tax_info', $taxArr);
@@ -299,8 +300,10 @@ class Client extends CI_Controller
 
 	// EDIT PROFIL PERUSAHAAN
 	public function edit_profil_perusahaan()
-	{
+	{ 
 		$data['company'] = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->get('cid'));
+
+
 
 		if ($data['company']->num_rows() == 0) {
 			$this->session->set_flashdata('query', 'invalid');
@@ -308,6 +311,74 @@ class Client extends CI_Controller
 		} else {
 			$this->load->view('cms/company/edit_profil_perusahaan', $data);
 		}
+	}
+
+	public function delete_profil_perusahaan()
+	{
+		$del_company        = $this->cms->deleteGeneralData('g_company', 'COMPANY_ID', $this->input->get('cid'));
+		$del_company_detail = $this->cms->deleteGeneralData('g_company_detail', 'COMPANY_ID', $this->input->get('cid'));
+		$del_company_docs   = $this->cms->deleteGeneralData('g_company_docs', 'COMPANY_ID', $this->input->get('cid'));
+		$del_efacture       = $this->cms->deleteGeneralData('g_efacture', 'COMPANY_ID', $this->input->get('cid'));
+		$del_wp_identity    = $this->cms->deleteGeneralData('g_wp_identity', 'COMPANY_ID', $this->input->get('cid'));
+		$del_pic_info       = $this->cms->deleteGeneralData('g_pic_info', 'COMPANY_ID', $this->input->get('cid'));
+
+		if ($del_company && $del_company_detail && $del_company_docs && $del_efacture && $del_wp_identity && $del_pic_info) {
+            $this->session->set_flashdata('profil_perusahaan', 'delete');
+            redirect(base_url('company_profile'));
+        } else {
+            $this->session->set_flashdata('profil_perusahaan', 'error');
+            redirect(base_url('company_profile'));
+        }
+
+	}
+
+	public function update_profil_perusahaan()
+	{
+		$data_company_detail = array( 
+			'NPWP' 						=> $this->input->post('editNPWP'),
+			'COMPANY_NAME' 				=> $this->input->post('editNamaPerusahaan'),
+			'COMPANY_LEAD' 				=> $this->input->post('editPimpinanPerusahaan'),
+			'COMPANY_PHONE' 			=> $this->input->post('editNoTelpon'),
+			'COMPANY_FAX' 				=> $this->input->post('editNoFaksimile'),
+			'COMPANY_EMAIL' 			=> $this->input->post('editEmail'),
+			'COMPANY_ADDRESS' 			=> $this->input->post('editAlamat')
+		); 
+
+		$data_efacture = array(  
+			'EFACTURE_USER' 			=> $this->input->post('editUserEFaktur'),
+			'EFACTURE_PASS' 			=> $this->input->post('editPassEFaktur'),
+			'EFACTURE_ACTIVATION_CODE' 	=> $this->input->post('editKodeAktifasi'),
+			'EFACTURE_ACTIVATION_PASS' 	=> $this->input->post('editPassAktifasi'),
+			'EFACTURE_EMAIL' 			=> $this->input->post('editEmailEFaktur'),
+			'EFACTURE_EMAIL_PASS' 		=> $this->input->post('editPassEmailEFaktur'),
+			'ENOFA_PASS' 				=> $this->input->post('editPassENofa'),
+			'EPHRASE_PASS' 				=> $this->input->post('editPassEPhrase'),
+			'SSE_EMAIL' 				=> $this->input->post('editEmailSSEDJP'),
+			'SSE_PASS' 					=> $this->input->post('editPassEmailSSEDJP'),
+			'CLIENT_EMAIL' 				=> $this->input->post('editEmailClient'),
+			'CLIENT_EMAIL_PASS' 		=> $this->input->post('editPassClient'),
+			'CLIENT_PIC' 				=> $this->input->post('editPIC'),
+			'HANDLED_BY' 				=> $this->input->post('editDitangani'),
+			'PPHCOUNT_METHOD' 			=> $this->input->post('editMetodePerhitungan')
+		);
+
+		$data_company = array(
+        	'UPDATED'			=> date('Y-m-d h:i:s')
+        );
+		
+		$query_company_detail = $this->cms->updateGeneralData('g_company_detail', $data_company_detail, 'COMPANY_ID', $this->input->post('editIDCompany')); 
+		$query_efacture = $this->cms->updateGeneralData('g_efacture', $data_efacture, 'COMPANY_ID', $this->input->post('editIDCompany')); 
+		$query_company  = $this->cms->updateGeneralData('g_company', $data_company, 'COMPANY_ID', $this->input->post('editIDCompany')); 
+
+		// redirect('company_profile/edit/utama?cid=$this->input->post("editIDCompany")');
+
+		if ($query_company_detail && $query_efacture && $query_company) {
+            $this->session->set_flashdata('profil_perusahaan', 'success');
+            redirect(base_url('company_profile/edit/utama?cid=' . $this->input->post('editIDCompany')));
+        } else {
+            $this->session->set_flashdata('profil_perusahaan', 'error');
+            redirect(base_url('company_profile/edit/utama?cid=' . $this->input->post('editIDCompany')));
+        }
 	}
 
 	public function detail_hitung_pajak()
@@ -352,10 +423,10 @@ class Client extends CI_Controller
 		$dataUpdate = array(
             'WP_NAME'           => $this->input->post('editNama'),  
             'WP_NPWP'           => $this->input->post('editNPWP'),  
-            'WP_PHONE'          => $this->input->post('editPhone'),  
-            'WP_CATEGORY'       => $this->input->post('editCategory'),  
+            'WP_PHONE'          => $this->input->post('editNoTelpon'),  
+            'WP_CATEGORY'       => $this->input->post('editBentukBadan'),  
             'WP_BUSINESS_TYPE'  => $this->input->post('editJenisUsaha'),  
-            'WP_DJP_EMAIL'      => $this->input->post('editDJPOnline'),  
+            'WP_DJP_EMAIL'      => $this->input->post('editEmailDJPOnline'),  
             'WP_ADDRESS'        => $this->input->post('editAlamat'),  
         );
 
@@ -377,7 +448,8 @@ class Client extends CI_Controller
 
 	public function detail_info_perpajakan()
 	{
-		$data['company'] = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->get('cid'));
+		$data['company'] = $this->cms->getSingularData('g_tax_info', 'COMPANY_ID', $this->input->get('cid'));
+		$data['tax_info']   = $this->cms->getSingularData('g_tax_info', 'COMPANY_ID', $this->input->get('cid')); 
 
 		if ($data['company']->num_rows() == 0) {
 			$this->session->set_flashdata('query', 'invalid');
@@ -423,26 +495,196 @@ class Client extends CI_Controller
 		} else {
 			$this->load->view('cms/detail_dokumen_elektronik', $data);
 		}  
-	}
-
-
+	} 
 
 	public function edit_hitung_pajak()
 	{
-		$this->load->view('cms/edit_hitung_pajak');
+		$data['company'] = $this->cms->getSingularData('g_tax_calculate', 'COMPANY_ID', $this->input->get('cid')); 
+		$data['list_user']	 = $this->cms->getGeneralList('s_user');
+
+
+		if ($data['company']->num_rows() == 0) {
+			$this->session->set_flashdata('query', 'invalid');
+			redirect('company_profile');
+		} else {
+			$this->load->view('cms/edit_hitung_pajak', $data);
+		}  
+	}
+
+	public function update_hitung_pajak()
+	{
+		//echo $this->input->post('editID');
+
+		$queryUpdate = array(
+            'TAX_21'              => $this->input->post('editPPH21'),  
+            'TAX_21_1'            => $this->input->post('editPPH211'),   
+            'TAX_21_2'            => $this->input->post('editPPH212'),   
+            'TAX_21_3'            => $this->input->post('editPPH213'), 
+            'TAX_22'              => $this->input->post('editPPH22'),  
+            'TAX_22_1'            => $this->input->post('editPPH221'),   
+            'TAX_22_2'            => $this->input->post('editPPH222'),   
+            'TAX_22_3'            => $this->input->post('editPPH223'),   
+            'TAX_23'              => $this->input->post('editPPH21'),  
+            'TAX_23_1'            => $this->input->post('editPPH231'),   
+            'TAX_23_2'            => $this->input->post('editPPH232'),   
+            'TAX_23_3'            => $this->input->post('editPPH233'), 
+            'TAX_42'              => $this->input->post('editPPH42'),  
+            'TAX_42_1'            => $this->input->post('editPPH421'),   
+            'TAX_42_2'            => $this->input->post('editPPH422'),   
+            'TAX_42_3'            => $this->input->post('editPPH423'), 
+            'TAX_25'              => $this->input->post('editPPH25'),  
+            'TAX_25_1'            => $this->input->post('editPPH251'),   
+            'TAX_25_2'            => $this->input->post('editPPH252'),   
+            'TAX_25_3'            => $this->input->post('editPPH253'),
+            'TAX_PPN'             => $this->input->post('editPPN'),  
+            'TAX_PPN_1'           => $this->input->post('editPPN1'),   
+            'TAX_PPN_2'           => $this->input->post('editPPN2'),   
+            'TAX_PPN_3'           => $this->input->post('editPPN3'),  
+        );
+
+        $queryUpdateID = array(
+        	'UPDATED'			=> date('Y-m-d h:i:s'),
+        );
+
+        $queryUpdate   = $this->cms->updateGeneralData('g_tax_calculate', $queryUpdate, 'COMPANY_ID', $this->input->post('editIDCompany'));
+        $queryUpdateID = $this->cms->updateGeneralData('g_company', $queryUpdateID, 'COMPANY_ID', $this->input->post('editIDCompany'));
+
+        if ($queryUpdate && $queryUpdateID) {
+            $this->session->set_flashdata('hitung_pajak', 'success');
+            redirect(base_url('company_profile/edit/hitung_pajak?cid=' . $this->input->post('editIDCompany')));
+        } else {
+            $this->session->set_flashdata('hitung_pajak', 'error');
+            redirect(base_url('company_profile/edit/hitung_pajak?cid=' . $this->input->post('editIDCompany')));
+        }
 	}
 	
 	public function edit_info_perpajakan()
-	{
-		$this->load->view('cms/edit_info_perpajakan');
+	{ 
+		$data['company']    = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->get('cid')); 
+		$data['tax_info']   = $this->cms->getSingularData('g_tax_info', 'COMPANY_ID', $this->input->get('cid')); 
+
+
+		if ($data['company']->num_rows() == 0) {
+			$this->session->set_flashdata('query', 'invalid');
+			redirect('company_profile');
+		} else {
+			$this->load->view('cms/edit_info_perpajakan', $data);
+		} 
 	}
+
+	public function update_info_perpajakan()
+	{
+
+		$KP=$this->input->post('editKewajibanPerpajakan'); 
+		$EKP="";
+		foreach ($KP as $key) {
+			 $EKP.=$key;
+		}
+
+		$data_info_perpajakan = array(
+            'TAX_KPP_ADMIN'		=> $this->input->post('editKPP'),  
+            'TAX_KPP_PHONE'     => $this->input->post('editNoTelpon'),  
+            'TAX_ACCOUNT_REP'   => $this->input->post('editAccRep'),  
+            'TAX_WP_STATUS'     => $this->input->post('editStatusWP'),  
+            'TAX_PKP_STATUS'  	=> $this->input->post('editStatusPKP'),
+            'TAX_OBLIGATION'  	=> $EKP
+        );
+
+        $data_company = array(
+        	'UPDATED'			=> date('Y-m-d h:i:s'),
+        );
+
+        $sql_upt_infopajak = $this->cms->updateGeneralData('g_tax_info', $data_info_perpajakan, 'COMPANY_ID', $this->input->post('editIDCompany'));
+        $sql_upd_company   = $this->cms->updateGeneralData('g_company', $data_company, 'COMPANY_ID', $this->input->post('editIDCompany'));
+
+        if ($sql_upt_infopajak && $sql_upd_company) {
+            $this->session->set_flashdata('info_perpajakan', 'success');
+            redirect(base_url('company_profile/edit/info_perpajakan?cid=' . $this->input->post('editIDCompany')));
+        } else {
+            $this->session->set_flashdata('info_perpajakan', 'error');
+            redirect(base_url('company_profile/edit/info_perpajakan?cid=' . $this->input->post('editIDCompany')));
+        }
+	}
+
 	public function edit_identitas_pj()
 	{
-		$this->load->view('cms/edit_identitas_pj');
+		$data['company'] = $this->cms->getSingularData('v_g_companies', 'COMPANY_ID', $this->input->get('cid'));
+
+		if ($data['company']->num_rows() == 0) {
+			$this->session->set_flashdata('query', 'invalid');
+			redirect('company_profile');
+		} else {
+			$this->load->view('cms/edit_identitas_pj', $data);
+		}  
 	}
+
+	public function update_identitas_pj()
+	{
+		//echo $this->input->post('editID');
+
+		$data_identitas_pj = array(
+            'PIC_NAME'			=> $this->input->post('editNama'),  
+            'PIC_NIK'     		=> $this->input->post('editNIK'),  
+            'PIC_NPWP'   		=> $this->input->post('editNPWP'),  
+            'PIC_POSITION'     	=> $this->input->post('editJabatan'),  
+            'PIC_NATIONALITY'  	=> $this->input->post('editKebangsaan'),
+            'PIC_ADDRESS'  		=> $this->input->post('editAlamat') 
+        );
+
+        $data_company = array(
+        	'UPDATED'			=> date('Y-m-d h:i:s'),
+        );
+
+        $sql_upt_identitaspj = $this->cms->updateGeneralData('g_pic_info', $data_identitas_pj, 'COMPANY_ID', $this->input->post('editIDCompany'));
+        $sql_upd_company     = $this->cms->updateGeneralData('g_company', $data_company, 'COMPANY_ID', $this->input->post('editIDCompany'));
+
+
+        if ($sql_upt_identitaspj && $sql_upd_company) {
+            $this->session->set_flashdata('identitas_pj', 'success');
+            redirect(base_url('company_profile/edit/identitas_pj?cid=' . $this->input->post('editIDCompany')));
+        } else {
+            $this->session->set_flashdata('identitas_pj', 'error');
+            redirect(base_url('company_profile/edit/identitas_pj?cid=' . $this->input->post('editIDCompany')));
+        }
+	}
+
 	public function edit_dokumen_elektronik()
 	{
-		$this->load->view('cms/edit_dokumen_elektronik');
+		$data['company']  = $this->cms->getSingularDataLimit('g_company_docs', 'COMPANY_ID', $this->input->get('cid'),5,0);
+		$data['company1'] = $this->cms->getSingularDataLimit('g_company_docs', 'COMPANY_ID', $this->input->get('cid'),5,5);
+		$data['company2'] = $this->cms->getSingularDataLimit('g_company_docs', 'COMPANY_ID', $this->input->get('cid'),4,10);
+
+		if ($data['company']->num_rows() == 0) {
+			$this->session->set_flashdata('query', 'invalid');
+			redirect('company_profile');
+		} else {
+			$this->load->view('cms/edit_dokumen_elektronik',$data);
+		}  
+
+	}
+
+
+	public function update_dokumen_elektronik()
+	{
+
+		$company = $this->cms->getSingularData('g_company_docs', 'COMPANY_ID', $this->input->post('company_id'));
+
+		foreach ($company->result() as $key) {
+			echo 	$key->DOC_ID;
+			echo "<br>";
+
+			echo $_FILES[$key->DOC_ID]['name'];
+		}
+
+		$data_identitas_pj = array(
+
+            'PIC_NAME'			=> $this->input->post('editNama'),  
+            'PIC_NIK'     		=> $this->input->post('editNIK'),  
+            'PIC_NPWP'   		=> $this->input->post('editNPWP'),  
+            'PIC_POSITION'     	=> $this->input->post('editJabatan'),  
+            'PIC_NATIONALITY'  	=> $this->input->post('editKebangsaan'),
+            'PIC_ADDRESS'  		=> $this->input->post('editAlamat') 
+        );
 	}
 
 	public function delete_karyawan_perusahaan()

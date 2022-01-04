@@ -43,6 +43,27 @@ class Incube
         return $ktpMatch;
     }
 
+    public function checkPajak($field,$type){
+         $stps=strpos($field,$type);
+            $checked="";
+         if ( ($stps!==false)){
+              $checked = "checked";
+          }
+          return $checked;
+    }
+    public function checkstatus($status){
+        //if($field==$type){
+            if($status=='TERSEDIA'){
+                $status="<small class='text-success'>*TERSEDIA</small>";
+            }else{
+               
+                $status="<small class='text-danger'>*TIDAK TERSEDIA</small>";
+            }
+       // }
+       
+        return  $status;
+    }
+
     public function checkGenderFormat($genArr)
     {
         $counter = 3;

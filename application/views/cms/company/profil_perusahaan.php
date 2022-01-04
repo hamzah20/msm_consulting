@@ -63,7 +63,7 @@
                   <td class="text-center">
                     <a class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Lihat detail perusahaan" href="<?= base_url('company_profile/detail/utama?cid=' . $company->COMPANY_ID); ?>"><i class="fa fa-info-circle"></i></a>
                     <a class="btn btn-sm btn-warning text-white" data-toggle="tooltip" data-placement="top" title="Edit detail perusahaan" href="<?= base_url('company_profile/edit/utama?cid=' . $company->COMPANY_ID); ?>" role="button" role="button"><i class="fa fa-edit"></i></a>
-                    <a class="btn btn-sm btn-danger hapus" data-toggle="tooltip" data-placement="top" title="Hapus data perusahaan" href="#" role="button"><i class="fa fa-trash"></i></a>
+                    <a class="btn btn-sm btn-danger hapus" data-toggle="tooltip" data-placement="top" title="Hapus data perusahaan" href="<?= base_url('company_profile/delete?cid=' . $company->COMPANY_ID); ?>" role="button"><i class="fa fa-trash"></i></a>
                   </td>
                 </tr>
               <?php } ?>
@@ -157,6 +157,23 @@
       Swal.fire({
         title: 'Proses Berhasil',
         text: 'Data perusahaan berhasil ditambahkan',
+        icon: 'success',
+        showCancelButton: false,
+        confirmButtonText: 'Tutup'
+      });
+    });
+  </script>
+<?php } ?>
+
+<?php if ($this->session->userdata('profil_perusahaan') == 'delete') { ?>
+  <script>
+    jQuery(document).ready(function($) {
+
+      "use strict";
+
+      Swal.fire({
+        title: 'Hapus Data Berhasil',
+        text: 'Data perusahaan berhasil dihapus',
         icon: 'success',
         showCancelButton: false,
         confirmButtonText: 'Tutup'

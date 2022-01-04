@@ -38,7 +38,7 @@
         <!-- Content -->
         <div class="content mt-3">      
            <div class="card px-2"> 
-       			 <ul class="nav nav-tabs nav-edit-perusahaan m-2 mt-3">
+                 <ul class="nav nav-tabs nav-edit-perusahaan m-2 mt-3">
                     <li class="nav-item">
                         <a class="nav-link" href="<?= base_url('company_profile/detail/utama?cid=' . $company->row()->COMPANY_ID); ?>"><i class="fa fa-id-card mr-1"></i>Utama</a>
                     </li>
@@ -60,7 +60,7 @@
                 </ul>
                 <a class="btn btn-sm btn-warning col-2 ml-2 mb-3 mt-1 text-white" type="submit" href="<?php echo base_url('company_profile/edit/identitas_wp?cid='.$company->row()->COMPANY_ID); ?>">Edit Data</a>
                 <hr class="mx-2 mt-0">
-				<form method="POST" action="#" class="px-3">  
+                <form method="POST" action="#" class="px-3">  
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">

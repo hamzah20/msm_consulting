@@ -41,23 +41,37 @@
 
             <div class="card-body">
                 <form method="POST" action="<?= base_url('General/Employee/editEmployee'); ?>">
+                    <input type="hidden" class="form-control form-control-sm" name="companyID" placeholder="..." value="<?= ($employee->row()->EMPLOYEE_COMPANY_ID); ?>">
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="">No. Urut Karyawan</label>
-                                <input type="text" class="form-control form-control-sm" placeholder="..." readonly value="<?= ($employee->row()->EMPLOYEE_ORDER_NO != null ? $employee->row()->EMPLOYEE_ORDER_NO : '...'); ?>">
+                                <input type="text" class="form-control form-control-sm" name="employeeOrderNo" placeholder="..." value="<?= ($employee->row()->EMPLOYEE_ORDER_NO != null ? $employee->row()->EMPLOYEE_ORDER_NO : '...'); ?>">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="">No. KTP / No. Passport</label>
-                                <input type="text" class="form-control form-control-sm" placeholder="..." readonly value="<?= ($employee->row()->EMPLOYEE_KTP != null ? $employee->row()->EMPLOYEE_KTP : '...'); ?>">
+                                <input type="text" class="form-control form-control-sm" name="employeeKTP" placeholder="..." value="<?= ($employee->row()->EMPLOYEE_KTP != null ? $employee->row()->EMPLOYEE_KTP : '...'); ?>">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="">Status PTKP - Tanggungan</label>
-                                <input type="text" class="form-control form-control-sm" placeholder="Tidak Kawin - 0" readonly value="<?= ($employee->row()->EMPLOYEE_PTKP_STATUS != null ? $employee->row()->EMPLOYEE_PTKP_STATUS : '...'); ?>">
+                                <!-- <input type="text" class="form-control form-control-sm" placeholder="..." value="<?= ($employee->row()->EMPLOYEE_PTKP_STATUS != null ? $employee->row()->EMPLOYEE_PTKP_STATUS : '...'); ?>"> -->
+                                <select class="form-control form-control-sm" name="employeePTKPStatus">
+                                    <?php foreach ($ptkp->result() as $ptkpdata): 
+
+                                        if ($employee->row()->EMPLOYEE_PTKP_STATUS == $ptkpdata->TK_ID) {
+                                            $selected = "selected";
+                                        }else{
+                                            $selected = "";
+                                        }
+                                        ?>
+
+                                        <option value="<?= $ptkpdata->TK_ID ?>" <?= $selected ?> ><?= $ptkpdata->TK_NAME ?></option>
+                                    <?php endforeach ?>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -65,19 +79,34 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="">No. Induk Karyawan</label>
-                                <input type="text" class="form-control form-control-sm" placeholder="..." readonly value="<?= ($employee->row()->EMPLOYEE_INTERNAL_ID != null ? $employee->row()->EMPLOYEE_INTERNAL_ID : '...'); ?>">
+                                <input type="text" class="form-control form-control-sm" name="employeeInternalID" placeholder="..." value="<?= ($employee->row()->EMPLOYEE_INTERNAL_ID != null ? $employee->row()->EMPLOYEE_INTERNAL_ID : '...'); ?>">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="">Nama Karyawan</label>
-                                <input type="text" class="form-control form-control-sm" placeholder="..." readonly value="<?= ($employee->row()->EMPLOYEE_NAME != null ? $employee->row()->EMPLOYEE_NAME : '...'); ?>">
+                                <input type="text" class="form-control form-control-sm" name="employeeName" placeholder="..." value="<?= ($employee->row()->EMPLOYEE_NAME != null ? $employee->row()->EMPLOYEE_NAME : '...'); ?>">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="">Status NPWP</label>
-                                <input type="text" class="form-control form-control-sm" placeholder="..." readonly value="<?= ($employee->row()->EMPLOYEE_NPWP_STATUS == 'true' ? 'Aktif' : 'Inactive'); ?>">
+                               <!--  <input type="text" class="form-control form-control-sm" placeholder="..." value="<?= ($employee->row()->EMPLOYEE_NPWP_STATUS == 'true' ? 'Aktif' : 'Inactive'); ?>"> -->
+                                <select class="form-control form-control-sm" name="employeeNPWPStatus">
+                                    <?php 
+
+                                    if ($employee->row()->EMPLOYEE_NPWP_STATUS == 'true') {
+                                        $npwp_true = 'selected';
+                                        $npwp_false = '';
+                                    } else{
+                                        $npwp_true = '';
+                                        $npwp_false = 'selected';
+                                    }
+
+                                    ?>
+                                    <option value="true" <?= $npwp_true ?>>Active</option>
+                                    <option value="false" <?= $npwp_false ?>>Inactive</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -85,19 +114,34 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="">Jenis Kelamin</label>
-                                <input type="text" class="form-control form-control-sm" placeholder="..." readonly value="<?= ($employee->row()->EMPLOYEE_GENDER != null ? $employee->row()->EMPLOYEE_GENDER : '...'); ?>">
+                                <!-- <input type="text" class="form-control form-control-sm" placeholder="..." value="<?= ($employee->row()->EMPLOYEE_GENDER != null ? $employee->row()->EMPLOYEE_GENDER : '...'); ?>"> -->
+                                <select class="form-control form-control-sm" name="employeeGender">
+                                    <?php 
+
+                                    if ($employee->row()->EMPLOYEE_GENDER == 'Pria') {
+                                        $gender_pria = 'selected';
+                                        $gender_wanita = '';
+                                    } else{
+                                        $gender_pria = '';
+                                        $gender_wanita = 'selected';
+                                    }
+
+                                    ?>
+                                    <option value="Pria" <?= $gender_pria ?>>Pria</option>
+                                    <option value="Wanita" <?= $gender_wanita ?>>Wanita</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="">Kewarganegaraan</label>
-                                <input type="text" class="form-control form-control-sm" placeholder="..." readonly value="<?= ($employee->row()->EMPLOYEE_NATIONALITY != null ? $employee->row()->EMPLOYEE_NATIONALITY : '...'); ?>">
+                                <input type="text" class="form-control form-control-sm" name="employeeNationality" placeholder="..." value="<?= ($employee->row()->EMPLOYEE_NATIONALITY != null ? $employee->row()->EMPLOYEE_NATIONALITY : '...'); ?>">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="">Kode NPWP</label>
-                                <input type="text" class="form-control form-control-sm" placeholder="..." readonly value="<?= ($employee->row()->EMPLOYEE_NPWP != null ? $employee->row()->EMPLOYEE_NPWP : '...'); ?>">
+                                <input type="text" class="form-control form-control-sm" name="employeeNPWP" placeholder="..." value="<?= ($employee->row()->EMPLOYEE_NPWP != null ? $employee->row()->EMPLOYEE_NPWP : '...'); ?>">
                             </div>
                         </div>
                     </div>
@@ -105,7 +149,7 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="">Jabatan</label>
-                                <input type="text" class="form-control form-control-sm" placeholder="Admin" readonly value="<?= ($employee->row()->EMPLOYEE_POSITION != null ? $employee->row()->EMPLOYEE_POSITION : '...'); ?>">
+                                <input type="text" class="form-control form-control-sm" name="employeePosition" placeholder="..." value="<?= ($employee->row()->EMPLOYEE_POSITION != null ? $employee->row()->EMPLOYEE_POSITION : '...'); ?>">
                             </div>
                         </div>
                         <div class="col-4">
@@ -166,7 +210,8 @@
                     <input type="hidden" name="employeeID" value="<?= $employee->row()->EMPLOYEE_ID; ?>">
 
                     <hr>
-                    <a class="btn btn-sm btn-danger hapus float-right" href="#" role="button"> Hapus Data Karyawan </a>
+
+                    <a class="btn btn-sm btn-danger hapus float-right" data-toggle="tooltip" data-placement="top" data-employee="<?= $employee->row()->EMPLOYEE_ID; ?>" data-company="<?= $employee->row()->EMPLOYEE_COMPANY_ID; ?>" title="Hapus data pegawai" href="#" role="button"> Hapus Data Karyawan </a>
                     <button class="btn btn-sm btn-success text-white float-right mx-1" href="<?= base_url('Client/karyawan_perusahaan_detail'); ?>" role="submit"> Simpan Perubahan
                     </button>
 
@@ -185,6 +230,57 @@
 <!-- /#right-panel -->
 
 <!-- Right Panel -->
+
+
+<script>
+jQuery(document).ready(function($) {
+    $(document).on('click', '.hapus', function(event) {
+
+      let btnID = $(this).data('employee');
+      let btnCompany = $(this).data('company');
+
+      Swal.fire({
+        title: 'Hapus Data',
+        text: 'Apakah Anda yakin ingin menghapus data ini?',
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Batal',
+        confirmButtonText: 'Hapus'
+      }).then((result) => {
+        if (result.value) {
+
+          $.post(baseUrl + 'General/Employee/deleteEmployee', {
+            employeeID: btnID,
+            companyID: btnCompany
+          }, function(resp) {
+            if (resp.code == 200) {
+              Swal.fire({
+                title: 'Proses Berashil',
+                text: 'Data telah dihapus',
+                icon: 'success',
+                confirmButtonText: 'Ok'
+              }).then((result) => {
+                let redir = resp.redir;
+                location.replace(redir);
+              });
+            } else {
+
+              Swal.fire({
+                title: 'Proses Gagal',
+                text: 'Proses tidak dapat dilakukan, silahkan coba lagi',
+                icon: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Tutup'
+              });
+            }
+          });
+        }
+      });
+    });
+});
+
+
+</script>
 
 
 <?php if ($this->session->userdata('employee_update') == 'success') { ?>

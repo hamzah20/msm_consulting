@@ -21,6 +21,32 @@
         return $query;
     }
 
+    public function getSingularDataLimit($table, $column, $data, $limit, $start)
+    {
+        $this->db->select('*')
+            ->from($table)
+            ->where($column, $data)
+            ->limit($limit,$start);
+
+        $query = $this->db->get();
+
+        return $query;
+    }
+
+    public function getSingularDataPayment($table, $column1, $data1, $column2, $data2, $column3, $data3)
+    {
+        $this->db->select('*')
+            ->from($table)
+            ->where($column1, $data1)
+            ->where($column2, $data2)
+            ->where($column3, $data3)
+            ->order_by("REC_ID", "desc");
+
+        $query = $this->db->get();
+
+        return $query;
+    }
+
     public function getSingularDataDetail($table, $column1, $column2, $data1, $data2)
     {
         $this->db->select('*')
@@ -32,13 +58,42 @@
 
         return $query;
     }
-     public function getSingularDataTriple($table, $column1, $column2,$column3, $data1, $data2,$data3)
+    
+    public function getSingularDataTriple($table, $column1, $column2,$column3, $data1, $data2,$data3)
     {
         $this->db->select('*')
             ->from($table)
             ->where($column1, $data1) /* COMPANY ID */
             ->where($column2, $data2) /* DOC ID */
             ->where($column3, $data3); /* DOC ID */
+
+        $query = $this->db->get();
+
+        return $query;
+    }
+
+    public function getSingularDataTripleOrder($table, $column1, $column2,$column3, $data1, $data2,$data3)
+    {
+        $this->db->select('*')
+            ->from($table)
+            ->where($column1, $data1) /* COMPANY ID */
+            ->where($column2, $data2) /* DOC ID */
+            ->where($column3, $data3) /* DOC ID */
+            ->order_by("REC_ID", "ASC");
+
+        $query = $this->db->get();
+
+        return $query;
+    }
+
+    public function getSingularDataFour($table, $column1, $column2,$column3, $column4, $data1, $data2,$data3, $data4)
+    {
+        $this->db->select('*')
+            ->from($table)
+            ->where($column1, $data1) /* COMPANY ID */
+            ->where($column2, $data2) /* DOC ID */
+            ->where($column3, $data3) /* DOC ID */
+            ->where($column4, $data4); /* DOC ID */
 
         $query = $this->db->get();
 
@@ -80,6 +135,17 @@
         return $query;
     }
 
+    public function deleteGeneralDataFour($table, $filter1, $filter2, $filter3, $filter4, $query1, $query2, $query3,$query4)
+    {
+        $query = $this->db->where($filter1, $query1)
+                          ->where($filter2, $query2)
+                          ->where($filter3, $query3)
+                          ->where($filter4, $query4)
+                          ->delete($table);
+
+        return $query;
+    }
+
     public function updateGeneralData($table, $data, $filter, $query)
     {
         $this->db->where($filter, $query);
@@ -97,6 +163,34 @@
         $query = $this->db->update($table, $data);
 
         return $query;
+    }
+
+    public function updateGeneralDataTriple($table, $data, $filter1, $query1, $filter2, $query2, $filter3, $query3)
+    {
+        $this->db->where($filter1, $query1);
+        $this->db->where($filter2, $query2);
+        $this->db->where($filter3, $query3);
+
+        $query = $this->db->update($table, $data);
+
+        return $query;
+    }
+
+    public function updateGeneralDataFour($table, $data, $filter1, $query1, $filter2, $query2, $filter3, $query3, $filter4, $query4)
+    {
+        $this->db->where($filter1, $query1);
+        $this->db->where($filter2, $query2);
+        $this->db->where($filter3, $query3);
+        $this->db->where($filter4, $query4);
+
+        $query = $this->db->update($table, $data);
+
+        return $query;
+    }
+
+    public function checkShowPayment()
+    {
+
     }
 
     public function getHeadingSidebar($groupID)
@@ -130,7 +224,41 @@
         $query = $this->db->get();
 
         return $query;
+    } 
+
+    public function kblbFix($pphID,$total,$total_paid)
+    {
+        // $sql = $this->db->query("SELECT ".$total." - ".$total_paid." AS OWED_FIX_TOTAL FROM `g_payment`  WHERE PPH_ID='".$pphID."'");
+        // return $sql;
+
+        // $sql = $sql = $this->db->query("SELECT COUNT(".$total." - ".$total_paid.") AS OWED_FIX_TOTAL FROM `g_payment`  WHERE PPH_ID='".$pphID."'");
+        $sql = $sql = $this->db->query("SELECT ".$total." - ".$total_paid." AS KBLB_FIX_TOTAL FROM `g_payment` WHERE PPH_ID='".$pphID."'");
+        return $sql;
     }
+
+    public function totalPayment($comID,$years,$month)
+    {
+        $sql = $this->db->query("SELECT SUM(PAID_PPH21) AS PAID_PPH21_TOTAL FROM `g_payment`  WHERE COMPANY_ID='".$comID."' AND PERIOD_YEAR='".$years."' AND PERIOD_MONTH='".$month."'");
+        return $sql;
+    } 
+
+    public function totalSSE($comID,$years,$month)
+    {
+        $sql = $this->db->query("SELECT SUM(TOTAL_SSE21) AS ALL_TOTAL_SSE21 FROM `g_payment`  WHERE COMPANY_ID='".$comID."' AND PERIOD_MONTH='".$month."' AND PERIOD_YEAR='".$years."'");
+        return $sql;
+    } 
+
+    public function totalSEEDebt($comID,$years,$month)
+    {
+        $sql = $this->db->query("SELECT SUM(TOTAL_SSE21) AS ALL_TOTALDEBT_SSE21 FROM `g_payment`  WHERE COMPANY_ID='".$comID."' AND PERIOD_MONTH='".$month."' AND PERIOD_YEAR='".$years."'");
+        return $sql;
+    }     
+
+    public function totalBrutoResign($comID,$years,$month,$employeeID)
+    {
+        $sql = $this->db->query("SELECT SUM(EMPLOYEE_BRUTO) AS ALL_EMPLOYEE_BRUTO, SUM(EMPLOYEE_BRUTO - EMPLOYEE_TANTIEMBONUS) AS ALL_EMPLOYEE_BRUTO_NOTHR, SUM(1) AS TOTAL_BULAN_RESIGN FROM `v_g_employee_pph21`  WHERE COMPANY_ID='".$comID."' AND  PERIOD_YEAR='".$years."' AND EMPLOYEE_ID='".$employeeID."' and PERIOD_MONTH <> '".$month."'");
+        return $sql;
+    }     
 
     public function countYear($cid,$yid,$eid){ 
         $sql = $this->db->query("SELECT a.PERIOD_YEAR, a.COMPANY_ID, b.EMPLOYEE_ID, 
@@ -354,7 +482,7 @@
 
     public function getPembetulan($cid){
 
-        $sql = $this->db->query("SELECT a.*,(select count(b.PPH_ID)-1 from v_g_companies_pph21_detail as b where b.COMPANY_ID=a.COMPANY_ID and (b.PERIOD_MONTH=a.PERIOD_MONTH and b.PERIOD_YEAR=a.PERIOD_YEAR)) AS TOTAL_PEMBETULAN FROM `v_g_companies_pph21_detail` AS a WHERE a.COMPANY_ID='".$cid."' AND a.STATUS IN ('ACTIVE','ON PROGRESS', 'APPROVED','PAID','LAPOR PAJAK','RE PROGRESS') ORDER BY MONTH_VAL ASC");
+        $sql = $this->db->query("SELECT a.*,(select count(b.PPH_ID)-1 from v_g_companies_pph21_detail as b where b.COMPANY_ID=a.COMPANY_ID and (b.PERIOD_MONTH=a.PERIOD_MONTH and b.PERIOD_YEAR=a.PERIOD_YEAR)) AS TOTAL_PEMBETULAN FROM `v_g_companies_pph21_detail` AS a WHERE a.COMPANY_ID='".$cid."' AND a.STATUS IN ('ACTIVE','ON PROGRESS', 'APPROVED','SSE','WAITING OF PAYMENT','PAID','LAPOR PAJAK','RE PROGRESS') ORDER BY MONTH_VAL ASC");
         return $sql;
     }
 

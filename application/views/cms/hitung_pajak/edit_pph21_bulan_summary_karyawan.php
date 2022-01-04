@@ -266,7 +266,7 @@
           <hr>
             <div class="row">
                 <button class="btn btn-sm btn-success col-2 ml-3 mb-3" type="submit">Hitung dan Simpan</button>
-                <a class="btn btn-sm btn-secondary col-2 ml-2 mb-3" type="submit" href="<?php echo base_url('pph_21/bulan/summary/karyawan/edit'); ?>">Kembali</a>
+                <a class="btn btn-sm btn-secondary col-2 ml-3 mb-3" data-toggle="tooltip" data-placement="top" title="Kembali" href="<?= base_url('pph_21/bulan/summary?cid=' . $employee->row()->COMPANY_ID . '&pid=' . $employee->row()->PPH_ID. '&mid=' . $employee->row()->PERIOD_MONTH. '&yid=' . $employee->row()->PERIOD_YEAR); ?>">Kembali</a>
             </div>
           </form>
         </div>

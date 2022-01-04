@@ -20,7 +20,7 @@
     <div class="col-sm-4">
       <div class="page-header float-left">
         <div class="page-title">
-          <h1>PPH 21</h1>
+          <h1>PPh 21</h1>
         </div>
       </div>
     </div>
@@ -28,7 +28,7 @@
       <div class="page-header float-right">
         <div class="page-title">
           <ol class="breadcrumb text-right">
-            <li class="active"> <a href="<?php echo base_url('pph_21'); ?>"> PPH 21</a> / PPH 21 Bulanan</li>
+            <li class="active"> <a href="<?php echo base_url('pph_21'); ?>"> PPh 21</a> / Bulanan</li>
           </ol>
         </div>
       </div>
@@ -40,7 +40,8 @@
     <div class="card">
       <div class="card-body">
         <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addPPH21PerusahaanBulan">Tambah Data</a>
-        <a class="btn btn-sm btn-info ml-3" href="#">Lihat History</a>
+        <?php foreach ($correction->result() as $data);?>
+        <a class="btn btn-sm btn-info ml-3" href="<?= base_url('pph_21/history?cid=' . $data->COMPANY_ID .'&yid=' . $data->PERIOD_YEAR); ?>">Lihat History</a>
         <hr>
         <table class="table" id="companyTable">
           <thead class="thead-dark">
