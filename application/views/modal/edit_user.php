@@ -12,6 +12,7 @@ if (@$user->STATUS == 'ACTIVE') {
   	
   						<div class="form-group">
   							<label for="id_user" class="col-form-label">Id</label>
+                <input type="text" name="rec_id" hidden value="<?= $user->REC_ID ?>">
   							<input type="text" class="form-control form-control-sm" id="id_user" name="id_user" required value="<?= $user->ID?>">
                 <label for="name_user" class="col-form-label">Name</label>
                 <input type="text" class="form-control form-control-sm" id="name_user" name="name_user" required value="<?= $user->NAME?>">

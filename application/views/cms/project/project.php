@@ -84,32 +84,35 @@
 
 
           <?php
+          //Kalo mau supaya user biasa bisa ngelihat semua task, ikuti perintah yang ada kode 2077
           $no = 0;
           foreach ($project_list->result() as $plist): 
             $data_task_done = $this->cms->getSingularDataDetail('g_project_detail', 'PROJECT_ID', 'STATUS', $plist->PROJECT_ID, 'DONE');
             $data_task = $this->cms->getSingularData('g_project_detail', 'PROJECT_ID', $plist->PROJECT_ID);
 
-            $status_project = "<span class='badge badge-warning' style='font-size: 12px;'>ONPROGRESS</span>";
+            $status_project = "<span class='badge badge-primary' style='font-size: 12px;'>ONPROGRESS</span>";
             if ($data_task_done->num_rows() == $data_task->num_rows()) {
               $status_project = "<span class='badge badge-success' style='font-size: 12px;'>DONE</span>";
             }
 
             $nbsp = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $project_id = $plist->PROJECT_ID;
-            $project_milestone = $this->cms->getMilestoneProject('g_project_detail', $project_id);
+            $project_milestone = $this->cms->getMilestoneProject('v_g_project_detail', $project_id);
             $start_project = date('Y-m-d', strtotime($plist->START_DATE));
             $end_project = date('Y-m-d', strtotime($plist->END_DATE));
             $days = $this->incube->calculateDays($start_project, $end_project);
-            $no++
+            $no++;
+            $cek_project_pic_list = $this->cms->getSingularDataDetail('g_project_detail', 'PROJECT_ID', 'PIC', $plist->PROJECT_ID, $user_rec_id);//2077 hapus line ini
+            if ($cek_project_pic_list->num_rows() > 0  || $elevated_group == true) {//2077 hapus line ini
             ?>
             <tr>
               <td data-toggle="collapse" data-target="#collapse<?= $plist->REC_ID ?>" style="background: #ebebeb;cursor: pointer;"><?= $no ?></td>
               <td data-toggle="collapse" data-target="#collapse<?= $plist->REC_ID ?>" style="background: #ebebeb;cursor: pointer;">
                 <label style="font-weight: bold;font-size: 14px;"><?= $plist->PROJECT_NAME ?></label><br>
-                <label style="font-size: 12px;">Project OWNER : AJI PRATAMA</label><br>
+                <label style="font-size: 12px;">Project OWNER : <?= $plist->USER_NAME ?></label><br>
               </td>
               <td data-toggle="collapse" data-target="#collapse<?= $plist->REC_ID ?>" style="background: #ebebeb;cursor: pointer;">
-                <label style="font-weight: bold;font-size: 14px;">INCUBESOLUTIONS</label><br>
+                <label style="font-weight: bold;font-size: 14px;"><?= $plist->PROJECT_CUSTOMER ?></label><br>
               </td>
               <td data-toggle="collapse" data-target="#collapse<?= $plist->REC_ID ?>" style="background: #ebebeb;cursor: pointer;">
                 <h6><?= $status_project ?></h6>
@@ -138,23 +141,28 @@
             <tr>
               <td colspan="8">
               <div class="collapse" id="collapse<?= $plist->REC_ID ?>">
+              <table>
                 <?php foreach ($project_milestone->result() as $proj_milestone) {
-                  $milestone_data = $this->cms->getSingularData('g_milestone', 'REC_ID', $proj_milestone->MILESTONE_ID);
-                  $project_task = $this->cms->getSingularDataDetail('g_project_detail', 'PROJECT_ID', 'MILESTONE_ID', $project_id, $proj_milestone->MILESTONE_ID)
+                  $project_task = $this->cms->getSingularDataDetailTask('v_g_project_detail', 'PROJECT_ID', 'MILESTONE_ID', $project_id, $proj_milestone->MILESTONE_ID);
+                  $cek_milestone_pic_list = $this->cms->getSingularDataTriple('g_project_detail', 'PROJECT_ID', 'MILESTONE_ID', 'PIC', $project_id, $proj_milestone->MILESTONE_ID ,$user_rec_id);//2077 hapus line ini
+                  if ($cek_milestone_pic_list->num_rows() > 0  || $elevated_group == true) {//2077 hapus line ini
                 ?>
 
-                <table>
+                
                   <thead>
                         <tr>
                           <th style="width:0.2in"></th>
                           <th class="text-warning" style="width:2.7in">
-                            <i class="fa fa-arrow-right"> </i> <?= $milestone_data->row()->MILESTONE_NAME  ?>
+                            <i class="fa fa-arrow-right"> </i> <?= $proj_milestone->MILESTONE_NAME  ?>
                           </th>
-                          <th style="width:2.2in">
+                          <th style="width:1.2in">
                             PIC
                           </th>
-                          <th style="width:2.2in">
+                          <th style="width:1.9in">
                             STATUS
+                          </th>
+                          <th style="width:1.7in">
+                            NOTES SUPERUSER
                           </th>
                           <th style="width:1.5in">
                             START DATE
@@ -171,34 +179,40 @@
                         </thead>
 
                           <?php foreach ($project_task->result() as $proj_task) {
-                            $task_data = $this->cms->getSingularData('g_task', 'REC_ID', $proj_task->TASK_ID);
                             $file_num_rows = $this->cms->getSingularDataTriple('g_project_doc', 'PROJECT_ID', 'MILESTONE_ID','TASK_ID', $project_id, $proj_milestone->MILESTONE_ID, $proj_task->TASK_ID)->num_rows();
                             $duration = $this->incube->hoursToTime($proj_task->TOTAL_HOURS);
                             $status = "";
                             if ($proj_task->STATUS == 'DONE') {
                               $status = "<span class='badge badge-success' style='font-size: 12px;'>DONE</span>";
                             }elseif($proj_task->STATUS == 'ONPROGRESS'){
-                              $status = "<span class='badge badge-warning' style='font-size: 12px;'>ONPROGRESS</span>";
+                              $status = "<span class='badge badge-primary' style='font-size: 12px;'>ONPROGRESS</span>";
                             }elseif($proj_task->STATUS == 'WAITING FOR APPROVAL'){
                               $status = "<span class='badge badge-warning' style='font-size: 12px;'>WAITING FOR APPROVAL</span>";
                             }elseif($proj_task->STATUS == 'REVISE'){
                               $status = "<span class='badge badge-danger' style='font-size: 12px;'>REVISED</span>";
                             }elseif($proj_task->STATUS == 'PENDING'){
                               $status = "<span class='badge badge-danger' style='font-size: 12px;'>PENDING</span>";
+                            }else{
+                              $status = "<span class='badge badge-secondary' style='font-size: 12px;'>$proj_task->STATUS</span>";
                             }
 
+                            $cek_milestone_pic_list = $this->cms->getSingularDataFour('g_project_detail', 'PROJECT_ID', 'MILESTONE_ID', 'TASK_ID', 'PIC', $project_id, $proj_milestone->MILESTONE_ID, $proj_task->TASK_ID, $user_rec_id);//2077 hapus line ini
+                            if ($cek_milestone_pic_list->num_rows() > 0  || $elevated_group == true) {//2077 hapus line ini
                           ?>
 
                             <tr>
                               <td></td>
                               <td class="text-success">
-                                <?= $nbsp ?><i class="fa fa-arrow-right "> </i> <?= $task_data->row()->TASK_NAME ?>
+                                <?= $nbsp ?><i class="fa fa-arrow-right "> </i> <?= $proj_task->TASK_NAME ?>
                               </td>
                               <td>
                                 <?= $proj_task->PIC ?>
                               </td>
                               <td>
                                 <?= $status; ?>
+                              </td>
+                              <td>
+                                <?= nl2br($proj_task->NOTES_SUPERUSER) ?>
                               </td>
                               <td>
                                 <?= $proj_task->START_DATE ?>
@@ -212,13 +226,13 @@
                               <td>
                                 
 
-                                <?php if ($proj_task->STATUS != 'WAITING FOR APPROVAL' AND $proj_task->STATUS != 'DONE'): ?>
-                                  <a class="btn btn-sm btn-primary text-white uploadDokumenTask" title="Upload Dokumen" data-toggle="modal" data-target="#uploadDokumenTask" data-idproject="<?= $plist->PROJECT_ID ?>" data-idtask="<?= $proj_task->TASK_ID ?>" data-idmilestone="<?= $milestone_data->row()->REC_ID ?>">
+                                <?php if ($proj_task->STATUS != 'WAITING FOR APPROVAL' AND $proj_task->STATUS != 'DONE' AND $proj_task->STATUS != '-'): ?>
+                                  <a class="btn btn-sm btn-primary text-white uploadDokumenTask" title="Upload Dokumen" data-toggle="modal" data-target="#uploadDokumenTask" data-idproject="<?= $plist->PROJECT_ID ?>" data-idtask="<?= $proj_task->TASK_ID ?>" data-idmilestone="<?= $proj_milestone->MILESTONE_ID ?>">
                                     <i class="fa fa-file"></i>
                                   </a>
                                 <?php endif ?>
 
-                                <a class="btn btn-sm btn-primary text-white lihatDokumenTask" title="Lihat Dokumen" data-toggle="modal" data-target="#lihatDokumen" data-idproject="<?= $plist->PROJECT_ID ?>" data-idtask="<?= $proj_task->TASK_ID ?>" data-idmilestone="<?= $milestone_data->row()->REC_ID ?>">
+                                <a class="btn btn-sm btn-primary text-white lihatDokumenTask" title="Lihat Dokumen" data-toggle="modal" data-target="#lihatDokumen" data-idproject="<?= $plist->PROJECT_ID ?>" data-idtask="<?= $proj_task->TASK_ID ?>" data-idmilestone="<?= $proj_milestone->MILESTONE_ID ?>">
                                   <i class="fa fa-list"></i>
                                 </a>
 
@@ -232,13 +246,13 @@
 
                             </tr>
 
-                          <?php } ?>
+                          <?php }} //2077 hapus satu } ini ?>
+
+                <?php }} //2077 hapus satu } ini ?>
                 </table>
-
-
-                <?php } ?>
               </div>
               </td>
+            <?php } //2077 hapus line ini ?>
           <?php endforeach ?>
       </tr>
 
@@ -301,7 +315,7 @@
 
     <div class="modal fade" id="lihatDokumen" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog modal-lg">
-        <form class="needs-validation" action="<?= base_url('General/Project/lihatDokumen'); ?>" method="POST" enctype='multipart/form-data'>
+        
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="editUser">Lihat Dokumen</h5>
@@ -313,11 +327,10 @@
               Loading
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
-              <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
+              <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Ok</button>
             </div>
           </div>
-        </form>
+        
       </div>
     </div>
 

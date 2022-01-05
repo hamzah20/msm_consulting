@@ -386,7 +386,7 @@
                               <td><?= $approval_task->row()->TASK_NAME  ?></td>
                               <td><?= $waiting_approval_data->END_DATE ?></td>
                               <td><?= $waiting_approval_data->TOTAL_HOURS ?></td>
-                              <td><?= $waiting_approval_data->PIC ?></td>
+                              <td><?= @$s_user->row()->NAME ?></td>
                               <td>
                                 <a class="btn btn-success getapproval" href="#" role="button" data-toggle="modal" data-target="#approvalTask" data-recid="<?= $waiting_approval_data->REC_ID ?>"><i class="fa fa-eye"></i></a>
                               </td>
@@ -407,18 +407,15 @@
         <!-- .content -->
     </div>
     <!-- /#right-panel -->
-
-    <!-- Add Modal Perusahaan -->
     <div class="modal fade" id="approvalTask" tabindex="-1" aria-labelledby="approvalTask" aria-hidden="true">
-    <div class="modal-dialog">
-        
+        <div class="modal-dialog modal-lg">
+            
             <div class="modal-content content-TaskApproval">
                 
             </div>
         
+        </div>
     </div>
-</div>
-    <!-- End of Add Modal Perusahaan -->
 
     <!-- Right Panel -->
 

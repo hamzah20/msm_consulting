@@ -53,7 +53,7 @@
 		$no = 1;
 		foreach ($dokumen_list_milestone->result() as $dokumen_milestone):
 		$milestone = $this->cms->getSingularData('g_milestone', 'REC_ID', $dokumen_milestone->MILESTONE_ID);
-		$dokumen_list_task = $this->cms->getSingularDataDetailTask('g_project_doc', 'PROJECT_ID', 'MILESTONE_ID', $id_project, $dokumen_milestone->MILESTONE_ID);
+		$dokumen_list_task = $this->cms->getSingularDataDetailTask('v_g_project_doc', 'PROJECT_ID', 'MILESTONE_ID', $id_project, $dokumen_milestone->MILESTONE_ID);
 		 ?>
 			<tr>
 				<td>

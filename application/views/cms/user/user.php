@@ -68,10 +68,10 @@
                   <td class="text-center"><?= $user->STATUS; ?></td>
                   <!-- <td class="text-center"><?= $user->ATTEMPTED_LOGIN; ?></td> -->
                   <td class="text-center">
-                  	<a class="btn btn-sm btn-warning edit" data-toggle="modal" data-target="#editUser" data-id="<?= $user->ID; ?>" title="Edit User" href="#" role="button">
+                  	<a class="btn btn-sm btn-warning edit" data-toggle="modal" data-target="#editUser" data-id="<?= $user->REC_ID; ?>" title="Edit User" href="#" role="button">
                       <i class="fa fa-edit"></i>
                     </a>
-                  	<a class="btn btn-sm btn-danger hapus" data-toggle="tooltip" data-placement="top" data-user="<?= $user->ID; ?>" title="Hapus User" href="#" role="button">
+                  	<a class="btn btn-sm btn-danger hapus" data-toggle="tooltip" data-placement="top" data-user="<?= $user->REC_ID; ?>" title="Hapus User" href="#" role="button">
                       <i class="fa fa-trash"></i>
                     </a>
                   </td>

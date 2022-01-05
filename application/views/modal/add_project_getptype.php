@@ -10,8 +10,6 @@
 <br>
 
 <?php
-									
-$milestone=$this->cms->getSingularData('v_g_milestone','PROJECT_TYPE_ID',$ptid_milestone);
 if ($milestone) {
 
 $arr_1 = 0;
@@ -42,7 +40,13 @@ $arr_2 = 0;
 						<input type="text" name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][total_hours]" class="form-control form-control-sm" style="float: right; width: 10%;" placeholder="Total Hours" > 
 						<input type="datetime-local" name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][end_date]" class="form-control form-control-sm" style="float: right; width: 20%;" placeholder="End Date" > 
 						<input type="datetime-local" name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][start_date]" class="form-control form-control-sm" style="float: right; width: 20%;" placeholder="Start Date" > 
-						<input type="text" name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][pic]" class="form-control form-control-sm" style="float: right; width: 30%;" >
+						<!-- <input type="text" name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][pic]" class="form-control form-control-sm" style="float: right; width: 30%;" > -->
+						<select name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][pic]" class="form-control form-control-sm" style="float: right; width: 30%;">
+							<option></option>
+							<?php foreach ($s_user->result() as $user): ?>
+								<option value="<?= $user->REC_ID ?>"><?= $user->NAME ?></option>
+							<?php endforeach ?>
+						</select>
 						<span style="float: right;margin-right: 5px;">PIC : </span>
 					</li>
        				<?php

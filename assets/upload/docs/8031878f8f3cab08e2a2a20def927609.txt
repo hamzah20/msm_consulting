@@ -1,0 +1,111 @@
+-x265-params "aq-mode=3"
+
+!ffmpeg -y -i bbb_sunflower_1080p_30fps_normal.mp4 -c:v hevc_nvenc -gpu any -pix_fmt p010le -profile:v main10 -preset slow -g 300 -rc-lookahead 50 -rc constqp -qp 33 -vf scale=-2:480 -c:a libopus -b:a 64k -ac 2 -t 30 bbb_out.mkv
+
+Laptop : 
+ffmpeg -y -hwaccel auto -i test2.mp4 -c:v libx265 -preset superfast -g 300 -rc-lookahead 50 -surfaces 56 -rc constqp -qp 33 -vf "eq=brightness=0.08, scale=-2:720" -c:a aac -b:a 192k -ac 2 result.mp4
+
+ffmpeg -y -hwaccel auto -i sholat_jenazah.mp4 -c:v libx265 -preset fast -crf 26 -vf "eq=gamma=1.3, hqdn3d=2:2:0:0, scale=-2:720" -c:a aac -b:a 192k -ac 1 -t 3 result.mp4
+
+ffmpeg -y -hwaccel auto -i source.mp4 -c:v libx265 -preset fast -g 300 -rc-lookahead 50 -surfaces 56 -rc constqp -qp 33 -vf "scale=-2:480" -c:a copy result2.mp4
+
+ffmpeg -y -hwaccel auto -i Underwater.2020.720p.WEBRip.800MB.x264-GalaxyRG.mkv -c:v libx265 -preset fast -g 300 -x265-params "rc-lookahead=50:qp=32" -vf "scale=-2:480" -c:a libopus -b:a 64k -ac 2 -t 60 underwater_sample.mp4
+
+ffmpeg -i result.mp4 -i result.wav -map 0:0 -map 1:0 -c:v copy -c:a aac -b:a 192k -shortest OUTPUT.mp4
+
+eq=gamma=1.3, fftdnoiz=30:1:6:0.5:1:1,
+
+
+ffmpeg -y -hwaccel auto -i ./video_uncompressed/VID_20190606_135330.mp4 -c:v libx264 -crf 25 -preset veryfast -vf "scale=-2:720" -c:a copy -map_metadata 0 result.mp4
+
+
+
+
+
+165080
+7kkhwbu
+eirz7ev
+
+varchev
+
+
+User ID 4239250
+Password mIls3
+Server FXCM-USDDEMO01
+
+Akun:
+64645269
+Password Trader:
+kaUzd86H
+Password Investor:
+Wms79hHp
+Server:
+67.228.75.131:443 (InstaForex-1Demo.com)
+
+https://www.accuweather.com/en/id/buaran/3467420/hourly-weather-forecast/3467420
+
+C:\Users\<YourUserName>\AppData\Local\Google\Chrome
+C:\Program Files\Google\Chrome
+
+https://webdatamltrainingdiag842.blob.core.windows.net/
+
+cw_4853455@outlook.com
+
+SHOW GRANTS FOR 'wpuser'@'localhost';
+REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'wpuser'@'localhost';
+DROP USER 'wpuser'@'localhost';
+
+
+
+CREATE DATABASE db_wp;
+GRANT ALL ON db_wp.* TO 'wp_user'@'localhost' IDENTIFIED BY 'asqhal123';
+FLUSH PRIVILEGES;
+EXIT;
+
+5ae5654905f394021ee5739d34bc716b
+
+UPDATE wp_users SET user_pass= "5ae5654905f394021ee5739d34bc716b" WHERE ID = 1;
+
+
+certbot --nginx -d mcdingo.online -d www.mcdingo.online
+
+
+!ffmpeg -hwaccel cuvid -i wotw/wotw.mp4 -c:v hevc_nvenc -preset slow -rc:v vbr_hq -cq:v 34 -vf scale=-2:480 -c:a libopus -b:a 64k -ss 00:00:00 -t 60 wotw_bruh.mkv
+
+!ffmpeg -hwaccel cuvid -i jupark2015/jupark.mkv -c:v hevc_nvenc -preset medium -cq 35 -rc vbr_hq -b:v 0 -vf scale=-2:480 -c:a libopus -b:a 64k -ac 2 -movflags use_metadata_tags -movflags faststart jupark_c.mkv
+
+!ffmpeg -y -hwaccel auto -i jupark2015/jupark.mkv -c:v hevc_nvenc -profile:v main10 -pix_fmt p010le -preset slow -rc constqp -qp 34 -vf scale=-2:480 -c:a libopus -b:a 64k -ac 2 -movflags use_metadata_tags -movflags faststart jupark_c.mkv
+
+for i in *.avi; do ffmpeg -i "$i" "${i%.*}.mp4"; done
+
+megaput -u paldimegafilm@outlook.com -p asqhal123
+
+gdrive --service-account pelmpaldi.json about
+
+./youtube-dl -f bestaudio --extract-audio -ciw --playlist-start 184 --cookies cookies.txt --output '%(title)s.%(ext)s' 'https://www.youtube.com/playlist?list=PL4wjQC0_Imx2q0RpN5u5NpeQrI64SfvNO'
+
+./youtube-dl -f bestaudio --extract-audio --cookies cookies.txt --output '%(title)s.%(ext)s' 'https://www.youtube.com/watch?v=wJWksPWDKOc'
+
+for i in *.opus; do ffmpeg -y -i "$i" -c:a libopus -b:a 64k "../vocaloid_c/${i%.*}.opus"; done
+
+https://drive.google.com/open?id=1sUw3Ub-hLKXek_xnWOQ6lcR7thNaswQb
+
+curl https://rclone.org/install.sh | sudo bash
+
+wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1PbJcvEdytFbELhsPkHaN3SrWPgNM3L-B' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1PbJcvEdytFbELhsPkHaN3SrWPgNM3L-B" -O annihilation.zip && rm -rf /tmp/cookies.txt
+
+wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=FILEID' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=FILEID" -O FILENAME && rm -rf /tmp/cookies.txt
+
+wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1il0LsDBgTPktARGl7f8Cwh16kZkexQnF' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1il0LsDBgTPktARGl7f8Cwh16kZkexQnF" -O paldifilm.json && rm -rf /tmp/cookies.txt
+
+!ffmpeg -y -hwaccel auto -i tomorrow.mp4 -c:v hevc_nvenc -preset slow -init_qpB 8 -spatial_aq 1 -weighted_pred 1 -rc constqp -qp 34 -vf scale=-2:480 -c:a libopus -b:a 64k -ac 2 -movflags use_metadata_tags -movflags faststart -ss 00:00:00 -t 120 tomorrow_c.mkv
+
+!ffmpeg -y -hwaccel auto -i tomorrow.mp4 -c:v hevc_nvenc -profile:v main -gpu any -preset medium -g 300 -rc constqp -qp 34 -vf scale=-2:480 -c:a libopus -b:a 64k -ac 2 tomorrow_c.mkv
+
+
+best
+
+!ffmpeg -y -hwaccel auto -i vitamania.mp4 -c:v hevc_nvenc -profile:v main -gpu any -preset slow -g 300 -rc-lookahead 50 -surfaces 56 -rc constqp -qp 31 -vf scale=-2:480 -c:a libopus -b:a 64k -ac 2 vitamania_c.mkv
+
+
+intitle:Shell backdoor filetype:php site:.id

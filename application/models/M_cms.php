@@ -32,13 +32,28 @@
 
         return $query;
     }
-     public function getSingularDataTriple($table, $column1, $column2,$column3, $data1, $data2,$data3)
+    
+    public function getSingularDataTriple($table, $column1, $column2,$column3, $data1, $data2,$data3)
     {
         $this->db->select('*')
             ->from($table)
             ->where($column1, $data1) /* COMPANY ID */
             ->where($column2, $data2) /* DOC ID */
             ->where($column3, $data3); /* DOC ID */
+
+        $query = $this->db->get();
+
+        return $query;
+    }
+
+    public function getSingularDataFour($table, $column1, $column2,$column3, $column4, $data1, $data2,$data3, $data4)
+    {
+        $this->db->select('*')
+            ->from($table)
+            ->where($column1, $data1) /* COMPANY ID */
+            ->where($column2, $data2) /* DOC ID */
+            ->where($column3, $data3) /* DOC ID */
+            ->where($column4, $data4); /* DOC ID */
 
         $query = $this->db->get();
 
@@ -116,7 +131,7 @@
     {
         $proj_id = $this->db->escape_str($project_id);
 
-        $sql = $this->db->query("SELECT * FROM $table WHERE PROJECT_ID = '$proj_id' AND MILESTONE_ID != 0 GROUP BY(MILESTONE_ID)");
+        $sql = $this->db->query("SELECT * FROM $table WHERE PROJECT_ID = '$proj_id' AND MILESTONE_ID != 0 GROUP BY(MILESTONE_ID) ORDER BY MILESTONE_SORT_NO");
         return $sql;
     }
 
@@ -126,7 +141,8 @@
             ->from($table)
             ->where($column1, $data1) 
             ->where($column2, $data2)
-            ->group_by("TASK_ID");
+            ->group_by("TASK_ID")
+            ->order_by("TASK_SORT_NO", "asc");
 
         $query = $this->db->get();
 

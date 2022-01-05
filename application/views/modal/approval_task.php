@@ -18,9 +18,9 @@
 
                     <table class="table table-striped">
                         <tr>
-                            <td>COMPANY</td>
+                            <td>PIC</td>
                             <td>&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</td>
-                            <td>PT. PERUSAHAAN YANG SUKSES</td>
+                            <td><?= $v_g_project_detail->row()->PIC ?></td>
                         </tr>
                         <tr>
                             <td>PROJECT</td>
@@ -30,22 +30,22 @@
                         <tr>
                             <td>TASK</td>
                             <td>&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</td>
-                            <td><?= $g_task->row()->TASK_NAME ?></td>
+                            <td><?= $v_g_project_detail->row()->TASK_NAME ?></td>
                         </tr>
                         <tr>
                             <td>START DATE</td>
                             <td>&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</td>
-                            <td><?= $g_project_detail->row()->START_DATE ?></td>
+                            <td><?= $v_g_project_detail->row()->START_DATE ?></td>
                         </tr>
                         <tr>
                             <td>END DATE</td>
                             <td>&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</td>
-                            <td><?= $g_project_detail->row()->END_DATE ?></td>
+                            <td><?= $v_g_project_detail->row()->END_DATE ?></td>
                         </tr>
                         <tr>
                             <td>NOTES BY PIC</td>
                             <td>&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</td>
-                            <td><?= $g_project_detail->row()->NOTES_PIC ?></td>
+                            <td><?= nl2br($v_g_project_detail->row()->NOTES_PIC) ?>
                         </tr>
                         <!-- <tr>
                             <td>RELATED DOC</td>

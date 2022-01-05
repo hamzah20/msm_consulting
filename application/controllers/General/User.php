@@ -39,7 +39,7 @@ class User extends CI_Controller {
     	// $this->output->enable_profiler(TRUE);
         header('Content-Type: application/json');
 
-        $queryDelete = $this->cms->deleteGeneralData('s_user', 'ID', $this->input->post('userID'));
+        $queryDelete = $this->cms->deleteGeneralData('s_user', 'REC_ID', $this->input->post('userID'));
 
         if ($queryDelete) {
             echo json_encode(array(
@@ -63,7 +63,7 @@ class User extends CI_Controller {
 			'ATTEMPTED_LOGIN' 	=> $this->input->post('attempted_login_user')
     	);
 
-    	$query_editUser = $this->cms->updateGeneralData('s_user', $editArr, 'ID', $this->input->post('id_user'));
+    	$query_editUser = $this->cms->updateGeneralData('s_user', $editArr, 'REC_ID', $this->input->post('rec_id'));
 
     	if($query_editUser) {
             $this->session->set_flashdata('query', 'success');
@@ -76,7 +76,7 @@ class User extends CI_Controller {
 
     public function getUser(){
     	$id = $this->input->get('id');
-		$data['s_user'] = $this->cms->getSingularData('s_user', 'ID', $id);
+		$data['s_user'] = $this->cms->getSingularData('s_user', 'REC_ID', $id);
 
  		$this->load->view('modal/edit_user', $data);
     }

@@ -12,6 +12,7 @@ class Dashboard extends CI_Controller
 	public function index()
 	{
 		$data['waiting_approval'] = $this->cms->getSingularData('g_project_detail', 'STATUS', 'WAITING FOR APPROVAL');
+		@$data['s_user'] = $this->cms->getSingularData('s_user', 'REC_ID', $data['waiting_approval']->row()->PIC);
 		$this->load->view('cms/dashboard', $data);
 	}
 }

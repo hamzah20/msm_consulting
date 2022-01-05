@@ -18,11 +18,18 @@ class Project extends CI_Controller
     public function index()
     {
 
-        
-        $data['project_list'] = $this->cms->getGeneralList('g_project');
+        $this->output->enable_profiler(TRUE);
+        // buat debug, gonta ganti akun disini yaa...
+        $data['user_group_id'] = 'USER';
+        $data['user_id'] = 'hotodoggu';
+        $data['user_rec_id'] = '18';
+        $data['elevated_group'] = true;
 
+        $data['project_list'] = $this->cms->getGeneralList('v_g_project');
         $data['project_type'] = $this->cms->getGeneralList('gm_project_type');
+
         $this->load->view('cms/project/project', $data);
+
     }
     
     public function submitTask()
@@ -50,27 +57,52 @@ class Project extends CI_Controller
     }
 
     public function approveTask(){
-
+        //$this->output->enable_profiler(TRUE);
         header('Content-Type: application/json');
+
+        $rec_id = $this->input->post('rec_id');
+        
 
         $editArr = array(
             'STATUS' => 'DONE',
             'NOTES_SUPERUSER' => $this->input->post('notes_superuser')
         );
 
-        $queryApprove = $this->cms->updateGeneralData('g_project_detail', $editArr, 'REC_ID', $this->input->post('rec_id'));
+        $queryApprove = $this->cms->updateGeneralData('g_project_detail', $editArr, 'REC_ID', $rec_id);
 
-        if ($queryApprove) {
-            echo json_encode(array(
-                'code'      => 200,
-                'status'    => 'success',
-            ));
-        } else {
-            echo json_encode(array(
-                'code'      => 204,
-                'status'    => 'error',
-            ));
+
+
+        $g_project_detail = $this->cms->getSingularData('v_g_project_detail', 'REC_ID', $rec_id);
+        $project_id = $g_project_detail->row()->PROJECT_ID;
+        $milestone_id = $g_project_detail->row()->MILESTONE_ID;
+        $task_sort_no = $g_project_detail->row()->TASK_SORT_NO;
+        $next_task = $this->db->query("SELECT * FROM v_g_project_detail WHERE PROJECT_ID = '$project_id' AND MILESTONE_ID = $milestone_id AND TASK_SORT_NO > $task_sort_no GROUP BY TASK_ID ORDER BY TASK_SORT_NO ASC LIMIT 1;");
+        $editArr2 = array(
+            'STATUS' => 'ONPROGRESS'
+        );
+
+        if ($next_task->num_rows() > 0) { 
+            $queryApprove = $this->cms->updateGeneralData('g_project_detail', $editArr2, 'REC_ID', $next_task->row()->REC_ID);
+        }else{// kalo udah gk ada task selanjutnya di milestone & project ini, maka ambil milestone dibawahnya
+
+            $next_task = $this->db->query("SELECT * FROM v_g_project_detail WHERE PROJECT_ID = '$project_id' AND MILESTONE_ID = $milestone_id AND TASK_SORT_NO = $task_sort_no GROUP BY TASK_ID ORDER BY TASK_SORT_NO ASC LIMIT 1;");
+
+            $milestone_sort_no = $next_task->row()->MILESTONE_SORT_NO;
+            $next_milestone = $this->db->query("SELECT * FROM v_g_project_detail WHERE PROJECT_ID = '$project_id' AND MILESTONE_SORT_NO > $milestone_sort_no GROUP BY MILESTONE_ID ORDER BY MILESTONE_SORT_NO ASC LIMIT 1;");
+            $milestone_id = $next_milestone->row()->MILESTONE_ID;
+
+            $next_task = $this->db->query("SELECT * FROM v_g_project_detail WHERE PROJECT_ID = '$project_id' AND MILESTONE_ID = $milestone_id AND TASK_SORT_NO > 0 GROUP BY TASK_ID ORDER BY TASK_SORT_NO ASC LIMIT 1;");
+            $queryApprove = $this->cms->updateGeneralData('g_project_detail', $editArr2, 'REC_ID', $next_task->row()->REC_ID);
         }
+
+
+
+        //$queryApprove = $this->cms->updateGeneralData('g_project_detail', $editArr2, 'REC_ID', cari recidnya ngab));
+        
+        echo json_encode(array(
+            'code'      => 200,
+            'status'    => 'success',
+        ));
 
     }
 
@@ -102,12 +134,10 @@ class Project extends CI_Controller
     public function getModalApprovalTask(){
         //$this->output->enable_profiler(TRUE);
         $data['rec_id'] = $this->input->get('rec_id');
-        $data['g_project_detail'] = $this->cms->getSingularData('g_project_detail', 'REC_ID', $this->input->get('rec_id'));
-        $g_project_detail = $data['g_project_detail'];
-        $data['g_milestone'] = $this->cms->getSingularData('g_milestone', 'REC_ID', $data['g_project_detail']->row()->MILESTONE_ID);
-        $data['g_project'] = $this->cms->getSingularData('g_project', 'PROJECT_ID', $data['g_project_detail']->row()->PROJECT_ID);
-        $data['g_task'] = $this->cms->getSingularData('g_task', 'REC_ID', $data['g_project_detail']->row()->TASK_ID);
-        $data['dokumen_list_task'] = $this->cms->getSingularDataTriple('g_project_doc', 'PROJECT_ID', 'MILESTONE_ID' ,'TASK_ID', $g_project_detail->row()->PROJECT_ID, $g_project_detail->row()->MILESTONE_ID, $g_project_detail->row()->TASK_ID);
+        $data['v_g_project_detail'] = $this->cms->getSingularData('v_g_project_detail', 'REC_ID', $this->input->get('rec_id'));
+        $v_g_project_detail = $data['v_g_project_detail'];
+        $data['g_project'] = $this->cms->getSingularData('g_project', 'PROJECT_ID', $v_g_project_detail->row()->PROJECT_ID);
+        $data['dokumen_list_task'] = $this->cms->getSingularDataTriple('g_project_doc', 'PROJECT_ID', 'MILESTONE_ID' ,'TASK_ID', $v_g_project_detail->row()->PROJECT_ID, $v_g_project_detail->row()->MILESTONE_ID, $v_g_project_detail->row()->TASK_ID);
         $this->load->view('modal/approval_task', $data);
     }
 
@@ -133,13 +163,14 @@ class Project extends CI_Controller
 
         // echo "##################";
         // atas buat debug karna pujeng
-
+        $status_onprogress = 'ONPROGRESS'; #Kalo task pertama, kasih onprogress, sisanya kasih strip (-)
         foreach ($arr_input as $arr_milestone) {
             foreach ($arr_milestone as $arr_task) {
                 // var_dump($arr_task);
                 
                 if (isset($arr_task['checkbox'])) {
                     $addArrDetail = array(
+
                         'PROJECT_ID' => $project_id,
                         'MILESTONE_ID' => $arr_task['id_milestone'],
                         'TASK_ID' => $arr_task['id_task'],
@@ -147,10 +178,11 @@ class Project extends CI_Controller
                         'END_DATE' => date('Y-m-d H:i:s', strtotime($arr_task['end_date'])),
                         'PIC' => $arr_task['pic'],
                         'TOTAL_HOURS' => $arr_task['total_hours'],
-                        'STATUS' => 'ONPROGRESS',
+                        'STATUS' => $status_onprogress,
                         'CREATED' => date('Y-m-d H:i:s'),
                         'UPDATED' => $this->input->post('attempted_login_user')
                     ); 
+                    $status_onprogress = "-"; #Kalo task pertama, kasih onprogress, sisanya kasih strip (-)
                     $query_addprojectdetail = $this->cms->insertGeneralData('g_project_detail', $addArrDetail);
                 }
 
@@ -164,6 +196,8 @@ class Project extends CI_Controller
     public function GetPtype()
     {
         $data['ptid_milestone'] = $this->input->get('ptid_milestone');
+        $data['milestone'] = $this->cms->getSingularData('v_g_milestone','PROJECT_TYPE_ID',$data['ptid_milestone']);
+        $data['s_user'] = $this->cms->getGeneralList('s_user');
         $this->load->view('modal/add_project_getptype', $data);
     }
 
@@ -181,7 +215,7 @@ class Project extends CI_Controller
         $id_project = $this->input->get('id_project');
         $data['id_project'] = $this->input->get('id_project');
         $data['dokumen_list_project'] = $this->cms->getSingularDataDetail('g_project_doc', 'PROJECT_ID', 'TASK_ID', $id_project, 0);
-        $data['dokumen_list_milestone'] = $this->cms->getMilestoneProject('g_project_doc', $id_project);
+        $data['dokumen_list_milestone'] = $this->cms->getMilestoneProject('v_g_project_doc', $id_project);
         $data['g_project'] = $this->cms->getSingularData('g_project', 'PROJECT_ID', $id_project);
         $this->load->view('modal/lihat_dokumen_project', $data);
     }
