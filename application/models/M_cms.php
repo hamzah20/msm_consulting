@@ -260,6 +260,14 @@
         return $sql;
     }     
 
+    
+    public function calculateTotalPTT($pid_ptt)
+    {
+        $query = $this->db->query("SELECT SUM(PENGHASILAN_BRUTO) AS TOTAL_BRUTO,SUM(PENGHASILAN_LAINNYA) AS TOTAL_LAINNYA, SUM(PPHVAL_PTT) AS TOTAL_PPHVAL_PTT FROM `g_pph21_detail_ptt` WHERE PPH_ID_PTT=" . $pid_ptt);
+
+        return $query;
+    }
+
     public function countYear($cid,$yid,$eid){ 
         $sql = $this->db->query("SELECT a.PERIOD_YEAR, a.COMPANY_ID, b.EMPLOYEE_ID, 
 
@@ -392,6 +400,7 @@
                  sum(CASE WHEN a.PERIOD_MONTH ='DESEMBER' then EMPLOYEE_IURAN_JP else 0 END) as EMPLOYEE_IURAN_JP_DES,
 
                  sum(b.EMPLOYEE_BIAYA_JABATAN) AS EMPLOYEE_BIAYA_JABATAN_YEAR,
+                 sum(b.EMPLOYEE_IURAN_PENSIUN) AS EMPLOYEE_IURAN_PENSIUN_YEAR,
 
                  sum(b.EMPLOYEE_BRUTO) AS EMPLOYEE_BRUTO_YEAR,                 
                  sum(CASE WHEN a.PERIOD_MONTH ='JANUARI' then EMPLOYEE_BRUTO else 0 END) as EMPLOYEE_BRUTO_JAN, 
@@ -428,6 +437,19 @@
 
         return $query;
     } 
+
+    public function getPidPTT($cid, $mid, $yid, $table)
+    {
+        $this->db->select('*')
+            ->from($table)
+            ->where('PERIOD_YEAR', $yid)
+            ->where('PERIOD_MONTH', $mid)
+            ->order_by('REC_ID', 'DESC')
+            ->limit(1);
+
+        $query = $this->db->get();
+        return $query;
+    }
 
     public function cekpembetulan($cid, $month, $year){
          $sql = $this->db->query("SELECT count(*) as TOTAL_PEMBETULAN FROM `g_pph21` WHERE STATUS='HISTORY' AND  COMPANY_ID='".$cid."' AND PERIOD_MONTH='".$month."' AND PERIOD_YEAR='".$year."'");

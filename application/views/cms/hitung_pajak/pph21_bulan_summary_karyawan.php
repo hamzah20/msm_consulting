@@ -85,14 +85,52 @@
           <div class="row">
             <div class="col-4">
               <h6><span class="badge badge-success mb-4">Penghasilan</span></h6>
+              <?php if($status_resign == 'MASA PAJAK TERAKHIR'){ ?>
+              <div class="form-group">
+                <label class="label-utama">01. Gaji/Pensiun/THT/JHT :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee_year->row()->EMPLOYEE_GAJI_POKOK_YEAR); ?>" name="editGaji" readonly>
+              </div>
+              <?php } elseif($status_resign == 'MASA'){?>
               <div class="form-group">
                 <label class="label-utama">01. Gaji/Pensiun/THT/JHT :</label>
                 <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_GAJI_POKOK); ?>" name="editGaji" readonly>
               </div>
+              <?php } ?>
               <div class="form-group">
                 <label class="label-utama">02. Tunjangan PPh :</label>
                 <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_TUNJANGAN_PPH); ?>" readonly>
               </div>
+              <?php if($status_resign == 'MASA PAJAK TERAKHIR'){ ?>
+              <div class="form-group">
+                <label class="label-utama">03. Tunjangan Lain, Uang Lembur, dan sebagainya :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee_year->row()->EMPLOYEE_TUNJANGAN_LAINNYA_YEAR); ?>" readonly>
+              </div>  
+              <div class="form-group">
+                <label class="label-utama">04. Honorarium dan Imbalan Lain Sejenisnya :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee_year->row()->EMPLOYEE_HONARIUM_YEAR); ?>" name="editHonarium" readonly>
+              </div>
+              <div class="form-group">
+                <label class="label-utama">05. Premi Asuransi yang dibayar Pemberi Kerja :</label> 
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee_year->row()->EMPLOYEE_PREMI_YEAR); ?>" readonly>
+              </div>
+              <div class="form-group">
+                <label class="label-utama">06. Natura dan Kenikmatan Lainnya :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee_year->row()->EMPLOYEE_NATURA_YEAR); ?>" name="editNatura" readonly>
+              </div>
+              <div class="form-group">
+                <label class="label-utama">07. Tantiem, Bonus dan THR :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee_year->row()->EMPLOYEE_TANTIEMBONUS_YEAR); ?>" name="editTantiem" readonly>
+              </div>
+              <hr>
+              <div class="form-group">
+                <label class="label-utama">08. Penghasilan Bruto :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee_year->row()->EMPLOYEE_BRUTO_YEAR); ?>" readonly>
+              </div>
+              <?php } elseif($status_resign == 'MASA'){?>
+              <div class="form-group">
+                <label class="label-utama">03. Tunjangan Lain, Uang Lembur, dan sebagainya :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee_year->row()->EMPLOYEE_TUNJANGAN_LAINNYA_YEAR); ?>" readonly>
+              </div>            
               <div class="form-group">
                 <label class="label-utama">03. Tunjangan Lain, Uang Lembur, dan sebagainya :</label>
                 <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_TUNJANGAN_LAINNYA); ?>" readonly>
@@ -118,74 +156,139 @@
                 <label class="label-utama">08. Penghasilan Bruto :</label>
                 <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_BRUTO); ?>" readonly>
               </div>
+              <?php } ?>
             </div>
+            
             <div class="col-4">
               <h6><span class="badge badge-success mb-4">Pengurang</span></h6>
+              <?php if($status_resign == 'MASA PAJAK TERAKHIR'){ ?>
+              <div class="form-group">
+                <label class="label-utama">09. Biaya Jabatan :</label>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee_year->row()->EMPLOYEE_BIAYA_JABATAN_YEAR); ?>" readonly>
+              </div> 
+              <div class="form-group">
+                <label class="label-utama">10. Iuran Pensiun atau Iuran JHT/THT :</label> 
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee_year->row()->EMPLOYEE_IURAN_PENSIUN_YEAR + $employee_year->row()->EMPLOYEE_IURAN_THT_YEAR); ?>" readonly>
+              </div>
+              <?php } elseif($status_resign == 'MASA'){ ?>
               <div class="form-group">
                 <label class="label-utama">09. Biaya Jabatan :</label>
                 <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_BIAYA_JABATAN); ?>" readonly>
-              </div>
+              </div> 
               <div class="form-group">
                 <label class="label-utama">10. Iuran Pensiun atau Iuran JHT/THT :</label> 
-                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_IURAN_PENSIUN); ?>" readonly>
+                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_IURAN_PENSIUN + $employee_year->row()->EMPLOYEE_IURAN_THT); ?>" readonly>
               </div>
+              <?php } ?>
             </div>
-            <div class="col-4">
-              <h6><span class="badge badge-success mb-4">Perhitungan PPh 21</span></h6>
-              <div class="form-group">
-                <label class="label-utama">11. Penghasilan Bruto Setahun :</label>
-                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_BRUTO * 12); ?>" readonly>
+
+            <?php if($status_resign == 'MASA'){ ?>
+              <div class="col-4">
+                <h6><span class="badge badge-success mb-4">Perhitungan PPh 21</span></h6>
+                <div class="form-group">
+                  <label class="label-utama">11. Penghasilan Bruto Setahun :</label>
+                  <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_BRUTO * 12); ?>" readonly>
+                </div>
+                <div class="form-group">
+                  <label class="label-utama">12. Biaya Jabatan Setahun :</label>
+                  <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_BIAYA_JABATAN*12); ?>" readonly>
+                </div>
+                <div class="form-group">
+                  <label class="label-utama">13. Iuran Pensiun atau Iuran JHT/THT Setahun :</label>
+                  <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_IURAN_PENSIUN * 12); ?>" readonly>
+                </div>
+                <div class="form-group">
+                  <label class="label-utama">14. Jumlah Pengurang Setahun :</label>
+                  <input type="text" class="form-control form-control-sm" value="<?= number_format(($employee->row()->EMPLOYEE_TOTAL_PENGURANGAN) * 12); ?>" readonly>
+                </div> 
+                <div class="form-group">
+                  <label class="label-utama">15. Penghasilan Neto :</label>
+                  <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_NETTO); ?>" readonly>
+                </div>
+                <div class="form-group">
+                  <label class="label-utama">16. Penghasilan Neto Masa Sebelumnya :</label>
+                  <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_NETTO_YEAR_AGO); ?>" readonly>
+                </div>
+                <div class="form-group">
+                  <label class="label-utama">17. Penghasilan Neto Setahun/Disetahunkan :</label>
+                  <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_NETTO_YEAR); ?>" readonly>
+                </div>
+                <div class="form-group">
+                  <label class="label-utama">18. Penghasilan Tidak Kena Pajak (PTKP) :</label>
+                  <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->TK_TARIF); ?>" readonly>
+                </div> 
+                <div class="form-group">
+                  <label class="label-utama">19. PKP Setahun/Disetahunkan :</label>
+                  <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_PKP_YEAR); ?>" readonly>
+                </div> 
+                <div class="form-group">
+                  <label class="label-utama">20. PPh Pasal 21 atas PKP :</label>
+                  <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_PPHVAL * 12); ?>" readonly>
+                </div>
+                
+                <div class="form-group">
+                  <label class="label-utama">21. PPh Pasal 21 Dipotong Masa Sebelumnya :</label>
+                  <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_PPH21_DIPOTONG_YEAR_AGO); ?>" readonly>
+                </div>
+                <div class="form-group">
+                  <label class="label-utama">22. PPh 21 Terutang Setahun/Disetahunkan :</label>
+                  <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_PPHVAL * 12); ?>" readonly>
+                </div>
+                <div class="form-group">
+                  <label class="label-utama">23. PPh 21 Terutang Bulan <span class="text-danger font-weight-bold"><?= $employee->row()->PERIOD_MONTH . ' - ' . $employee->row()->PERIOD_YEAR; ?></span> :</label>
+                  <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_PPHVAL); ?>" readonly>
+                </div>
               </div>
-              <div class="form-group">
-                <label class="label-utama">12. Biaya Jabatan Setahun :</label>
-                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_BIAYA_JABATAN*12); ?>" readonly>
+            <?php } elseif($status_resign == 'MASA PAJAK TERAKHIR'){?>
+              <div class="col-4">
+                <h6><span class="badge badge-success mb-4">Perhitungan PPh 21</span></h6>
+                <div class="form-group">
+                  <label class="label-utama">11. Jumlah Pengurangan :</label>
+                  <input type="text" class="form-control form-control-sm" value="<?= number_format($employee_year->row()->EMPLOYEE_BIAYA_JABATAN_YEAR); ?>" readonly>
+                </div>
+                <div class="form-group">
+                  <label class="label-utama">12. Penghasilan Neto :</label>
+                  <input type="text" class="form-control form-control-sm" value="<?= number_format($employee_year->row()->EMPLOYEE_NETTO_YEAR); ?>" readonly>
+                </div> 
+                <div class="form-group">
+                  <label class="label-utama">13. Penghasilan Neto Masa Sebelumnya :</label>
+                  <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_NETTO_YEAR_AGO); ?>" readonly>
+                </div>
+                <div class="form-group">
+                  <label class="label-utama">14. Penghasilan Neto Setahun/Disetahunkan :</label>
+                  <input type="text" class="form-control form-control-sm" value="<?= number_format($employee_year->row()->EMPLOYEE_NETTO_YEAR); ?>" readonly>
+                </div>
+                <div class="form-group">
+                  <label class="label-utama">15. Penghasilan Tidak Kena Pajak (PTKP) :</label>
+                  <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->TK_TARIF); ?>" readonly>
+                </div> 
+                <div class="form-group">
+                  <label class="label-utama">16. PKP Setahun/Disetahunkan :</label>
+                  <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_PKP_YEAR); ?>" readonly>
+                </div> 
+                <div class="form-group">
+                  <label class="label-utama">17. PPh Pasal 21 atas PKP :</label>
+                  <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_PPHVAL * 12); ?>" readonly>
+                </div>
+                
+                <div class="form-group">
+                  <label class="label-utama">18. PPh Pasal 21 Dipotong Masa Sebelumnya :</label>
+                  <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_PPH21_DIPOTONG_YEAR_AGO); ?>" readonly>
+                </div>
+                <div class="form-group">
+                  <label class="label-utama">19. PPh 21 Terutang Setahun/Disetahunkan :</label>
+                  <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_PPHVAL * 12); ?>" readonly>
+                </div>
+                 <div class="form-group">
+                  <label class="label-utama">20. PPh Pasal yang sudah disetor :</label>
+                  <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_PPHVAL * 12); ?>" readonly>
+                </div>
+                <div class="form-group">
+                  <label class="label-utama">21. PPh 21 Terutang Bulan <span class="text-danger font-weight-bold"><?= $employee->row()->PERIOD_MONTH . ' - ' . $employee->row()->PERIOD_YEAR; ?></span> :</label>
+                  <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_PPHVAL); ?>" readonly>
+                </div>
               </div>
-              <div class="form-group">
-                <label class="label-utama">13. Iuran Pensiun atau Iuran JHT/THT Setahun :</label>
-                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_IURAN_PENSIUN * 12); ?>" readonly>
-              </div>
-              <div class="form-group">
-                <label class="label-utama">14. Jumlah Pengurang Setahun :</label>
-                <input type="text" class="form-control form-control-sm" value="<?= number_format(($employee->row()->EMPLOYEE_TOTAL_PENGURANGAN) * 12); ?>" readonly>
-              </div> 
-              <div class="form-group">
-                <label class="label-utama">15. Penghasilan Neto :</label>
-                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_NETTO); ?>" readonly>
-              </div>
-              <div class="form-group">
-                <label class="label-utama">16. Penghasilan Neto Masa Sebelumnya :</label>
-                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_NETTO_YEAR_AGO); ?>" readonly>
-              </div>
-              <div class="form-group">
-                <label class="label-utama">17. Penghasilan Neto Setahun/Disetahunkan :</label>
-                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_NETTO_YEAR); ?>" readonly>
-              </div>
-              <div class="form-group">
-                <label class="label-utama">18. Penghasilan Tidak Kena Pajak (PTKP) :</label>
-                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->TK_TARIF); ?>" readonly>
-              </div> 
-              <div class="form-group">
-                <label class="label-utama">19. PKP Setahun/Disetahunkan :</label>
-                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_PKP_YEAR); ?>" readonly>
-              </div> 
-              <div class="form-group">
-                <label class="label-utama">20. PPh Pasal 21 atas PKP :</label>
-                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_PPHVAL * 12); ?>" readonly>
-              </div>
-              
-              <div class="form-group">
-                <label class="label-utama">21. PPh Pasal 21 Dipotong Masa Sebelumnya :</label>
-                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_PPH21_DIPOTONG_YEAR_AGO); ?>" readonly>
-              </div>
-              <div class="form-group">
-                <label class="label-utama">22. PPh 21 Terutang Setahun/Disetahunkan :</label>
-                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_PPHVAL * 12); ?>" readonly>
-              </div>
-              <div class="form-group">
-                <label class="label-utama">23. PPh 21 Terutang Bulan <span class="text-danger font-weight-bold"><?= $employee->row()->PERIOD_MONTH . ' - ' . $employee->row()->PERIOD_YEAR; ?></span> :</label>
-                <input type="text" class="form-control form-control-sm" value="<?= number_format($employee->row()->EMPLOYEE_PPHVAL); ?>" readonly>
-              </div>
-            </div>
+            <?php } ?> 
           </div>
           <hr>
             <div class="row">

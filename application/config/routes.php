@@ -108,9 +108,10 @@ $route['pph_21/bulan/summary/karyawan/edit']          	 	= 'PPH/Pph21/edit_pph_2
 $route['pph_21/bulan/summary/aktifitas_pajak']           	= 'PPH/Pph21/aktifitas_pajak';
 $route['pph_21/bulan/summary/aktifitas_pajak/edit']      	= 'PPH/Pph21/edit_aktifitas_pajak';
 $route['pph_21/spt']								     	= 'PPH/Pph21/spt21';
-$route['pph_21/spt_tahun']								 	= 'PPH/Pph21/spt21_tahun';
-$route['pph_21/bulan/summary/tidak_tetap']                	= 'PPH/Pph21/pph_21_bulan_summary_tidak_tetap';
-$route['pph_21/bulan/summary/karyawan/tidak_tetap/detail']	= 'PPH/Pph21/pph_21_bulan_summary_tidak_tetap';
+$route['pph_21/spt_tahun']								 	= 'PPH/Pph21/spt21_tahun'; 
+$route['pph_21/bulan/summary/tidak_tetap']              	= 'PPH/Pph21/pph_21_bulan_summary_tidak_tetap';
+$route['pph_21/bulan/summary/tidak_tetap/add']          	= 'PPH/Pph21/add_pph21_ptt';
+$route['pph_21/bulan/summary/karyawan/tidak_tetap/detail']  = 'PPH/Pph21/pph_21_bulan_summary_karyawan_tidak_tetap';
 $route['pph_21/bulan/summary/karyawan/sse']					= 'PPH/Pph21/sse';
 $route['pph_21/bulan/summary/karyawan/sse/delete']			= 'PPH/Pph21/delete_sse';
 
