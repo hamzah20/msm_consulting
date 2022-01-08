@@ -19,8 +19,9 @@
                             <thead>
                                 <tr>
                                     <th scope="col">No.</th>
-                                    <th scope="col">Nama File</th>
-                                    <th scope="col">Tanggal Upload</th>
+                                    <th scope="col">File Name</th>
+                                    <th scope="col">Uploader</th>
+                                    <th scope="col">Upload Date</th>
                                     <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
@@ -35,6 +36,9 @@
                                     </td>
                                     <td>
                                         <?= $dokumen_task->FILE_NAME ?>
+                                    </td>
+                                    <td>
+                                        <?= $dokumen_task->USER_NAME ?>
                                     </td>
                                     <td>
                                         <?= $dokumen_task->UPLOAD_DATE ?>
@@ -59,7 +63,7 @@
 
 
             <div class="modal-footer">
-              <button class="btn btn-primary btn-sm simpanSubmitTask" data-idprojdetail="<?= $g_project_detail->row()->REC_ID ?>">Simpan</button>
+              <button class="btn btn-primary btn-sm simpanSubmitTask" data-idprojdetail="<?= $g_project_detail->row()->REC_ID ?>">Submit</button>
               <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
             </div>
 
@@ -73,7 +77,7 @@ jQuery(document).ready(function($) {
 
           Swal.fire({
             title: 'Submit Task',
-            text: 'Apakah Anda yakin ingin mengirim task ini untuk di approve ?',
+            text: 'Apakah anda yakin akan submit task ini untuk di approve ?',
             icon: 'info',
             showCancelButton: true,
             cancelButtonText: 'Batal',

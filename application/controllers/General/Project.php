@@ -14,19 +14,21 @@ class Project extends CI_Controller
     }
 
 
-    // KARYAWAN
+    
     public function index()
     {
 
-        $this->output->enable_profiler(TRUE);
+        //$this->output->enable_profiler(TRUE);
         // buat debug, gonta ganti akun disini yaa...
         $data['user_group_id'] = 'USER';
-        $data['user_id'] = 'hotodoggu';
-        $data['user_rec_id'] = '18';
-        $data['elevated_group'] = true;
+        $data['user_id'] = 'Rifaldi Setiawan';
+        $data['user_rec_id'] = '16';
+        $data['elevated_group'] = false;
 
         $data['project_list'] = $this->cms->getGeneralList('v_g_project');
         $data['project_type'] = $this->cms->getGeneralList('gm_project_type');
+
+
 
         $this->load->view('cms/project/project', $data);
 
@@ -36,9 +38,14 @@ class Project extends CI_Controller
     {
         header('Content-Type: application/json');
 
+        $g_project_detail = $this->cms->getSingularData('g_project_detail', 'REC_ID', $this->input->post('id_proj_detail'));
+        $start_date = date('Y-m-d H:i:s', strtotime($g_project_detail->row()->START_DATE));
+        $now_date = date('Y-m-d H:i:s');
+        $actual_hours = $this->incube->get_working_hours($start_date, $now_date);
         $editArr = array(
             'STATUS' => 'WAITING FOR APPROVAL',
-            'NOTES_PIC' => $this->input->post('notes_pic')
+            'NOTES_PIC' => $this->input->post('notes_pic'),
+            'ACTUAL_HOURS' => $actual_hours,
         );
 
         $querySubmit = $this->cms->updateGeneralData('g_project_detail', $editArr, 'REC_ID', $this->input->post('id_proj_detail'));
@@ -137,7 +144,7 @@ class Project extends CI_Controller
         $data['v_g_project_detail'] = $this->cms->getSingularData('v_g_project_detail', 'REC_ID', $this->input->get('rec_id'));
         $v_g_project_detail = $data['v_g_project_detail'];
         $data['g_project'] = $this->cms->getSingularData('g_project', 'PROJECT_ID', $v_g_project_detail->row()->PROJECT_ID);
-        $data['dokumen_list_task'] = $this->cms->getSingularDataTriple('g_project_doc', 'PROJECT_ID', 'MILESTONE_ID' ,'TASK_ID', $v_g_project_detail->row()->PROJECT_ID, $v_g_project_detail->row()->MILESTONE_ID, $v_g_project_detail->row()->TASK_ID);
+        $data['dokumen_list_task'] = $this->cms->getSingularDataTriple('v_g_project_doc', 'PROJECT_ID', 'MILESTONE_ID' ,'TASK_ID', $v_g_project_detail->row()->PROJECT_ID, $v_g_project_detail->row()->MILESTONE_ID, $v_g_project_detail->row()->TASK_ID);
         $this->load->view('modal/approval_task', $data);
     }
 
@@ -148,6 +155,8 @@ class Project extends CI_Controller
         $addArr = array(
             'PROJECT_ID' => $project_id,
             'PROJECT_NAME' => $this->input->post('project_name'),
+            'PROJECT_OWNER_ID' => '0',
+            'PROJECT_CUSTOMER' => $this->input->post('companyID'),
             'START_DATE' => date('Y-m-d H:i:s', strtotime($this->input->post('project_start'))),
             'END_DATE' => date('Y-m-d H:i:s', strtotime($this->input->post('project_end'))),
             'PROJECT_TYPE_ID' => $ptid,
@@ -234,7 +243,7 @@ class Project extends CI_Controller
         $data['g_project_detail'] = $this->cms->getSingularData('g_project_detail', 'REC_ID', $this->input->get('idprojdetail'));
         $g_project_detail = $data['g_project_detail'];
         $data['g_task'] = $this->cms->getSingularData('g_task', 'REC_ID', $g_project_detail->row()->TASK_ID);
-        $data['dokumen_list_task'] = $this->cms->getSingularDataTriple('g_project_doc', 'PROJECT_ID', 'MILESTONE_ID','TASK_ID', $g_project_detail->row()->PROJECT_ID , $g_project_detail->row()->MILESTONE_ID, $g_project_detail->row()->TASK_ID);
+        $data['dokumen_list_task'] = $this->cms->getSingularDataTriple('v_g_project_doc', 'PROJECT_ID', 'MILESTONE_ID','TASK_ID', $g_project_detail->row()->PROJECT_ID , $g_project_detail->row()->MILESTONE_ID, $g_project_detail->row()->TASK_ID);
         $this->load->view('modal/submit_task_project', $data);
     }
 
@@ -252,6 +261,10 @@ class Project extends CI_Controller
         $this->load->library('upload', $config);
 
         $doc_files = $_FILES['doc_file'];
+
+        $error_file = null;
+
+        $int_er_file = 0;
 
         foreach ($doc_files['name'] as $key => $doc_file) {
             $_FILES['doc_file[]']['name']= $doc_files['name'][$key];
@@ -337,15 +350,38 @@ class Project extends CI_Controller
 
 
             } else {
-                echo $this->upload->display_errors();
+                $error_file[$int_er_file]['msg'] = $this->upload->display_errors();
+                $error_file[$int_er_file]['filename'] = $_FILES['doc_file[]']['name'];
+                $int_er_file++;
+
             }
 
             
 
         }
 
-        $this->session->set_flashdata('query', 'success');
-        redirect(base_url('project'));
+        if ($error_file != null) {
+            foreach ($error_file as $error_msg) {
+                    echo "==============================================";
+                    echo "<br>";
+                    echo "File dengan nama :";
+                    echo $error_msg['filename'];
+                    echo "<br>";
+                    echo "Memiliki error : ";
+                    echo str_replace(['<p>', '</p>'], '', $error_msg['msg']);
+                    echo "<br>";
+                    echo "==============================================";
+                    echo "<br>";
+                }   
+
+            echo "<a href='".base_url('project')."'>Kembali</a>";
+        }
+        else{
+            $this->session->set_flashdata('query', 'success');
+            redirect(base_url('project'));
+        }
+
+        
 
 
     }

@@ -9,9 +9,19 @@
 					</button>
 				</div>
 					<div class="modal-body">
+
 					<div class="form-group">
 						<label for="recipient-name" class="col-form-label">Nama Project :</label>
-						<input type="text" class="form-control form-control-sm" id="txt_projecttype" name="project_name" required>
+						<input type="text" class="form-control form-control-sm" name="project_name" required>
+						<div class="invalid-feedback">
+							Nama tidak boleh kosong
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="recipient-name" class="col-form-label">Nama Customer :</label>
+						<input type="text" class="form-control form-control-sm" name="company_name" id="company_name" required>
+						<input type="hidden" name="companyID" id="companyID">
 						<div class="invalid-feedback">
 							Nama tidak boleh kosong
 						</div>
@@ -19,7 +29,7 @@
 				
 					<div class="form-group">
 						<label for="recipient-name" class="col-form-label">Start Date :</label>
-						<input type="date" class="form-control form-control-sm" id="txt_projecttype" name="project_start" required>
+						<input type="date" class="form-control form-control-sm" name="project_start" id="project_start" required>
 						<div class="invalid-feedback">
 							Date tidak boleh kosong
 						</div>
@@ -27,7 +37,7 @@
 				
 					<div class="form-group">
 						<label for="recipient-name" class="col-form-label">End Date :</label>
-						<input type="date" class="form-control form-control-sm" id="txt_projecttype" name="project_end" required>
+						<input type="date" class="form-control form-control-sm" name="project_end" id="project_end" required >
 						<div class="invalid-feedback">
 							Date tidak boleh kosong
 						</div>
@@ -62,10 +72,48 @@
 	</div>
 </div>
 
+
+
+<script src="<?= base_url('assets/autocomplete/jquery.autocomplete.js'); ?>"></script>
+<link rel="stylesheet" href="<?= base_url('assets/autocomplete/autocomplete.css'); ?>">
 <script>
 	jQuery(document).ready(function($) {
 
+		$("#project_start").change(function () {
+			$('#project_end').attr('min',$(this).val());
+
+   		});
 		
+		//1. Nampilin semua nama perusahaan dari DB
+	    var companies = [];
+
+	    $.get(baseUrl + 'Middleware/API/getAllCompany', function(resp) {
+
+	      $.each(resp.data, function(_index, value) {
+	        let ctgData;
+
+	        ctgData = {
+	          value: value.COMPANY_NAME,
+	          data: value.COMPANY_ID
+	        };
+
+	        companies.push(ctgData);
+	      });
+	    });
+	    //EoL 1
+
+	    //2. Autocomplete buat Nama Perusahaan
+	    $('#company_name').autocomplete({
+	      lookup: companies,
+	      onSelect: function(suggestion) {
+	        console.log(suggestion);
+
+	        $('#companyID').val(suggestion.data);
+	      }
+	    });
+	    //EoL 2
+
+
 
 		$("#ptid_select").change(function () {
 			var button = $(event.relatedTarget);

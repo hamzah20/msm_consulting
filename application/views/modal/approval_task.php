@@ -33,17 +33,12 @@
                             <td><?= $v_g_project_detail->row()->TASK_NAME ?></td>
                         </tr>
                         <tr>
-                            <td>START DATE</td>
+                            <td>START & END DATE</td>
                             <td>&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</td>
-                            <td><?= $v_g_project_detail->row()->START_DATE ?></td>
+                            <td><span class='badge badge-primary' style='font-size: 10px;'><?= $v_g_project_detail->row()->START_DATE ?></span> - <span class='badge badge-danger' style='font-size: 10px;'><?= $v_g_project_detail->row()->END_DATE ?></span></td>
                         </tr>
                         <tr>
-                            <td>END DATE</td>
-                            <td>&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</td>
-                            <td><?= $v_g_project_detail->row()->END_DATE ?></td>
-                        </tr>
-                        <tr>
-                            <td>NOTES BY PIC</td>
+                            <td>NOTES FROM PIC</td>
                             <td>&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</td>
                             <td><?= nl2br($v_g_project_detail->row()->NOTES_PIC) ?>
                         </tr>
@@ -60,9 +55,10 @@
                         <thead>
                             <tr>
                                 <th scope="col">No.</th>
-                                <th scope="col">Nama File</th>
-                                <th scope="col">Tanggal Upload</th>
-                                <th scope="col">Aksi</th>
+                                <th scope="col">File Name</th>
+                                <th scope="col">Uploader</th>
+                                <th scope="col">Upload Date</th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <?php 
@@ -76,6 +72,9 @@
                                 </td>
                                 <td>
                                     <?= $dokumen_task->FILE_NAME ?>
+                                </td>
+                                <td>
+                                    <?= $dokumen_task->USER_NAME ?>
                                 </td>
                                 <td>
                                     <?= $dokumen_task->UPLOAD_DATE ?>
@@ -93,7 +92,7 @@
 
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">
-                            NOTES &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            NOTES FROM MANAGEMENT&nbsp;:
                         </label>
                         <textarea class="form-control" rows="3" name="NOTES_SUPERUSER"></textarea>
                     </div>
@@ -163,7 +162,7 @@ jQuery(document).ready(function($) {
 
           Swal.fire({
             title: 'Revise Task',
-            text: 'Apakah Anda yakin ingin revise task ini ?',
+            text: 'Apakah anda yakin ingin revise task ini ?',
             icon: 'info',
             showCancelButton: true,
             cancelButtonText: 'Batal',

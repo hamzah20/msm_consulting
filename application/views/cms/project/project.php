@@ -112,7 +112,7 @@
                 <label style="font-size: 12px;">Project OWNER : <?= $plist->USER_NAME ?></label><br>
               </td>
               <td data-toggle="collapse" data-target="#collapse<?= $plist->REC_ID ?>" style="background: #ebebeb;cursor: pointer;">
-                <label style="font-weight: bold;font-size: 14px;"><?= $plist->PROJECT_CUSTOMER ?></label><br>
+                <label style="font-weight: bold;font-size: 14px;"><?= $plist->COMPANY_NAME ?></label><br>
               </td>
               <td data-toggle="collapse" data-target="#collapse<?= $plist->REC_ID ?>" style="background: #ebebeb;cursor: pointer;">
                 <h6><?= $status_project ?></h6>
@@ -129,9 +129,9 @@
                 </label>
               </td>
               <td style="background: #ebebeb">
-                <a class="btn btn-sm btn-primary text-white uploadDokumenProject" title="Upload Dokumen" data-toggle="modal" data-target="#uploadDokumenProject" data-idproject="<?= $plist->REC_ID ?>">
+                <!-- <a class="btn btn-sm btn-primary text-white uploadDokumenProject" title="Upload Dokumen" data-toggle="modal" data-target="#uploadDokumenProject" data-idproject="<?= $plist->REC_ID ?>">
                   <i class="fa fa-file"></i>
-                </a>
+                </a> -->
                 <a class="btn btn-sm btn-primary text-white lihatDokumen" title="Lihat Dokumen" data-toggle="modal" data-target="#lihatDokumen" data-idproject="<?= $plist->PROJECT_ID ?>">
                   <i class="fa fa-list"></i>
                 </a>
@@ -155,14 +155,11 @@
                           <th class="text-warning" style="width:2.7in">
                             <i class="fa fa-arrow-right"> </i> <?= $proj_milestone->MILESTONE_NAME  ?>
                           </th>
-                          <th style="width:1.2in">
+                          <th style="width:2.4in">
                             PIC
                           </th>
-                          <th style="width:1.9in">
+                          <th style="width:2.4in">
                             STATUS
-                          </th>
-                          <th style="width:1.7in">
-                            NOTES SUPERUSER
                           </th>
                           <th style="width:1.5in">
                             START DATE
@@ -180,7 +177,8 @@
 
                           <?php foreach ($project_task->result() as $proj_task) {
                             $file_num_rows = $this->cms->getSingularDataTriple('g_project_doc', 'PROJECT_ID', 'MILESTONE_ID','TASK_ID', $project_id, $proj_milestone->MILESTONE_ID, $proj_task->TASK_ID)->num_rows();
-                            $duration = $this->incube->hoursToTime($proj_task->TOTAL_HOURS);
+                            //$duration = $this->incube->hoursToTime($proj_task->TOTAL_HOURS);
+                            $duration= $proj_task->TOTAL_HOURS.' Hours';
                             $status = "";
                             if ($proj_task->STATUS == 'DONE') {
                               $status = "<span class='badge badge-success' style='font-size: 12px;'>DONE</span>";
@@ -196,31 +194,40 @@
                               $status = "<span class='badge badge-secondary' style='font-size: 12px;'>$proj_task->STATUS</span>";
                             }
 
+                            if ($proj_task->NOTES_PIC == "") {
+                              $NOTES_PIC = "...";
+                            }else{
+                              $NOTES_PIC = $proj_task->NOTES_PIC;
+                            };
+
+                            if ($proj_task->NOTES_SUPERUSER == "") {
+                              $NOTES_SUPERUSER = "...";
+                            }else{
+                              $NOTES_SUPERUSER = $proj_task->NOTES_SUPERUSER;
+                            };
+
                             $cek_milestone_pic_list = $this->cms->getSingularDataFour('g_project_detail', 'PROJECT_ID', 'MILESTONE_ID', 'TASK_ID', 'PIC', $project_id, $proj_milestone->MILESTONE_ID, $proj_task->TASK_ID, $user_rec_id);//2077 hapus line ini
                             if ($cek_milestone_pic_list->num_rows() > 0  || $elevated_group == true) {//2077 hapus line ini
                           ?>
 
                             <tr>
                               <td></td>
-                              <td class="text-success">
+                              <td class="text-success" data-toggle="collapse" data-target="#collapse_notes<?= $proj_task->REC_ID ?>" style="cursor:pointer;">
                                 <?= $nbsp ?><i class="fa fa-arrow-right "> </i> <?= $proj_task->TASK_NAME ?>
                               </td>
-                              <td>
+                              <td data-toggle="collapse" data-target="#collapse_notes<?= $proj_task->REC_ID ?>" style="cursor:pointer;">
                                 <?= $proj_task->PIC ?>
                               </td>
-                              <td>
+                              <td data-toggle="collapse" data-target="#collapse_notes<?= $proj_task->REC_ID ?>" style="cursor:pointer;">
                                 <?= $status; ?>
                               </td>
-                              <td>
-                                <?= nl2br($proj_task->NOTES_SUPERUSER) ?>
-                              </td>
-                              <td>
+                              <td data-toggle="collapse" data-target="#collapse_notes<?= $proj_task->REC_ID ?>" style="cursor:pointer;">
                                 <?= $proj_task->START_DATE ?>
                               </td>
-                              <td>
+                              <td data-toggle="collapse" data-target="#collapse_notes<?= $proj_task->REC_ID ?>" style="cursor:pointer;">
                                 <?= $proj_task->END_DATE ?>
                               </td>
-                              <td>
+                              <td data-toggle="collapse" data-target="#collapse_notes<?= $proj_task->REC_ID ?>" style="cursor:pointer;">
                                 <?= $duration ?>
                               </td>
                               <td>
@@ -236,7 +243,7 @@
                                   <i class="fa fa-list"></i>
                                 </a>
 
-                                <?php if ($file_num_rows > 0 AND $proj_task->STATUS != 'WAITING FOR APPROVAL' AND $proj_task->STATUS != 'DONE'): ?>
+                                <?php if ($file_num_rows > 0 AND $proj_task->STATUS != 'WAITING FOR APPROVAL' AND $proj_task->STATUS != 'DONE' AND $elevated_group != true): ?>
                                   <a class="btn btn-sm btn-success text-white submitTask" title="Submit Task" data-toggle="modal" data-target="#submitTask" data-idprojdetail="<?= $proj_task->REC_ID ?>">
                                     <i class="fa fa-send"></i>
                                   </a>
@@ -244,6 +251,34 @@
 
                               </td>
 
+                            </tr>
+                            <tr>
+                              <td colspan="8" style="border:none;padding: 0;" >
+                                <div class="row collapse" id="collapse_notes<?= $proj_task->REC_ID ?>" style="margin-left:0.5in;margin-right:0.5in;" >
+
+                                  <div class="col">
+                                    NOTES FROM PIC
+
+                                    <div class="card">
+                                      <div class="card-body">
+                                        <?= nl2br($NOTES_PIC) ?>
+                                      </div>
+                                    </div>
+
+                                  </div>
+
+                                  <div class="col">
+                                    NOTES FROM MANAGEMENT
+
+                                    <div class="card">
+                                      <div class="card-body">
+                                        <?= nl2br($NOTES_SUPERUSER) ?>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                </div>
+                              </td>
                             </tr>
 
                           <?php }} //2077 hapus satu } ini ?>
@@ -281,7 +316,7 @@
               Loading
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
+              <button type="submit" class="btn btn-primary btn-sm">Upload</button>
               <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
             </div>
           </div>
@@ -304,7 +339,7 @@
               Loading
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
+              <button type="submit" class="btn btn-primary btn-sm">Upload</button>
               <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
             </div>
           </div>
@@ -351,8 +386,6 @@
   </div>
   <!-- End of Content -->
 </div>
-
-
 
 <script>
   
