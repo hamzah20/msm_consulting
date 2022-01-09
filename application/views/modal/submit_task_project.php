@@ -20,6 +20,7 @@
                                 <tr>
                                     <th scope="col">No.</th>
                                     <th scope="col">File Name</th>
+                                    <th scope="col">Jenis Dokumen</th>
                                     <th scope="col">Uploader</th>
                                     <th scope="col">Upload Date</th>
                                     <th scope="col">Aksi</th>
@@ -36,6 +37,9 @@
                                     </td>
                                     <td>
                                         <?= $dokumen_task->FILE_NAME ?>
+                                    </td>
+                                    <td>
+                                        <?= $dokumen_task->NAMA_JENIS_DOKUMEN ?>
                                     </td>
                                     <td>
                                         <?= $dokumen_task->USER_NAME ?>

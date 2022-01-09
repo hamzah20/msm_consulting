@@ -284,7 +284,7 @@
                 <!-- /# card -->
             </div>
              
-
+<!-- https://pastebin.com/zsVJyPpg -->
 
             <div class="col-xl-12">
                 <?php if ($elevated_group == true): ?>

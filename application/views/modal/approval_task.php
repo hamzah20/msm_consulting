@@ -40,7 +40,7 @@
                         <tr>
                             <td>NOTES FROM PIC</td>
                             <td>&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</td>
-                            <td><?= nl2br($v_g_project_detail->row()->NOTES_PIC) ?>
+                            <td><?= nl2br($v_g_project_detail->row()->NOTES_PIC) ?></td>
                         </tr>
                         <!-- <tr>
                             <td>RELATED DOC</td>
@@ -56,6 +56,7 @@
                             <tr>
                                 <th scope="col">No.</th>
                                 <th scope="col">File Name</th>
+                                <th scope="col">Jenis Dokumen</th>
                                 <th scope="col">Uploader</th>
                                 <th scope="col">Upload Date</th>
                                 <th scope="col">Action</th>
@@ -72,6 +73,9 @@
                                 </td>
                                 <td>
                                     <?= $dokumen_task->FILE_NAME ?>
+                                </td>
+                                <td>
+                                    <?= $dokumen_task->NAMA_JENIS_DOKUMEN ?>
                                 </td>
                                 <td>
                                     <?= $dokumen_task->USER_NAME ?>

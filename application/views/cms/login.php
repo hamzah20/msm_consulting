@@ -21,21 +21,24 @@
         <div class="col-md-4 col-sm-6 mx-auto pt-5">
           <div class="card mt-5">
             <h5 class="card-header"><img src="<?php echo base_url('assets/images/pictures/enduser_logo.png'); ?>" class="img-fluid"></h5>
-            <div class="card-body">
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="basic-addon1"><i class="fas fa-user"></i></span>
+            <form method="POST" action="<?php echo base_url('Dashboard/auth'); ?>">
+              <div class="card-body">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1"><i class="fas fa-user"></i></span>
+                  </div>
+                  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" name="username">
                 </div>
-                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-              </div>
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="basic-addon1"><i class="fas fa-unlock"></i></span>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1"><i class="fas fa-unlock"></i></span>
+                  </div>
+                  <input type="password" class="form-control" placeholder="Password" aria-label="Username" aria-describedby="basic-addon1" name="password">
                 </div>
-                <input type="password" class="form-control" placeholder="Password" aria-label="Username" aria-describedby="basic-addon1">
+                <!-- <a class="btn btn-login btn-block font-weight-bold" href="<?php echo base_url('Dashboard/index'); ?>" role="button">LOGIN</a> -->
+                <input type="submit" name="LOGIN" class="btn btn-login btn-block font-weight-bold" role="button" value="LOGIN">
               </div>
-              <a class="btn btn-login btn-block font-weight-bold" href="<?php echo base_url('Dashboard/index'); ?>" role="button">LOGIN</a>
-            </div>
+            </form>
           </div>
         </div>
       </div>

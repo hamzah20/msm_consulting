@@ -95,6 +95,10 @@
               $status_project = "<span class='badge badge-success' style='font-size: 12px;'>DONE</span>";
             }
 
+            $task_onprogress = $this->cms->getSingularDataDetail('v_g_project_detail', 'PROJECT_ID', 'STATUS', $plist->PROJECT_ID, 'ONPROGRESS');
+            @$nama_task_onprogress = $task_onprogress->row()->TASK_NAME;
+            @$nama_pic_onprogress = $task_onprogress->row()->PIC;
+
             $nbsp = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $project_id = $plist->PROJECT_ID;
             $project_milestone = $this->cms->getMilestoneProject('v_g_project_detail', $project_id);
@@ -115,7 +119,9 @@
                 <label style="font-weight: bold;font-size: 14px;"><?= $plist->COMPANY_NAME ?></label><br>
               </td>
               <td data-toggle="collapse" data-target="#collapse<?= $plist->REC_ID ?>" style="background: #ebebeb;cursor: pointer;">
-                <h6><?= $status_project ?></h6>
+                <div><?= $status_project ?></div>
+                <div style="margin:5px 0px"><span class='badge badge-success' style='font-size: 12px;'><?= $nama_task_onprogress ?></span></div>
+                <div><span class='badge badge-success' style='font-size: 12px;'><?= $nama_pic_onprogress ?></span></div>
               </td>
               <td data-toggle="collapse" data-target="#collapse<?= $plist->REC_ID ?>" style="background: #ebebeb;cursor: pointer;">
                 <label style="font-size:12px;" class="badge badge-primary"><?= $start_project ?></label>
@@ -155,10 +161,10 @@
                           <th class="text-warning" style="width:2.7in">
                             <i class="fa fa-arrow-right"> </i> <?= $proj_milestone->MILESTONE_NAME  ?>
                           </th>
-                          <th style="width:2.4in">
+                          <th style="width:2.3in">
                             PIC
                           </th>
-                          <th style="width:2.4in">
+                          <th style="width:2.3in">
                             STATUS
                           </th>
                           <th style="width:1.5in">
@@ -353,7 +359,7 @@
         
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="editUser">Lihat Dokumen</h5>
+              <h5 class="modal-title" id="editUser">Lihat Detail</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>

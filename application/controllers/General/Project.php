@@ -20,10 +20,9 @@ class Project extends CI_Controller
 
         //$this->output->enable_profiler(TRUE);
         // buat debug, gonta ganti akun disini yaa...
-        $data['user_group_id'] = 'USER';
-        $data['user_id'] = 'Rifaldi Setiawan';
-        $data['user_rec_id'] = '16';
-        $data['elevated_group'] = false;
+        $data['user_group_id'] = $this->session->userdata('user_group_id');
+        $data['user_rec_id'] = $this->session->userdata('user_rec_id');
+        $data['elevated_group'] = $this->session->userdata('elevated_group');
 
         $data['project_list'] = $this->cms->getGeneralList('v_g_project');
         $data['project_type'] = $this->cms->getGeneralList('gm_project_type');
@@ -317,6 +316,7 @@ class Project extends CI_Controller
                                 'PROJECT_ID' => $this->input->post('project_id'),
                                 'MILESTONE_ID' => $miles_id,
                                 'TASK_ID' => $tas_id,
+                                'USER_ID' => $this->session->userdata('user_id'),
                                 'FILE_NAME' => $data_upload['orig_name'],
                                 'FILE_ADDRESS' => $data_upload['file_name']
                             ); 
@@ -342,6 +342,7 @@ class Project extends CI_Controller
                         'PROJECT_ID' => $this->input->post('project_id'),
                         'MILESTONE_ID' => $miles_id,
                         'TASK_ID' => $tas_id,
+                        'USER_ID' => $this->session->userdata('user_id'),
                         'FILE_NAME' => $data_upload['orig_name'],
                         'FILE_ADDRESS' => $data_upload['file_name']
                     ); 
@@ -384,6 +385,29 @@ class Project extends CI_Controller
         
 
 
+    }
+
+
+    public function deleteFile(){
+        $recid = $this->input->post('REC_ID');
+        $file = $this->cms->getSingularData('g_project_doc', 'REC_ID', $recid);
+        $file_addr = $file->row()->FILE_ADDRESS;
+
+        $hapus_file = unlink("./assets/upload/docs/$file_addr");
+        $hapus_row = $this->cms->deleteGeneralData('g_project_doc', 'REC_ID', $recid);
+
+        header('Content-Type: application/json');
+        if ($hapus_file && $hapus_row) {
+            echo json_encode(array(
+                'code'      => 200,
+                'status'    => 'success',
+            ));
+        }else{
+            echo json_encode(array(
+                'code'      => 204,
+                'status'    => 'error',
+            ));
+        }
     }
 
     
