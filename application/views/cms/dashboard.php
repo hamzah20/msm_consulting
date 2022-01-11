@@ -250,7 +250,7 @@
                               <!-- <th scope="col">START DATE</th> -->
                               <th scope="col">TARGET DATE</th>
                               <th scope="col">PLANNED HOURS</th>
-                              <th scope="col">ACTUAL HOURS</th>
+                              <!-- <th scope="col">ACTUAL HOURS</th> -->
                               <th scope="col">STATUS</th>
                               <th scope="col">DUE IN</th>
                             </tr>
@@ -259,7 +259,16 @@
                             <?php foreach ($my_pending_custom_task->result() as $my_pending_ct):
                                 $target_date = date('Y-m-d', strtotime($my_pending_ct->END_DATE));
                                 $selisih_jam = round(abs(strtotime(date("Y-m-d H:i:s")) - strtotime($my_pending_ct->END_DATE)) / 3600, 2);
-                                $due_in = $this->incube->hoursToTime2($selisih_jam);
+                                $due_in = $this->incube->hoursToTime2($selisih_jam, true);
+
+                                if($due_in <= 3){
+                                  $badge_due_in = 'badge-danger';
+                                } elseif($due_in <= 7){
+                                  $badge_due_in = 'badge-warning';
+                                } elseif($due_in >7 ){
+                                  $badge_due_in = 'badge-primary';
+                                };
+
                              ?>
 
                             <tr>
@@ -271,9 +280,9 @@
                               <!-- <td>2021-09-17</td> -->
                               <td><?= $target_date  ?></td>
                               <td><?= $my_pending_ct->TOTAL_HOURS  ?> Hours</td>
-                              <td><?= $my_pending_ct->ACTUAL_HOURS  ?></td>
+                              <!-- <td><?= $my_pending_ct->ACTUAL_HOURS  ?></td> -->
                               <td><?= $my_pending_ct->STATUS  ?></td>
-                              <td><?= $due_in ?></td>
+                              <td><span class='badge <?= $badge_due_in ?>' style='font-size: 12px;'><?= $due_in ?> days</span></td>
                               <!-- <td><button class="btn btn-success"><i class="fa fa-eye"></i></button></td> -->
                             </tr> 
                             <?php endforeach ?>

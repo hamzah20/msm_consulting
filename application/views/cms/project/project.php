@@ -61,10 +61,12 @@
         <h4>List Project </h4>
       </div>
       <div class="card-body">
-        <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addProject">
-          <i class="fa fa-plus"></i> 
-          Project
-        </a>
+        <?php if (@$this->session->userdata('elevated_group') == true): ?>
+          <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addProject">
+            <i class="fa fa-plus"></i> 
+            Project
+          </a>
+        <?php endif ?>
         <table class="table" style="margin-top: 10px;width: 1200px;">
           <thead>
             <tr>

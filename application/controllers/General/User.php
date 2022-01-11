@@ -15,14 +15,18 @@ class User extends CI_Controller {
 
     public function addUser()
     {
+        $pass_hashed = password_hash($this->input->post('pass_user'), PASSWORD_BCRYPT);
 
-		$addArr = array(
-			'ID' 				=> $this->input->post('id_user'),
-			'NAME' 				=> $this->input->post('name_user'),
-			'GROUP_ID' 			=> $this->input->post('group_id_user'),
-			'STATUS' 			=> $this->input->post('status_user'),
-			'ATTEMPTED_LOGIN' 	=> $this->input->post('attempted_login_user')
-		); 
+        $addArr = array(
+            'ID'                => $this->input->post('id_user'),
+            'PASS'              => $pass_hashed,
+            'NAME'              => $this->input->post('name_user'),
+            'GROUP_ID'          => $this->input->post('group_id_user'),
+            'STATUS'            => $this->input->post('status_user'),
+            'ATTEMPTED_LOGIN'   => $this->input->post('attempted_login_user')
+        ); 
+
+		
 
         $query_adduser = $this->cms->insertGeneralData('s_user', $addArr);
 
@@ -55,13 +59,28 @@ class User extends CI_Controller {
     }
 
     public function editUser(){
-    	$editArr = array(
-    		'ID' 				=> $this->input->post('id_user'),
-			'NAME' 				=> $this->input->post('name_user'),
-			'GROUP_ID' 			=> $this->input->post('group_id_user'),
-			'STATUS' 			=> $this->input->post('status_user'),
-			'ATTEMPTED_LOGIN' 	=> $this->input->post('attempted_login_user')
-    	);
+
+        if (null == $this->input->post('pass_user')) {
+
+            $editArr = array(
+                'ID'                => $this->input->post('id_user'),
+                'NAME'              => $this->input->post('name_user'),
+                'GROUP_ID'          => $this->input->post('group_id_user'),
+                'STATUS'            => $this->input->post('status_user'),
+                'ATTEMPTED_LOGIN'   => $this->input->post('attempted_login_user')
+            ); 
+
+        }else{
+            $pass_hashed = password_hash($this->input->post('pass_user'), PASSWORD_BCRYPT);
+            $editArr = array(
+                'ID'                => $this->input->post('id_user'),
+                'PASS'              => $pass_hashed,
+                'NAME'              => $this->input->post('name_user'),
+                'GROUP_ID'          => $this->input->post('group_id_user'),
+                'STATUS'            => $this->input->post('status_user'),
+                'ATTEMPTED_LOGIN'   => $this->input->post('attempted_login_user')
+            ); 
+        }
 
     	$query_editUser = $this->cms->updateGeneralData('s_user', $editArr, 'REC_ID', $this->input->post('rec_id'));
 

@@ -9,6 +9,19 @@ class Incube
         $this->CI = &get_instance();
     }
 
+    //==============================LOGIN===================================
+
+    public function cek_auth(){
+        $this->CI->load->library('session');
+        if ($this->CI->session->has_userdata('user_id')) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    //==============================LOGIN===================================
+
     public function generateID($length)
     {
         $randomSalt = md5(uniqid(rand(), true));
@@ -371,7 +384,7 @@ class Incube
         return implode(', ', $timeParts);
     }
 
-    public function hoursToTime2($inputHours) {
+    public function hoursToTime2($inputHours, $int_only = false) {
         $inputSeconds = $inputHours * 3600;
         $secondsInAMinute = 60;
         $secondsInAnHour = 60 * $secondsInAMinute;
@@ -404,7 +417,11 @@ class Incube
             }
         }
 
-        return implode(', ', $timeParts);
+        if($int_only){
+            return $days;
+        } else {
+            return implode(', ', $timeParts);
+        }
     }
 
 // ============================================================================================================

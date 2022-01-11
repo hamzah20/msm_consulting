@@ -20,7 +20,7 @@
       <div class="row">
         <div class="col-md-4 col-sm-6 mx-auto pt-5">
           <div class="card mt-5">
-            <h5 class="card-header"><img src="<?php echo base_url('assets/images/pictures/enduser_logo.svg'); ?>" class="img-fluid"></h5>
+            <h5 class="card-header"><img src="<?php echo base_url('assets/images/pictures/enduser_logo.png'); ?>" class="img-fluid"></h5>
             <form method="POST" action="<?php echo base_url('Login/auth'); ?>">
               <div class="card-body">
                 <div class="input-group mb-3">

@@ -7,6 +7,11 @@ class Dashboard extends CI_Controller
 	{
 		parent::__construct();
 		//$this->output->enable_profiler(TRUE);
+		//
+		if ($this->incube->cek_auth() == false) {
+			redirect(base_url(''));
+			return false;
+		}
 
 	}
 	public function index()

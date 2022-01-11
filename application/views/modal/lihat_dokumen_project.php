@@ -190,7 +190,7 @@
 					<a class="btn btn-sm btn-primary text-white" title="Download Dokumen" href="<?= base_url('General/Project/Download_doc?addr='.$addr); ?>">
 	                  <i class="fa fa-download"></i>
 	                </a>
-	                <?php if ($status_project_detail == 'ONPROGRESS'): ?>
+	                <?php if ($status_project_detail == 'ONPROGRESS' || $status_project_detail == 'REVISE'): ?>
 	                	<a class="btn btn-sm btn-danger hapus" data-toggle="tooltip" data-placement="top" data-recid="<?= $dokumen_task->REC_ID; ?>" title="Hapus File" href="#" role="button">
 							<i class="fa fa-trash"></i>
                     	</a>
