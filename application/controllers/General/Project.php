@@ -32,6 +32,27 @@ class Project extends CI_Controller
         $this->load->view('cms/project/project', $data);
 
     }
+
+    public function startTask(){
+        header('Content-Type: application/json');
+        $editArr = array(
+            'STATUS' => 'ONPROGRESS'
+        );
+
+        $querySubmit = $this->cms->updateGeneralData('g_project_detail', $editArr, 'REC_ID', $this->input->post('id_project_detail'));
+
+        if ($querySubmit) {
+            echo json_encode(array(
+                'code'      => 200,
+                'status'    => 'success',
+            ));
+        } else {
+            echo json_encode(array(
+                'code'      => 204,
+                'status'    => 'error',
+            ));
+        }
+    }
     
     public function submitTask()
     {
@@ -40,11 +61,15 @@ class Project extends CI_Controller
         $g_project_detail = $this->cms->getSingularData('g_project_detail', 'REC_ID', $this->input->post('id_proj_detail'));
         $start_date = date('Y-m-d H:i:s', strtotime($g_project_detail->row()->START_DATE));
         $now_date = date('Y-m-d H:i:s');
-        $actual_hours = $this->incube->get_working_hours($start_date, $now_date);
+        $actual_hours_only = $this->input->post('actual_hours_only');
+        $actual_minutes_only = $this->input->post('actual_minutes_only');
+        $actual_minutes = $actual_hours_only * 60 + $actual_minutes_only ;
+        $submit_date = date('Y-m-d H:i:s', time() );
         $editArr = array(
             'STATUS' => 'WAITING FOR APPROVAL',
             'NOTES_PIC' => $this->input->post('notes_pic'),
-            'ACTUAL_HOURS' => $actual_hours,
+            'ACTUAL_MINUTES' => $actual_minutes,
+            'SUBMIT_DATE' => $submit_date
         );
 
         $querySubmit = $this->cms->updateGeneralData('g_project_detail', $editArr, 'REC_ID', $this->input->post('id_proj_detail'));
@@ -83,12 +108,15 @@ class Project extends CI_Controller
         $milestone_id = $g_project_detail->row()->MILESTONE_ID;
         $task_sort_no = $g_project_detail->row()->TASK_SORT_NO;
         $next_task = $this->db->query("SELECT * FROM v_g_project_detail WHERE PROJECT_ID = '$project_id' AND MILESTONE_ID = $milestone_id AND TASK_SORT_NO > $task_sort_no GROUP BY TASK_ID ORDER BY TASK_SORT_NO ASC LIMIT 1;");
-        $editArr2 = array(
-            'STATUS' => 'ONPROGRESS'
-        );
+
+            $editArr2 = array(
+                'STATUS' => 'ONPROGRESS'
+            );
 
         if ($next_task->num_rows() > 0) { 
-            $queryApprove = $this->cms->updateGeneralData('g_project_detail', $editArr2, 'REC_ID', $next_task->row()->REC_ID);
+            if ($next_task->row()->STATUS == '-') {
+                $queryApprove = $this->cms->updateGeneralData('g_project_detail', $editArr2, 'REC_ID', $next_task->row()->REC_ID);
+            }
         }else{// kalo udah gk ada task selanjutnya di milestone & project ini, maka ambil milestone dibawahnya
 
             $next_task = $this->db->query("SELECT * FROM v_g_project_detail WHERE PROJECT_ID = '$project_id' AND MILESTONE_ID = $milestone_id AND TASK_SORT_NO = $task_sort_no GROUP BY TASK_ID ORDER BY TASK_SORT_NO ASC LIMIT 1;");
@@ -98,8 +126,14 @@ class Project extends CI_Controller
             $milestone_id = $next_milestone->row()->MILESTONE_ID;
 
             $next_task = $this->db->query("SELECT * FROM v_g_project_detail WHERE PROJECT_ID = '$project_id' AND MILESTONE_ID = $milestone_id AND TASK_SORT_NO > 0 GROUP BY TASK_ID ORDER BY TASK_SORT_NO ASC LIMIT 1;");
-            $queryApprove = $this->cms->updateGeneralData('g_project_detail', $editArr2, 'REC_ID', $next_task->row()->REC_ID);
+            if ($next_task->row()->STATUS == '-') {
+                $queryApprove = $this->cms->updateGeneralData('g_project_detail', $editArr2, 'REC_ID', $next_task->row()->REC_ID);
+            }
+            
         }
+
+
+        
 
 
 
@@ -154,7 +188,7 @@ class Project extends CI_Controller
         $addArr = array(
             'PROJECT_ID' => $project_id,
             'PROJECT_NAME' => $this->input->post('project_name'),
-            'PROJECT_OWNER_ID' => '0',
+            'PROJECT_OWNER_ID' => $this->session->userdata('user_rec_id'),
             'PROJECT_CUSTOMER' => $this->input->post('companyID'),
             'START_DATE' => date('Y-m-d H:i:s', strtotime($this->input->post('project_start'))),
             'END_DATE' => date('Y-m-d H:i:s', strtotime($this->input->post('project_end'))),
@@ -176,7 +210,9 @@ class Project extends CI_Controller
             foreach ($arr_milestone as $arr_task) {
                 // var_dump($arr_task);
                 
+                
                 if (isset($arr_task['checkbox'])) {
+                    $planned_minutes = $arr_task['planned_hours_only'] * 60 + $arr_task['planned_minutes_only'];
                     $addArrDetail = array(
 
                         'PROJECT_ID' => $project_id,
@@ -185,7 +221,7 @@ class Project extends CI_Controller
                         'START_DATE' => date('Y-m-d H:i:s', strtotime($arr_task['start_date'])),
                         'END_DATE' => date('Y-m-d H:i:s', strtotime($arr_task['end_date'])),
                         'PIC' => $arr_task['pic'],
-                        'TOTAL_HOURS' => $arr_task['total_hours'],
+                        'PLANNED_MINUTES' => $planned_minutes,
                         'STATUS' => $status_onprogress,
                         'CREATED' => date('Y-m-d H:i:s'),
                         'UPDATED' => $this->input->post('attempted_login_user')
@@ -213,7 +249,13 @@ class Project extends CI_Controller
     {
         $id = $this->input->get('id_project');
         $data['project'] = $this->cms->getSingularData('g_project', 'REC_ID', $id);
-        $data['document_type'] = $this->cms->getGeneralList('m_document');
+
+        $this->db->select('*')
+            ->from("m_document")
+            ->order_by("NAMA_JENIS_DOKUMEN", "ASC");
+
+        $data['document_type'] = $this->db->get();
+
         $this->load->view('modal/upload_dokumen_project', $data);
     }
 
@@ -251,7 +293,7 @@ class Project extends CI_Controller
         //$this->output->enable_profiler(true);
 
         $config['upload_path']          = './assets/upload/docs/';
-        $config['allowed_types']        = 'xlsx|xls|xlsm|xlt|xltx|xltm|xlsb|xla|xlam|xml|csv|pdf|epub|txt|xps|doc|docm|docx|dot|dotm|dotx|odt|rtf|wps|ods|xlw|odp|pot|potm|potx|ppa|ppam|pps|ppsm|ppsx|ppt|pptm|pptx|thmx';
+        $config['allowed_types']        = 'xlsx|xls|xlsm|xlt|xltx|xltm|xlsb|xla|xlam|xml|csv|pdf|epub|txt|xps|doc|docm|docx|dot|dotm|dotx|odt|rtf|wps|ods|xlw|odp|pot|potm|potx|ppa|ppam|pps|ppsm|ppsx|ppt|pptm|pptx|thmx|jpg|jpeg|png|webp|bmp|tif';
         $config['max_size']             = 5000;
         $config['overwrite']            = true;
         $config['encrypt_name']         = true;

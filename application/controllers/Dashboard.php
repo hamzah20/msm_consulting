@@ -34,7 +34,7 @@ class Dashboard extends CI_Controller
 		$this->db->select('*')
             ->from('v_g_project_detail')
             ->where('USER_REC_ID', $data['user_rec_id'])
-            ->where('STATUS', 'ONPROGRESS')
+            ->where("STATUS='ONPROGRESS' OR STATUS='REVISE'")
             ->order_by('END_DATE', 'ASC');
 
         $query_my_pending_ct = $this->db->get();

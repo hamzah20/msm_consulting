@@ -185,8 +185,8 @@
 
                           <?php foreach ($project_task->result() as $proj_task) {
                             $file_num_rows = $this->cms->getSingularDataTriple('g_project_doc', 'PROJECT_ID', 'MILESTONE_ID','TASK_ID', $project_id, $proj_milestone->MILESTONE_ID, $proj_task->TASK_ID)->num_rows();
-                            //$duration = $this->incube->hoursToTime($proj_task->TOTAL_HOURS);
-                            $duration= $proj_task->TOTAL_HOURS.' Hours';
+                            //$duration = $this->incube->hoursToTime($proj_task->PLANNED_MINUTES);
+                            $duration= $this->incube->minutesToTime($proj_task->PLANNED_MINUTES, true);
                             $status = "";
                             if ($proj_task->STATUS == 'DONE') {
                               $status = "<span class='badge badge-success' style='font-size: 12px;'>DONE</span>";
@@ -195,7 +195,7 @@
                             }elseif($proj_task->STATUS == 'WAITING FOR APPROVAL'){
                               $status = "<span class='badge badge-warning' style='font-size: 12px;'>WAITING FOR APPROVAL</span>";
                             }elseif($proj_task->STATUS == 'REVISE'){
-                              $status = "<span class='badge badge-danger' style='font-size: 12px;'>REVISED</span>";
+                              $status = "<span class='badge badge-danger' style='font-size: 12px;'>NEED REVISION</span>";
                             }elseif($proj_task->STATUS == 'PENDING'){
                               $status = "<span class='badge badge-danger' style='font-size: 12px;'>PENDING</span>";
                             }else{
@@ -230,10 +230,14 @@
                                 <?= $status; ?>
                               </td>
                               <td data-toggle="collapse" data-target="#collapse_notes<?= $proj_task->REC_ID ?>" style="cursor:pointer;">
-                                <?= $proj_task->START_DATE ?>
+                                <?php 
+                                  $start_date = date('Y-m-d H:i', strtotime($proj_task->START_DATE));  
+                                  $end_date = date('Y-m-d H:i', strtotime($proj_task->END_DATE));  
+                                ?>
+                                <?= $start_date ?>
                               </td>
                               <td data-toggle="collapse" data-target="#collapse_notes<?= $proj_task->REC_ID ?>" style="cursor:pointer;">
-                                <?= $proj_task->END_DATE ?>
+                                <?= $end_date ?>
                               </td>
                               <td data-toggle="collapse" data-target="#collapse_notes<?= $proj_task->REC_ID ?>" style="cursor:pointer;">
                                 <?= $duration ?>
@@ -254,6 +258,12 @@
                                 <?php if ($file_num_rows > 0 AND $proj_task->STATUS != 'WAITING FOR APPROVAL' AND $proj_task->STATUS != 'DONE' AND $elevated_group != true): ?>
                                   <a class="btn btn-sm btn-success text-white submitTask" title="Submit Task" data-toggle="modal" data-target="#submitTask" data-idprojdetail="<?= $proj_task->REC_ID ?>">
                                     <i class="fa fa-send"></i>
+                                  </a>
+                                <?php endif ?>
+
+                                <?php if ($proj_task->STATUS == '-' AND $elevated_group == true): ?>
+                                  <a class="btn btn-sm btn-success text-white startTask" title="Start Task" data-idprojdetail="<?= $proj_task->REC_ID ?>">
+                                    <i class="fa fa-play"></i>
                                   </a>
                                 <?php endif ?>
 
@@ -398,6 +408,47 @@
 <script>
   
 jQuery(document).ready(function($) {
+
+    $(document).on('click', '.startTask', function(event) {
+
+      let id_project_detail = $(this).data('idprojdetail');
+
+      Swal.fire({
+        title: 'Start Task',
+        text: 'Apakah Anda yakin ingin memulai task ini?',
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Batal',
+        confirmButtonText: 'Start'
+      }).then((result) => {
+        if (result.value) {
+
+          $.post(baseUrl + 'General/Project/startTask', {
+            id_project_detail:id_project_detail
+          }, function(resp) {
+            if (resp.code == 200) {
+              Swal.fire({
+                title: 'Proses Berhasil',
+                text: 'Task telah dimulai',
+                icon: 'success',
+                confirmButtonText: 'Ok'
+              }).then((result) => {
+                location.reload();
+              });
+            } else {
+
+              Swal.fire({
+                title: 'Proses Gagal',
+                text: 'Proses tidak dapat dilakukan, silahkan coba lagi',
+                icon: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Tutup'
+              });
+            }
+          });
+        }
+      });
+    });
 
    $(function() {
       $('[data-toggle="tooltip"]').tooltip()

@@ -37,17 +37,35 @@ $arr_2 = 0;
 						<input type="text" name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][id_task]" value="<?= $GetTask->REC_ID?>" hidden>
 						<input type="checkbox" name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][checkbox]" class="checkbox_task"> 
 						<?php echo $GetTask->TASK_NAME?>
-						<input required type="text" name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][total_hours]" class="form-control form-control-sm" style="float: right; width: 10%;" placeholder="Total Hours" disabled> 
-						<input required type="datetime-local" name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][end_date]" class="form-control form-control-sm end_date" style="float: right; width: 20%;" placeholder="End Date" disabled> 
-						<input required type="datetime-local" name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][start_date]" class="form-control form-control-sm start_date" style="float: right; width: 20%;" placeholder="Start Date" disabled > 
+
+						<select required name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][planned_minutes_only]" class="form-control form-control-sm" style="float: right; width: 0.7in;" disabled>
+							<option value="0" disabled selected>Minutes</option>
+							<option value="0">00</option>
+							<option value="15">15</option>
+							<option value="30">30</option>
+							<option value="45">45</option>
+						</select>
+
+
+						<span style="float: right;margin-right: 5px;margin-top:5px;margin-left:5px;">:</span>
+						
+						<input required type="text" name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][planned_hours_only]" class="form-control form-control-sm" style="float: right; width: 0.5in;" placeholder="Hours" disabled> 
+						<span style="float: right;margin-right: 5px;margin-top:5px;margin-left:20px;">Duration : </span>
+						
+						<input required type="datetime-local" name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][end_date]" class="form-control form-control-sm end_date" style="float: right; width:1.9in;" placeholder="End Date" disabled> 
+						<span style="float: right;margin-right: 5px;margin-top:5px;margin-left:20px;">End : </span>
+
+						<input required type="datetime-local" name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][start_date]" class="form-control form-control-sm start_date" style="float: right; width:1.9in;" placeholder="Start Date" disabled > 
 						<!-- <input type="text" name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][pic]" class="form-control form-control-sm" style="float: right; width: 30%;" > -->
-						<select required name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][pic]" class="form-control form-control-sm" style="float: right; width: 30%;" disabled>
+						<span style="float: right;margin-right: 5px;margin-top:5px;margin-left:20px;">Start : </span>
+
+						<select required name="project[<?= $arr_1 ?>][<?= $arr_2 ?>][pic]" class="form-control form-control-sm" style="float: right; width: 20%;" disabled>
 							<option></option>
 							<?php foreach ($s_user->result() as $user): ?>
 								<option value="<?= $user->REC_ID ?>"><?= $user->NAME ?></option>
 							<?php endforeach ?>
 						</select>
-						<span style="float: right;margin-right: 5px;">PIC : </span>
+						<span style="float: right;margin-right: 5px;margin-top:5px">PIC : </span>
 					</li>
        				<?php
        			}

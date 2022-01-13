@@ -234,6 +234,7 @@
             </div>
 
              <div class="col-xl-12">
+                <?php if ($elevated_group == false): ?>
                 <div class="card">
                     <div class="card-header">
                         <h4>MY PENDING CUSTOM TASK</h4>
@@ -261,6 +262,8 @@
                                 $selisih_jam = round(abs(strtotime(date("Y-m-d H:i:s")) - strtotime($my_pending_ct->END_DATE)) / 3600, 2);
                                 $due_in = $this->incube->hoursToTime2($selisih_jam, true);
 
+                                $planned_hours = $this->incube->minutesToTime($my_pending_ct->PLANNED_MINUTES);
+
                                 if($due_in <= 3){
                                   $badge_due_in = 'badge-danger';
                                 } elseif($due_in <= 7){
@@ -279,8 +282,8 @@
                               <td><?= $my_pending_ct->TASK_NAME  ?></td>
                               <!-- <td>2021-09-17</td> -->
                               <td><?= $target_date  ?></td>
-                              <td><?= $my_pending_ct->TOTAL_HOURS  ?> Hours</td>
-                              <!-- <td><?= $my_pending_ct->ACTUAL_HOURS  ?></td> -->
+                              <td><?= $planned_hours ?></td>
+                              <!-- <td><?= $my_pending_ct->ACTUAL_MINUTES  ?></td> -->
                               <td><?= $my_pending_ct->STATUS  ?></td>
                               <td><span class='badge <?= $badge_due_in ?>' style='font-size: 12px;'><?= $due_in ?> days</span></td>
                               <!-- <td><button class="btn btn-success"><i class="fa fa-eye"></i></button></td> -->
@@ -290,6 +293,7 @@
                         </table>
                     </div>
                 </div>
+                <?php endif ?>
                 <!-- /# card -->
             </div>
              
@@ -325,7 +329,7 @@
                               <td><?= $waiting_approval_data->PROJECT_NAME  ?></td>
                               <td><?= $waiting_approval_data->TASK_NAME  ?></td>
                               <td><?= $waiting_approval_data->END_DATE ?></td>
-                              <td><?= $waiting_approval_data->TOTAL_HOURS ?></td>
+                              <td><?= $waiting_approval_data->PLANNED_MINUTES ?></td>
                               <td><?= $waiting_approval_data->PIC ?></td>
                               <td>
                                 <a class="btn btn-success getapproval" href="#" role="button" data-toggle="modal" data-target="#approvalTask" data-recid="<?= $waiting_approval_data->REC_ID ?>"><i class="fa fa-eye"></i></a>

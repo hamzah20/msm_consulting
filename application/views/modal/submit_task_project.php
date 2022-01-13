@@ -57,7 +57,22 @@
                         </table>
 
                     </div>
-                
+
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Actual Hours :</label>
+                        <br>
+                        <input required type="text" name="actual_hours_only" class="form-control form-control-sm" style="float: left; width: 0.5in;" placeholder="Hours"> 
+                        <span style="float: left;margin-right: 5px;margin-top:5px;margin-left:5px;">:</span>
+                        <select required name="actual_minutes_only" class="form-control form-control-sm" style="float: left; width: 0.7in;">
+                            <option value="0" disabled selected>Minutes</option>
+                            <option value="0">00</option>
+                            <option value="15">15</option>
+                            <option value="30">30</option>
+                            <option value="45">45</option>
+                        </select>
+                        <br>
+                    </div>
+
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Catatan :</label>
                         <textarea class="form-control form-control-sm" name="NOTES_PIC"></textarea>
@@ -78,6 +93,8 @@ jQuery(document).ready(function($) {
 
           let id_proj_detail = $(this).data('idprojdetail');
           let notes_pic = $('textarea[name="NOTES_PIC"]').val();
+          let actual_hours_only = $('input[name="actual_hours_only"]').val();
+          let actual_minutes_only = $('select[name="actual_minutes_only"]').val();
 
           Swal.fire({
             title: 'Submit Task',
@@ -91,7 +108,9 @@ jQuery(document).ready(function($) {
 
               $.post(baseUrl + 'General/Project/submitTask', {
                 id_proj_detail:id_proj_detail,
-                notes_pic:notes_pic
+                notes_pic:notes_pic,
+                actual_hours_only:actual_hours_only,
+                actual_minutes_only:actual_minutes_only
 
               }, function(resp) {
                 if (resp.code == 200) {

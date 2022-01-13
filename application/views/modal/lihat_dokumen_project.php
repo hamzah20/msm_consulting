@@ -109,6 +109,8 @@
 	$dokumen_list_task = $this->cms->getSingularDataTriple('v_g_project_doc', 'PROJECT_ID', 'MILESTONE_ID' ,'TASK_ID', $id_project, $this->input->get('id_milestone'), $this->input->get('id_task'));
 	$g_task = $this->cms->getSingularData('g_task', 'REC_ID', $this->input->get('id_task'));
 	$g_project_detail = $this->cms->getSingularDataTriple('v_g_project_detail', 'PROJECT_ID', 'MILESTONE_ID' ,'TASK_ID', $id_project, $this->input->get('id_milestone'), $this->input->get('id_task'));
+	$planned_hours = $this->incube->minutesToTime($g_project_detail->row()->PLANNED_MINUTES);
+	$actual_hours = $this->incube->minutesToTime($g_project_detail->row()->ACTUAL_MINUTES);
 	$status_project_detail = $g_project_detail->row()->STATUS;
  ?>
 	
@@ -141,8 +143,15 @@
         <tr>
             <td>PLANNED & ACTUAL HOURS</td>
             <td>&nbsp;&nbsp;&nbsp;:&nbsp;</td>
-            <td><span class='badge badge-primary' style='font-size: 10px;'><?= $g_project_detail->row()->TOTAL_HOURS ?> Hours</span> - <span class='badge badge-danger' style='font-size: 10px;'><?= $g_project_detail->row()->ACTUAL_HOURS ?> Hours</span></td>
+            <td><span class='badge badge-primary' style='font-size: 10px;'><?= $planned_hours ?></span> - <span class='badge badge-primary' style='font-size: 10px;'><?= $actual_hours ?></span></td>
         </tr>
+        <?php if ($g_project_detail->row()->STATUS == 'DONE'): ?>
+					<tr>
+		          <td>SUBMIT DATE</td>
+		          <td>&nbsp;&nbsp;&nbsp;:&nbsp;</td>
+		          <td><span class='badge badge-primary' style='font-size: 10px;'><?= $g_project_detail->row()->SUBMIT_DATE ?></span></td>
+		      </tr>
+        <?php endif ?>
         <!-- <tr>
             <td>RELATED DOC</td>
             <td>&nbsp;&nbsp;&nbsp;:&nbsp;</td>

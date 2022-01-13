@@ -26,7 +26,7 @@
 
     <div class="form-group">
         <label class="col-form-label">File Dokumen :</label>
-        <input type="file" class="form-control-file form-control-sm" name="doc_file[]" accept=".xlsx, .xls, .xlsm, .xlt, .xltx, .xltm, .xlsb, .xla, .xlam, .xml, .csv, .pdf, .epub, .txt, .xps, .doc, .docm, .docx, .dot, .dotm, .dotx, .odt, .rtf, .wps, .ods, .xlw, .odp, .pot, .potm, .potx, .ppa, .ppam, .pps, .ppsm, .ppsx, .ppt, .pptm, .pptx, .thmx" multiple>
+        <input type="file" class="form-control-file form-control-sm" name="doc_file[]" accept=".xlsx, .xls, .xlsm, .xlt, .xltx, .xltm, .xlsb, .xla, .xlam, .xml, .csv, .pdf, .epub, .txt, .xps, .doc, .docm, .docx, .dot, .dotm, .dotx, .odt, .rtf, .wps, .ods, .xlw, .odp, .pot, .potm, .potx, .ppa, .ppam, .pps, .ppsm, .ppsx, .ppt, .pptm, .pptx, .thmx, .jpeg, .jpg, .png, .tif, .bmp" multiple>
     </div>
 
     <small class="bg bg-warning font-weight-bold"><i>*Max Size 10MB</i></small>

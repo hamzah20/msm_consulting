@@ -38,6 +38,20 @@
                             <td><span class='badge badge-primary' style='font-size: 10px;'><?= $v_g_project_detail->row()->START_DATE ?></span> - <span class='badge badge-danger' style='font-size: 10px;'><?= $v_g_project_detail->row()->END_DATE ?></span></td>
                         </tr>
                         <tr>
+                            <?php 
+                                $actual_hours = $this->incube->minutesToTime($v_g_project_detail->row()->ACTUAL_MINUTES);
+                                $planned_hours = $this->incube->minutesToTime($v_g_project_detail->row()->PLANNED_MINUTES);
+                             ?>
+                            <td>PLANNED & ACTUAL HOURS</td>
+                            <td>&nbsp;&nbsp;&nbsp;:&nbsp;</td>
+                            <td><span class='badge badge-primary' style='font-size: 10px;'><?= $planned_hours ?></span> - <span class='badge badge-primary' style='font-size: 10px;'><?= $actual_hours ?></span></td>
+                        </tr>
+                        <tr>
+                            <td>SUBMIT DATE</td>
+                            <td>&nbsp;&nbsp;&nbsp;:&nbsp;</td>
+                            <td><span class='badge badge-primary' style='font-size: 10px;'><?= $v_g_project_detail->row()->SUBMIT_DATE ?></span></td>
+                        </tr>
+                        <tr>
                             <td>NOTES FROM PIC</td>
                             <td>&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</td>
                             <td><?= nl2br($v_g_project_detail->row()->NOTES_PIC) ?></td>

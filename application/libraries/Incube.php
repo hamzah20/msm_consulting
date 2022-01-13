@@ -384,7 +384,31 @@ class Incube
         return implode(', ', $timeParts);
     }
 
-    public function hoursToTime2($inputHours, $int_only = false) {
+    public function minutesToTime($inputMinutes, $br = false)
+    {
+        $hours = floor($inputMinutes / 60);
+
+        //Ekstrak Menit
+        $menit_dari_jam = $hours * 60;
+        $minutes = $inputMinutes - $menit_dari_jam;
+        if ($br == true) {
+            if ($hours > 0) {
+                return $hours . "&nbsp;Hours&nbsp;" . "<br>" .$minutes . "&nbsp;Minutes";
+            } else{
+                return $minutes . "&nbsp;Minutes";
+            }
+        }else{
+            if ($hours > 0) {
+                return $hours . "&nbsp;Hours&nbsp;" . $minutes . "&nbsp;Minutes";
+            } else{
+                return $minutes . "&nbsp;Minutes";
+            }
+        }
+        
+    }
+
+    public function hoursToTime2($inputHours, $int_only = false) 
+    {
         $inputSeconds = $inputHours * 3600;
         $secondsInAMinute = 60;
         $secondsInAnHour = 60 * $secondsInAMinute;
