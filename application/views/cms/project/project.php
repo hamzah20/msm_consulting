@@ -1,3 +1,4 @@
+<!-- https://pastebin.com/FSMEzjM6 Kodingan template -->
 <!--Header -->
 <?php $this->load->view('templates_cms/header'); ?>
 <!-- End of Header -->
@@ -6,20 +7,20 @@
 <!-- End of Sidebar -->
 <!-- Right Panel -->
 <style type="text/css">
-.list-group-item{
+  .list-group-item{
   color:orange;
-}
-.list-group-item ul{
+  }
+  .list-group-item ul{
   margin-top: 10px;
   margin-right: -15px;
   margin-bottom: -10px;
   color:green;
-}
-.list-group-item li{
+  }
+  .list-group-item li{
   padding: 10px 15px 10px 3em;
   border-top: 1px solid #ddd;
-}
-.list-group-item li:before{
+  }
+  .list-group-item li:before{
   content: '';
   display: block;
   position: absolute;
@@ -28,7 +29,7 @@
   height: 1px;
   margin-top: -11px;
   background: #ddd;
-}
+  }
 </style>
 <div id="right-panel" class="right-panel">
   <!-- Topbar-->
@@ -55,290 +56,553 @@
   </div>
   <!-- Content -->
   <div class="content mt-3">
-   <div class="card">
-        <div class="card-header">
-            <h4>List Project </h4>
-        </div>
+    <div class="card">
+      <div class="card-header">
+        <h4>List Project </h4>
+      </div>
+      <div class="card-body">
+        <?php if (@$this->session->userdata('elevated_group') == true): ?>
+          <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addProject">
+            <i class="fa fa-plus"></i> 
+            Project
+          </a>
+        <?php endif ?>
+        <table class="table" style="margin-top: 10px;width: 1200px;">
+          <thead>
+            <tr>
+              <th scope="col" style="width:0.2in">NO</th>
+              <th scope="col" style="width:2.6in">PROJECT INFO</th>
+              <th scope="col" style="width:2.2in">CUSTOMER</th>
+              <th scope="col" style="width:2.2in">STATUS</th>
+              <th scope="col" style="width:1.5in">START DATE</th>
+              <th scope="col" style="width:1.5in">END DATE</th>
+              <th scope="col" style="width:1.2in">DURATION</th>
+              <th scope="col" style="width:0.5in">ACTION</th>
+            </tr>
+          </thead>
+          <tbody>
 
-        <div class="card-body">
-          <a class="btn btn-sm btn-primary" href="#" role="button" data-toggle="modal" data-target="#addProject"><i class="fa fa-plus"></i> Project </a>
-           <table class="table table-striped" style="margin-top: 10px;width: 1200px;">
-              <thead>
-                <tr>
-                  <th scope="col">NO</th>
-                  <th scope="col">PROJECT INFO</th>
-                  <th scope="col">CUSTOMER</th>
-                  <th scope="col">STATUS</th>
-                  <th scope="col">START DATE</th>
-                  <th scope="col">END DATE</th>
-                  <th scope="col">DURATION</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>
-                    <label style="font-weight: bold;font-size: 14px;">AUDIT FINANCIAL STATEMENT</label><br>
-                    <label style="font-size: 12px;">Project OWNER : AJI PRATAMA</label><br>
-                    
-                  </td>
-                  <td>
-                    <label style="font-weight: bold;font-size: 14px;">INCUBESOLUTIONS</label><br>
 
-                  </td>
-                  <td>
-                   <h6><span class="badge badge-success">Check Inventory & COGS</span></h6>
-                  </td>
-                  <td>
-                   <label style="font-size:12px;" class="badge badge-primary">2021-10-26</label>
-                  </td>
-                  <td>
-                   <label style="font-size:12px;" class="badge badge-danger">2021-11-26</label>
-                  </td>
-                  <td>
-                   <label style="font-size:12px;font-weight: bold;" >30 Days</label>
-                  </td>
-                </tr>
-                <tr>
 
-                  <td colspan=2>
-                    <ul class="list-group">
-                      <li class="list-group-item">
-                       <i class="fa fa-arrow-right"> </i> Pengumpulan Data
-                        <ul class="list-unstyled">
-                          <li><i class="fa fa-arrow-right"> </i> Data COA</li>
-                          <li><i class="fa fa-arrow-right"> </i> Data STOCK</li>
-                          <li><i class="fa fa-arrow-right"> </i> Data Jurnal</li>
-                        </ul>
-                      </li>
-                      <li class="list-group-item">
-                       <i class="fa fa-arrow-right"> </i> Persiapan
-                        <ul class="list-unstyled">
-                          <li><i class="fa fa-arrow-right"> </i> Alokasi Resource</li>
-                          <li ><i class="fa fa-arrow-right"> </i> Cek Inventory & COGS</li>
-                          <li><i class="fa fa-arrow-right"> </i> Cek Mutasi Rekening</li>
-                        </ul>
-                      </li>
-                       <li class="list-group-item"><i class="fa fa-arrow-right"> </i> Pengecekan</li>
-                       <li class="list-group-item"><i class="fa fa-arrow-right"> </i> Validasi</li>
-                      <li class="list-group-item">
-                       <i class="fa fa-arrow-right"> </i> Konfirmasi & Approval
-                        <ul class="list-unstyled">
-                          <li><i class="fa fa-arrow-right"> </i> Konfirmasi COA</li>
-                        </ul>
-                      </li>
-                      <li class="list-group-item"><i class="fa fa-arrow-right"> </i> Project Close</li>
-                    </ul>
-                  </td>
-                  <td>
-                    <ul class="list-group">
-                      <li class="list-group-item" style="color:#040404; font-weight: bold;">PIC
-                        <ul class="list-unstyled" style="color:#807c7c;">
-                          <li>HAMZAH Aji</li>
-                          <li>ANDI WARDANA</li>
-                          <li>RAFIF AHMADI</li>  
-                        </ul>
-                      </li>
-                      <li class="list-group-item" style="color:#040404; font-weight: bold;">PIC
-                        <ul class="list-unstyled" style="color:#807c7c;">
-                         <li>AJI PRATAMA</li>
-                          <li>ANDI WARDANA</li>
-                          <li>RAFIF AHMADI</li>
-                        </ul>
-                      </li>
-                      <li class="list-group-item" style="color:#040404; font-weight: bold;">PIC
-                        
-                      </li>
-                      <li class="list-group-item" style="color:#040404; font-weight: bold;">PIC
-                       
-                      </li>
-                      <li class="list-group-item" style="color:#040404; font-weight: bold;">PIC
-                        <ul class="list-unstyled" style="color:#807c7c;">
-                         <li>AJI PRATAMA</li>
-                         
-                        </ul>
-                      </li>
-                       <li class="list-group-item" style="color:#040404; font-weight: bold;">PIC
-                      </li>
-                    </ul>
-                  </td>
-                  <td>
-                    <ul class="list-group">
-                      <li class="list-group-item" style="color:#040404; font-weight: bold;">Status
-                        <ul class="list-unstyled" style="color:#807c7c;">
-                          <li><span class="badge badge-success" style="width: 50%;font-size: 12px;">DONE</span></li> 
-                          <li><span class="badge badge-success" style="width: 50%;font-size: 12px;">DONE</span></li> 
-                          <li><span class="badge badge-success" style="width: 50%;font-size: 12px;">DONE</span></li> 
-                        </ul>
-                      </li>
-                      <li class="list-group-item" style="color:#040404; font-weight: bold;">Status
-                        <ul class="list-unstyled" style="color:#807c7c;">
-                          <li><span class="badge badge-success" style="width: 50%;font-size: 12px;">DONE</span></li>
-                           <li><span class="badge badge-warning" style="font-size: 12px;">ONPROGRESS</span></li>
-                           <li><span class="badge badge-danger" style="font-size: 12px;">PENDING</span></li>
-                        </ul>
-                      </li>
-                      <li class="list-group-item" style="color:#040404; font-weight: bold;">Status
-                        
-                      </li>
-                      <li class="list-group-item" style="color:#040404; font-weight: bold;">Status
-                       
-                      </li>
-                      <li class="list-group-item" style="color:#040404; font-weight: bold;">Status
-                        <ul class="list-unstyled" style="color:#807c7c;">
-                        <li><span class="badge badge-danger" style="font-size: 12px;">PENDING</span></li>
-                         
-                        </ul>
-                      </li>
-                       <li class="list-group-item" style="color:#040404; font-weight: bold;">Status
-                      </li>
-                    </ul>
-                  </td>
-                  <td>
-                    <ul class="list-group">
-                      <li class="list-group-item" style="color:#040404; font-weight: bold;">Start Date
-                        <ul class="list-unstyled" style="color:#807c7c;">
-                          <li>2021-10-26</li> 
-                          <li>2021-10-27</li> 
-                          <li>2021-10-28</li> 
-                        </ul>
-                      </li>
-                      <li class="list-group-item" style="color:#040404; font-weight: bold;">Start Date
-                        <ul class="list-unstyled" style="color:#807c7c;">
-                          <li>2021-10-31</li> 
-                          <li>2021-11-01</li> 
-                           <li>&nbsp;</li>
-                        </ul>
-                      </li>
-                      <li class="list-group-item" style="color:#040404; font-weight: bold;">Start Date
-                        
-                      </li>
-                      <li class="list-group-item" style="color:#040404; font-weight: bold;">Start Date
-                       
-                      </li>
-                      <li class="list-group-item" style="color:#040404; font-weight: bold;">Start Date
-                        <ul class="list-unstyled" style="color:#807c7c;">
-                        <li>&nbsp;</li>
-                         
-                        </ul>
-                      </li>
-                       <li class="list-group-item" style="color:#040404; font-weight: bold;">Start Date
-                      </li>
-                    </ul>
-                  </td>
-                  <td>
-                    <ul class="list-group">
-                      <li class="list-group-item" style="color:#040404; font-weight: bold;">End Date
-                        <ul class="list-unstyled" style="color:#807c7c;">
-                          <li>2021-10-26</li> 
-                          <li>2021-10-27</li> 
-                          <li>2021-10-28</li> 
-                        </ul>
-                      </li>
-                      <li class="list-group-item" style="color:#040404; font-weight: bold;">End Date
-                        <ul class="list-unstyled" style="color:#807c7c;">
-                          <li>2021-10-31</li> 
-                          <li>2021-11-02</li> 
-                           <li>&nbsp;</li>
-                        </ul>
-                      </li>
-                      <li class="list-group-item" style="color:#040404; font-weight: bold;">End Date
-                        
-                      </li>
-                      <li class="list-group-item" style="color:#040404; font-weight: bold;">End Date
-                       
-                      </li>
-                      <li class="list-group-item" style="color:#040404; font-weight: bold;">End Date
-                        <ul class="list-unstyled" style="color:#807c7c;">
-                        <li>&nbsp;</li>
-                         
-                        </ul>
-                      </li>
-                       <li class="list-group-item" style="color:#040404; font-weight: bold;">End Date
-                      </li>
-                    </ul>
-                  </td>
-                   <td>
-                    <ul class="list-group">
-                      <li class="list-group-item" style="color:#040404; font-weight: bold;">Duration
-                        <ul class="list-unstyled" style="color:#807c7c;">
-                          <li>1 Day(s)</li> 
-                          <li>1 Day(s)</li> 
-                          <li>1 Day(s)</li> 
-                        </ul>
-                      </li>
-                      <li class="list-group-item" style="color:#040404; font-weight: bold;">Duration
-                        <ul class="list-unstyled" style="color:#807c7c;">
-                          <li>1 Day(s)</li> 
-                          <li>2 Day(s)</li> 
-                           <li>&nbsp;</li>
-                        </ul>
-                      </li>
-                      <li class="list-group-item" style="color:#040404; font-weight: bold;">Duration
-                        
-                      </li>
-                      <li class="list-group-item" style="color:#040404; font-weight: bold;">Duration
-                       
-                      </li>
-                      <li class="list-group-item" style="color:#040404; font-weight: bold;">Duration
-                        <ul class="list-unstyled" style="color:#807c7c;">
-                        <li>&nbsp;</li>
-                         
-                        </ul>
-                      </li>
-                       <li class="list-group-item" style="color:#040404; font-weight: bold;">Duration
-                      </li>
-                    </ul>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-        </div>
+
+          <?php
+          //Kalo mau supaya user biasa bisa ngelihat semua task, ikuti perintah yang ada kode 2077
+          $no = 0;
+          foreach ($project_list->result() as $plist): 
+            $data_task_done = $this->cms->getSingularDataDetail('g_project_detail', 'PROJECT_ID', 'STATUS', $plist->PROJECT_ID, 'DONE');
+            $data_task = $this->cms->getSingularData('g_project_detail', 'PROJECT_ID', $plist->PROJECT_ID);
+
+            $status_project = "<span class='badge badge-primary' style='font-size: 12px;'>ONPROGRESS</span>";
+            if ($data_task_done->num_rows() == $data_task->num_rows()) {
+              $status_project = "<span class='badge badge-success' style='font-size: 12px;'>DONE</span>";
+            }
+
+            $task_onprogress = $this->cms->getSingularDataDetail('v_g_project_detail', 'PROJECT_ID', 'STATUS', $plist->PROJECT_ID, 'ONPROGRESS');
+            @$nama_task_onprogress = $task_onprogress->row()->TASK_NAME;
+            @$nama_pic_onprogress = $task_onprogress->row()->PIC;
+
+            $nbsp = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $project_id = $plist->PROJECT_ID;
+            $project_milestone = $this->cms->getMilestoneProject('v_g_project_detail', $project_id);
+            $start_project = date('Y-m-d', strtotime($plist->START_DATE));
+            $end_project = date('Y-m-d', strtotime($plist->END_DATE));
+            $days = $this->incube->calculateDays($start_project, $end_project);
+            $no++;
+            $cek_project_pic_list = $this->cms->getSingularDataDetail('g_project_detail', 'PROJECT_ID', 'PIC', $plist->PROJECT_ID, $user_rec_id);//2077 hapus line ini
+            if ($cek_project_pic_list->num_rows() > 0  || $elevated_group == true) {//2077 hapus line ini
+            ?>
+            <tr>
+              <td data-toggle="collapse" data-target="#collapse<?= $plist->REC_ID ?>" style="background: #ebebeb;cursor: pointer;"><?= $no ?></td>
+              <td data-toggle="collapse" data-target="#collapse<?= $plist->REC_ID ?>" style="background: #ebebeb;cursor: pointer;">
+                <label style="font-weight: bold;font-size: 14px;"><?= $plist->PROJECT_NAME ?></label><br>
+                <label style="font-size: 12px;">Project OWNER : <?= $plist->USER_NAME ?></label><br>
+              </td>
+              <td data-toggle="collapse" data-target="#collapse<?= $plist->REC_ID ?>" style="background: #ebebeb;cursor: pointer;">
+                <label style="font-weight: bold;font-size: 14px;"><?= $plist->COMPANY_NAME ?></label><br>
+              </td>
+              <td data-toggle="collapse" data-target="#collapse<?= $plist->REC_ID ?>" style="background: #ebebeb;cursor: pointer;">
+                <div><?= $status_project ?></div>
+                <div style="margin:5px 0px"><span class='badge badge-success' style='font-size: 12px;'><?= $nama_task_onprogress ?></span></div>
+                <div><span class='badge badge-success' style='font-size: 12px;'><?= $nama_pic_onprogress ?></span></div>
+              </td>
+              <td data-toggle="collapse" data-target="#collapse<?= $plist->REC_ID ?>" style="background: #ebebeb;cursor: pointer;">
+                <label style="font-size:12px;" class="badge badge-primary"><?= $start_project ?></label>
+              </td>
+              <td data-toggle="collapse" data-target="#collapse<?= $plist->REC_ID ?>" style="background: #ebebeb;cursor: pointer;">
+                <label style="font-size:12px;" class="badge badge-danger"><?= $end_project ?></label>
+              </td>
+              <td data-toggle="collapse" data-target="#collapse<?= $plist->REC_ID ?>" style="background: #ebebeb;cursor: pointer;">
+                <label style="font-size:12px;font-weight: bold;" >
+                  <?= $days ?> Day(s)
+                </label>
+              </td>
+              <td style="background: #ebebeb">
+                <!-- <a class="btn btn-sm btn-primary text-white uploadDokumenProject" title="Upload Dokumen" data-toggle="modal" data-target="#uploadDokumenProject" data-idproject="<?= $plist->REC_ID ?>">
+                  <i class="fa fa-file"></i>
+                </a> -->
+                <a class="btn btn-sm btn-primary text-white lihatDokumen" title="Lihat Dokumen" data-toggle="modal" data-target="#lihatDokumen" data-idproject="<?= $plist->PROJECT_ID ?>">
+                  <i class="fa fa-list"></i>
+                </a>
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="8">
+              <div class="collapse" id="collapse<?= $plist->REC_ID ?>">
+              <table>
+                <?php foreach ($project_milestone->result() as $proj_milestone) {
+                  $project_task = $this->cms->getSingularDataDetailTask('v_g_project_detail', 'PROJECT_ID', 'MILESTONE_ID', $project_id, $proj_milestone->MILESTONE_ID);
+                  $cek_milestone_pic_list = $this->cms->getSingularDataTriple('g_project_detail', 'PROJECT_ID', 'MILESTONE_ID', 'PIC', $project_id, $proj_milestone->MILESTONE_ID ,$user_rec_id);//2077 hapus line ini
+                  if ($cek_milestone_pic_list->num_rows() > 0  || $elevated_group == true) {//2077 hapus line ini
+                ?>
+
+                
+                  <thead>
+                        <tr>
+                          <th style="width:0.2in"></th>
+                          <th class="text-warning" style="width:2.7in">
+                            <i class="fa fa-arrow-right"> </i> <?= $proj_milestone->MILESTONE_NAME  ?>
+                          </th>
+                          <th style="width:2.3in">
+                            PIC
+                          </th>
+                          <th style="width:2.3in">
+                            STATUS
+                          </th>
+                          <th style="width:1.5in">
+                            START DATE
+                          </th>
+                          <th style="width:1.5in">
+                            END DATE
+                          </th>
+                          <th style="width:1.2in">
+                            DURATION
+                          </th>
+                          <th style="width:0.5in">Action</th>
+
+                        </tr>
+                        </thead>
+
+                          <?php foreach ($project_task->result() as $proj_task) {
+                            $file_num_rows = $this->cms->getSingularDataTriple('g_project_doc', 'PROJECT_ID', 'MILESTONE_ID','TASK_ID', $project_id, $proj_milestone->MILESTONE_ID, $proj_task->TASK_ID)->num_rows();
+                            //$duration = $this->incube->hoursToTime($proj_task->PLANNED_MINUTES);
+                            $duration= $this->incube->minutesToTime($proj_task->PLANNED_MINUTES, true);
+                            $status = "";
+                            if ($proj_task->STATUS == 'DONE') {
+                              $status = "<span class='badge badge-success' style='font-size: 12px;'>DONE</span>";
+                            }elseif($proj_task->STATUS == 'ONPROGRESS'){
+                              $status = "<span class='badge badge-primary' style='font-size: 12px;'>ONPROGRESS</span>";
+                            }elseif($proj_task->STATUS == 'WAITING FOR APPROVAL'){
+                              $status = "<span class='badge badge-warning' style='font-size: 12px;'>WAITING FOR APPROVAL</span>";
+                            }elseif($proj_task->STATUS == 'REVISE'){
+                              $status = "<span class='badge badge-danger' style='font-size: 12px;'>NEED REVISION</span>";
+                            }elseif($proj_task->STATUS == 'PENDING'){
+                              $status = "<span class='badge badge-danger' style='font-size: 12px;'>PENDING</span>";
+                            }else{
+                              $status = "<span class='badge badge-secondary' style='font-size: 12px;'>$proj_task->STATUS</span>";
+                            }
+
+                            if ($proj_task->NOTES_PIC == "") {
+                              $NOTES_PIC = "...";
+                            }else{
+                              $NOTES_PIC = $proj_task->NOTES_PIC;
+                            };
+
+                            if ($proj_task->NOTES_SUPERUSER == "") {
+                              $NOTES_SUPERUSER = "...";
+                            }else{
+                              $NOTES_SUPERUSER = $proj_task->NOTES_SUPERUSER;
+                            };
+
+                            $cek_milestone_pic_list = $this->cms->getSingularDataFour('g_project_detail', 'PROJECT_ID', 'MILESTONE_ID', 'TASK_ID', 'PIC', $project_id, $proj_milestone->MILESTONE_ID, $proj_task->TASK_ID, $user_rec_id);//2077 hapus line ini
+                            if ($cek_milestone_pic_list->num_rows() > 0  || $elevated_group == true) {//2077 hapus line ini
+                          ?>
+
+                            <tr>
+                              <td></td>
+                              <td class="text-success" data-toggle="collapse" data-target="#collapse_notes<?= $proj_task->REC_ID ?>" style="cursor:pointer;">
+                                <?= $nbsp ?><i class="fa fa-arrow-right "> </i> <?= $proj_task->TASK_NAME ?>
+                              </td>
+                              <td data-toggle="collapse" data-target="#collapse_notes<?= $proj_task->REC_ID ?>" style="cursor:pointer;">
+                                <?= $proj_task->PIC ?>
+                              </td>
+                              <td data-toggle="collapse" data-target="#collapse_notes<?= $proj_task->REC_ID ?>" style="cursor:pointer;">
+                                <?= $status; ?>
+                              </td>
+                              <td data-toggle="collapse" data-target="#collapse_notes<?= $proj_task->REC_ID ?>" style="cursor:pointer;">
+                                <?php 
+                                  $start_date = date('Y-m-d H:i', strtotime($proj_task->START_DATE));  
+                                  $end_date = date('Y-m-d H:i', strtotime($proj_task->END_DATE));  
+                                ?>
+                                <?= $start_date ?>
+                              </td>
+                              <td data-toggle="collapse" data-target="#collapse_notes<?= $proj_task->REC_ID ?>" style="cursor:pointer;">
+                                <?= $end_date ?>
+                              </td>
+                              <td data-toggle="collapse" data-target="#collapse_notes<?= $proj_task->REC_ID ?>" style="cursor:pointer;">
+                                <?= $duration ?>
+                              </td>
+                              <td>
+                                
+
+                                <?php if ($proj_task->STATUS != 'WAITING FOR APPROVAL' AND $proj_task->STATUS != 'DONE' AND $proj_task->STATUS != '-'): ?>
+                                  <a class="btn btn-sm btn-primary text-white uploadDokumenTask" title="Upload Dokumen" data-toggle="modal" data-target="#uploadDokumenTask" data-idproject="<?= $plist->PROJECT_ID ?>" data-idtask="<?= $proj_task->TASK_ID ?>" data-idmilestone="<?= $proj_milestone->MILESTONE_ID ?>">
+                                    <i class="fa fa-file"></i>
+                                  </a>
+                                <?php endif ?>
+
+                                <a class="btn btn-sm btn-primary text-white lihatDokumenTask" title="Lihat Dokumen" data-toggle="modal" data-target="#lihatDokumen" data-idproject="<?= $plist->PROJECT_ID ?>" data-idtask="<?= $proj_task->TASK_ID ?>" data-idmilestone="<?= $proj_milestone->MILESTONE_ID ?>">
+                                  <i class="fa fa-list"></i>
+                                </a>
+
+                                <?php if ($file_num_rows > 0 AND $proj_task->STATUS != 'WAITING FOR APPROVAL' AND $proj_task->STATUS != 'DONE' AND $elevated_group != true): ?>
+                                  <a class="btn btn-sm btn-success text-white submitTask" title="Submit Task" data-toggle="modal" data-target="#submitTask" data-idprojdetail="<?= $proj_task->REC_ID ?>">
+                                    <i class="fa fa-send"></i>
+                                  </a>
+                                <?php endif ?>
+
+                                <?php if ($proj_task->STATUS == '-' AND $elevated_group == true): ?>
+                                  <a class="btn btn-sm btn-success text-white startTask" title="Start Task" data-idprojdetail="<?= $proj_task->REC_ID ?>">
+                                    <i class="fa fa-play"></i>
+                                  </a>
+                                <?php endif ?>
+
+                              </td>
+
+                            </tr>
+                            <tr>
+                              <td colspan="8" style="border:none;padding: 0;" >
+                                <div class="row collapse" id="collapse_notes<?= $proj_task->REC_ID ?>" style="margin-left:0.5in;margin-right:0.5in;" >
+
+                                  <div class="col">
+                                    NOTES FROM PIC
+
+                                    <div class="card">
+                                      <div class="card-body">
+                                        <?= nl2br($NOTES_PIC) ?>
+                                      </div>
+                                    </div>
+
+                                  </div>
+
+                                  <div class="col">
+                                    NOTES FROM MANAGEMENT
+
+                                    <div class="card">
+                                      <div class="card-body">
+                                        <?= nl2br($NOTES_SUPERUSER) ?>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                </div>
+                              </td>
+                            </tr>
+
+                          <?php }} //2077 hapus satu } ini ?>
+
+                <?php }} //2077 hapus satu } ini ?>
+                </table>
+              </div>
+              </td>
+            <?php } //2077 hapus line ini ?>
+          <?php endforeach ?>
+      </tr>
+
+
+          </tbody>
+        </table>
+      </div>
     </div>
-     <!-- Add Modal Perusahaan -->
+    <!-- Add Modal Perusahaan -->
     <?php $this->load->view('modal/add_project'); ?>
     <!-- End of Add Modal Perusahaan -->
+
+
+
+    <div class="modal fade" id="uploadDokumenProject" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <form class="needs-validation" action="<?= base_url('General/Project/uploadDokumen'); ?>" method="POST" enctype='multipart/form-data'>
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editUser">Upload Dokumen Project</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body modal-uploadDokumenProject">
+              Loading
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary btn-sm">Upload</button>
+              <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+    <div class="modal fade" id="uploadDokumenTask" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <form class="needs-validation" action="<?= base_url('General/Project/uploadDokumen'); ?>" method="POST" enctype='multipart/form-data'>
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editUser">Upload Dokumen Task</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body modal-uploadDokumenTask">
+              Loading
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary btn-sm">Upload</button>
+              <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Batal</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+    <div class="modal fade" id="lihatDokumen" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editUser">Lihat Detail</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body modal-lihatDokumen">
+              Loading
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Ok</button>
+            </div>
+          </div>
+        
+      </div>
+    </div>
+
+    <div class="modal fade" id="submitTask" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        
+          <div class="modal-content modal-submitTask">
+            Loading
+          </div>
+        
+      </div>
+    </div>
+
+
+
+
+
   </div>
   <!-- End of Content -->
 </div>
 
+<script>
+  
+jQuery(document).ready(function($) {
+
+    $(document).on('click', '.startTask', function(event) {
+
+      let id_project_detail = $(this).data('idprojdetail');
+
+      Swal.fire({
+        title: 'Start Task',
+        text: 'Apakah Anda yakin ingin memulai task ini?',
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Batal',
+        confirmButtonText: 'Start'
+      }).then((result) => {
+        if (result.value) {
+
+          $.post(baseUrl + 'General/Project/startTask', {
+            id_project_detail:id_project_detail
+          }, function(resp) {
+            if (resp.code == 200) {
+              Swal.fire({
+                title: 'Proses Berhasil',
+                text: 'Task telah dimulai',
+                icon: 'success',
+                confirmButtonText: 'Ok'
+              }).then((result) => {
+                location.reload();
+              });
+            } else {
+
+              Swal.fire({
+                title: 'Proses Gagal',
+                text: 'Proses tidak dapat dilakukan, silahkan coba lagi',
+                icon: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Tutup'
+              });
+            }
+          });
+        }
+      });
+    });
+
+   $(function() {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+
+   $(document).on('click', '.uploadDokumenProject', function(event){
+    var button = $(event.relatedTarget);
+          var id_project = $(this).data('idproject');
+          var url = '<?php echo base_url('General/Project/getUploadDokumen?id_project='); ?>';
+
+          $('.modal-uploadDokumenProject').load(url + id_project, function() {});
+   });
+
+   $(document).on('click', '.uploadDokumenTask', function(event){
+    var button = $(event.relatedTarget);
+          var id_project = $(this).data('idproject');
+          var id_task = $(this).data('idtask');
+          var id_milestone = $(this).data('idmilestone');
+          var url = '<?php echo base_url('General/Project/getUploadDokumen?id_project='); ?>';
+
+          $('.modal-uploadDokumenTask').load(url + id_project + '&id_task=' + id_task + '&id_milestone=' + id_milestone, function() {});
+   });
+
+   $(document).on('click', '.lihatDokumen', function(event){
+
+    var button = $(event.relatedTarget);
+          var id_project = $(this).data('idproject');
+          var url = '<?php echo base_url('General/Project/lihatDokumen?id_project='); ?>';
+
+          $('.modal-lihatDokumen').load(url + id_project, function() {});
+
+
+   });
+
+   $(document).on('click', '.submitTask', function(event){
+
+    var button = $(event.relatedTarget);
+          var id = $(this).data('idprojdetail');
+          var url = '<?php echo base_url('General/Project/modalSubmitTask?idprojdetail='); ?>';
+
+          $('.modal-submitTask').load(url + id, function() {});
+
+
+   });
+
+   $(document).on('click', '.lihatDokumenTask', function(event){
+
+    var button = $(event.relatedTarget);
+          var id_project = $(this).data('idproject');
+          var id_task = $(this).data('idtask');
+          var id_milestone = $(this).data('idmilestone');
+          var url = '<?php echo base_url('General/Project/lihatDokumen?id_project='); ?>';
+
+          $('.modal-lihatDokumen').load(url + id_project + '&id_task=' + id_task + '&id_milestone=' + id_milestone, function() {});
+
+
+   });
+
+  $(document).on('hidden.bs.modal', function (e) {
+    $( ".modal-uploadDokumenProject" ).empty();
+    $( ".modal-uploadDokumenTask" ).empty();
+    $( ".modal-lihatDokumen" ).empty();
+  });
+
+
+
+  
+  $(document).on('click', '.hapus', function(event) {
+
+      let userID = $(this).data('user');
+
+      Swal.fire({
+        title: 'Hapus Data',
+        text: 'Apakah Anda yakin ingin menghapus data ini?',
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Batal',
+        confirmButtonText: 'Hapus'
+      }).then((result) => {
+        if (result.value) {
+
+          $.post(baseUrl + 'General/User/deleteUser', {
+            userID: userID
+          }, function(resp) {
+            if (resp.code == 200) {
+              Swal.fire({
+                title: 'Proses Berhasil',
+                text: 'Data telah dihapus',
+                icon: 'success',
+                confirmButtonText: 'Ok'
+              }).then((result) => {
+                location.reload();
+              });
+            } else {
+
+              Swal.fire({
+                title: 'Proses Gagal',
+                text: 'Proses tidak dapat dilakukan, silahkan coba lagi',
+                icon: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Tutup'
+              });
+            }
+          });
+        }
+      });
+    });
+
+  
+
+
+});
+
+</script>
+
+
+
 <?php if ($this->session->userdata('query') == 'error') { ?>
-  <script>
-    jQuery(document).ready(function($) {
-
-      "use strict";
-
-      Swal.fire({
-        title: 'Proses Gagal',
-        text: 'Proses tidak dapat dilakukan, silahkan coba lagi',
-        icon: 'error',
-        showCancelButton: false,
-        confirmButtonText: 'Tutup'
-      });
-
+<script>
+  jQuery(document).ready(function($) {
+  
+    "use strict";
+  
+    Swal.fire({
+      title: 'Proses Gagal',
+      text: 'Proses tidak dapat dilakukan, silahkan coba lagi',
+      icon: 'error',
+      showCancelButton: false,
+      confirmButtonText: 'Tutup'
     });
-  </script>
+  
+  });
+</script>
 <?php
-   $this->session->set_userdata('query', '');
- } ?>
+  $this->session->set_userdata('query', '');
+  } ?>
 <?php if ($this->session->userdata('query') == 'success') { ?>
-  <script>
-    jQuery(document).ready(function($) {
-
-      "use strict";
-
-      Swal.fire({
-        title: 'Proses Berhasil',
-        text: 'Data Project Type berhasil ditambahkan',
-        icon: 'success',
-        showCancelButton: false,
-        confirmButtonText: 'Tutup'
-      });
+<script>
+  jQuery(document).ready(function($) {
+  
+    "use strict";
+  
+    Swal.fire({
+      title: 'Proses Berhasil',
+      text: 'Data berhasil ditambahkan',
+      icon: 'success',
+      showCancelButton: false,
+      confirmButtonText: 'Tutup'
     });
-  </script>
+  });
+</script>
 <?php 
   $this->session->set_userdata('query', '');
-} ?>
+  } ?>
 <!-- Footer -->
 <?php $this->load->view('templates_cms/footer'); ?>
 <!-- End of Footer

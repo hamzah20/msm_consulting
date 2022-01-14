@@ -77,7 +77,7 @@
                    <hr class="mx-2">
                     <div class="row ml-2">
                         <button class="btn btn-sm btn-success col-2 ml-2 mb-3" type="submit">Simpan Perubahan</button>
-                        <a class="btn btn-sm btn-secondary col-2 ml-2 mb-3" type="submit" href="<?php echo base_url('msm_group'); ?>">Batalkan Perubahan</a>
+                        <a class="btn btn-sm btn-secondary col-2 ml-2 mb-3" href="<?php echo base_url('msm_group'); ?>">Kembali</a>
                     </div>
                 </form> 
                 

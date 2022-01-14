@@ -27,6 +27,25 @@ class Vendors extends CI_Controller
 	{
 		$this->load->view('cms/vendors/add_vendors');
 	}
+	public function delete_vendors()
+	{
+		header('Content-Type: application/json');
+
+        $queryDelete = $this->cms->deleteGeneralData('g_vendors', 'VENDOR_ID', $this->input->post('vendorID'));
+        $queryDelete2 = $this->cms->deleteGeneralData('g_vendors_detail', 'VENDOR_ID', $this->input->post('vendorID'));
+
+        if ($queryDelete) {
+            echo json_encode(array(
+                'code'      => 200,
+                'status'    => 'success',
+            ));
+        } else {
+            echo json_encode(array(
+                'code'      => 204,
+                'status'    => 'error',
+            ));
+        }
+	}
 	public function insert_vendors()
 	{
 		// $this->output->enable_profiler(TRUE);
@@ -66,7 +85,7 @@ class Vendors extends CI_Controller
 	}
 	public function detail_vendors()
 	{
-		$data['vendors'] = $this->cms->getSingularData('v_g_vendors', 'VENDOR_ID', $this->input->get('cid'));
+		$data['vendors'] = $this->cms->getSingularData('v_g_vendors', 'VENDOR_ID', $this->input->get('vid'));
 
 		if ($data['vendors']->num_rows() == 0) {
 			$this->session->set_flashdata('query', 'invalid');

@@ -28,6 +28,26 @@ class Tax_office extends CI_Controller
 		$this->load->view('cms/tax_office/add_kantor_pelayanan_pajak');
 	}
 
+	public function delete_kantor_pelayanan_pajak()
+	{
+		header('Content-Type: application/json');
+
+        $queryDelete = $this->cms->deleteGeneralData('g_tax_office', 'OFFICE_ID', $this->input->post('officeID'));
+        $queryDelete2 = $this->cms->deleteGeneralData('g_tax_office_detail', 'OFFICE_ID', $this->input->post('officeID'));
+
+        if ($queryDelete) {
+            echo json_encode(array(
+                'code'      => 200,
+                'status'    => 'success',
+            ));
+        } else {
+            echo json_encode(array(
+                'code'      => 204,
+                'status'    => 'error',
+            ));
+        }
+	}
+
 	public function insert_kantor_pelayanan_pajak()
 	{
 		// $this->output->enable_profiler(TRUE);

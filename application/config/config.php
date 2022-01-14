@@ -24,6 +24,7 @@ date_default_timezone_set('Asia/Jakarta');
 | a PHP script and you can easily do that on your own.
 |
 */
+// $config['base_url'] = 'http://158.140.181.94/msm_consulting/';
 $config['base_url'] = 'http://localhost/msm_consulting/';
 
 /*

@@ -1,4 +1,4 @@
-		<header id="header" class="header">
+        <header id="header" class="header">
 
             <div class="header-menu">
 
@@ -25,7 +25,7 @@
                                         <i class="fa fa-check"></i> 
                                         A simple warning alert—check it out! 
                                     </div>
-                            	</a>
+                                </a>
                                 <a href="#">
                                     <div class="alert alert-danger dropdown-item media m-0" role="alert"> 
                                         <i class="fa fa-check"></i> 
@@ -102,13 +102,14 @@
                         </a>
 
                         <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="#"><i class="fa fa-user"></i> My Profile</a>
+                            <a class="nav-link" href="#"><i class="fa fa-user"></i> <?= $this->session->userdata('user_id') ?></a>
+                            <!-- <a class="nav-link" href="#"><i class="fa fa-user"></i> My Profile</a> -->
 
                             <a class="nav-link" href="#"><i class="fa fa-user"></i> Notifications <span class="count">13</span></a>
 
                             <a class="nav-link" href="#"><i class="fa fa-cog"></i> Settings</a>
 
-                            <a class="nav-link" href="#"><i class="fa fa-power-off"></i> Logout</a>
+                            <a class="nav-link" href="<?= base_url('Login/logout') ?>"><i class="fa fa-power-off"></i> Logout</a>
                         </div>
                     </div>
 

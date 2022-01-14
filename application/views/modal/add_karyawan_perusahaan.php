@@ -15,7 +15,7 @@
   						</div>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">NPWP :</label>
-                <input type="text" class="form-control form-control-sm" id="npwp_karyawan" name="npwp_karyawan" value="0" required> 
+                <input type="text" class="form-control form-control-sm" id="npwp_karyawan" name="npwp_karyawan" value="" required> 
               </div>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">PTKP :</label>

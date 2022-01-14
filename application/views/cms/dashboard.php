@@ -180,7 +180,7 @@
             
 
             <div class="col-xl-12">
-                <div class="card">
+                <!-- <div class="card">
                     <div class="card-header">
                         <h4>MY PENDING TASK</h4>
                     </div>
@@ -229,11 +229,12 @@
                           </tbody>
                         </table>
                     </div>
-                </div>
+                </div> -->
                 <!-- /# card -->
             </div>
 
              <div class="col-xl-12">
+                <?php if ($elevated_group == false): ?>
                 <div class="card">
                     <div class="card-header">
                         <h4>MY PENDING CUSTOM TASK</h4>
@@ -249,71 +250,59 @@
                               <th scope="col">TASK</th> 
                               <!-- <th scope="col">START DATE</th> -->
                               <th scope="col">TARGET DATE</th>
-                              <th scope="col">PLANDED HOURS</th>
-                              <th scope="col">ACTUAL HOURS</th>
+                              <th scope="col">PLANNED HOURS</th>
+                              <!-- <th scope="col">ACTUAL HOURS</th> -->
                               <th scope="col">STATUS</th>
+                              <th scope="col">DUE IN</th>
                             </tr>
                           </thead>
                           <tbody>
+                            <?php foreach ($my_pending_custom_task->result() as $my_pending_ct):
+                                $target_date = date('Y-m-d', strtotime($my_pending_ct->END_DATE));
+                                $selisih_jam = round(abs(strtotime(date("Y-m-d H:i:s")) - strtotime($my_pending_ct->END_DATE)) / 3600, 2);
+                                $due_in = $this->incube->hoursToTime2($selisih_jam, true);
+
+                                $planned_hours = $this->incube->minutesToTime($my_pending_ct->PLANNED_MINUTES);
+
+                                if($due_in <= 3){
+                                  $badge_due_in = 'badge-danger';
+                                } elseif($due_in <= 7){
+                                  $badge_due_in = 'badge-warning';
+                                } elseif($due_in >7 ){
+                                  $badge_due_in = 'badge-primary';
+                                };
+
+                             ?>
+
                             <tr>
                               <th scope="row">1</th>
-                              <td>Hamzah</td>
-                              <td>PT. PERUSAHAAN YANG SUKSES</td>
-                              <td>AUDIT FINANCIAL STATEMENT</td>
-                              <td>Data COA</td>
+                              <td><?= $my_pending_ct->PIC  ?></td>
+                              <td><?= $my_pending_ct->COMPANY_NAME ?></td>
+                              <td><?= $my_pending_ct->PROJECT_NAME  ?></td>
+                              <td><?= $my_pending_ct->TASK_NAME  ?></td>
                               <!-- <td>2021-09-17</td> -->
-                              <td>2021-10-01</td>
-                              <td>72</td>
-                              <td>65</td>
-                              <td>Data has been Collected</td>
+                              <td><?= $target_date  ?></td>
+                              <td><?= $planned_hours ?></td>
+                              <!-- <td><?= $my_pending_ct->ACTUAL_MINUTES  ?></td> -->
+                              <td><?= $my_pending_ct->STATUS  ?></td>
+                              <td><span class='badge <?= $badge_due_in ?>' style='font-size: 12px;'><?= $due_in ?> days</span></td>
                               <!-- <td><button class="btn btn-success"><i class="fa fa-eye"></i></button></td> -->
                             </tr> 
-                           <tr>
-                              <th scope="row">2</th>
-                              <td>Rafif</td>
-                              <td>PT. PERUSAHAAN YANG SUKSES</td>
-                              <td>AUDIT FINANCIAL STATEMENT</td>
-                              <td>Cek Inventory & COGS</td>
-                              <!-- <td>2021-09-17</td> -->
-                              <td><h6><span class="badge badge-danger">2021-10-26</span></h6></td>
-                              <td><h6><span class="badge badge-danger">72</span></h6></td>
-                              <td><h6><span class="badge badge-danger">70</span></h6></td>
-                              <td><h6><span class="badge badge-danger">Check Inventory & COGS</span></h6></td>
-                              <!-- <td><button class="btn btn-success"><i class="fa fa-eye"></i></button></td> -->
-                            </tr> 
-                            <tr >
-                              <th scope="row">3</th>
-                              <td>Andi</td>
-                              <td>PT. PERUSAHAAN YANG SUKSES</td>
-                              <td>AUDIT FINANCIAL STATEMENT</td>
-                              <td>Data Jurnal</td>
-                              <!-- <td>2021-09-17</td> -->
-                              <td>2021-10-10</td>
-                              <td>72</td>
-                              <td>72</td>
-                              <td>Check Jurnal</td>
-                              <!-- <td><button class="btn btn-success"><i class="fa fa-eye"></i></button></td> -->
-                            </tr> 
-                            <tr>
-                              <th scope="row">4</th>
-                              <td>Hamzah</td>
-                              <td>PT. PERUSAHAAN YANG SUKSES</td>
-                              <td>AUDIT FINANCIAL STATEMENT</td>
-                              <td>Alokasi Resource</td>
-                              <!-- <td>2021-09-17</td> -->
-                              <td><h6><span class="badge badge-danger">2021-10-16</span></h6></td>
-                              <td><h6><span class="badge badge-danger">72</span></h6></td>
-                              <td><h6><span class="badge badge-danger">78</span></h6></td>
-                              <td><h6><span class="badge badge-danger">Resource Gathering</span></h6></td>
-                              <!-- <td><button class="btn btn-success"><i class="fa fa-eye"></i></button></td> -->
-                            </tr> 
+                            <?php endforeach ?>
                           </tbody>
                         </table>
                     </div>
                 </div>
+                <?php endif ?>
                 <!-- /# card -->
             </div>
-             <div class="col-xl-12">
+             
+<!-- https://pastebin.com/zsVJyPpg -->
+
+            <div class="col-xl-12">
+                <?php if ($elevated_group == true): ?>
+                    
+                
                 <div class="card">
                     <div class="card-header">
                         <h4>CUSTOM TASK WAITING FOR APPROVAL</h4>
@@ -333,34 +322,45 @@
                             </tr>
                           </thead>
                           <tbody>
+                            <?php foreach ($waiting_approval->result() as $waiting_approval_data):?>
                             <tr>
                               <th scope="row">1</th>
-                              <td>PT. PERUSAHAAN YANG SUKSES</td>
-                              <td>AUDIT FINANCIAL STATEMENT</td>
-                              <td>Data COA</td>
-                              <td>2021-09-20</td>
-                              <td>72</td>
-                              <td>Hamzah</td>
+                              <td><?= $waiting_approval_data->COMPANY_NAME  ?></td>
+                              <td><?= $waiting_approval_data->PROJECT_NAME  ?></td>
+                              <td><?= $waiting_approval_data->TASK_NAME  ?></td>
+                              <td><?= $waiting_approval_data->END_DATE ?></td>
+                              <td><?= $waiting_approval_data->PLANNED_MINUTES ?></td>
+                              <td><?= $waiting_approval_data->PIC ?></td>
                               <td>
-                                <a class="btn btn-success" href="#" role="button" data-toggle="modal" data-target="#approvalTask"><i class="fa fa-eye"></i></a>
+                                <a class="btn btn-success getapproval" href="#" role="button" data-toggle="modal" data-target="#approvalTask" data-recid="<?= $waiting_approval_data->REC_ID ?>"><i class="fa fa-eye"></i></a>
                               </td>
                             </tr> 
+                            <?php endforeach ?>
                            
                           </tbody>
                         </table>
                     </div>
                 </div>
+                <?php endif ?>
                 <!-- /# card -->
             </div>
+
+
+
 
         </div> 
         <!-- .content -->
     </div>
     <!-- /#right-panel -->
-
-    <!-- Add Modal Perusahaan -->
-      <?php $this->load->view('modal/approval_task'); ?>
-    <!-- End of Add Modal Perusahaan -->
+    <div class="modal fade" id="approvalTask" tabindex="-1" aria-labelledby="approvalTask" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            
+            <div class="modal-content content-TaskApproval">
+                
+            </div>
+        
+        </div>
+    </div>
 
     <!-- Right Panel -->
 
@@ -368,5 +368,26 @@
     <?php $this->load->view('templates_cms/footer'); ?> 
     <!-- End of Footer -->
 
+<script>
+    
+jQuery(document).ready(function($) {
 
+
+    $(document).on('click', '.getapproval', function(event){
+    var button = $(event.relatedTarget);
+          var rec_id = $(this).data('recid');
+          var url = '<?php echo base_url('General/Project/getModalApprovalTask?rec_id='); ?>';
+
+          $('.content-TaskApproval').load(url + rec_id, function() {});
+    });
+
+
+    $(document).on('hidden.bs.modal', function (e) {
+        $( ".content-TaskApproval" ).empty();
+    });
+
+
+});
+
+</script>
 

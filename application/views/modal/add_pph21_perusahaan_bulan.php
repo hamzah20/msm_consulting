@@ -45,7 +45,8 @@
   	              <div class="form-group">
   	                <label for="recipient-name" class="col-form-label">Periode / Masa (Tahun) :</label>
   	                <select class="form-control option-pegawai" name="addPeriodeTahun" id="addPeriodTahun">
-  	                  <option value="2021">2021</option>
+  	                  <option value="2022">2022</option>
+                      <option value="2021">2021</option>
   	                  <option value="2021">2020</option>
   	                  <option value="2021">2019</option>
   	                  <option value="2021">2018</option>

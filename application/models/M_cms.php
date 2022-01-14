@@ -451,6 +451,28 @@
         return $query;
     }
 
+    public function getMilestoneProject($table, $project_id )
+    {
+        $proj_id = $this->db->escape_str($project_id);
+
+        $sql = $this->db->query("SELECT * FROM $table WHERE PROJECT_ID = '$proj_id' AND MILESTONE_ID != 0 GROUP BY(MILESTONE_ID) ORDER BY MILESTONE_SORT_NO");
+        return $sql;
+    }
+
+    public function getSingularDataDetailTask($table, $column1, $column2, $data1, $data2)
+    {
+        $this->db->select('*')
+            ->from($table)
+            ->where($column1, $data1) 
+            ->where($column2, $data2)
+            ->group_by("TASK_ID")
+            ->order_by("TASK_SORT_NO", "asc");
+
+        $query = $this->db->get();
+
+        return $query;
+    }
+
     public function cekpembetulan($cid, $month, $year){
          $sql = $this->db->query("SELECT count(*) as TOTAL_PEMBETULAN FROM `g_pph21` WHERE STATUS='HISTORY' AND  COMPANY_ID='".$cid."' AND PERIOD_MONTH='".$month."' AND PERIOD_YEAR='".$year."'");
         return $sql;
@@ -579,7 +601,6 @@
         $sql = $this->db->query("SELECT count(*) as TOTAL_BARIS23 FROM ".$table." WHERE PPH23_ID='".$pph."' AND  JENIS_PAJAK='".$jenis."'");
         return $sql;
     } 
-
     public function rowJenisPajak26($table,$pph,$jenis){
         $sql = $this->db->query("SELECT count(*) as TOTAL_BARIS26 FROM ".$table." WHERE PPH23_ID='".$pph."' AND  JENIS_PAJAK='".$jenis."'");
         return $sql;

@@ -62,9 +62,9 @@
                         <td><?= $vendors->VENDOR_FAX; ?></td>
                         <td><?= $vendors->VENDOR_EMAIL; ?></td>
                         <td class="text-center">
-                          <a class="btn btn-sm btn-primary" href="<?php echo base_url('vendors/detail?cid='.$vendors->VENDOR_ID); ?>"><i class="fa fa-info-circle"></i></a>
+                          <a class="btn btn-sm btn-primary" href="<?php echo base_url('vendors/detail?vid='.$vendors->VENDOR_ID); ?>"><i class="fa fa-info-circle"></i></a>
                           <a class="btn btn-sm btn-warning text-white" href="<?php echo base_url('vendors/edit?vid='.$vendors->VENDOR_ID); ?>" role="button" role="button"><i class="fa fa-edit"></i></a>
-                          <a class="btn btn-sm btn-danger hapus" href="#" role="button"><i class="fa fa-trash"></i></a>
+                          <a class="btn btn-sm btn-danger hapus" data-toggle="tooltip" data-placement="top" data-id="<?= $vendors->VENDOR_ID; ?>" title="Hapus" href="#" role="button"><i class="fa fa-trash"></i></a>
                         </td>
                       </tr>  
                       <?php } ?>
@@ -81,6 +81,53 @@
     <!-- /#right-panel -->
 
     <!-- Right Panel -->
+
+<script>
+jQuery(document).ready(function($) {
+
+    $(document).on('click', '.hapus', function(event) {
+
+      let vendorID = $(this).data('id');
+
+      Swal.fire({
+        title: 'Hapus Data',
+        text: 'Apakah Anda yakin ingin menghapus data ini?',
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonText: 'Batal',
+        confirmButtonText: 'Hapus'
+      }).then((result) => {
+        if (result.value) {
+
+          $.post(baseUrl + 'General/Vendors/delete_vendors', {
+            vendorID: vendorID
+          }, function(resp) {
+            if (resp.code == 200) {
+              Swal.fire({
+                title: 'Proses Berhasil',
+                text: 'Data telah dihapus',
+                icon: 'success',
+                confirmButtonText: 'Ok'
+              }).then((result) => {
+                location.reload();
+              });
+            } else {
+
+              Swal.fire({
+                title: 'Proses Gagal',
+                text: 'Proses tidak dapat dilakukan, silahkan coba lagi',
+                icon: 'error',
+                showCancelButton: false,
+                confirmButtonText: 'Tutup'
+              });
+            }
+          });
+        }
+      });
+    });
+});
+</script>
+
     <script>
     jQuery(document).ready(function($) {
 

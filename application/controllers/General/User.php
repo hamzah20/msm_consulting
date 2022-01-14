@@ -15,14 +15,18 @@ class User extends CI_Controller {
 
     public function addUser()
     {
+        $pass_hashed = password_hash($this->input->post('pass_user'), PASSWORD_BCRYPT);
 
         $addArr = array(
             'ID'                => $this->input->post('id_user'),
+            'PASS'              => $pass_hashed,
             'NAME'              => $this->input->post('name_user'),
             'GROUP_ID'          => $this->input->post('group_id_user'),
             'STATUS'            => $this->input->post('status_user'),
             'ATTEMPTED_LOGIN'   => $this->input->post('attempted_login_user')
         ); 
+
+        
 
         $query_adduser = $this->cms->insertGeneralData('s_user', $addArr);
 
@@ -39,7 +43,7 @@ class User extends CI_Controller {
         // $this->output->enable_profiler(TRUE);
         header('Content-Type: application/json');
 
-        $queryDelete = $this->cms->deleteGeneralData('s_user', 'ID', $this->input->post('userID'));
+        $queryDelete = $this->cms->deleteGeneralData('s_user', 'REC_ID', $this->input->post('userID'));
 
         if ($queryDelete) {
             echo json_encode(array(
@@ -55,15 +59,30 @@ class User extends CI_Controller {
     }
 
     public function editUser(){
-        $editArr = array(
-            'ID'                => $this->input->post('id_user'),
-            'NAME'              => $this->input->post('name_user'),
-            'GROUP_ID'          => $this->input->post('group_id_user'),
-            'STATUS'            => $this->input->post('status_user'),
-            'ATTEMPTED_LOGIN'   => $this->input->post('attempted_login_user')
-        );
 
-        $query_editUser = $this->cms->updateGeneralData('s_user', $editArr, 'ID', $this->input->post('id_user'));
+        if (null == $this->input->post('pass_user')) {
+
+            $editArr = array(
+                'ID'                => $this->input->post('id_user'),
+                'NAME'              => $this->input->post('name_user'),
+                'GROUP_ID'          => $this->input->post('group_id_user'),
+                'STATUS'            => $this->input->post('status_user'),
+                'ATTEMPTED_LOGIN'   => $this->input->post('attempted_login_user')
+            ); 
+
+        }else{
+            $pass_hashed = password_hash($this->input->post('pass_user'), PASSWORD_BCRYPT);
+            $editArr = array(
+                'ID'                => $this->input->post('id_user'),
+                'PASS'              => $pass_hashed,
+                'NAME'              => $this->input->post('name_user'),
+                'GROUP_ID'          => $this->input->post('group_id_user'),
+                'STATUS'            => $this->input->post('status_user'),
+                'ATTEMPTED_LOGIN'   => $this->input->post('attempted_login_user')
+            ); 
+        }
+
+        $query_editUser = $this->cms->updateGeneralData('s_user', $editArr, 'REC_ID', $this->input->post('rec_id'));
 
         if($query_editUser) {
             $this->session->set_flashdata('query', 'success');
@@ -76,7 +95,7 @@ class User extends CI_Controller {
 
     public function getUser(){
         $id = $this->input->get('id');
-        $data['s_user'] = $this->cms->getSingularData('s_user', 'ID', $id);
+        $data['s_user'] = $this->cms->getSingularData('s_user', 'REC_ID', $id);
 
         $this->load->view('modal/edit_user', $data);
     }

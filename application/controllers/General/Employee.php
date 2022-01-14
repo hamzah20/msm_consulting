@@ -96,7 +96,7 @@ class Employee extends CI_Controller
         $companyOrder = $this->general->generateID('EMPLOYEE');
         $companyID    = $this->incube->generateID(10);
 
-        if($this->input->post('npwp_karyawan') == '0' OR null($this->input->post('npwp_karyawan'))){
+        if($this->input->post('npwp_karyawan') == '0' OR $this->input->post('npwp_karyawan') == ''){
             $npwp_status = 'false';
         } else{
             $npwp_status = 'true';

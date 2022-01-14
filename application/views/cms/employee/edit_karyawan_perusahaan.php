@@ -135,13 +135,13 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="">Kewarganegaraan</label>
-                                <input type="text" class="form-control form-control-sm" name="employeeNationality" placeholder="..." value="<?= ($employee->row()->EMPLOYEE_NATIONALITY != null ? $employee->row()->EMPLOYEE_NATIONALITY : '...'); ?>">
+                                <input type="text" class="form-control form-control-sm" name="employeeNationality" placeholder="..." value="<?= ($employee->row()->EMPLOYEE_NATIONALITY != null ? $employee->row()->EMPLOYEE_NATIONALITY : ''); ?>">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="">Kode NPWP</label>
-                                <input type="text" class="form-control form-control-sm" name="employeeNPWP" placeholder="..." value="<?= ($employee->row()->EMPLOYEE_NPWP != null ? $employee->row()->EMPLOYEE_NPWP : '...'); ?>">
+                                <input type="text" class="form-control form-control-sm" name="employeeNPWP" placeholder="..." value="<?= ($employee->row()->EMPLOYEE_NPWP != null ? $employee->row()->EMPLOYEE_NPWP : ''); ?>">
                             </div>
                         </div>
                     </div>
@@ -149,7 +149,7 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="">Jabatan</label>
-                                <input type="text" class="form-control form-control-sm" name="employeePosition" placeholder="..." value="<?= ($employee->row()->EMPLOYEE_POSITION != null ? $employee->row()->EMPLOYEE_POSITION : '...'); ?>">
+                                <input type="text" class="form-control form-control-sm" name="employeePosition" placeholder="..." value="<?= ($employee->row()->EMPLOYEE_POSITION != null ? $employee->row()->EMPLOYEE_POSITION : ''); ?>">
                             </div>
                         </div>
                         <div class="col-4">
@@ -157,13 +157,13 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="">Tanggal Masuk</label>
-                                        <input type="date" class="form-control form-control-sm option-pegawai" name="employeeDateBegin" value="<?= ($employee->row()->EMPLOYEE_WORK_START != null ? $employee->row()->EMPLOYEE_WORK_START : '...'); ?>">
+                                        <input type="date" class="form-control form-control-sm option-pegawai" name="employeeDateBegin" value="<?= ($employee->row()->EMPLOYEE_WORK_START != null ? $employee->row()->EMPLOYEE_WORK_START : ''); ?>">
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="">Tanggal Keluar</label>
-                                        <input type="date" class="form-control form-control-sm option-pegawai" name="employeeDateEnd" value="<?= ($employee->row()->EMPLOYEE_WORK_END != null ? $employee->row()->EMPLOYEE_WORK_END : '...'); ?>">
+                                        <input type="date" class="form-control form-control-sm option-pegawai" name="employeeDateEnd" value="<?= ($employee->row()->EMPLOYEE_WORK_END != null ? $employee->row()->EMPLOYEE_WORK_END : ''); ?>">
                                     </div>
                                 </div>
                             </div>
@@ -171,7 +171,7 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="">Kode EFIN</label>
-                                <input type="text" class="form-control form-control-sm" placeholder="..." name="employeeEFIN" value="<?= ($employee->row()->EMPLOYEE_EFIN != null ? $employee->row()->EMPLOYEE_EFIN : '...'); ?>">
+                                <input type="text" class="form-control form-control-sm" placeholder="..." name="employeeEFIN" value="<?= ($employee->row()->EMPLOYEE_EFIN != null ? $employee->row()->EMPLOYEE_EFIN : ''); ?>">
                             </div>
                         </div>
                     </div>
@@ -179,13 +179,13 @@
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="">No. Telepon</label>
-                                <input type="text" class="form-control form-control-sm" placeholder="..." name="employeePhone" value="<?= ($employee->row()->EMPLOYEE_PHONE != null ? $employee->row()->EMPLOYEE_PHONE : '...'); ?>">
+                                <input type="text" class="form-control form-control-sm" placeholder="..." name="employeePhone" value="<?= ($employee->row()->EMPLOYEE_PHONE != null ? $employee->row()->EMPLOYEE_PHONE : ''); ?>">
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="form-group">
                                 <label for="">Email</label>
-                                <input type="text" class="form-control form-control-sm" placeholder="..." name="employeeEmail" value="<?= ($employee->row()->EMPLOYEE_EMAIL != null ? $employee->row()->EMPLOYEE_EMAIL : '...'); ?>">
+                                <input type="text" class="form-control form-control-sm" placeholder="..." name="employeeEmail" value="<?= ($employee->row()->EMPLOYEE_EMAIL != null ? $employee->row()->EMPLOYEE_EMAIL : ''); ?>">
                             </div>
                         </div>
                         <div class="col-4">
@@ -202,7 +202,7 @@
                         <div class="col-8">
                             <div class="form-group">
                                 <label for="">Alamat</label>
-                                <textarea type="text" class="form-control form-control-sm" name="employeeAddress" placeholder="..."><?= ($employee->row()->EMPLOYEE_ADDRESS != null ? $employee->row()->EMPLOYEE_ADDRESS : '...'); ?></textarea>
+                                <textarea type="text" class="form-control form-control-sm" name="employeeAddress" placeholder="..."><?= ($employee->row()->EMPLOYEE_ADDRESS != null ? $employee->row()->EMPLOYEE_ADDRESS : ''); ?></textarea>
                             </div>
                         </div>
                     </div>

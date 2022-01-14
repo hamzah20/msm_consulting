@@ -175,3 +175,6 @@ $route['project']                                    = 'General/Project';
 //User
 $route['user_msm'] 											= 'General/User';
 $route['USER_MSM'] 											= 'General/User';
+
+//Settings
+$route['ptkp'] = 'Settings/Ptkp';

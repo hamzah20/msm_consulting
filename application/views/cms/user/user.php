@@ -50,7 +50,7 @@
             <tr>
               <th scope="col-1" class="text-center">No</th>
               <th scope="col-1" class="text-center">ID</th>
-              <th scope="col-1">NAME</th>
+              <th scope="col-1" class="text-center">NAME</th>
               <th scope="col-1" class="text-center">GROUP_ID</th>
               <th scope="col-1" class="text-center">STATUS</th>
               <!-- <th scope="col-1" class="text-center">ATTEMPTED LOGIN</th> -->
@@ -68,11 +68,10 @@
                   <td class="text-center"><?= $user->STATUS; ?></td>
                   <!-- <td class="text-center"><?= $user->ATTEMPTED_LOGIN; ?></td> -->
                   <td class="text-center">
-                    <a class="btn btn-sm btn-warning edit" data-toggle="modal" data-target="#editUser" data-id="<?= $user->ID; ?>" title="Edit User" href="#" role="button">
+                    <a class="btn btn-sm btn-warning edit" data-toggle="modal" data-target="#editUser" data-id="<?= $user->REC_ID; ?>" title="Edit User" href="#" role="button">
                       <i class="fa fa-edit"></i>
-
                     </a>
-                    <a class="btn btn-sm btn-danger hapus" data-toggle="tooltip" data-placement="top" data-user="<?= $user->ID; ?>" title="Hapus User" href="#" role="button">
+                    <a class="btn btn-sm btn-danger hapus" data-toggle="tooltip" data-placement="top" data-user="<?= $user->REC_ID; ?>" title="Hapus User" href="#" role="button">
                       <i class="fa fa-trash"></i>
                     </a>
                   </td>
@@ -87,7 +86,8 @@
 
     <!-- Add Modal -->
     <?php $this->load->view('modal/add_user'); ?>
-    <!-- End of Add Modal --> 
+    <!-- End of Add Modal -->
+    <!-- End of Add Modal -->
 
     <!-- Edit Modal
 
@@ -116,7 +116,9 @@
           </div>
         </form>
       </div>
-    </div>  
+</div>
+
+
 <!-- Right Panel --> 
 
 
@@ -136,12 +138,14 @@ jQuery(document).ready(function($) {
           var id = $(this).data('id');
           var getAccount = '<?php echo base_url('General/User/getUser?id='); ?>';
 
-          $('.modal-edit').load(getAccount + id, function() {
-            
-          });
+          $('.modal-edit').load(getAccount + id, function() {});
 
 
    });
+
+  $(document).on('hidden.bs.modal', function (e) {
+    $( ".modal-edit" ).empty();
+  });
   
   $(document).on('click', '.hapus', function(event) {
 
@@ -162,7 +166,7 @@ jQuery(document).ready(function($) {
           }, function(resp) {
             if (resp.code == 200) {
               Swal.fire({
-                title: 'Proses Berashil',
+                title: 'Proses Berhasil',
                 text: 'Data telah dihapus',
                 icon: 'success',
                 confirmButtonText: 'Ok'
@@ -182,7 +186,7 @@ jQuery(document).ready(function($) {
           });
         }
       });
-  });
+    });
 
   
 
@@ -236,7 +240,7 @@ jQuery(document).ready(function($) {
 
       Swal.fire({
         title: 'Proses Berhasil',
-        text: 'Data berhasil ditambahkan',
+        text: 'Proses Berhasil',
         icon: 'success',
         showCancelButton: false,
         confirmButtonText: 'Tutup'
@@ -244,9 +248,10 @@ jQuery(document).ready(function($) {
     });
   </script>
 <?php 
-   $this->session->set_flashdata('query', '');
+   
 }
  ?>
+ <?php $this->session->set_flashdata('query', ''); ?>
 
 <!-- Footer -->
 <?php $this->load->view('templates_cms/footer'); ?>

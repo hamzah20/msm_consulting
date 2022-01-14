@@ -10,8 +10,10 @@
   					</div>
   					<div class="modal-body">
   						<div class="form-group">
-  							<label for="id_user" class="col-form-label">Id</label>
+  							<label for="id_user" class="col-form-label">ID</label>
   							<input type="text" class="form-control form-control-sm" id="id_user" name="id_user" required>
+                <label for="pass_user" class="col-form-label">Pass</label>
+                <input type="text" class="form-control form-control-sm" id="pass_user" name="pass_user" required>
                 <label for="name_user" class="col-form-label">Name</label>
                 <input type="text" class="form-control form-control-sm" id="name_user" name="name_user" required>
                 <label for="group_id_user" class="col-form-label">Group Id</label>

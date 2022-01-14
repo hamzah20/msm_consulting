@@ -10,15 +10,15 @@
 				</div>
 				<div class="modal-body">
 					<div class="form-group">
-						<label for="recipient-name" class="col-form-label">Nama Project Type :</label>
-						<input type="text" class="form-control form-control-sm" id="txt_projecttype" name="txt_projecttype" required>
+						<label for="NAME" class="col-form-label">Nama Project Type :</label>
+						<input type="text" class="form-control form-control-sm" id="NAME" name="NAME" required>
 						<div class="invalid-feedback">
 							Nama tidak boleh kosong
 						</div>
 					</div>
           <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Description:</label>
-            <input type="text" class="form-control form-control-sm" id="txt_description" name="txt_description" >
+            <label for="DESCRIPTION" class="col-form-label">Description:</label>
+            <input type="text" class="form-control form-control-sm" id="DESCRIPTION" name="DESCRIPTION" >
           </div>
 
 

@@ -38,7 +38,7 @@
         <!-- Content -->
         <div class="content mt-3">      
            <div class="card px-2">  
-                <a class="btn btn-sm btn-warning col-2 ml-2 mb-3 mt-3 text-white" type="submit" href="<?php echo base_url('kantor_pelayanan_pajak/edit'); ?>">Edit Data</a>
+                <a class="btn btn-sm btn-warning col-2 ml-2 mb-3 mt-3 text-white" type="submit" href="<?php echo base_url('kantor_pelayanan_pajak/edit?tid='.$tax->row()->OFFICE_ID); ?>">Edit Data</a>
                 <hr class="mx-2 mt-0">
 				<form method="POST" action="#" class="px-3"> 
                     <div class="row">
@@ -87,8 +87,8 @@
                             </div>
                         </div>
                     </div>  
-                   
-                </form> 
+                   <a class="btn btn-sm btn-secondary col-2 mb-3" href="<?php echo base_url('kantor_pelayanan_pajak'); ?>">Kembali</a>
+                </form>
             </div>
 
             <!-- Add Modal Perusahaan -->
